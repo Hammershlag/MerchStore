@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  merchStore:
+    image: 'postgres:latest'
+    environment:
+      - 'POSTGRES_DB=merchDatabase'
+      - 'POSTGRES_PASSWORD=u#OE9cQVA@7iR&iv'
+      - 'POSTGRES_USER=ToJestTrudnyLogin'
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backup:/docker-entrypoint-initdb.d
+
+volumes:
+  postgres_data:
