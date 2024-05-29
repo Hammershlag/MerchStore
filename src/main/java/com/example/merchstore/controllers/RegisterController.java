@@ -1,5 +1,6 @@
 package com.example.merchstore.controllers;
 
+import com.example.merchstore.dto.User;
 import com.example.merchstore.services.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,14 +20,13 @@ public class RegisterController {
 
     @GetMapping("/form")
     public String registrationForm(Model model) {
-        model.addAttribute("username", "");
-        model.addAttribute("password", "");
-        return "registration"; // Assuming "registration.html" is in src/main/resources/templates
+        model.addAttribute("user", new User());
+        return "registration";
     }
 
     @PostMapping
-    public String registerUser(@RequestParam String username, @RequestParam String password) {
-        customUserDetailsService.registerUser(username, password, passwordEncoder);
+    public String registerUser(@ModelAttribute User user) {
+        customUserDetailsService.registerUser(user.getUsername(), user.getPassword(), user.getEmail(), user.getFirstName(), user.getLastName(), user.getPhoneNumber(), user.getAddress(), passwordEncoder);
         return "redirect:/login";
     }
 }

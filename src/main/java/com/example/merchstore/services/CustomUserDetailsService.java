@@ -32,7 +32,8 @@ public class CustomUserDetailsService implements UserDetailsService {
         return new CustomUserPrincipal(user);
     }
 
-    public User registerUser(String username, String password, PasswordEncoder passwordEncoder) {
+    public User registerUser(String username, String password, String email, String firstName, String lastName,
+                             String phoneNumber, String address, PasswordEncoder passwordEncoder) {
         if (customUserRepository.existsByUsername(username)) {
             throw new RuntimeException("Username already exists");
         }
@@ -40,11 +41,11 @@ public class CustomUserDetailsService implements UserDetailsService {
         User user = new User();
         user.setUsername(username);
         user.setPassword(passwordEncoder.encode(password));
-        user.setEmail(username + "@default.com");
-        user.setFirstName("Default");
-        user.setLastName("Default");
-        user.setPhoneNumber("1234567890");
-        user.setAddress("Default Address");
+        user.setEmail(email);
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        user.setPhoneNumber(phoneNumber);
+        user.setAddress(address);
         user.setRole("USER");
         user.setCreatedAt(LocalDateTime.now());
         user.setUpdatedAt(LocalDateTime.now());

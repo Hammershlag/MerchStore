@@ -68,7 +68,7 @@ public class LoginController {
             HttpSession session = req.getSession(true);
             session.setAttribute(SPRING_SECURITY_CONTEXT_KEY, sc);
 
-            return "redirect:/home2";
+            return "redirect:/home";
         } else {
             return "redirect:/login/form?error=true";
         }
