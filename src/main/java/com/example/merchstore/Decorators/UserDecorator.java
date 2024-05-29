@@ -2,6 +2,7 @@ package com.example.merchstore.Decorators;
 
 import com.example.merchstore.dto.User;
 
+import java.nio.ByteBuffer;
 import java.time.LocalDateTime;
 
 /**
@@ -24,6 +25,7 @@ public class UserDecorator {
         user.setRole("USER");
         user.setCreatedAt(LocalDateTime.now());
         user.setUpdatedAt(LocalDateTime.now());
+        user.setImage(null);
         return user;
     }
 

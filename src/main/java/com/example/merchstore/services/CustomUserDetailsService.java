@@ -3,20 +3,17 @@ package com.example.merchstore.services;
 import com.example.merchstore.dto.User;
 import com.example.merchstore.principals.CustomUserPrincipal;
 import com.example.merchstore.repositories.CustomUserRepository;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 
-/**
- * @author Tomasz Zbroszczyk
- * @version 1.0
- * @since 28.05.2024
- */
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
@@ -32,20 +29,27 @@ public class CustomUserDetailsService implements UserDetailsService {
         return new CustomUserPrincipal(user);
     }
 
-    public User registerUser(String username, String password, String email, String firstName, String lastName,
-                             String phoneNumber, String address, PasswordEncoder passwordEncoder) {
-        if (customUserRepository.existsByUsername(username)) {
+    public User registerUser(User user, PasswordEncoder passwordEncoder) {
+        if (customUserRepository.existsByUsername(user.getUsername())) {
             throw new RuntimeException("Username already exists");
         }
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRole("USER");
+        user.setCreatedAt(LocalDateTime.now());
+        user.setUpdatedAt(LocalDateTime.now());
 
-        User user = new User();
-        user.setUsername(username);
-        user.setPassword(passwordEncoder.encode(password));
-        user.setEmail(email);
-        user.setFirstName(firstName);
-        user.setLastName(lastName);
-        user.setPhoneNumber(phoneNumber);
-        user.setAddress(address);
+        return customUserRepository.save(user);
+    }
+
+    @SneakyThrows
+    public User registerUser(User user, MultipartFile image, PasswordEncoder passwordEncoder) {
+        if (customUserRepository.existsByUsername(user.getUsername())) {
+            throw new RuntimeException("Username already exists");
+        }
+        byte[] userImage = image.getBytes();
+        user.setImage(userImage);
+
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole("USER");
         user.setCreatedAt(LocalDateTime.now());
         user.setUpdatedAt(LocalDateTime.now());
@@ -56,9 +60,8 @@ public class CustomUserDetailsService implements UserDetailsService {
     public boolean authenticateUser(String username, String password, PasswordEncoder passwordEncoder) {
         User user = customUserRepository.findByUsername(username);
         if (user != null) {
-            // Compare the provided password with the encoded password stored in the database
             return passwordEncoder.matches(password, user.getPassword());
         }
-        return false; // User not found or password incorrect
+        return false;
     }
 }

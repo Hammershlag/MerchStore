@@ -7,7 +7,7 @@
 </head>
 <body>
 <h2>User Registration</h2>
-<form th:action="@{/api/register}" th:object="${user}" method="post">
+<form th:action="@{/api/register}" th:object="${user}" method="post" enctype="multipart/form-data">
     <label for="username">Username:</label><br>
     <input type="text" id="username" name="username" th:field="*{username}" required><br>
 
@@ -24,10 +24,13 @@
     <input type="text" id="lastName" name="lastName" th:field="*{lastName}" required><br>
 
     <label for="phoneNumber">Phone Number:</label><br>
-    <input type="text" id="phoneNumber" name="phoneNumber" th:field="*{phoneNumber}" required><br>
+    <input type="text" id="phoneNumber" name="phoneNumber" th:field="*{phoneNumber}"><br>
 
     <label for="address">Address:</label><br>
-    <input type="text" id="address" name="address" th:field="*{address}" required><br><br>
+    <input type="text" id="address" name="address" th:field="*{address}"><br><br>
+
+    <label for="imageData">Profile Image:</label><br>
+    <input type="file" id="imageData" name="imageData"><br><br>
 
     <input type="submit" value="Register">
 </form>

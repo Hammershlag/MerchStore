@@ -1,3 +1,4 @@
+-- Create users table
 CREATE TABLE users (
                        user_id SERIAL PRIMARY KEY,
                        username VARCHAR(50) UNIQUE NOT NULL,
@@ -8,17 +9,19 @@ CREATE TABLE users (
                        phone_number VARCHAR(20),
                        address VARCHAR(255),
                        role VARCHAR(20) NOT NULL,
+                       image BYTEA,
                        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
                        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
-
+-- Create categories table
 CREATE TABLE categories (
                             category_id SERIAL PRIMARY KEY,
                             name VARCHAR(100) UNIQUE NOT NULL,
                             description TEXT
 );
 
+-- Create items table
 CREATE TABLE items (
                        item_id SERIAL PRIMARY KEY,
                        name VARCHAR(255) NOT NULL,
@@ -26,11 +29,13 @@ CREATE TABLE items (
                        price DECIMAL(10, 2) NOT NULL,
                        stock_quantity INT NOT NULL,
                        category_id INT NOT NULL,
+                       image BYTEA,
                        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
                        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
                        FOREIGN KEY (category_id) REFERENCES categories(category_id)
 );
 
+-- Create discounts table
 CREATE TABLE discounts (
                            discount_id SERIAL PRIMARY KEY,
                            code VARCHAR(50) UNIQUE NOT NULL,
@@ -40,6 +45,7 @@ CREATE TABLE discounts (
                            valid_until DATE NOT NULL
 );
 
+-- Create orders table
 CREATE TABLE orders (
                         order_id SERIAL PRIMARY KEY,
                         user_id INT NOT NULL,
@@ -51,6 +57,7 @@ CREATE TABLE orders (
                         FOREIGN KEY (discount_id) REFERENCES discounts(discount_id)
 );
 
+-- Create order_items table
 CREATE TABLE order_items (
                              order_item_id SERIAL PRIMARY KEY,
                              order_id INT NOT NULL,
@@ -61,6 +68,7 @@ CREATE TABLE order_items (
                              FOREIGN KEY (item_id) REFERENCES items(item_id)
 );
 
+-- Create invoices table
 CREATE TABLE invoices (
                           invoice_id SERIAL PRIMARY KEY,
                           order_id INT NOT NULL,

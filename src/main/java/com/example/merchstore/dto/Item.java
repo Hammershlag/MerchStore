@@ -1,23 +1,25 @@
 package com.example.merchstore.dto;
 
+import com.example.merchstore.dto.Category;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.JdbcTypeCode;
 
 import java.math.BigDecimal;
+import java.sql.Types;
 import java.time.LocalDateTime;
 
-/**
- * @author Tomasz Zbroszczyk
- * @version 1.0
- * @since 28.05.2024
- */
-
-@Data @AllArgsConstructor @NoArgsConstructor
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "items")
 public class Item {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "item_id")
@@ -44,4 +46,42 @@ public class Item {
 
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
+
+    @JsonIgnore
+    @JdbcTypeCode(Types.BINARY)
+    @Column(name = "image", columnDefinition = "BYTEA", nullable = true)
+    private byte[] image;
+
+    public Item(Long itemId, String name, String description, BigDecimal price, Integer stockQuantity, Category category, LocalDateTime createdAt, LocalDateTime updatedAt) {
+        this.itemId = itemId;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.stockQuantity = stockQuantity;
+        this.category = category;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.image = null;
+    }
+
+    public Item(Item item) {
+        this.itemId = item.getItemId();
+        this.name = item.getName();
+        this.description = item.getDescription();
+        this.price = item.getPrice();
+        this.stockQuantity = item.getStockQuantity();
+        this.category = item.getCategory();
+        this.createdAt = item.getCreatedAt();
+        this.updatedAt = item.getUpdatedAt();
+        this.image = item.getImage() != null ? item.getImage().clone() : null;
+    }
+
+    @JsonProperty("imageStatus")
+    public String getImageStatus() {
+        return image != null ? "Uploaded" : "Not uploaded";
+    }
+
+    public Item displayData() {
+        return new Item(this);
+    }
 }
