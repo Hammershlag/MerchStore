@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -36,7 +37,7 @@ public class RegisterController {
 
     @PostMapping
     @ResponseBody
-    public String registerUser(@ModelAttribute User user, @RequestParam("imageData") MultipartFile image, Model model) {
+    public RedirectView registerUser(@ModelAttribute User user, @RequestParam("imageData") MultipartFile image, Model model) {
         try {
             if (!image.isEmpty()) {
                 byte[] imageBytes = image.getBytes();
@@ -46,11 +47,11 @@ public class RegisterController {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return "redirect:/api/registration/form?error=true";
+            return new RedirectView( "/api/register/form?error=true");
         }
 
         customUserDetailsService.registerUser(user, passwordEncoder);
 
-        return "redirect:/login";
+        return new RedirectView("/api/login");
     }
 }

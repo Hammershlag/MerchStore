@@ -6,7 +6,17 @@ package com.example.merchstore.dto;
  * @since 28.05.2024
  */
 
-public enum Role {
+public enum Role implements DataDisplay{
     USER,
-    ADMIN
+    ADMIN;
+
+    @Override
+    public DataDisplay displayData() {
+        return null;
+    }
+
+    @Override
+    public DataDisplay limitedDisplayData() {
+        return null;
+    }
 }

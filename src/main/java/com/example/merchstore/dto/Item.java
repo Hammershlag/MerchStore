@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Entity
 @Table(name = "items")
-public class Item {
+public class Item implements DataDisplay{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -81,7 +81,14 @@ public class Item {
         return image != null ? "Uploaded" : "Not uploaded";
     }
 
-    public Item displayData() {
+
+    @Override
+    public DataDisplay displayData() {
         return new Item(this);
+    }
+
+    @Override
+    public DataDisplay limitedDisplayData() {
+        return null;
     }
 }

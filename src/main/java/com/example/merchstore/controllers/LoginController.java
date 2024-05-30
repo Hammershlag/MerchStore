@@ -20,10 +20,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.view.RedirectView;
 
 import static org.springframework.security.web.context.HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY;
 
 @Controller
+@RequestMapping("/api")
 public class LoginController {
     private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
 
@@ -67,11 +70,19 @@ public class LoginController {
             sc.setAuthentication(auth);
             HttpSession session = req.getSession(true);
             session.setAttribute(SPRING_SECURITY_CONTEXT_KEY, sc);
+            session.setAttribute("isLoggedIn", true);
 
             return "redirect:/home";
         } else {
-            return "redirect:/login/form?error=true";
+            return "redirect:/api/login/form?error=true";
         }
+    }
+
+    @GetMapping("/logout")
+    public RedirectView logout(HttpSession session) {
+        session.invalidate();
+        session.setAttribute("isLoggedIn", false);
+        return new RedirectView("/home");
     }
 
     @Data

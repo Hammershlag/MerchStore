@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @Data @AllArgsConstructor @NoArgsConstructor
 @Entity
 @Table(name = "invoices")
-public class Invoice {
+public class Invoice implements DataDisplay{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "invoice_id")
@@ -35,5 +35,23 @@ public class Invoice {
 
     @Column(name = "status", nullable = false)
     private String status;
+
+    public Invoice(Invoice other) {
+        this.invoiceId = other.invoiceId;
+        this.order = other.order;
+        this.invoiceDate = other.invoiceDate;
+        this.amount = other.amount;
+        this.status = other.status;
+    }
+
+    @Override
+    public DataDisplay displayData() {
+        return new Invoice(this);
+    }
+
+    @Override
+    public DataDisplay limitedDisplayData() {
+        return null;
+    }
 }
 

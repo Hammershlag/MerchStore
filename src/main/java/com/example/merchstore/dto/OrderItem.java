@@ -16,7 +16,7 @@ import java.math.BigDecimal;
 @Data @AllArgsConstructor @NoArgsConstructor
 @Entity
 @Table(name = "order_items")
-public class OrderItem {
+public class OrderItem implements DataDisplay{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_item_id")
@@ -35,5 +35,23 @@ public class OrderItem {
 
     @Column(name = "price", nullable = false)
     private BigDecimal price;
+
+    public OrderItem(OrderItem other) {
+        this.orderItemId = other.orderItemId;
+        this.order = other.order;
+        this.item = other.item;
+        this.quantity = other.quantity;
+        this.price = other.price;
+    }
+
+    @Override
+    public DataDisplay displayData() {
+        return new OrderItem(this);
+    }
+
+    @Override
+    public DataDisplay limitedDisplayData() {
+        return null;
+    }
 }
 

@@ -17,7 +17,7 @@ import java.time.LocalDate;
 @Data @AllArgsConstructor @NoArgsConstructor
 @Entity
 @Table(name = "discounts")
-public class Discount {
+public class Discount implements DataDisplay{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "discount_id")
@@ -37,5 +37,24 @@ public class Discount {
 
     @Column(name = "valid_until", nullable = false)
     private LocalDate validUntil;
+
+    public Discount(Discount other) {
+        this.discountId = other.discountId;
+        this.code = other.code;
+        this.description = other.description;
+        this.discountPercentage = other.discountPercentage;
+        this.validFrom = other.validFrom;
+        this.validUntil = other.validUntil;
+    }
+
+    @Override
+    public DataDisplay displayData() {
+        return new Discount(this);
+    }
+
+    @Override
+    public DataDisplay limitedDisplayData() {
+        return null;
+    }
 }
 

@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Data @AllArgsConstructor @NoArgsConstructor
 @Entity
 @Table(name = "categories")
-public class Category {
+public class Category implements DataDisplay{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "category_id")
@@ -25,4 +25,19 @@ public class Category {
 
     @Column(name = "description")
     private String description;
+
+    public Category(Category other) {
+        this.categoryId = other.categoryId;
+        this.name = other.name;
+        this.description = other.description;
+    }
+    @Override
+    public DataDisplay displayData() {
+        return new Category(this);
+    }
+
+    @Override
+    public DataDisplay limitedDisplayData() {
+        return null;
+    }
 }

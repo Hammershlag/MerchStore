@@ -35,14 +35,14 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
-                                .requestMatchers("/login", "/api/register", "/home", "/",  "/api/register/form", "/login/form").permitAll()
+                                .requestMatchers("/api/login", "/api/register", "/home", "/",  "/api/register/form", "/api/login/form").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .formLogin(formLogin ->
                         formLogin
-                                .loginPage("/login/form")
+                                .loginPage("/api/login/form")
                                 .defaultSuccessUrl("/home", true)
-                                .failureUrl("/login?error=true")
+                                .failureUrl("/api/login?error=true")
                                 .permitAll()
                 )
                 .logout(LogoutConfigurer::permitAll);
