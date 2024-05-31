@@ -91,6 +91,8 @@ public class RegisterController {
                 user.setImage(imageBytes);
 
                 model.addAttribute("user", user);
+            } else {
+                user.setImage(new byte[0]);
             }
         } catch (Exception e) {
             e.printStackTrace();

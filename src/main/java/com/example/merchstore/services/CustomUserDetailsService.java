@@ -44,6 +44,9 @@ public class CustomUserDetailsService implements UserDetailsService {
         if (customUserRepository.existsByUsername(user.getUsername())) {
             throw new RuntimeException("Username already exists");
         }
+        if (user.getImage() == null) {
+            user.setImage(new byte[0]);
+        }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole("USER");
         user.setCreatedAt(LocalDateTime.now());
@@ -58,6 +61,9 @@ public class CustomUserDetailsService implements UserDetailsService {
             throw new RuntimeException("Username already exists");
         }
         byte[] userImage = image.getBytes();
+        if (userImage == null) {
+            userImage = new byte[0];
+        }
         user.setImage(userImage);
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
