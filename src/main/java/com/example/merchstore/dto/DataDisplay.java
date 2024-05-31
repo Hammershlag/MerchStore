@@ -5,6 +5,7 @@ package com.example.merchstore.dto;
  * @version 1.0
  * @since 30.05.2024
  */
+
 public interface DataDisplay {
 
     public DataDisplay displayData();

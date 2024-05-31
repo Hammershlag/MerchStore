@@ -13,6 +13,12 @@ import java.math.BigDecimal;
 import java.sql.Types;
 import java.time.LocalDateTime;
 
+/**
+ * @author Tomasz Zbroszczyk
+ * @version 1.0
+ * @since 28.05.2024
+ */
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

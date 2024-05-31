@@ -13,6 +13,12 @@ import org.springframework.web.multipart.MultipartFile;
 import java.sql.Types;
 import java.time.LocalDateTime;
 
+/**
+ * @author Tomasz Zbroszczyk
+ * @version 1.0
+ * @since 28.05.2024
+ */
+
 @Data
 @NoArgsConstructor
 @Entity
@@ -30,6 +36,7 @@ public class User implements DataDisplay{
     @Column(name = "email", unique = true, nullable = false)
     private String email;
 
+    @JsonIgnore
     @Column(name = "password", nullable = false)
     private String password;
 

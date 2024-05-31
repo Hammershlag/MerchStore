@@ -20,6 +20,7 @@ import org.springframework.security.web.SecurityFilterChain;
  * @version 1.0
  * @since 28.05.2024
  */
+
 @Configuration
 public class SecurityConfig {
 

@@ -25,6 +25,12 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import static org.springframework.security.web.context.HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY;
 
+/**
+ * @author Tomasz Zbroszczyk
+ * @version 1.0
+ * @since 28.05.2024
+ */
+
 @Controller
 @RequestMapping("/api")
 public class LoginController {
@@ -56,7 +62,7 @@ public class LoginController {
 
     @PostMapping("/login")
     public String login(HttpServletRequest req, @ModelAttribute LoginForm loginForm) {
-        if (customUserDetailsService.authenticateUser(loginForm.getUsername(), loginForm.getPassword(), passwordEncoder)) {
+        if (customUserDetailsService.authenticateUser(loginForm, passwordEncoder)) {
 
             User user = customUserRepository.findByUsername(loginForm.getUsername());
 
@@ -81,7 +87,6 @@ public class LoginController {
     @GetMapping("/logout")
     public RedirectView logout(HttpSession session) {
         session.invalidate();
-        session.setAttribute("isLoggedIn", false);
         return new RedirectView("/home");
     }
 

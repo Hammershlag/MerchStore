@@ -1,5 +1,6 @@
 package com.example.merchstore.services;
 
+import com.example.merchstore.controllers.LoginController;
 import com.example.merchstore.dto.User;
 import com.example.merchstore.principals.CustomUserPrincipal;
 import com.example.merchstore.repositories.CustomUserRepository;
@@ -13,6 +14,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
+
+/**
+ * @author Tomasz Zbroszczyk
+ * @version 1.0
+ * @since 28.05.2024
+ */
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
@@ -61,6 +68,14 @@ public class CustomUserDetailsService implements UserDetailsService {
         User user = customUserRepository.findByUsername(username);
         if (user != null) {
             return passwordEncoder.matches(password, user.getPassword());
+        }
+        return false;
+    }
+
+    public boolean authenticateUser(LoginController.LoginForm loginForm, PasswordEncoder passwordEncoder) {
+        User user = customUserRepository.findByUsername(loginForm.getUsername());
+        if (user != null) {
+            return passwordEncoder.matches(loginForm.getPassword(), user.getPassword());
         }
         return false;
     }

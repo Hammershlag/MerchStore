@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MaxUploadSizeExceededException;
  * @version 1.0
  * @since 29.05.2024
  */
+
 @RestControllerAdvice
 public class FileUploadExceptionAdvice {
 

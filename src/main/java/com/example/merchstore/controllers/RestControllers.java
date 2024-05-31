@@ -4,9 +4,15 @@ import com.example.merchstore.Decorators.UserDecorator;
 import com.example.merchstore.dto.User;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.view.RedirectView;
+
+import java.nio.ByteBuffer;
 
 /**
  * @author Tomasz Zbroszczyk
@@ -35,6 +41,21 @@ public class RestControllers {
         } else {
             return UserDecorator.create("Anonymous").displayData();
         }
+    }
+
+
+    @GetMapping("/image/get")
+    public ResponseEntity<byte[]> getImage(HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        ByteBuffer imageBuffer = ByteBuffer.wrap(user.getImage());
+        if (imageBuffer == null) {
+            return ResponseEntity.notFound().build();
+        }
+        byte[] imageData = new byte[imageBuffer.remaining()];
+        imageBuffer.get(imageData);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.IMAGE_JPEG);
+        return new ResponseEntity<>(imageData, headers, HttpStatus.OK);
     }
 
 }

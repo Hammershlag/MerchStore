@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @version 1.0
  * @since 28.05.2024
  */
+
 public interface CustomUserRepository extends JpaRepository<User, Long> {
 
     User findByUsername(String username);

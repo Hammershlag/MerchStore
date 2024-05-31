@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
  * @version 1.0
  * @since 28.05.2024
  */
+
 public class UserDecorator {
 
     public static User create(String username) {

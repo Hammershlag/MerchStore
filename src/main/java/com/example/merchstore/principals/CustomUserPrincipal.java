@@ -13,6 +13,7 @@ import java.util.Collection;
  * @version 1.0
  * @since 28.05.2024
  */
+
 public class CustomUserPrincipal implements UserDetails {
 
     private User user;
@@ -24,7 +25,6 @@ public class CustomUserPrincipal implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Collection<GrantedAuthority> authorities = new ArrayList<>();
-        // Get role from user and map it to GrantedAuthority
         authorities.add(new SimpleGrantedAuthority("ROLE_" + user.getRole().toString()));
         return authorities;
     }
