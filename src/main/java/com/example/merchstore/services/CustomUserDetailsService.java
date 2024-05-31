@@ -36,6 +36,10 @@ public class CustomUserDetailsService implements UserDetailsService {
         return new CustomUserPrincipal(user);
     }
 
+    public boolean existsByUsername(String username) {
+        return customUserRepository.existsByUsername(username);
+    }
+
     public User registerUser(User user, PasswordEncoder passwordEncoder) {
         if (customUserRepository.existsByUsername(user.getUsername())) {
             throw new RuntimeException("Username already exists");
@@ -78,5 +82,13 @@ public class CustomUserDetailsService implements UserDetailsService {
             return passwordEncoder.matches(loginForm.getPassword(), user.getPassword());
         }
         return false;
+    }
+
+    public boolean existsByEmail(String email) {
+        return customUserRepository.existsByEmail(email);
+    }
+
+    public boolean existsByPhoneNumber(String phoneNumber) {
+        return customUserRepository.existsByPhoneNumber(phoneNumber);
     }
 }

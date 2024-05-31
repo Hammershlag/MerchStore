@@ -1,5 +1,6 @@
 package com.example.merchstore.Decorators;
 
+import com.example.merchstore.dto.Gender;
 import com.example.merchstore.dto.User;
 
 import java.nio.ByteBuffer;
@@ -24,6 +25,7 @@ public class UserDecorator {
         user.setPhoneNumber("1234567890");
         user.setAddress("Default Address");
         user.setRole("USER");
+        user.setGender(Gender.DEFAULT);
         user.setCreatedAt(LocalDateTime.now());
         user.setUpdatedAt(LocalDateTime.now());
         user.setImage(null);

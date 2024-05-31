@@ -4,24 +4,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registration Form</title>
+    <style>
+        .weak-password {
+            border: 2px solid red;
+        }
+        .medium-password {
+            border: 2px solid yellow;
+        }
+        .strong-password {
+            border: 2px solid green;
+        }
+        .valid-input {
+            border: 2px solid green;
+        }
+        .invalid-input {
+            border: 2px solid red;
+        }
+    </style>
 </head>
 <body>
 <h2>User Registration</h2>
-<form th:action="@{/api/register}" th:object="${user}" method="post" enctype="multipart/form-data">
+<form th:action="@{/api/register}" th:object="${user}" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+    <div th:if="${errorMessage}" style="color: red;">
+        <p th:text="${errorMessage}"></p>
+    </div>
     <label for="username">Username:</label><br>
     <input type="text" id="username" name="username" th:field="*{username}" required><br>
 
     <label for="password">Password:</label><br>
-    <input type="password" id="password" name="password" th:field="*{password}" required><br>
+    <input type="password" id="password" name="password" th:field="*{password}" oninput="checkPasswordStrength()" required>
+    <div id="password-strength"></div><br>
 
     <label for="email">Email:</label><br>
     <input type="email" id="email" name="email" th:field="*{email}" required><br>
 
     <label for="firstName">First Name:</label><br>
-    <input type="text" id="firstName" name="firstName" th:field="*{firstName}" required><br>
+    <input type="text" id="firstName" name="firstName" th:field="*{firstName}" oninput="validateName(this)" required><br>
 
     <label for="lastName">Last Name:</label><br>
-    <input type="text" id="lastName" name="lastName" th:field="*{lastName}" required><br>
+    <input type="text" id="lastName" name="lastName" th:field="*{lastName}" oninput="validateSurname(this)" required><br>
 
     <label for="phoneNumber">Phone Number:</label><br>
     <input type="text" id="phoneNumber" name="phoneNumber" th:field="*{phoneNumber}"><br>
@@ -29,10 +50,96 @@
     <label for="address">Address:</label><br>
     <input type="text" id="address" name="address" th:field="*{address}"><br><br>
 
+    <label for="gender">Gender:</label><br>
+    <select id="gender" name="gender" th:field="*{gender}" required>
+        <option value="" selected="selected">Select your gender</option>
+        <option value="MALE">Male</option>
+        <option value="FEMALE">Female</option>
+    </select><br><br>
+
     <label for="imageData">Profile Image:</label><br>
     <input type="file" id="imageData" name="imageData"><br><br>
 
     <input type="submit" value="Register">
 </form>
+
+<script>
+    let disableValidation = true;  // Set to true to disable validation for testing
+
+    function checkPasswordStrength() {
+        const password = document.getElementById('password').value;
+        const strengthIndicator = document.getElementById('password-strength');
+        const strength = getPasswordStrength(password);
+
+        strengthIndicator.className = '';
+        if (strength === 'weak') {
+            strengthIndicator.textContent = 'Weak';
+            strengthIndicator.classList.add('weak-password');
+        } else if (strength === 'medium') {
+            strengthIndicator.textContent = 'Medium';
+            strengthIndicator.classList.add('medium-password');
+        } else if (strength === 'strong') {
+            strengthIndicator.textContent = 'Strong';
+            strengthIndicator.classList.add('strong-password');
+        } else {
+            strengthIndicator.textContent = '';
+        }
+    }
+
+    function getPasswordStrength(password) {
+        if (disableValidation) return 'strong';
+
+        let strength = 'weak';
+        if (password.length >= 8) {
+            const hasNumbers = /\d/.test(password);
+            const hasSpecialChars = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+            const hasUpperCase = /[A-Z]/.test(password);
+
+            if (hasNumbers && hasSpecialChars && hasUpperCase) {
+                strength = 'strong';
+            } else if ((hasNumbers && hasSpecialChars) || (hasNumbers && hasUpperCase) || (hasSpecialChars && hasUpperCase)) {
+                strength = 'medium';
+            }
+        }
+
+        return strength;
+    }
+
+    function validateName(input) {
+        const regex = /^[A-Z][a-z]*$/;
+        if (disableValidation || regex.test(input.value)) {
+            input.classList.add('valid-input');
+            input.classList.remove('invalid-input');
+        } else {
+            input.classList.add('invalid-input');
+            input.classList.remove('valid-input');
+        }
+    }
+
+    function validateSurname(input) {
+        const regex = /^[A-Z][a-z]*(?:-[A-Z][a-z]*)*$/;
+        if (disableValidation || regex.test(input.value)) {
+            input.classList.add('valid-input');
+            input.classList.remove('invalid-input');
+        } else {
+            input.classList.add('invalid-input');
+            input.classList.remove('valid-input');
+        }
+    }
+
+    function validateForm() {
+        if (disableValidation) return true;
+
+        const firstName = document.getElementById('firstName');
+        const lastName = document.getElementById('lastName');
+        const password = document.getElementById('password');
+
+        validateName(firstName);
+        validateSurname(lastName);
+        checkPasswordStrength();
+
+        return firstName.classList.contains('valid-input') && lastName.classList.contains('valid-input') && getPasswordStrength(password.value) === 'strong';
+    }
+</script>
 </body>
 </html>

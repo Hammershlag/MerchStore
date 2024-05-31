@@ -11,7 +11,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CustomUserRepository extends JpaRepository<User, Long> {
 
+    //Find methods
     User findByUsername(String username);
-    boolean existsByUsername(String username);
 
+    //Exist methods
+    boolean existsByUsername(String username);
+    boolean existsByEmail(String email);
+    boolean existsByPhoneNumber(String phoneNumber);
 }

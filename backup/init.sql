@@ -10,9 +10,11 @@ CREATE TABLE users (
                        address VARCHAR(255),
                        role VARCHAR(20) NOT NULL,
                        image BYTEA,
+                       gender VARCHAR(10) NOT NULL,
                        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
                        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
+
 
 -- Create categories table
 CREATE TABLE categories (

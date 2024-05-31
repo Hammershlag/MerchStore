@@ -7,9 +7,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.annotations.Type;
-import org.springframework.web.multipart.MultipartFile;
-
 import java.sql.Types;
 import java.time.LocalDateTime;
 
@@ -23,7 +20,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Entity
 @Table(name = "users")
-public class User implements DataDisplay{
+public class User implements DataDisplay {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -66,7 +63,11 @@ public class User implements DataDisplay{
     @Column(name = "image", columnDefinition = "BYTEA", nullable = true)
     private byte[] image;
 
-    public User(Long userId, String username, String email, String firstName, String lastName, String phoneNumber, String address, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    @Enumerated(EnumType.STRING)
+    @Column(name = "gender", nullable = false)
+    private Gender gender;
+
+    public User(Long userId, String username, String email, String firstName, String lastName, String phoneNumber, String address, LocalDateTime createdAt, LocalDateTime updatedAt, Gender gender) {
         this.userId = userId;
         this.username = username;
         this.email = email;
@@ -76,6 +77,7 @@ public class User implements DataDisplay{
         this.address = address;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+        this.gender = gender;
         this.image = null;
     }
 
@@ -90,6 +92,7 @@ public class User implements DataDisplay{
         this.address = user.getAddress();
         this.createdAt = user.getCreatedAt();
         this.updatedAt = user.getUpdatedAt();
+        this.gender = user.getGender();
         this.image = user.getImage() != null ? user.getImage().clone() : null;
         this.role = user.getRole();
     }
@@ -108,6 +111,4 @@ public class User implements DataDisplay{
     public DataDisplay limitedDisplayData() {
         return null;
     }
-
-
 }

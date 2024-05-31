@@ -3,10 +3,9 @@ package com.example.merchstore.dto;
 /**
  * @author Tomasz Zbroszczyk
  * @version 1.0
- * @since 28.05.2024
+ * @since 31.05.2024
  */
-
-public enum Role{
-    USER,
-    ADMIN;
+public enum Gender {
+    MALE,
+    FEMALE, DEFAULT;
 }
