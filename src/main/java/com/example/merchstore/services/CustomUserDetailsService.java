@@ -97,4 +97,5 @@ public class CustomUserDetailsService implements UserDetailsService {
     public boolean existsByPhoneNumber(String phoneNumber) {
         return customUserRepository.existsByPhoneNumber(phoneNumber);
     }
+
 }

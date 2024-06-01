@@ -43,7 +43,7 @@ public class RestControllers {
     public ResponseEntity<byte[]> getImage(HttpSession session) {
         User user = (User) session.getAttribute("user");
         byte[] image = user.getImage();
-        if (user.getImage().length == 0) {
+        if (user.getImage() == null || user.getImage().length == 0) {
             switch (user.getGender()) {
                 case MALE -> image = getImageAsByteArray("static/images/avatars/male_avatar.jpg");
                 case FEMALE -> image = getImageAsByteArray("static/images/avatars/female_avatar.jpg");

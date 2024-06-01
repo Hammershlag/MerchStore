@@ -85,8 +85,17 @@ public class RegisterController {
                 return new RedirectView("/api/register/form?error=phone");
             }
             if (!image.isEmpty()) {
-                BufferedImage bufferedImage = simpleResizeImage(ImageIO.read(image.getInputStream()), 200);
+                BufferedImage bufferedImage = ImageIO.read(image.getInputStream());
+
+                //TODO if image is higher rather than wider, it gets rotated by 90 degrees, FIX IT but now im too lazy
+
+                logger.info("Image height: " + bufferedImage.getHeight());
+                logger.info("Image width: " + bufferedImage.getWidth());
+                int angle = bufferedImage.getHeight() > bufferedImage.getWidth() ? 90 : 0;
+
+                //bufferedImage = simpleResizeImage(bufferedImage, 200, 200);
                 bufferedImage = rotateImage(bufferedImage, 90);
+                bufferedImage = resizeAndCropImage(bufferedImage, 200, 200);
                 byte[] imageBytes = imageToByteArray(bufferedImage, image.getOriginalFilename().substring(image.getOriginalFilename().lastIndexOf(".") + 1));
                 user.setImage(imageBytes);
 
@@ -136,7 +145,30 @@ public class RegisterController {
         return Scalr.resize(originalImage, targetWidth);
     }
 
+    BufferedImage simpleResizeImage(BufferedImage originalImage, int targetWidth, int targetHeight) throws Exception {
+        return Scalr.resize(originalImage, targetWidth, targetHeight);
+    }
 
+    BufferedImage resizeAndCropImage(BufferedImage originalImage, int targetWidth, int targetHeight) throws Exception {
+        int originalWidth = originalImage.getWidth();
+        int originalHeight = originalImage.getHeight();
+
+        // Calculate the scaling factor to maintain aspect ratio
+        double scale = Math.max((double) targetWidth / originalWidth, (double) targetHeight / originalHeight);
+
+        // Calculate the new dimensions
+        int scaledWidth = (int) (scale * originalWidth);
+        int scaledHeight = (int) (scale * originalHeight);
+
+        // Resize the image
+        BufferedImage resizedImage = Scalr.resize(originalImage, Scalr.Method.QUALITY, scaledWidth, scaledHeight);
+
+        // Crop the image to the target size
+        int cropX = (scaledWidth - targetWidth) / 2;
+        int cropY = (scaledHeight - targetHeight) / 2;
+
+        return Scalr.crop(resizedImage, cropX, cropY, targetWidth, targetHeight);
+    }
 
 }
 

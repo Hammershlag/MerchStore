@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update User Details</title>
+    <style>
+        .valid-input {
+            border: 2px solid green;
+        }
+        .invalid-input {
+            border: 2px solid red;
+        }
+    </style>
+</head>
+<body>
+<h2>Update User Details</h2>
+<form th:action="@{/api/update/user}" th:object="${user}" method="post">
+    <div th:if="${errorMessage}" style="color: red;">
+        <p th:text="${errorMessage}"></p>
+    </div>
+
+    <label for="username">Username:</label><br>
+    <input type="text" id="username" name="username" th:field="*{username}" readonly><br>
+
+    <label for="email">Email:</label><br>
+    <input type="email" id="email" name="email" th:field="*{email}" required><br>
+
+    <label for="firstName">First Name:</label><br>
+    <input type="text" id="firstName" name="firstName" th:field="*{firstName}" required><br>
+
+    <label for="lastName">Last Name:</label><br>
+    <input type="text" id="lastName" name="lastName" th:field="*{lastName}" required><br>
+
+    <label for="phoneNumber">Phone Number:</label><br>
+    <input type="text" id="phoneNumber" name="phoneNumber" th:field="*{phoneNumber}"><br>
+
+    <label for="address">Address:</label><br>
+    <input type="text" id="address" name="address" th:field="*{address}"><br><br>
+
+    <label for="gender">Gender:</label><br>
+    <select id="gender" name="gender" th:field="*{gender}" required>
+        <option value="" selected="selected">Select your gender</option>
+        <option value="MALE">Male</option>
+        <option value="FEMALE">Female</option>
+    </select><br><br>
+
+    <input type="submit" value="Update">
+</form>
+
+</body>
+</html>
