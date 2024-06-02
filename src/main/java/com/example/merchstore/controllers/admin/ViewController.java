@@ -2,6 +2,7 @@ package com.example.merchstore.controllers.admin;
 
 import com.example.merchstore.dto.Category;
 import com.example.merchstore.dto.Discount;
+import com.example.merchstore.dto.Item;
 import com.example.merchstore.dto.User;
 import com.example.merchstore.repositories.CategoryRepository;
 import com.example.merchstore.repositories.CustomUserRepository;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -68,8 +70,16 @@ public class ViewController {
     }
 
     @GetMapping("/items")
-    public String viewItems(Model model) {
-        model.addAttribute("items", itemRepository.findAll());
+    public String viewItems(@RequestParam(value = "category", required = false) Long categoryId, Model model) {
+        List<Item> items;
+        if (categoryId != null) {
+            Category category = categoryRepository.findById(categoryId).orElse(null);
+            items = category != null ? itemRepository.findByCategory(category) : List.of();
+        } else {
+            items = itemRepository.findAll();
+        }
+        model.addAttribute("items", items);
+        model.addAttribute("categories", categoryRepository.findAll());
         return "viewItems";
     }
 }

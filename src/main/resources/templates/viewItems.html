@@ -21,6 +21,14 @@
 </head>
 <body>
 <h2>Items</h2>
+<form action="/api/admin/view/items" method="get">
+    <label for="category">Filter by Category:</label>
+    <select id="category" name="category">
+        <option value="">All Categories</option>
+        <option th:each="category : ${categories}" th:value="${category.categoryId}" th:text="${category.name}"></option>
+    </select>
+    <button type="submit">Search</button>
+</form>
 <table>
     <thead>
     <tr>
