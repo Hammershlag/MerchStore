@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Discount</title>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const today = new Date().toISOString().split('T')[0];
+            const validFromInput = document.getElementById('validFrom');
+            const validUntilInput = document.getElementById('validUntil');
+
+            validFromInput.setAttribute('min', today);
+            validUntilInput.setAttribute('min', new Date(today).toISOString().split('T')[0]);
+
+            validFromInput.addEventListener('change', function() {
+                const validFromDate = new Date(this.value);
+                const minValidUntilDate = new Date(validFromDate);
+                minValidUntilDate.setDate(validFromDate.getDate() + 1);
+                validUntilInput.setAttribute('min', minValidUntilDate.toISOString().split('T')[0]);
+
+                if (validUntilInput.value && new Date(validUntilInput.value) <= validFromDate) {
+                    validUntilInput.value = minValidUntilDate.toISOString().split('T')[0];
+                }
+            });
+
+            validUntilInput.addEventListener('change', function() {
+                const validUntilDate = new Date(this.value);
+                const maxValidFromDate = new Date(validUntilDate);
+                maxValidFromDate.setDate(validUntilDate.getDate() - 1);
+
+                if (validFromInput.value && new Date(validFromInput.value) > maxValidFromDate) {
+                    validFromInput.value = today;
+                }
+
+                validFromInput.setAttribute('max', maxValidFromDate.toISOString().split('T')[0]);
+            });
+
+            const discountPercentageInput = document.getElementById('discountPercentage');
+            discountPercentageInput.addEventListener('input', function() {
+                if (this.value > 100) {
+                    this.value = 100;
+                } else if (this.value < 0) {
+                    this.value = 0;
+                }
+                this.value = this.value.replace(/^0+(?!$)/, '');
+            });
+        });
+    </script>
+</head>
+<body>
+<h2>Add Discount</h2>
+<form action="/api/admin/add/discount" method="post">
+    <label for="code">Code (letters and numbers only):</label><br>
+    <input type="text" id="code" name="code" pattern="[A-Za-z0-9]+" required><br>
+
+    <label for="description">Description:</label><br>
+    <textarea id="description" name="description"></textarea><br>
+
+    <label for="discountPercentage">Discount Percentage:</label><br>
+    <input type="number" id="discountPercentage" name="discountPercentage" step="0.01" max="100.00" required><br>
+
+    <label for="validFrom">Valid From:</label><br>
+    <input type="date" id="validFrom" name="validFrom" required><br>
+
+    <label for="validUntil">Valid Until:</label><br>
+    <input type="date" id="validUntil" name="validUntil" required><br><br>
+
+    <input type="submit" value="Submit">
+</form>
+</body>
+</html>

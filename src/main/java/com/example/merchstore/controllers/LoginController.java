@@ -78,6 +78,10 @@ public class LoginController {
             session.setAttribute(SPRING_SECURITY_CONTEXT_KEY, sc);
             session.setAttribute("isLoggedIn", true);
 
+            if (user.getRole().equals("ADMIN")) {
+                return "redirect:/api/admin/dashboard";
+            }
+
             return "redirect:/home";
         } else {
             return "redirect:/api/login/form?error=true";
