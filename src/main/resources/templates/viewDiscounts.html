@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Discounts</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+    </style>
+</head>
+<body>
+<h2>Discounts</h2>
+
+<nav>
+    <ul>
+        <li><a href="/api/admin/view/discounts">All Discounts</a></li>
+        <li><a href="/api/admin/view/discounts/valid">Valid Discounts</a></li>
+    </ul>
+</nav>
+
+<table>
+    <thead>
+    <tr>
+        <th>Code</th>
+        <th>Description</th>
+        <th>Discount Percentage</th>
+        <th>Valid From</th>
+        <th>Valid Until</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="discount : ${discounts}">
+        <td th:text="${discount.code}">Code</td>
+        <td th:text="${discount.description}">Description</td>
+        <td th:text="${discount.discountPercentage}">Percentage</td>
+        <td th:text="${discount.validFrom}">From</td>
+        <td th:text="${discount.validUntil}">Until</td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
