@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * @author Tomasz Zbroszczyk
  * @version 1.0
@@ -30,5 +32,7 @@ public interface CustomUserRepository extends JpaRepository<User, Long> {
             "u.updatedAt = :#{#user.updatedAt} WHERE u.userId = :id")
     void updateById(@Param("id") Long id, @Param("user") User user);
 
+    @Query("SELECT u FROM User u WHERE u.role <> 'ADMIN'")
+    List<User> findNonAdminUsers();
 
 }

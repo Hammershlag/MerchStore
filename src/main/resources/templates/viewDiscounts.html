@@ -17,14 +17,31 @@
             background-color: #f4f4f4;
         }
     </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const validDiscountsCheckbox = document.getElementById('validDiscounts');
+
+            validDiscountsCheckbox.addEventListener('change', function() {
+                if (this.checked) {
+                    window.location.href = '/api/admin/view/discounts/valid';
+                } else {
+                    window.location.href = '/api/admin/view/discounts';
+                }
+            });
+
+            // Set the correct checkbox state based on the current URL
+            if (window.location.pathname.includes('valid')) {
+                validDiscountsCheckbox.checked = true;
+            }
+        });
+    </script>
 </head>
 <body>
 <h2>Discounts</h2>
 
 <nav>
     <ul>
-        <li><a href="/api/admin/view/discounts">All Discounts</a></li>
-        <li><a href="/api/admin/view/discounts/valid">Valid Discounts</a></li>
+        <li><label><input type="checkbox" id="validDiscounts"> View Only Valid Discounts</label></li>
     </ul>
 </nav>
 

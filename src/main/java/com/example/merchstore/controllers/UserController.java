@@ -62,10 +62,10 @@ public class UserController {
         if (customUserDetailsService.existsByUsername(user.getUsername()) && !user.getUsername().equals(currentUser.getUsername())) {
             return new RedirectView("/api/update/user?error=username");
         }
-        if(customUserDetailsService.existsByEmail(user.getEmail())) {
+        if(customUserDetailsService.existsByEmail(user.getEmail()) && !user.getEmail().equals(currentUser.getEmail())) {
             return new RedirectView("/api/update/user?error=email");
         }
-        if(customUserDetailsService.existsByPhoneNumber(user.getPhoneNumber())) {
+        if(customUserDetailsService.existsByPhoneNumber(user.getPhoneNumber()) && !user.getPhoneNumber().equals(currentUser.getPhoneNumber())) {
             return new RedirectView("/api/update/user?error=phone");
         }
 
