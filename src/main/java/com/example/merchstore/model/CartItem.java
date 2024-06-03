@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
  * @author Tomasz Zbroszczyk
  * @version 1.0
  * @since 03.06.2024
+ * !
  */
 
 @Data @AllArgsConstructor @NoArgsConstructor
