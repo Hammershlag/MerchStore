@@ -79,3 +79,13 @@ CREATE TABLE invoices (
                           status VARCHAR(50) DEFAULT 'unpaid' NOT NULL,
                           FOREIGN KEY (order_id) REFERENCES orders(order_id)
 );
+
+-- Create cart table
+CREATE TABLE cart (
+                      cart_id SERIAL PRIMARY KEY,
+                      user_id INT NOT NULL,
+                      item_id INT NOT NULL,
+                      quantity INT NOT NULL,
+                      FOREIGN KEY (user_id) REFERENCES users(user_id),
+                      FOREIGN KEY (item_id) REFERENCES items(item_id)
+);

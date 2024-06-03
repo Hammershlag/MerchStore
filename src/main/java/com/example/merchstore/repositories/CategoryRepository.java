@@ -1,6 +1,6 @@
 package com.example.merchstore.repositories;
 
-import com.example.merchstore.dto.Category;
+import com.example.merchstore.model.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**

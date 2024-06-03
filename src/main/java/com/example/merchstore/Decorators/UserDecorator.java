@@ -1,9 +1,8 @@
 package com.example.merchstore.Decorators;
 
-import com.example.merchstore.dto.Gender;
-import com.example.merchstore.dto.User;
+import com.example.merchstore.model.Gender;
+import com.example.merchstore.model.User;
 
-import java.nio.ByteBuffer;
 import java.time.LocalDateTime;
 
 /**

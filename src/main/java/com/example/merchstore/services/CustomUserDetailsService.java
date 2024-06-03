@@ -1,7 +1,7 @@
 package com.example.merchstore.services;
 
-import com.example.merchstore.controllers.LoginController;
-import com.example.merchstore.dto.User;
+import com.example.merchstore.controllers.auth.LoginController_s;
+import com.example.merchstore.model.User;
 import com.example.merchstore.principals.CustomUserPrincipal;
 import com.example.merchstore.repositories.CustomUserRepository;
 import lombok.SneakyThrows;
@@ -82,7 +82,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         return false;
     }
 
-    public boolean authenticateUser(LoginController.LoginForm loginForm, PasswordEncoder passwordEncoder) {
+    public boolean authenticateUser(LoginController_s.LoginForm loginForm, PasswordEncoder passwordEncoder) {
         User user = customUserRepository.findByUsername(loginForm.getUsername());
         if (user != null) {
             return passwordEncoder.matches(loginForm.getPassword(), user.getPassword());

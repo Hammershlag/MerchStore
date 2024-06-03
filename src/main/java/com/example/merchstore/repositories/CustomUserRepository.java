@@ -1,6 +1,6 @@
 package com.example.merchstore.repositories;
 
-import com.example.merchstore.dto.User;
+import com.example.merchstore.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

@@ -1,7 +1,7 @@
 package com.example.merchstore.repositories;
 
-import com.example.merchstore.dto.Category;
-import com.example.merchstore.dto.Item;
+import com.example.merchstore.model.Category;
+import com.example.merchstore.model.Item;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
