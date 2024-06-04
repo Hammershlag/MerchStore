@@ -43,7 +43,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="item : ${items}">
+    <tr th:each="item : ${items}"  th:onclick="|window.location='/api/admin/view/item?id=' + ${item.itemId}|">
         <td>
             <img th:src="@{/api/image/item/{id}(id=${item.itemId})}" alt="Item Image" style="max-width: 100px; max-height: 100px;">
         </td>

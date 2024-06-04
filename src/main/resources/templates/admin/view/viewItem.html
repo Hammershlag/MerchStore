@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Item Details</title>
+    <style>
+        .item-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .item-image {
+            max-width: 100%;
+            height: auto;
+        }
+        .item-details {
+            margin-top: 20px;
+        }
+        .item-details h2 {
+            margin-bottom: 10px;
+        }
+        .item-details p {
+            margin-bottom: 5px;
+        }
+        .item-details .price {
+            font-size: 1.5em;
+            color: #b12704;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="item-container" th:if="${item != null}">
+    <img th:src="@{/api/image/item/{id}(id=${item.itemId})}" alt="Item Image" class="item-image">
+    <div class="item-details">
+        <h2 th:text="${item.name}">Item Name</h2>
+        <p th:text="${item.description}">Item Description</p>
+        <p class="price" th:text="${item.price} + ' $'">Item Price</p>
+        <p>Stock Quantity: <span th:text="${item.stockQuantity}">0</span></p>
+        <p>Category: <span th:text="${item.category.name}">Category Name</span></p>
+        <p>Created At: <span th:text="${item.createdAt}">Created At</span></p>
+        <p>Updated At: <span th:text="${item.updatedAt}">Updated At</span></p>
+    </div>
+</div>
+<div th:if="${item == null}">
+    <p>Item not found.</p>
+</div>
+</body>
+</html>

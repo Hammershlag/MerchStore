@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
  * @author Tomasz Zbroszczyk
  * @version 1.0
  * @since 03.06.2024
- * !
  */
 
 @Data @AllArgsConstructor @NoArgsConstructor
@@ -39,6 +38,12 @@ public class CartItem implements DataDisplay{
         this.user = other.user;
         this.item = other.item;
         this.quantity = other.quantity;
+    }
+
+    public CartItem(User user, Item item, int quantity) {
+        this.user = user;
+        this.item = item;
+        this.quantity = quantity;
     }
 
     @Override

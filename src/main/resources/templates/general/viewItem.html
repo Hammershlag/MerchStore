@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Item Details</title>
+    <style>
+        .item-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .item-image {
+            max-width: 100%;
+            height: auto;
+        }
+        .item-details {
+            margin-top: 20px;
+        }
+        .item-details h2 {
+            margin-bottom: 10px;
+        }
+        .item-details p {
+            margin-bottom: 5px;
+        }
+        .item-details .price {
+            font-size: 1.5em;
+            color: #b12704;
+            margin-bottom: 10px;
+        }
+        .out-of-stock {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<div class="item-container" th:if="${item != null}">
+    <p th:if="${addedToCart != null && addedToCart == true}">Item added to cart.</p>
+    <p th:if="${addedToCart != null && addedToCart == false}">Failed to add item to cart.</p>
+    <img th:src="@{/api/image/item/{id}(id=${item.itemId})}" alt="Item Image" class="item-image">
+    <div class="item-details">
+        <h2 th:text="${item.name}">Item Name</h2>
+        <p th:text="${item.description}">Item Description</p>
+        <p class="price" th:text="${item.price} + ' $'">Item Price</p>
+        <p th:if="${item.stockQuantity > 0}">Stock Quantity: <span th:text="${item.stockQuantity}">0</span></p>
+        <p>Category: <span th:text="${item.category.name}">Category Name</span></p>
+    </div>
+    <div th:if="${item.stockQuantity > 0}">
+        <form th:action="@{/user/cart/add}" method="post">
+            <input type="hidden" name="itemId" th:value="${item.itemId}" />
+            <label for="quantity">Quantity:</label>
+            <input type="number" id="quantity" name="quantity" value="1" min="1" />
+            <button type="submit">Add to cart</button>
+        </form>
+    </div>
+    <p th:if="${item.stockQuantity == 0}" class="out-of-stock">Currently out of stock. Wait for new supply.</p>
+    <p th:if="${item.stockQuantity < 0}" class="out-of-stock">This item will no longer be supplied again.</p>
+</div>
+<div th:if="${item == null}">
+    <p>Item not found.</p>
+</div>
+</body>
+</html>

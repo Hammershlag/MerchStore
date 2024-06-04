@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Items</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<h2>Items</h2>
+<form action="/item/all" method="get">
+    <label for="category">Filter by Category:</label>
+    <select id="category" name="category">
+        <option value="">All Categories</option>
+        <option th:each="category : ${categories}" th:value="${category.categoryId}" th:text="${category.name}" th:selected="${selectedCategoryId == category.categoryId}"></option>
+    </select>
+    <button type="submit">Search</button>
+</form>
+<div>
+    <label for="sort">Sort by: </label>
+    <select id="sort" onchange="updateSorting()">
+        <option value="name" th:selected="${sortField == 'name'}">Name</option>
+        <option value="price" th:selected="${sortField == 'price'}">Price</option>
+        <option value="stockQuantity" th:selected="${sortField == 'stockQuantity'}">Stock Quantity</option>
+        <option value="category" th:selected="${sortField == 'category'}">Category</option>
+    </select>
+</div>
+<div>
+    <label for="order">Order by: </label>
+    <select id="order" onchange="updateSorting()">
+        <option value="asc" th:selected="${order == 'asc'}">Ascending</option>
+        <option value="desc" th:selected="${order == 'desc'}">Descending</option>
+    </select>
+</div>
+<table>
+    <thead>
+    <tr>
+        <th>Image</th>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Price</th>
+        <th>Stock Quantity</th>
+        <th>Category</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="item : ${items}" th:if="${item.stockQuantity > 0}" th:onclick="|window.location='/item?id=' + ${item.itemId}|">
+        <td>
+            <img th:src="@{/api/image/item/{id}(id=${item.itemId})}" alt="Item Image" style="max-width: 100px; max-height: 100px;">
+        </td>
+        <td th:text="${item.name}"></td>
+        <td th:text="${item.description}"></td>
+        <td th:text="${item.price}"></td>
+        <td th:text="${item.stockQuantity}"></td>
+        <td th:text="${item.category.name}"></td>
+    </tr>
+    </tbody>
+</table>
+<script>
+    function updateSorting() {
+        var sortField = document.getElementById('sort').value;
+        var sortOrder = document.getElementById('order').value;
+        var baseUrl = window.location.pathname;
+        var searchParams = new URLSearchParams(window.location.search);
+
+        if (sortField) {
+            searchParams.set('sortField', sortField);
+        } else {
+            searchParams.delete('sortField');
+        }
+
+        if (sortOrder) {
+            searchParams.set('order', sortOrder);
+        } else {
+            searchParams.delete('order');
+        }
+
+        window.location.href = baseUrl + '?' + searchParams.toString();
+    }
+</script>
+</body>
+</html>

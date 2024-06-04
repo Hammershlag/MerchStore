@@ -88,4 +88,14 @@ public class ItemController_a {
         return "admin/view/viewItems";
     }
 
+    @GetMapping("/view/item")
+    public String viewItem(@RequestParam Long id, Model model) {
+        Item item = itemRepository.findById(id).orElse(null);
+        if (item == null) {
+            return "redirect:/api/admin/view/items";
+        }
+        model.addAttribute("item", item);
+        return "admin/view/viewItem";
+    }
+
 }

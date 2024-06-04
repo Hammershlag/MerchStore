@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr {
+            cursor: pointer;
+        }
+        button {
+            margin: 0 5px;
+            padding: 5px 10px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+        button.remove {
+            background-color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+<div th:if="${cartItems.size() == 0}">
+    <p>Your cart is empty.</p>
+</div>
+<div th:if="${cartItems.size() > 0}">
+    <h2>Cart</h2>
+    <div>
+        <label for="sort">Sort by: </label>
+        <select id="sort" onchange="updateSorting()">
+            <option value="" th:selected="${sortField == null}">Select</option>
+            <option value="name" th:selected="${sortField == 'name'}">Name</option>
+            <option value="price" th:selected="${sortField == 'price'}">Price</option>
+            <option value="quantity" th:selected="${sortField == 'quantity'}">Quantity</option>
+            <option value="totalPrice" th:selected="${sortField == 'totalPrice'}">Total Price</option>
+        </select>
+    </div>
+    <div>
+        <label for="order">Order by: </label>
+        <select id="order" onchange="updateSorting()">
+            <option value="" th:selected="${order == null}">Select</option>
+            <option value="asc" th:selected="${order == 'asc'}">Ascending</option>
+            <option value="desc" th:selected="${order == 'desc'}">Descending</option>
+        </select>
+    </div>
+    <table>
+        <thead>
+        <tr>
+            <th>Image</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Total Price</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="cartItem : ${cartItems}">
+            <td><img th:src="@{/api/image/item/{id}(id=${cartItem.item.itemId})}" alt="Item Image" style="max-width: 100px; max-height: 100px;"></td>
+            <td th:text="${cartItem.item.name}"></td>
+            <td th:text="${cartItem.item.description}"></td>
+            <td th:text="${cartItem.item.price}"></td>
+            <td th:text="${cartItem.quantity}"></td>
+            <td th:text="${cartItem.item.price * cartItem.quantity}"></td>
+            <td>
+                <!-- Update these forms -->
+                <form th:action="@{/user/cart/increase}" method="post" style="display: inline;">
+                    <input type="hidden" name="itemId" th:value="${cartItem.item.itemId}" />
+                    <input type="hidden" name="sortField" th:value="${sortField}" />
+                    <input type="hidden" name="order" th:value="${order}" />
+                    <button type="submit">+</button>
+                </form>
+                <form th:action="@{/user/cart/decrease}" method="post" style="display: inline;">
+                    <input type="hidden" name="itemId" th:value="${cartItem.item.itemId}" />
+                    <input type="hidden" name="sortField" th:value="${sortField}" />
+                    <input type="hidden" name="order" th:value="${order}" />
+                    <button type="submit">-</button>
+                </form>
+                <form th:action="@{/user/cart/remove}" method="post" style="display: inline;">
+                    <input type="hidden" name="itemId" th:value="${cartItem.item.itemId}" />
+                    <input type="hidden" name="sortField" th:value="${sortField}" />
+                    <input type="hidden" name="order" th:value="${order}" />
+                    <button type="submit" class="remove">Remove</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<script>
+    function updateSorting() {
+        var sortField = document.getElementById('sort').value;
+        var sortOrder = document.getElementById('order').value;
+        var baseUrl = window.location.pathname;
+        var searchParams = new URLSearchParams(window.location.search);
+
+        if (sortField) {
+            searchParams.set('sortField', sortField);
+        } else {
+            searchParams.delete('sortField');
+        }
+
+        if (sortOrder) {
+            searchParams.set('order', sortOrder);
+        } else {
+            searchParams.delete('order');
+        }
+
+        window.location.href = baseUrl + '?' + searchParams.toString();
+    }
+</script>
+</body>
+</html>
