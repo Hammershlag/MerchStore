@@ -20,6 +20,10 @@
         .invalid-input {
             border: 2px solid red;
         }
+        .disabled-button {
+            background-color: grey;
+            cursor: not-allowed;
+        }
     </style>
 </head>
 <body>
@@ -63,7 +67,10 @@
     <label for="imageData">Profile Image:</label><br>
     <input type="file" id="imageData" name="imageData" accept="image/jpeg,image/png,image/jpg"><br><br>
 
-    <input type="submit" value="Register">
+    <input type="checkbox" id="termsCheckbox" onclick="toggleSubmitButton()">
+    <label for="termsCheckbox">I have read and agree to the <a href="/documents?name=termsandconditions" target="_blank">terms and conditions</a></label><br><br>
+
+    <input type="submit" id="submitButton" value="Register" disabled>
 </form>
 
 <script>
@@ -142,6 +149,12 @@
         checkPasswordStrength();
 
         return firstName.classList.contains('valid-input') && lastName.classList.contains('valid-input') && getPasswordStrength(password.value) === 'strong';
+    }
+
+    function toggleSubmitButton() {
+        const termsCheckbox = document.getElementById('termsCheckbox');
+        const submitButton = document.getElementById('submitButton');
+        submitButton.disabled = !termsCheckbox.checked;
     }
 </script>
 </body>

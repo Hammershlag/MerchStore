@@ -38,6 +38,7 @@ public class SecurityConfig {
                         authorizeRequests
                                 .requestMatchers("/api/login", "/api/register", "/home", "/",
                                         "/api/register/form", "/api/login/form", "/item/**", "/api/image/**").permitAll()
+                                .requestMatchers("/documents/**").permitAll()
                                 .requestMatchers("/api/admin/**").hasRole("ADMIN")
                                 .anyRequest().authenticated()
                 )
