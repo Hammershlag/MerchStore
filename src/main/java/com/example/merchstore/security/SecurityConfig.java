@@ -37,7 +37,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
                                 .requestMatchers("/api/login", "/api/register", "/home", "/",
-                                        "/api/register/form", "/api/login/form", "/item/**", "/api/image/**").permitAll()
+                                        "/api/register/form", "/api/login/form", "/item/**", "/api/image/**",
+                                        "/error").permitAll()
                                 .requestMatchers("/documents/**").permitAll()
                                 .requestMatchers("/api/admin/**").hasRole("ADMIN")
                                 .anyRequest().authenticated()
