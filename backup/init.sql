@@ -12,7 +12,8 @@ CREATE TABLE users (
                        image BYTEA,
                        gender VARCHAR(10) NOT NULL,
                        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-                       updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+                       updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+                       birth_date DATE
 );
 
 

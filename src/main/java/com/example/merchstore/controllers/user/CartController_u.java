@@ -100,19 +100,27 @@ public class CartController_u {
 
         Item item = itemRepository.findById(itemId).orElseThrow(() -> new IllegalArgumentException("Invalid item id: " + itemId));
 
-        boolean addedToCart = false;
+        CartItem cartItem = new CartItem();
+        String addedToCart = "Failed to add item to cart.";
+
+
 
         if(cartItemRepository.existsByUserAndItem(user, item)) {
-            CartItem cartItem = cartItemRepository.findByUserAndItem(user, item);
+            cartItem = cartItemRepository.findByUserAndItem(user, item);
             cartItem.setQuantity(cartItem.getQuantity() + quantity);
-            cartItemRepository.save(cartItem);
-            addedToCart = true;
+
         } else {
-            CartItem cartItem = new CartItem(user, item, quantity);
-            cartItemRepository.save(cartItem);
-            addedToCart = true;
+            cartItem = new CartItem(user, item, quantity);
         }
 
+        if (cartItem.getQuantity() > item.getStockQuantity()) {
+            addedToCart = "Not enough stock available. Maximum quantity available: " + item.getStockQuantity();
+            model.addAttribute("addedToCart", addedToCart);
+            return "redirect:/item?id=" + itemId + "&addedToCart=" + addedToCart;
+        }
+
+        cartItemRepository.save(cartItem);
+        addedToCart = "Item added to cart.";
         model.addAttribute("addedToCart", addedToCart);
         return "redirect:/item?id=" + itemId + "&addedToCart=" + addedToCart;
     }

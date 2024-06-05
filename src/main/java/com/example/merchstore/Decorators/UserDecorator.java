@@ -3,6 +3,7 @@ package com.example.merchstore.Decorators;
 import com.example.merchstore.model.Gender;
 import com.example.merchstore.model.User;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -28,6 +29,7 @@ public class UserDecorator {
         user.setCreatedAt(LocalDateTime.now());
         user.setUpdatedAt(LocalDateTime.now());
         user.setImage(null);
+        user.setBirthDate(LocalDate.now());
         return user;
     }
 

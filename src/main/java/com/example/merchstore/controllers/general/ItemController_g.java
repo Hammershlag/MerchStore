@@ -79,7 +79,7 @@ public class ItemController_g {
 
 
     @GetMapping
-    public String viewItem(@RequestParam Long id, @RequestParam(required = false) Boolean addedToCart, Model model) {
+    public String viewItem(@RequestParam Long id, @RequestParam(required = false) String addedToCart, Model model) {
         Item item = itemRepository.findById(id).orElse(null);
         if (item == null) {
             return "redirect:/item/all";

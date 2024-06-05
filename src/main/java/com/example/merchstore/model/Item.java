@@ -69,6 +69,17 @@ public class Item implements DataDisplay{
         this.image = null;
     }
 
+    public Item(String name, String description, BigDecimal price, Integer stockQuantity, Category category, LocalDateTime createdAt, LocalDateTime updatedAt) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.stockQuantity = stockQuantity;
+        this.category = category;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.image = null;
+    }
+
     public Item(Item item) {
         this.itemId = item.getItemId();
         this.name = item.getName();

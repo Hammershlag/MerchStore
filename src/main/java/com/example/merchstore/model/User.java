@@ -3,10 +3,12 @@ package com.example.merchstore.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.JdbcTypeCode;
 import java.sql.Types;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -16,7 +18,7 @@ import java.time.LocalDateTime;
  */
 
 @Data
-@NoArgsConstructor
+@NoArgsConstructor @AllArgsConstructor
 @Entity
 @Table(name = "users")
 public class User implements DataDisplay {
@@ -66,7 +68,10 @@ public class User implements DataDisplay {
     @Column(name = "gender", nullable = false)
     private Gender gender;
 
-    public User(Long userId, String username, String email, String firstName, String lastName, String phoneNumber, String address, LocalDateTime createdAt, LocalDateTime updatedAt, Gender gender) {
+    @Column(name = "birth_date", nullable = false)
+    private LocalDate birthDate;
+
+    public User(Long userId, String username, String email, String firstName, String lastName, String phoneNumber, String address, LocalDateTime createdAt, LocalDateTime updatedAt, Gender gender, LocalDate birthDate) {
         this.userId = userId;
         this.username = username;
         this.email = email;
@@ -78,6 +83,7 @@ public class User implements DataDisplay {
         this.updatedAt = updatedAt;
         this.gender = gender;
         this.image = null;
+        this.birthDate = birthDate;
     }
 
     public User(User user) {
@@ -94,6 +100,7 @@ public class User implements DataDisplay {
         this.gender = user.getGender();
         this.image = user.getImage() != null ? user.getImage().clone() : null;
         this.role = user.getRole();
+        this.birthDate = user.getBirthDate();
     }
 
     @JsonProperty("imageStatus")

@@ -27,10 +27,13 @@
     <input type="email" id="email" name="email" th:field="*{email}" required><br>
 
     <label for="firstName">First Name:</label><br>
-    <input type="text" id="firstName" name="firstName" th:field="*{firstName}" required><br>
+    <input type="text" id="firstName" name="firstName" th:field="*{firstName}" readonly><br>
 
     <label for="lastName">Last Name:</label><br>
-    <input type="text" id="lastName" name="lastName" th:field="*{lastName}" required><br>
+    <input type="text" id="lastName" name="lastName" th:field="*{lastName}" readonly><br>
+
+    <label for="birthDate">Birth Date:</label><br>
+    <input type="text" id="birthDate" name="birthDate" th:field="*{birthDate}" readonly><br><br>
 
     <label for="phoneNumber">Phone Number:</label><br>
     <input type="text" id="phoneNumber" name="phoneNumber" th:field="*{phoneNumber}"><br>

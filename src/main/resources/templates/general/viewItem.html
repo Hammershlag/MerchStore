@@ -39,8 +39,7 @@
 </head>
 <body>
 <div class="item-container" th:if="${item != null}">
-    <p th:if="${addedToCart != null && addedToCart == true}">Item added to cart.</p>
-    <p th:if="${addedToCart != null && addedToCart == false}">Failed to add item to cart.</p>
+    <p th:if="${addedToCart != null}" th:text="${addedToCart}"></p>
     <img th:src="@{/api/image/item/{id}(id=${item.itemId})}" alt="Item Image" class="item-image">
     <div class="item-details">
         <h2 th:text="${item.name}">Item Name</h2>
