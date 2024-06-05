@@ -19,6 +19,7 @@ public interface CustomUserRepository extends JpaRepository<User, Long> {
 
     //Find methods
     User findByUsername(String username);
+    User findByEmail(String email);
 
     //Exist methods
     boolean existsByUsername(String username);

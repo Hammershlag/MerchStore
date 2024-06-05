@@ -76,6 +76,9 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     public boolean authenticateUser(String username, String password, PasswordEncoder passwordEncoder) {
         User user = customUserRepository.findByUsername(username);
+        if (user == null) {
+            user = customUserRepository.findByEmail(username);
+        }
         if (user != null) {
             return passwordEncoder.matches(password, user.getPassword());
         }
@@ -84,6 +87,9 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     public boolean authenticateUser(LoginController_s.LoginForm loginForm, PasswordEncoder passwordEncoder) {
         User user = customUserRepository.findByUsername(loginForm.getUsername());
+        if (user == null) {
+            user = customUserRepository.findByEmail(loginForm.getUsername());
+        }
         if (user != null) {
             return passwordEncoder.matches(loginForm.getPassword(), user.getPassword());
         }

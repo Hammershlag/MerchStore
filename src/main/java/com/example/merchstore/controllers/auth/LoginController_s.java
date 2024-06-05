@@ -63,11 +63,14 @@ public class LoginController_s {
         if (customUserDetailsService.authenticateUser(loginForm, passwordEncoder)) {
 
             User user = customUserRepository.findByUsername(loginForm.getUsername());
+            if (user == null) {
+                user = customUserRepository.findByEmail(loginForm.getUsername());
+            }
 
             httpSession.setAttribute("user", user);
 
             UsernamePasswordAuthenticationToken authReq
-                    = new UsernamePasswordAuthenticationToken(loginForm.getUsername(), loginForm.getPassword());
+                    = new UsernamePasswordAuthenticationToken(user.getUsername(), loginForm.getPassword());
             Authentication auth = authenticationManager.authenticate(authReq);
 
             SecurityContext sc = SecurityContextHolder.getContext();

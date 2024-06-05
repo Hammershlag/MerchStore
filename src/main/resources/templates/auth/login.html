@@ -9,7 +9,7 @@
 <h2>Login</h2>
 
 <form th:action="@{/api/login}" th:object="${loginForm}" method="post">
-    <label for="username">Username:</label><br>
+    <label for="username">Username or Email:</label><br>
     <input type="text" id="username" th:field="*{username}"><br>
     <label for="password">Password:</label><br>
     <input type="password" id="password" th:field="*{password}"><br><br>
@@ -19,7 +19,7 @@
     <p><a href="/api/register/form">Register</a></p>
 </div>
 <div th:if="${param.error}">
-    <p>Invalid username or password.</p>
+    <p>Invalid username, email or password.</p>
 </div>
 </body>
 </html>
