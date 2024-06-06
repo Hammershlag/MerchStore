@@ -20,6 +20,27 @@
         tr {
             cursor: pointer;
         }
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .pagination a, .pagination span {
+            margin: 0 5px;
+            padding: 8px 16px;
+            text-decoration: none;
+            color: #333;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .pagination a:hover {
+            background-color: #f2f2f2;
+        }
+        .pagination .active {
+            background-color: #4CAF50;
+            color: white;
+            border: 1px solid #4CAF50;
+        }
     </style>
 </head>
 <body>
@@ -48,6 +69,10 @@
         <option value="desc" th:selected="${order == 'desc'}">Descending</option>
     </select>
 </div>
+<div>
+    <label for="itemsPerPage">Items per page: </label>
+    <input type="number" id="itemsPerPage" min="1" value="20" onchange="updateItemsPerPage()" th:value="${itemsPerPage}">
+</div>
 <table>
     <thead>
     <tr>
@@ -72,10 +97,22 @@
     </tr>
     </tbody>
 </table>
+<div class="pagination">
+    <a th:if="${currentPage > 1}" th:href="@{|/item/all?page=${currentPage - 1}&category=${selectedCategoryId == null ? '' : selectedCategoryId}&sortField=${sortField}&order=${order}&itemsPerPage=${itemsPerPage}|}">&laquo;</a>
+    <a th:if="${currentPage > 2}" th:href="@{|/item/all?page=1&category=${selectedCategoryId == null ? '' : selectedCategoryId}&sortField=${sortField}&order=${order}&itemsPerPage=${itemsPerPage}|}">1</a>
+    <span th:if="${currentPage > 3}">...</span>
+    <a th:each="i : ${#numbers.sequence(1, totalPages)}" th:if="${i <= 2 or i >= totalPages - 1 or (i >= currentPage - 1 and i <= currentPage + 1)}" th:href="@{|/item/all?page=${i}&category=${selectedCategoryId == null ? '' : selectedCategoryId}&sortField=${sortField}&order=${order}&itemsPerPage=${itemsPerPage}|}" th:classappend="${currentPage == i} ? 'active'">
+        <span th:text="${i}"></span>
+    </a>
+    <span th:if="${currentPage < totalPages - 2}">...</span>
+    <a th:if="${currentPage < totalPages}" th:href="@{|/item/all?page=${totalPages}&category=${selectedCategoryId == null ? '' : selectedCategoryId}&sortField=${sortField}&order=${order}&itemsPerPage=${itemsPerPage}|}"><span th:text="${totalPages}"></span></a>
+    <a th:if="${currentPage < totalPages}" th:href="@{|/item/all?page=${currentPage + 1}&category=${selectedCategoryId == null ? '' : selectedCategoryId}&sortField=${sortField}&order=${order}&itemsPerPage=${itemsPerPage}|}">&raquo;</a>
+</div>
 <script>
     function updateSorting() {
         var sortField = document.getElementById('sort').value;
         var sortOrder = document.getElementById('order').value;
+        var itemsPerPage = document.getElementById('itemsPerPage').value;
         var baseUrl = window.location.pathname;
         var searchParams = new URLSearchParams(window.location.search);
 
@@ -91,6 +128,23 @@
             searchParams.delete('order');
         }
 
+        if (itemsPerPage) {
+            searchParams.set('itemsPerPage', itemsPerPage);
+        } else {
+            searchParams.delete('itemsPerPage');
+        }
+
+        window.location.href = baseUrl + '?' + searchParams.toString();
+    }
+
+    function updateItemsPerPage() {
+        var itemsPerPage = document.getElementById('itemsPerPage').value;
+        if (itemsPerPage < 1) {
+            itemsPerPage = 1;
+        }
+        var baseUrl = window.location.pathname;
+        var searchParams = new URLSearchParams(window.location.search);
+        searchParams.set('itemsPerPage', itemsPerPage);
         window.location.href = baseUrl + '?' + searchParams.toString();
     }
 </script>

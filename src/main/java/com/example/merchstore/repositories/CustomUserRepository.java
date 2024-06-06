@@ -1,6 +1,8 @@
 package com.example.merchstore.repositories;
 
 import com.example.merchstore.model.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -20,6 +22,7 @@ public interface CustomUserRepository extends JpaRepository<User, Long> {
     //Find methods
     User findByUsername(String username);
     User findByEmail(String email);
+    Page<User> findAll(Pageable pageable);
 
     //Exist methods
     boolean existsByUsername(String username);

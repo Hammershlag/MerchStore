@@ -3,10 +3,13 @@ package com.example.merchstore.controllers.admin;
 import com.example.merchstore.model.User;
 import com.example.merchstore.repositories.CustomUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -24,10 +27,14 @@ public class UserController_a {
     private CustomUserRepository userRepository;
 
     @GetMapping("/view/users")
-    public String viewUsers(Model model) {
-        List<User> users = userRepository.findNonAdminUsers();
-        model.addAttribute("users", users);
+    public String viewUsers(@RequestParam(value = "page", defaultValue = "0") int page,
+                            @RequestParam(value = "size", defaultValue = "10") int size,
+                            Model model) {
+        Page<User> usersPage = userRepository.findAll(PageRequest.of(page, size));
+        model.addAttribute("users", usersPage.getContent());
+        model.addAttribute("totalPages", usersPage.getTotalPages());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("pageSize", size);
         return "admin/view/viewUsers";
     }
-
 }

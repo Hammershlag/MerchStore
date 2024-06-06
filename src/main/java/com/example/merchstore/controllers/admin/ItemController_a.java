@@ -6,6 +6,8 @@ import com.example.merchstore.repositories.CategoryRepository;
 import com.example.merchstore.repositories.ItemRepository;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,9 +40,8 @@ public class ItemController_a {
     @Autowired
     private ItemRepository itemRepository;
 
-
     @GetMapping("/add/item")
-    public String addItem(Model model ) {
+    public String addItem(Model model) {
         model.addAttribute("item", new Item());
         List<Category> categories = categoryRepository.findAll();
         model.addAttribute("categories", categories);
@@ -49,7 +50,7 @@ public class ItemController_a {
 
     @SneakyThrows
     @PostMapping("/add/item")
-    public String addItem(Item item,  @RequestParam("imageData") MultipartFile image) {
+    public String addItem(Item item, @RequestParam("imageData") MultipartFile image) {
         if (!image.isEmpty()) {
             BufferedImage bufferedImage = ImageIO.read(image.getInputStream());
 
@@ -70,22 +71,28 @@ public class ItemController_a {
         item.setUpdatedAt(LocalDateTime.now());
 
         itemRepository.save(item);
-        for(int i = 0; i < 100; i++) {
-            itemRepository.save(new Item(null,item.getName() + String.valueOf(i), item.getDescription() + String.valueOf(i), item.getPrice(), item.getStockQuantity() + i, item.getCategory(), item.getCreatedAt(), item.getUpdatedAt(), item.getImage()));
+        for (int i = 0; i < 100; i++) {
+            itemRepository.save(new Item(null, item.getName() + String.valueOf(i), item.getDescription() + String.valueOf(i), item.getPrice(), item.getStockQuantity() + i, item.getCategory(), item.getCreatedAt(), item.getUpdatedAt(), item.getImage()));
         }
         return "redirect:/api/admin/dashboard";
     }
 
     @GetMapping("/view/items")
-    public String viewItems(@RequestParam(value = "category", required = false) Long categoryId, Model model) {
-        List<Item> items;
+    public String viewItems(@RequestParam(value = "category", required = false) Long categoryId,
+                            @RequestParam(value = "page", defaultValue = "0") int page,
+                            @RequestParam(value = "size", defaultValue = "10") int size,
+                            Model model) {
+        Page<Item> items;
         if (categoryId != null) {
             Category category = categoryRepository.findById(categoryId).orElse(null);
-            items = category != null ? itemRepository.findByCategory(category) : List.of();
+            items = category != null ? itemRepository.findByCategory(category, PageRequest.of(page, size)) : Page.empty();
         } else {
-            items = itemRepository.findAll();
+            items = itemRepository.findAll(PageRequest.of(page, size));
         }
-        model.addAttribute("items", items);
+        model.addAttribute("items", items.getContent());
+        model.addAttribute("totalPages", items.getTotalPages());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("pageSize", size);
         model.addAttribute("categories", categoryRepository.findAll());
         model.addAttribute("selectedCategoryId", categoryId);
         return "admin/view/viewItems";
@@ -100,5 +107,4 @@ public class ItemController_a {
         model.addAttribute("item", item);
         return "admin/view/viewItem";
     }
-
 }
