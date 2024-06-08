@@ -53,6 +53,7 @@ public class User implements DataDisplay {
     @Column(name = "address")
     private String address;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false)
     private Role role;
 

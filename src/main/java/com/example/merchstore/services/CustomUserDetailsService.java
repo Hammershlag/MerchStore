@@ -49,7 +49,7 @@ public class CustomUserDetailsService implements UserDetailsService {
             user.setImage(new byte[0]);
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRole(Role.USER);
+        if (user.getRole() == null) user.setRole(Role.USER);
         user.setCreatedAt(LocalDateTime.now());
         user.setUpdatedAt(LocalDateTime.now());
 
