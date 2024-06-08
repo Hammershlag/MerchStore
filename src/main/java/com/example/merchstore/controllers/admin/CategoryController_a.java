@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -41,9 +42,15 @@ public class CategoryController_a {
     }
 
     @GetMapping("/view/categories")
-    public String getAllCategories(Model model) {
-        List<Category> categories = categoryRepository.findAll();
+    public String getAllCategories(@RequestParam(value = "search", required = false) String search, Model model) {
+        List<Category> categories;
+        if (search != null && !search.isEmpty()) {
+            categories = categoryRepository.findByNameStartingWithIgnoreCase(search);
+        } else {
+            categories = categoryRepository.findAll();
+        }
         model.addAttribute("categories", categories);
+        model.addAttribute("search", search);
         return "admin/view/viewCategories";
     }
 

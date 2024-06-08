@@ -51,6 +51,8 @@
         <option value="">All Categories</option>
         <option th:each="category : ${categories}" th:value="${category.categoryId}" th:text="${category.name}" th:selected="${selectedCategoryId == category.categoryId}"></option>
     </select>
+    <label for="search">Search:</label>
+    <input type="text" id="search" name="search" placeholder="Enter item name" th:value="${search}">
     <button type="submit">Search</button>
 </form>
 <div>

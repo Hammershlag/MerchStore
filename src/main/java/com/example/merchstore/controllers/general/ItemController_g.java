@@ -41,6 +41,7 @@ public class ItemController_g {
                             @RequestParam(value = "order", required = false, defaultValue = "asc") String order,
                             @RequestParam(value = "page", required = false, defaultValue = "1") int page,
                             @RequestParam(value = "itemsPerPage", required = false, defaultValue = "" + DEFAULT_ITEMS_PER_PAGE) int itemsPerPage,
+                            @RequestParam(value = "search", required = false) String search,
                             Model model) {
         if (itemsPerPage < 1) {
             itemsPerPage = DEFAULT_ITEMS_PER_PAGE;
@@ -51,9 +52,17 @@ public class ItemController_g {
         Page<Item> itemPage;
         if (categoryId != null) {
             Category category = categoryRepository.findById(categoryId).orElse(null);
-            itemPage = category != null ? itemRepository.findByCategory(category, pageable) : Page.empty();
+            if (category != null) {
+                itemPage = (search != null && !search.isEmpty()) ?
+                        itemRepository.findByCategoryAndNameStartingWithIgnoreCase(category, search, pageable) :
+                        itemRepository.findByCategory(category, pageable);
+            } else {
+                itemPage = Page.empty();
+            }
         } else {
-            itemPage = itemRepository.findAll(pageable);
+            itemPage = (search != null && !search.isEmpty()) ?
+                    itemRepository.findByNameStartingWithIgnoreCase(search, pageable) :
+                    itemRepository.findAll(pageable);
         }
 
         List<Item> items = itemPage.getContent();
@@ -67,6 +76,7 @@ public class ItemController_g {
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", totalPages);
         model.addAttribute("itemsPerPage", itemsPerPage);
+        model.addAttribute("search", search);
         return "general/viewItems";
     }
 

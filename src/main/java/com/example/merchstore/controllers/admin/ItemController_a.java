@@ -8,6 +8,7 @@ import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -81,20 +82,37 @@ public class ItemController_a {
     public String viewItems(@RequestParam(value = "category", required = false) Long categoryId,
                             @RequestParam(value = "page", defaultValue = "0") int page,
                             @RequestParam(value = "size", defaultValue = "10") int size,
+                            @RequestParam(value = "search", required = false) String search,
                             Model model) {
         Page<Item> items;
+        Pageable pageable = PageRequest.of(page, size);
+
         if (categoryId != null) {
             Category category = categoryRepository.findById(categoryId).orElse(null);
-            items = category != null ? itemRepository.findByCategory(category, PageRequest.of(page, size)) : Page.empty();
+            if (category != null) {
+                if (search != null && !search.isEmpty()) {
+                    items = itemRepository.findByCategoryAndNameStartingWithIgnoreCase(category, search, pageable);
+                } else {
+                    items = itemRepository.findByCategory(category, pageable);
+                }
+            } else {
+                items = Page.empty();
+            }
         } else {
-            items = itemRepository.findAll(PageRequest.of(page, size));
+            if (search != null && !search.isEmpty()) {
+                items = itemRepository.findByNameStartingWithIgnoreCase(search, pageable);
+            } else {
+                items = itemRepository.findAll(pageable);
+            }
         }
+
         model.addAttribute("items", items.getContent());
         model.addAttribute("totalPages", items.getTotalPages());
         model.addAttribute("currentPage", page);
         model.addAttribute("pageSize", size);
         model.addAttribute("categories", categoryRepository.findAll());
         model.addAttribute("selectedCategoryId", categoryId);
+        model.addAttribute("search", search);
         return "admin/view/viewItems";
     }
 

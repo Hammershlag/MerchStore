@@ -20,7 +20,11 @@
 </head>
 <body>
 <h2>Categories</h2>
-
+<form>
+  <label for="search">Search:</label>
+  <input type="text" id="search" name="search" placeholder="Enter item name" th:value="${search}">
+  <button type="submit">Search</button>
+</form>
 <table>
   <thead>
   <tr>

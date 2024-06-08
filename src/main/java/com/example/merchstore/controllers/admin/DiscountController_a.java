@@ -49,14 +49,19 @@ public class DiscountController_a {
     }
 
     @GetMapping("/view/discounts")
-    public String viewDiscounts(@RequestParam(value = "valid", required = false) Boolean valid, Model model) {
+    public String viewDiscounts(@RequestParam(value = "valid", required = false) Boolean valid,
+                                @RequestParam(value = "search", required = false) String search,
+                                Model model) {
         List<Discount> discounts;
-        if (Boolean.TRUE.equals(valid)) {
+        if (search != null && !search.isEmpty()) {
+            discounts = discountRepository.findByCodeStartingWithIgnoreCase(search);
+        } else if (Boolean.TRUE.equals(valid)) {
             discounts = discountRepository.findAllValidDiscounts(LocalDate.now());
         } else {
             discounts = discountRepository.findAll();
         }
         model.addAttribute("discounts", discounts);
+        model.addAttribute("search", search);
         return "admin/view/viewDiscounts";
     }
 

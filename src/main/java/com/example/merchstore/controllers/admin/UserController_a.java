@@ -29,12 +29,21 @@ public class UserController_a {
     @GetMapping("/view/users")
     public String viewUsers(@RequestParam(value = "page", defaultValue = "0") int page,
                             @RequestParam(value = "size", defaultValue = "10") int size,
+                            @RequestParam(value = "search", required = false) String search,
                             Model model) {
-        Page<User> usersPage = userRepository.findAll(PageRequest.of(page, size));
+        Page<User> usersPage;
+
+        if (search != null && !search.isEmpty()) {
+            usersPage = userRepository.findByUsernameStartingWithIgnoreCase(search, PageRequest.of(page, size));
+        } else {
+            usersPage = userRepository.findAll(PageRequest.of(page, size));
+        }
+
         model.addAttribute("users", usersPage.getContent());
         model.addAttribute("totalPages", usersPage.getTotalPages());
         model.addAttribute("currentPage", page);
         model.addAttribute("pageSize", size);
+        model.addAttribute("search", search);
         return "admin/view/viewUsers";
     }
 }

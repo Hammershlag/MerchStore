@@ -23,6 +23,7 @@ public interface CustomUserRepository extends JpaRepository<User, Long> {
     User findByUsername(String username);
     User findByEmail(String email);
     Page<User> findAll(Pageable pageable);
+    Page<User> findByUsernameStartingWithIgnoreCase(String username, Pageable pageable);
 
     //Exist methods
     boolean existsByUsername(String username);

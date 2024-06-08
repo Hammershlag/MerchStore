@@ -3,6 +3,8 @@ package com.example.merchstore.repositories;
 import com.example.merchstore.model.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+
 /**
  * @author Tomasz Zbroszczyk
  * @version 1.0
@@ -11,5 +13,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface CategoryRepository extends JpaRepository<Category, Long> {
 
     Category findByName(String name);
+    List<Category> findByNameStartingWithIgnoreCase(String name);
 
 }
