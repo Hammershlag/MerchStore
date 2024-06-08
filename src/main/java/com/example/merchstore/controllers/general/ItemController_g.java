@@ -1,7 +1,7 @@
 package com.example.merchstore.controllers.general;
 
-import com.example.merchstore.model.Category;
-import com.example.merchstore.model.Item;
+import com.example.merchstore.components.models.Category;
+import com.example.merchstore.components.models.Item;
 import com.example.merchstore.repositories.CategoryRepository;
 import com.example.merchstore.repositories.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;

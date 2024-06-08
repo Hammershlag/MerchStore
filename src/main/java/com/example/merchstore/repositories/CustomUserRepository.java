@@ -1,6 +1,6 @@
 package com.example.merchstore.repositories;
 
-import com.example.merchstore.model.User;
+import com.example.merchstore.components.models.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -8,8 +8,6 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 /**
  * @author Tomasz Zbroszczyk
@@ -37,7 +35,7 @@ public interface CustomUserRepository extends JpaRepository<User, Long> {
             "u.updatedAt = :#{#user.updatedAt} WHERE u.userId = :id")
     void updateById(@Param("id") Long id, @Param("user") User user);
 
-    @Query("SELECT u FROM User u WHERE u.role <> 'ADMIN'")
-    List<User> findNonAdminUsers();
+//    @Query("SELECT u FROM User u WHERE u.role <> 'ADMIN'")
+//    List<User> findNonAdminUsers();
 
 }

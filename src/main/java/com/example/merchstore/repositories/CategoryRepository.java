@@ -1,6 +1,6 @@
 package com.example.merchstore.repositories;
 
-import com.example.merchstore.model.Category;
+import com.example.merchstore.components.models.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

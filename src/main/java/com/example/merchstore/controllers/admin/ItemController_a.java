@@ -1,7 +1,7 @@
 package com.example.merchstore.controllers.admin;
 
-import com.example.merchstore.model.Category;
-import com.example.merchstore.model.Item;
+import com.example.merchstore.components.models.Category;
+import com.example.merchstore.components.models.Item;
 import com.example.merchstore.repositories.CategoryRepository;
 import com.example.merchstore.repositories.ItemRepository;
 import lombok.SneakyThrows;
@@ -22,7 +22,7 @@ import java.awt.image.BufferedImage;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static com.example.merchstore.model.ImageProcessor.*;
+import static com.example.merchstore.components.utilities.ImageProcessor.*;
 
 /**
  * @author Tomasz Zbroszczyk

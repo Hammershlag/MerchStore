@@ -1,6 +1,6 @@
 package com.example.merchstore.repositories;
 
-import com.example.merchstore.model.Discount;
+import com.example.merchstore.components.models.Discount;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

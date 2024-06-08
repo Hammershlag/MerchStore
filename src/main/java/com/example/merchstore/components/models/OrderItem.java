@@ -1,5 +1,6 @@
-package com.example.merchstore.model;
+package com.example.merchstore.components.models;
 
+import com.example.merchstore.components.interfaces.DataDisplay;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,7 +17,7 @@ import java.math.BigDecimal;
 @Data @AllArgsConstructor @NoArgsConstructor
 @Entity
 @Table(name = "order_items")
-public class OrderItem implements DataDisplay{
+public class OrderItem implements DataDisplay {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_item_id")

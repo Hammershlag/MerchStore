@@ -1,6 +1,6 @@
 package com.example.merchstore.principals;
 
-import com.example.merchstore.model.User;
+import com.example.merchstore.components.models.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

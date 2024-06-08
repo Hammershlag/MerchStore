@@ -1,6 +1,6 @@
 package com.example.merchstore.controllers.admin;
 
-import com.example.merchstore.model.Discount;
+import com.example.merchstore.components.models.Discount;
 import com.example.merchstore.repositories.DiscountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

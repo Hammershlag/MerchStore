@@ -38,6 +38,7 @@
     </style>
 </head>
 <body>
+<a href="/">Home</a>
 <div class="item-container" th:if="${item != null}">
     <p th:if="${addedToCart != null}" th:text="${addedToCart}"></p>
     <img th:src="@{/api/image/item/{id}(id=${item.itemId})}" alt="Item Image" class="item-image">

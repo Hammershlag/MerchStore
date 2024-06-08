@@ -1,6 +1,6 @@
 package com.example.merchstore.controllers.user;
 
-import com.example.merchstore.model.User;
+import com.example.merchstore.components.models.User;
 import com.example.merchstore.repositories.CustomUserRepository;
 import com.example.merchstore.services.CustomUserDetailsService;
 import jakarta.servlet.http.HttpSession;
@@ -17,7 +17,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.time.LocalDateTime;
 
-import static com.example.merchstore.model.ImageProcessor.*;
+import static com.example.merchstore.components.utilities.ImageProcessor.*;
 
 /**
  * UserController_a for handling user-related requests.

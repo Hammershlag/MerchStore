@@ -1,7 +1,8 @@
 package com.example.merchstore.services;
 
 import com.example.merchstore.controllers.auth.LoginController_s;
-import com.example.merchstore.model.User;
+import com.example.merchstore.components.enums.Role;
+import com.example.merchstore.components.models.User;
 import com.example.merchstore.principals.CustomUserPrincipal;
 import com.example.merchstore.repositories.CustomUserRepository;
 import lombok.SneakyThrows;
@@ -48,7 +49,7 @@ public class CustomUserDetailsService implements UserDetailsService {
             user.setImage(new byte[0]);
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRole("USER");
+        user.setRole(Role.USER);
         user.setCreatedAt(LocalDateTime.now());
         user.setUpdatedAt(LocalDateTime.now());
 
@@ -67,7 +68,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         user.setImage(userImage);
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRole("USER");
+        user.setRole(Role.USER);
         user.setCreatedAt(LocalDateTime.now());
         user.setUpdatedAt(LocalDateTime.now());
 

@@ -1,4 +1,4 @@
-package com.example.merchstore.model;
+package com.example.merchstore.components.enums;
 
 /**
  * @author Tomasz Zbroszczyk

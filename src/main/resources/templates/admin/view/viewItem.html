@@ -34,6 +34,8 @@
     </style>
 </head>
 <body>
+<a href="/">Home</a>
+<a href="/api/admin/dashboard">Dashboard</a>
 <div class="item-container" th:if="${item != null}">
     <img th:src="@{/api/image/item/{id}(id=${item.itemId})}" alt="Item Image" class="item-image">
     <div class="item-details">

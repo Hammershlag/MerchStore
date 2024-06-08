@@ -1,7 +1,7 @@
 package com.example.merchstore.repositories;
 
-import com.example.merchstore.model.Category;
-import com.example.merchstore.model.Item;
+import com.example.merchstore.components.models.Category;
+import com.example.merchstore.components.models.Item;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

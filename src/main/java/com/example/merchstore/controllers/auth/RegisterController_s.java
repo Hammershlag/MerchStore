@@ -1,8 +1,7 @@
 package com.example.merchstore.controllers.auth;
 
-import com.example.merchstore.model.User;
+import com.example.merchstore.components.models.User;
 import com.example.merchstore.services.CustomUserDetailsService;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -14,7 +13,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 
-import static com.example.merchstore.model.ImageProcessor.*;
+import static com.example.merchstore.components.utilities.ImageProcessor.*;
 
 /**
  * @author Tomasz Zbroszczyk
@@ -93,7 +92,7 @@ public class RegisterController_s {
 
         customUserDetailsService.registerUser(user, passwordEncoder);
 
-        return new RedirectView("/api/login");
+        return new RedirectView("/api/login/form");
     }
 
 

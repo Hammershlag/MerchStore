@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 /**
  * @author Tomasz Zbroszczyk
@@ -25,9 +26,11 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     private final CustomUserDetailsService customUserDetailsService;
+    private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
 
-    public SecurityConfig(CustomUserDetailsService customUserDetailsService) {
+    public SecurityConfig(CustomUserDetailsService customUserDetailsService, CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler) {
         this.customUserDetailsService = customUserDetailsService;
+        this.customAuthenticationSuccessHandler = customAuthenticationSuccessHandler;
     }
 
     @Bean
@@ -40,7 +43,7 @@ public class SecurityConfig {
                                         "/api/register/form", "/api/login/form", "/item/**", "/api/image/**",
                                         "/error").permitAll()
                                 .requestMatchers("/documents/**").permitAll()
-                                .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                                .requestMatchers("/api/admin/**").hasAnyRole("ADMIN", "OWNER")
                                 .anyRequest().authenticated()
                 )
                 .formLogin(formLogin ->
@@ -49,8 +52,11 @@ public class SecurityConfig {
                                 .defaultSuccessUrl("/home", true)
                                 .failureUrl("/api/login?error=true")
                                 .permitAll()
+                                .successHandler(customAuthenticationSuccessHandler) // Use the custom success handler
+
                 )
                 .logout(LogoutConfigurer::permitAll);
+        ;
 
         return http.build();
     }

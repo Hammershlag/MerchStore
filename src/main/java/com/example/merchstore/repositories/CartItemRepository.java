@@ -1,8 +1,8 @@
 package com.example.merchstore.repositories;
 
-import com.example.merchstore.model.CartItem;
-import com.example.merchstore.model.Item;
-import com.example.merchstore.model.User;
+import com.example.merchstore.components.models.CartItem;
+import com.example.merchstore.components.models.Item;
+import com.example.merchstore.components.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

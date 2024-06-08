@@ -1,7 +1,7 @@
 package com.example.merchstore.controllers.functionality;
 
-import com.example.merchstore.model.Item;
-import com.example.merchstore.model.User;
+import com.example.merchstore.components.models.Item;
+import com.example.merchstore.components.models.User;
 import com.example.merchstore.repositories.CustomUserRepository;
 import com.example.merchstore.repositories.ItemRepository;
 import jakarta.servlet.http.HttpSession;
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.nio.ByteBuffer;
 
-import static com.example.merchstore.model.ImageProcessor.getImageAsByteArray;
+import static com.example.merchstore.components.utilities.ImageProcessor.getImageAsByteArray;
 
 /**
  * @author Tomasz Zbroszczyk

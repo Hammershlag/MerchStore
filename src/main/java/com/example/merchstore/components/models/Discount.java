@@ -1,5 +1,6 @@
-package com.example.merchstore.model;
+package com.example.merchstore.components.models;
 
+import com.example.merchstore.components.interfaces.DataDisplay;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,7 +18,7 @@ import java.time.LocalDate;
 @Data @AllArgsConstructor @NoArgsConstructor
 @Entity
 @Table(name = "discounts")
-public class Discount implements DataDisplay{
+public class Discount implements DataDisplay {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "discount_id")

@@ -1,5 +1,6 @@
-package com.example.merchstore.model;
+package com.example.merchstore.components.models;
 
+import com.example.merchstore.components.interfaces.DataDisplay;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
@@ -23,7 +24,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Entity
 @Table(name = "items")
-public class Item implements DataDisplay{
+public class Item implements DataDisplay {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

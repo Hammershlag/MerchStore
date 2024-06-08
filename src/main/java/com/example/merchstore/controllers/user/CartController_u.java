@@ -1,8 +1,8 @@
 package com.example.merchstore.controllers.user;
 
-import com.example.merchstore.model.CartItem;
-import com.example.merchstore.model.Item;
-import com.example.merchstore.model.User;
+import com.example.merchstore.components.models.CartItem;
+import com.example.merchstore.components.models.Item;
+import com.example.merchstore.components.models.User;
 import com.example.merchstore.repositories.CartItemRepository;
 import com.example.merchstore.repositories.ItemRepository;
 import jakarta.servlet.http.HttpSession;

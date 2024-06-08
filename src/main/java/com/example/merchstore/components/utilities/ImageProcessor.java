@@ -1,4 +1,4 @@
-package com.example.merchstore.model;
+package com.example.merchstore.components.utilities;
 
 import org.imgscalr.Scalr;
 import org.springframework.core.io.ClassPathResource;

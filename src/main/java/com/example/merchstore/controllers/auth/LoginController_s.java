@@ -1,13 +1,12 @@
 package com.example.merchstore.controllers.auth;
 
-import com.example.merchstore.model.User;
+import com.example.merchstore.components.models.User;
 import com.example.merchstore.repositories.CustomUserRepository;
+import com.example.merchstore.security.CustomAuthenticationSuccessHandler;
 import com.example.merchstore.services.CustomUserDetailsService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.Data;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -48,6 +47,10 @@ public class LoginController_s {
     private HttpSession httpSession;
     private final AuthenticationManager authenticationManager;
 
+    @Autowired
+    private CustomAuthenticationSuccessHandler authenticationSuccessHandler;
+
+
     public LoginController_s(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
     }
@@ -79,11 +82,7 @@ public class LoginController_s {
             session.setAttribute(SPRING_SECURITY_CONTEXT_KEY, sc);
             session.setAttribute("isLoggedIn", true);
 
-            if (user.getRole().equals("ADMIN")) {
-                return "redirect:/api/admin/dashboard";
-            }
-
-            return "redirect:/home";
+            return "redirect:" + authenticationSuccessHandler.determineTargetUrl(req); // Redirect using the custom success handler
         } else {
             return "redirect:/api/login/form?error=true";
         }

@@ -1,5 +1,8 @@
-package com.example.merchstore.model;
+package com.example.merchstore.components.models;
 
+import com.example.merchstore.components.enums.Gender;
+import com.example.merchstore.components.enums.Role;
+import com.example.merchstore.components.interfaces.DataDisplay;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
@@ -51,7 +54,7 @@ public class User implements DataDisplay {
     private String address;
 
     @Column(name = "role", nullable = false)
-    private String role;
+    private Role role;
 
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;

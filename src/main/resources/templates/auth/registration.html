@@ -27,6 +27,8 @@
     </style>
 </head>
 <body>
+<a href="/">Home</a>
+
 <h2>User Registration</h2>
 <form th:action="@{/api/register}" th:object="${user}" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
     <div th:if="${errorMessage}" style="color: red;">

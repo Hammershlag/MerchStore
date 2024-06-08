@@ -1,6 +1,7 @@
-package com.example.merchstore.model;
+package com.example.merchstore.components.models;
 
 
+import com.example.merchstore.components.interfaces.DataDisplay;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Data @AllArgsConstructor @NoArgsConstructor
 @Entity
 @Table(name = "cart")
-public class CartItem implements DataDisplay{
+public class CartItem implements DataDisplay {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
