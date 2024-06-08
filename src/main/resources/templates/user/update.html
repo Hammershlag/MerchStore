@@ -15,7 +15,7 @@
 </head>
 <body>
 <h2>Update User Details</h2>
-<form th:action="@{/api/update/user}" th:object="${user}" method="post">
+<form th:action="@{/api/update/user}" th:object="${user}" method="post" enctype="multipart/form-data">
     <div th:if="${errorMessage}" style="color: red;">
         <p th:text="${errorMessage}"></p>
     </div>
@@ -47,6 +47,15 @@
         <option value="MALE">Male</option>
         <option value="FEMALE">Female</option>
     </select><br><br>
+
+    <label for="newImage">Profile Image:</label><br>
+    <input type="file" id="newImage" name="newImage"><br><br>
+
+    <label for="currentPassword">Current Password:</label><br>
+    <input type="password" id="currentPassword" name="currentPassword"><br><br>
+
+    <label for="newPassword">New Password:</label><br>
+    <input type="password" id="newPassword" name="newPassword"><br><br>
 
     <input type="submit" value="Update">
 </form>
