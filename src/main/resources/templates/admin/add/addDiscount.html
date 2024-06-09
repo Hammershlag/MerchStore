@@ -11,7 +11,7 @@
             const validUntilInput = document.getElementById('validUntil');
 
             validFromInput.setAttribute('min', today);
-            validUntilInput.setAttribute('min', new Date(today).toISOString().split('T')[0]);
+            validUntilInput.setAttribute('min', today);
 
             validFromInput.addEventListener('change', function() {
                 const validFromDate = new Date(this.value);
@@ -67,6 +67,9 @@
 
     <label for="validUntil">Valid Until:</label><br>
     <input type="date" id="validUntil" name="validUntil" required><br><br>
+
+    <label for="itemId">Item ID:</label><br>
+    <input type="number" id="itemId" name="itemId" required><br><br>
 
     <input type="submit" value="Submit">
 </form>

@@ -61,15 +61,19 @@
         <th>Discount Percentage</th>
         <th>Valid From</th>
         <th>Valid Until</th>
+        <th>Item ID</th>
+        <th>Item Name</th>
     </tr>
     </thead>
     <tbody>
-    <tr th:each="discount : ${discounts}">
-        <td th:text="${discount.code}">Code</td>
-        <td th:text="${discount.description}">Description</td>
-        <td th:text="${discount.discountPercentage}">Percentage</td>
-        <td th:text="${discount.validFrom}">From</td>
-        <td th:text="${discount.validUntil}">Until</td>
+    <tr th:each="mapItem : ${discountItemMap}">
+        <td th:text="${mapItem.key.code}">Code</td>
+        <td th:text="${mapItem.key.description}">Description</td>
+        <td th:text="${mapItem.key.discountPercentage}">Percentage</td>
+        <td th:text="${mapItem.key.validFrom}">From</td>
+        <td th:text="${mapItem.key.validUntil}">Until</td>
+        <td th:text="${mapItem.value.itemId}">-1</td>
+        <td th:text="${mapItem.value.name}">No name</td>
     </tr>
     </tbody>
 </table>

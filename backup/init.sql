@@ -48,6 +48,17 @@ CREATE TABLE discounts (
                            valid_until DATE NOT NULL
 );
 
+-- Create discount_items table
+CREATE TABLE discount_items (
+                                discount_item_id SERIAL PRIMARY KEY,
+                                discount_id INT NOT NULL,
+                                item_id INT NOT NULL,
+                                FOREIGN KEY (discount_id) REFERENCES discounts(discount_id),
+                                FOREIGN KEY (item_id) REFERENCES items(item_id),
+                                UNIQUE (discount_id, item_id) -- Ensure a specific item has only one unique discount
+);
+
+
 -- Create orders table
 CREATE TABLE orders (
                         order_id SERIAL PRIMARY KEY,

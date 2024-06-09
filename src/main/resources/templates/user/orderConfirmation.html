@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <title>Order Confirmation</title>
@@ -21,6 +21,7 @@
             </ul>
             <p>Total before discount: <span th:text="${'$' + order.totalAmount}">$0.00</span></p>
             <p>Discount: <span th:text="${order.discount.discountPercentage} + '%'">0%</span></p>
+            <p  th:if="${itemDiscount != null}">Discount for item: <span th:text="${itemDiscount.item.name}">Whole order</span></p>
             <p>Status: <span th:text="${order.status}">Status</span></p>
             <p>Your order is currently unpaid. Please <a th:href="'/api/pay/order?id=' + ${order.orderId}">click here to pay now</a>.</p>
 

@@ -1,7 +1,12 @@
 package com.example.merchstore.controllers.admin;
 
+import com.example.merchstore.Decorators.ItemDecorator;
 import com.example.merchstore.components.models.Discount;
+import com.example.merchstore.components.models.Item;
+import com.example.merchstore.components.models.ItemDiscount;
 import com.example.merchstore.repositories.DiscountRepository;
+import com.example.merchstore.repositories.ItemDiscountRepository;
+import com.example.merchstore.repositories.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Tomasz Zbroszczyk
@@ -27,6 +34,12 @@ public class DiscountController_a {
     @Autowired
     private DiscountRepository discountRepository;
 
+    @Autowired
+    private ItemRepository itemRepository;
+
+    @Autowired
+    private ItemDiscountRepository itemDiscountRepository;
+
     @GetMapping("/add/discount")
     public String addDiscount(Model model) {
         model.addAttribute("discount", new Discount());
@@ -34,7 +47,7 @@ public class DiscountController_a {
     }
 
     @PostMapping("/add/discount")
-    public String addDiscount(Discount discount) {
+    public String addDiscount(Discount discount, @RequestParam(value = "itemId", required = false) Long itemId) {
         if (discountRepository.findByCode(discount.getCode()) != null) {
             return "redirect:/api/admin/add/discount?error=code";
         }
@@ -45,6 +58,18 @@ public class DiscountController_a {
             return "redirect:/api/admin/add/discount?error=validUntil";
         }
         discountRepository.save(discount);
+
+        Item item = itemRepository.findById(itemId).orElse(null);
+        if (item != null) {
+            ItemDiscount itemDiscount = new ItemDiscount();
+            itemDiscount.setDiscount(discount);
+            itemDiscount.setItem(item);
+            itemDiscountRepository.save(itemDiscount);
+        }
+
+
+
+
         return "redirect:/api/admin/dashboard";
     }
 
@@ -60,7 +85,25 @@ public class DiscountController_a {
         } else {
             discounts = discountRepository.findAll();
         }
+
+        List<ItemDiscount> itemDiscounts = itemDiscountRepository.findAll();
+        Map<Discount, Item> discountItemMap = new HashMap<>();
+
+        for (Discount discount : discounts) {
+            ItemDiscount itemDiscount = itemDiscounts.stream()
+                    .filter(id -> id.getDiscount().getDiscountId().equals(discount.getDiscountId()))
+                    .findFirst()
+                    .orElse(null);
+
+            if (itemDiscount != null) {
+                discountItemMap.put(discount, itemDiscount.getItem());
+            } else {
+                discountItemMap.put(discount, ItemDecorator.create());
+            }
+        }
+
         model.addAttribute("discounts", discounts);
+        model.addAttribute("discountItemMap", discountItemMap);
         model.addAttribute("search", search);
         return "admin/view/viewDiscounts";
     }

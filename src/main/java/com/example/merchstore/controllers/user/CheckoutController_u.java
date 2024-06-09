@@ -1,5 +1,6 @@
 package com.example.merchstore.controllers.user;
 
+import com.example.merchstore.Decorators.ItemDecorator;
 import com.example.merchstore.components.enums.OrderStatus;
 import com.example.merchstore.components.models.*;
 import com.example.merchstore.repositories.*;
@@ -49,13 +50,15 @@ public class CheckoutController_u {
     @Autowired
     private DiscountRepository discountRepository;
 
+    @Autowired ItemDiscountRepository itemDiscountRepository;
+
     @PostMapping
     public String performCheckout(HttpSession session, Model model, @RequestParam(value = "discountCode", required = false) String discountCode) {
         User currentUser = (User) session.getAttribute("user");
         List<CartItem> cartItems = cartItemRepository.findAllByUser(currentUser);
         List<String> insufficientStockItems = new ArrayList<>();
         Discount discount = discountRepository.findByCode(discountCode);
-        if (discount == null) {
+        if (discount == null || !discount.isValid()) {
             discount = discountRepository.findByDiscountId(0L);
         }
 
@@ -86,6 +89,13 @@ public class CheckoutController_u {
         }
         User currentUser = (User) session.getAttribute("user");
         Order order = orderRepository.findByOrderId(orderID);
+
+
+        ItemDiscount itemDiscount = itemDiscountRepository.findItemDiscountByDiscount(order.getDiscount());
+        if(itemDiscount != null) {
+            model.addAttribute("itemDiscount", itemDiscount);
+        }
+
 
         if (currentUser.getUserId() != order.getUser().getUserId()) {
             return "redirect:/home?message=wrongUser";

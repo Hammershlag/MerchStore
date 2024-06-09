@@ -57,5 +57,10 @@ public class Discount implements DataDisplay {
     public DataDisplay limitedDisplayData() {
         return null;
     }
+
+    public boolean isValid() {
+        LocalDate now = LocalDate.now();
+        return now.isAfter(validFrom) && now.isBefore(validUntil);
+    }
 }
 
