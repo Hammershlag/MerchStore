@@ -1,5 +1,6 @@
 package com.example.merchstore.components.models;
 
+import com.example.merchstore.components.enums.OrderStatus;
 import com.example.merchstore.components.interfaces.DataDisplay;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -31,8 +32,9 @@ public class Order implements DataDisplay {
     @Column(name = "order_date", nullable = false)
     private LocalDateTime orderDate;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
-    private String status;
+    private OrderStatus status;
 
     @Column(name = "total_amount", nullable = false)
     private BigDecimal totalAmount;

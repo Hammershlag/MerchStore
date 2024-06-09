@@ -103,6 +103,11 @@
         </tr>
         </tbody>
     </table>
+    <form th:action="@{/user/cart/checkout}" method="post">
+        <label for="discountCode">Discount Code:</label>
+        <input type="text" id="discountCode" name="discountCode" placeholder="Enter discount code" />
+        <button type="submit">Checkout</button>
+    </form>
 </div>
 <script>
     function updateSorting() {

@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Order Pay</title>
+</head>
+<body>
+Do something to pay for the order.
+<form th::action="'/api/pay/order?id=' + ${id} " method="post">
+    <button type="submit">Pay</button>
+</form>
+</body>
+</html>

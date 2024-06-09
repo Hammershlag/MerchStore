@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Order Confirmation</title>
+</head>
+<body>
+<div class="container">
+    <h1>Order Confirmation</h1>
+    <div th:if="${order != null}">
+        <h2>Thank you for your order, <span th:text="${order.user != null ? order.user.username : 'User'}">User Name</span>!</h2>
+        <p>Your order number is <span th:text="${order.orderId != null ? order.orderId : '123'}">123</span>.</p>
+        <div>
+            <h3>Order Details:</h3>
+            <ul>
+                <li th:each="orderItem : ${orderItems}">
+                    <span th:text="${orderItem.item.name != null ? orderItem.item.name : 'Product Name'}">Product Name</span> -
+                    <span th:text="${orderItem.quantity}">1</span> x
+                    <span th:text="${orderItem.item.price}">$0.00</span>
+                </li>
+            </ul>
+            <p>Total before discount: <span th:text="${'$' + order.totalAmount}">$0.00</span></p>
+            <p>Discount: <span th:text="${order.discount.discountPercentage} + '%'">0%</span></p>
+            <p>Status: <span th:text="${order.status}">Status</span></p>
+            <p>Your order is currently unpaid. Please <a th:href="'/api/pay/order?id=' + ${order.orderId}">click here to pay now</a>.</p>
+
+        </div>
+        <p>Please check your email for further instructions on how to track your order.</p>
+    </div>
+    <div th:if="${order == null}">
+        <p>We encountered an issue with your order. Please contact support.</p>
+    </div>
+    <a href="/" th:href="@{/}">Return to Home</a>
+</div>
+</body>
+</html>

@@ -16,6 +16,7 @@ import java.util.List;
 public interface DiscountRepository extends JpaRepository<Discount, Long> {
 
     public Discount findByCode(String code);
+    Discount findByDiscountId(Long id);
     List<Discount> findByCodeStartingWithIgnoreCase(String code);
 
     @Query("SELECT d FROM Discount d WHERE d.validUntil >= :today AND d.validFrom <= :today")
