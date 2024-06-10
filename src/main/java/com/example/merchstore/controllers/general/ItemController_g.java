@@ -2,8 +2,12 @@ package com.example.merchstore.controllers.general;
 
 import com.example.merchstore.components.models.Category;
 import com.example.merchstore.components.models.Item;
+import com.example.merchstore.components.models.Review;
+import com.example.merchstore.components.models.User;
 import com.example.merchstore.repositories.CategoryRepository;
 import com.example.merchstore.repositories.ItemRepository;
+import com.example.merchstore.repositories.ReviewRepository;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -12,9 +16,11 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -32,6 +38,12 @@ public class ItemController_g {
 
     @Autowired
     private ItemRepository itemRepository;
+
+    @Autowired
+    private ReviewRepository reviewRepository;
+
+    @Autowired
+    private HttpSession session;
 
     private static final int DEFAULT_ITEMS_PER_PAGE = 20;
 
@@ -86,10 +98,14 @@ public class ItemController_g {
         if (item == null) {
             return "redirect:/item/all";
         }
+        List<Review> reviews = reviewRepository.findAllByItem(item);
         model.addAttribute("item", item);
+        model.addAttribute("reviews", reviews);
         if (addedToCart != null) {
             model.addAttribute("addedToCart", addedToCart);
         }
         return "general/viewItem";
     }
+
+
 }

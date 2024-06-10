@@ -82,7 +82,9 @@ public class CartController_u {
                                        @RequestParam(value = "order", required = false, defaultValue = "asc") String order) {
         User user = (User) httpSession.getAttribute("user");
         CartItem cartItem = cartItemRepository.findByUserAndItem(user, itemRepository.findById(itemId).orElseThrow(() -> new IllegalArgumentException("Invalid item id: " + itemId)));
-        cartItem.setQuantity(cartItem.getQuantity() + 1);
+        if (cartItem.getQuantity() < cartItem.getItem().getStockQuantity()) {
+            cartItem.setQuantity(cartItem.getQuantity() + 1);
+        }
         cartItemRepository.save(cartItem);
         if (sortField != null && order != null) {
             return "redirect:/user/cart?sortField=" + sortField + "&order=" + order;

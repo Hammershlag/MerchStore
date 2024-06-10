@@ -66,15 +66,21 @@ public class CheckoutController_u {
             Item item = cartItem.getItem();
             if (cartItem.getQuantity() > item.getStockQuantity()) {
                 insufficientStockItems.add(item.getName() + " only " + item.getStockQuantity() + " available");
+                cartItem.setQuantity(item.getStockQuantity());
+                if (cartItem.getQuantity() == 0) {
+                    cartItemRepository.delete(cartItem);
+                } else {
+                    cartItemRepository.save(cartItem);
+                }
             }
         }
 
         if (!insufficientStockItems.isEmpty()) {
-            model.addAttribute("error", "Some items have insufficient stock: " + String.join(", ", insufficientStockItems));
+            model.addAttribute("error", "Some items have insufficient stock: " + String.join(", ", insufficientStockItems) + ". We changed the amount in your cart to the maximum available.");
+
             return "redirect:/user/cart";
         }
 
-        // Create an order if all items are in sufficient quantity
         Order order = createOrderFromCartItems(cartItems, currentUser, discount);
         clearCart(cartItems);
 

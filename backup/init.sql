@@ -101,3 +101,15 @@ CREATE TABLE cart (
                       FOREIGN KEY (user_id) REFERENCES users(user_id),
                       FOREIGN KEY (item_id) REFERENCES items(item_id)
 );
+
+-- Create reviews table
+CREATE TABLE reviews (
+                         review_id SERIAL PRIMARY KEY,
+                         user_id INT NOT NULL,
+                         item_id INT NOT NULL,
+                         description VARCHAR(1500) NOT NULL,
+                         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+                         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+                         FOREIGN KEY (user_id) REFERENCES users(user_id),
+                         FOREIGN KEY (item_id) REFERENCES items(item_id)
+);

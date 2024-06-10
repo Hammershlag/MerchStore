@@ -35,6 +35,19 @@
             color: red;
             font-weight: bold;
         }
+        .reviews {
+            margin-top: 20px;
+        }
+        .review {
+            border-bottom: 1px solid #ddd;
+            padding: 10px 0;
+        }
+        .review p {
+            margin: 0;
+        }
+        .review-form {
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -59,6 +72,32 @@
     </div>
     <p th:if="${item.stockQuantity == 0}" class="out-of-stock">Currently out of stock. Wait for new supply.</p>
     <p th:if="${item.stockQuantity < 0}" class="out-of-stock">This item will no longer be supplied again.</p>
+
+    <!-- Reviews Section -->
+    <div class="reviews">
+        <h3>Reviews</h3>
+        <div th:if="${reviews != null && !reviews.isEmpty()}">
+            <div th:each="review : ${reviews}">
+                <div class="review">
+                    <p><strong th:text="${review.user.username}">Username</strong> - added at: <span th:text="${review.createdAt}">Date</span></p>
+                    <p th:text="${review.description}">Review Description</p>
+                </div>
+            </div>
+        </div>
+        <div th:if="${reviews == null || reviews.isEmpty()}">
+            <p>No reviews yet.</p>
+        </div>
+
+        <!-- Add Review Form -->
+        <div class="review-form">
+            <form th:action="@{/review/addReview}" method="post">
+                <input type="hidden" name="itemId" th:value="${item.itemId}" />
+                <label for="reviewDescription">Add a review:</label>
+                <textarea id="reviewDescription" name="description" rows="4" cols="50" required></textarea>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
 </div>
 <div th:if="${item == null}">
     <p>Item not found.</p>

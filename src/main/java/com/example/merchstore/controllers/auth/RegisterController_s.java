@@ -71,12 +71,9 @@ public class RegisterController_s {
             if (!image.isEmpty()) {
                 BufferedImage bufferedImage = ImageIO.read(image.getInputStream());
 
-                //TODO if image is higher rather than wider, it gets rotated by 90 degrees, FIX IT but now im too lazy
-
                 int angle = bufferedImage.getHeight() > bufferedImage.getWidth() ? 90 : 0;
 
-                //bufferedImage = simpleResizeImage(bufferedImage, 200, 200);
-                bufferedImage = rotateImage(bufferedImage, 90);
+                bufferedImage = rotateImage(bufferedImage, angle);
                 bufferedImage = resizeAndCropImage(bufferedImage, 200, 200);
                 byte[] imageBytes = imageToByteArray(bufferedImage, image.getOriginalFilename().substring(image.getOriginalFilename().lastIndexOf(".") + 1));
                 user.setImage(imageBytes);
