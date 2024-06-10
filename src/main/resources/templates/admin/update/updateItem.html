@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Item</title>
+</head>
+<body>
+<a href="/">Home</a>
+<a href="/api/admin/dashboard">Dashboard</a>
+<h2>Update Item</h2>
+<form action="/api/admin/update/item" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="itemId" th:value="${item.itemId}"/>
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" th:value="${item.name}" required/>
+    <label for="description">Description:</label>
+    <textarea id="description" name="description" required th:text="${item.description}"></textarea>
+    <label for="price">Price:</label>
+    <input type="number" id="price" name="price" th:value="${item.price}" step="0.01" required/>
+    <label for="stockQuantity">Stock Quantity:</label>
+    <input type="number" id="stockQuantity" name="stockQuantity" th:value="${item.stockQuantity}" required/>
+    <label for="categoryId">Category:</label>
+    <select id="categoryId" name="categoryId" required>
+        <option th:each="category : ${categories}" th:value="${category.categoryId}" th:text="${category.name}" th:selected="${item.category.categoryId == category.categoryId}"></option>
+    </select>
+    <label for="imageData">Image:</label>
+    <input type="file" id="imageData" name="imageData"/>
+    <button type="submit">Update Item</button>
+</form>
+</body>
+</html>

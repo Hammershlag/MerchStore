@@ -125,4 +125,56 @@ public class ItemController_a {
         model.addAttribute("item", item);
         return "admin/view/viewItem";
     }
+
+    @GetMapping("/update/item")
+    public String updateItemForm(@RequestParam Long id, Model model) {
+        Item item = itemRepository.findById(id).orElse(null);
+        if (item == null) {
+            return "redirect:/api/admin/view/items";
+        }
+        List<Category> categories = categoryRepository.findAll();
+        model.addAttribute("item", item);
+        model.addAttribute("categories", categories);
+        return "admin/update/updateItem";
+    }
+
+    @SneakyThrows
+    @PostMapping("/update/item")
+    public String updateItem(Item item,
+                             @RequestParam("imageData") MultipartFile image,
+                             @RequestParam("categoryId") Long categoryId) {
+        Item existingItem = itemRepository.findById(item.getItemId()).orElse(null);
+        if (existingItem == null) {
+            return "redirect:/api/admin/view/items";
+        }
+
+        Category category = categoryRepository.findById(categoryId).orElse(null);
+        if (category == null) {
+            return "redirect:/api/admin/view/items";
+        }
+
+        if (!image.isEmpty()) {
+            BufferedImage bufferedImage = ImageIO.read(image.getInputStream());
+
+            //TODO if image is higher rather than wider, it gets rotated by 90 degrees, FIX IT but now im too lazy
+            int angle = bufferedImage.getHeight() > bufferedImage.getWidth() ? 90 : 0;
+
+            bufferedImage = rotateImage(bufferedImage, angle);
+            bufferedImage = resizeAndCropImage(bufferedImage, 200, 200);
+            byte[] imageBytes = imageToByteArray(bufferedImage, image.getOriginalFilename().substring(image.getOriginalFilename().lastIndexOf(".") + 1));
+            existingItem.setImage(imageBytes);
+        }
+
+        existingItem.setName(item.getName());
+        existingItem.setDescription(item.getDescription());
+        existingItem.setPrice(item.getPrice());
+        existingItem.setStockQuantity(item.getStockQuantity());
+        existingItem.setCategory(category);
+        existingItem.setUpdatedAt(LocalDateTime.now());
+
+        itemRepository.save(existingItem);
+
+        return "redirect:/api/admin/view/items";
+    }
+
 }

@@ -46,7 +46,6 @@
     <select id="category" name="category">
         <option value="">All Categories</option>
         <option th:each="category : ${categories}" th:value="${category.categoryId}" th:text="${category.name}" th:selected="${selectedCategoryId == category.categoryId}"></option>
-
     </select>
     <label for="size">Page Size:</label>
     <select id="size" name="size" onchange="this.form.submit()">
@@ -70,6 +69,7 @@
         <th>Category</th>
         <th>Created At</th>
         <th>Updated At</th>
+        <th>Actions</th>
     </tr>
     </thead>
     <tbody>
@@ -84,6 +84,9 @@
         <td th:text="${item.category.name}"></td>
         <td th:text="${item.createdAt}"></td>
         <td th:text="${item.updatedAt}"></td>
+        <td>
+            <a th:href="@{/api/admin/update/item(id=${item.itemId})}">Update</a>
+        </td>
     </tr>
     </tbody>
 </table>
