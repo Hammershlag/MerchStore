@@ -106,11 +106,19 @@ public class CheckoutController_u {
         return "user/orderConfirmation";
     }
 
+    @GetMapping("/all")
+    public String showAllOrders(HttpSession session, Model model) {
+        User currentUser = (User) session.getAttribute("user");
+        List<Order> orders = orderRepository.findAllOrdersByUser(currentUser);
+        model.addAttribute("orders", orders);
+        return "user/orders";
+    }
+
     private Order createOrderFromCartItems(List<CartItem> cartItems, User user, Discount discount) {
         Order order = new Order();
         order.setUser(user);
         order.setOrderDate(LocalDateTime.now());
-        order.setStatus(OrderStatus.PENDING);
+        order.setStatus(OrderStatus.UNPAID);
         order.setTotalAmount(BigDecimal.ZERO);
         order.setDiscount(discount);
         orderRepository.save(order);

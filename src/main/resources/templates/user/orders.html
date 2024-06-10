@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Orders</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f9f9f9;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        a {
+            text-decoration: none;
+            color: #007bff;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<div th:if="${orders.size() != 0}">
+    <table>
+        <tr>
+            <th>Order ID</th>
+            <th>Order Date</th>
+            <th>Order Status</th>
+            <th>Total Amount</th>
+            <th>Discount</th>
+            <th>Actions</th>
+        </tr>
+        <tr th:each="order : ${orders}">
+            <td th:text="${order.orderId}">-1</td>
+            <td th:text="${order.orderDate}">2021-01-01</td>
+            <td th:text="${order.status}">Pending</td>
+            <td th:text="${order.totalAmount}">$0.00</td>
+            <td th:text="${order.discount.discountPercentage}">Discount</td>
+            <td>
+                <a th:href="'/user/cart/checkout?orderID=' + ${order.orderId}">View</a>
+            </td>
+        </tr>
+    </table>
+</div>
+<div th:if="${orders.size() == 0}">
+    <p>No orders found.</p>
+</div>
+
+</body>
+</html>

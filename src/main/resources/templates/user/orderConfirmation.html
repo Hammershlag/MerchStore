@@ -16,7 +16,7 @@
                 <li th:each="orderItem : ${orderItems}">
                     <span th:text="${orderItem.item.name != null ? orderItem.item.name : 'Product Name'}">Product Name</span> -
                     <span th:text="${orderItem.quantity}">1</span> x
-                    <span th:text="${orderItem.item.price}">$0.00</span>
+                    <span th:text="${orderItem.price}">$0.00</span>
                 </li>
             </ul>
             <p>Total before discount: <span th:text="${'$' + order.totalAmount}">$0.00</span></p>
