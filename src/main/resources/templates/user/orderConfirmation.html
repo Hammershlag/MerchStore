@@ -17,6 +17,7 @@
                     <span th:text="${orderItem.item.name != null ? orderItem.item.name : 'Product Name'}">Product Name</span> -
                     <span th:text="${orderItem.quantity}">1</span> x
                     <span th:text="${orderItem.price}">$0.00</span>
+                    <a th:href="@{/item(id=${orderItem.item.itemId})}">View Item</a>
                 </li>
             </ul>
             <p>Total before discount: <span th:text="${'$' + order.totalAmount}">$0.00</span></p>
