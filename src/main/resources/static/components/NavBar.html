@@ -1,21 +1,10 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>NavBar</title>
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="stylesheet" href="/css/nav.css">
-    <style>
-        pre {
-            white-space: pre-wrap; /* Enable word wrap */
-            word-wrap: break-word; /* IE 5.5-7 */
-            white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
-            white-space: -pre-wrap; /* Opera 4-6 */
-            white-space: -o-pre-wrap; /* Opera 7 */
-            word-wrap: break-word; /* Internet Explorer 5.5+ */
-        }
-    </style>
 </head>
 <body>
 <nav>
@@ -49,7 +38,5 @@
         <a href="/api/login/form">Login</a>
     </div>
 </nav>
-<h2 th:text="${documentName}"></h2>
-<pre th:text="${documentContent}"></pre>
 </body>
 </html>

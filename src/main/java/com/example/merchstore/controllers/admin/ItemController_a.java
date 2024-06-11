@@ -80,7 +80,7 @@ public class ItemController_a {
     public String viewItems(@RequestParam(value = "category", required = false) Long categoryId,
                             @RequestParam(value = "page", defaultValue = "0") int page,
                             @RequestParam(value = "size", defaultValue = "10") int size,
-                            @RequestParam(value = "search", required = false) String search,
+                            @RequestParam(value = "searchItem", required = false) String search,
                             Model model) {
         Page<Item> items;
         Pageable pageable = PageRequest.of(page, size);
@@ -110,7 +110,7 @@ public class ItemController_a {
         model.addAttribute("pageSize", size);
         model.addAttribute("categories", categoryRepository.findAll());
         model.addAttribute("selectedCategoryId", categoryId);
-        model.addAttribute("search", search);
+        model.addAttribute("searchItem", search);
         return "admin/view/viewItems";
     }
 

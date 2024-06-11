@@ -1,5 +1,6 @@
 package com.example.merchstore.controllers.general;
 
+import com.example.merchstore.components.models.User;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

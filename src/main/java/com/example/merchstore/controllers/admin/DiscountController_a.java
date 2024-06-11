@@ -75,7 +75,7 @@ public class DiscountController_a {
 
     @GetMapping("/view/discounts")
     public String viewDiscounts(@RequestParam(value = "valid", required = false) Boolean valid,
-                                @RequestParam(value = "search", required = false) String search,
+                                @RequestParam(value = "searchDis", required = false) String search,
                                 Model model) {
         List<Discount> discounts;
         if (search != null && !search.isEmpty()) {
@@ -104,7 +104,7 @@ public class DiscountController_a {
 
         model.addAttribute("discounts", discounts);
         model.addAttribute("discountItemMap", discountItemMap);
-        model.addAttribute("search", search);
+        model.addAttribute("searchDis", search);
         return "admin/view/viewDiscounts";
     }
 

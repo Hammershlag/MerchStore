@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Items</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/nav.css">
     <style>
         table {
             width: 100%;
@@ -38,7 +40,37 @@
     </style>
 </head>
 <body>
-<a href="/">Home</a>
+<nav>
+    <div class="nav-left">
+        <a href="/" class="app-name" th:text="#{app.name}">Name of App</a>
+    </div>
+    <div class="nav-center">
+        <a href="/item/all">
+            <img src="/images/icons/shop.png" alt="Shop">
+        </a>
+        <form action="/item/all" method="get" class="search-form">
+            <input type="text" id="search" name="search" placeholder="Search" th:value="${search}">
+            <button type="submit">
+                <img src="/images/icons/search.png" alt="Search">
+            </button>
+        </form>
+    </div>
+    <div class="nav-right" th:if="${isLoggedIn}">
+        <a href="/user/cart">
+            <img src="/images/icons/cart.png" alt="Cart">
+        </a>
+        <a href="/profile">
+            <div class="profile">
+                <img th:src="@{'/api/image/user'}" alt="Profile Image" class="profile-image">
+                <span th:if="${isLoggedIn}" th:text="${user.username}"></span>
+            </div>
+        </a>
+        <a href="/api/logout">Logout</a>
+    </div>
+    <div class="nav-right" th:if="${!isLoggedIn}">
+        <a href="/api/login/form">Login</a>
+    </div>
+</nav>
 <a href="/api/admin/dashboard">Dashboard</a>
 <h2>Items</h2>
 <form action="/api/admin/view/items" method="get">
@@ -54,8 +86,8 @@
         <option th:value="20" th:text="20" th:selected="${pageSize == 20}"></option>
         <option th:value="50" th:text="50" th:selected="${pageSize == 50}"></option>
     </select>
-    <label for="search">Search:</label>
-    <input type="text" id="search" name="search" placeholder="Enter item name" th:value="${search}">
+    <label for="searchItem">Search:</label>
+    <input type="text" id="searchItem" name="searchItem" placeholder="Enter item name" th:value="${searchItem}">
     <button type="submit">Search</button>
 </form>
 <table>

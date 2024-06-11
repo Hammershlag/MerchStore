@@ -36,7 +36,7 @@ public class AddUserController_o {
 
     @GetMapping("/form")
     public String addUserForm(Model model) {
-        model.addAttribute("user", new User());
+        model.addAttribute("newUser", new User());
         model.addAttribute("roles", Role.values());
         return "owner/add/user";
     }

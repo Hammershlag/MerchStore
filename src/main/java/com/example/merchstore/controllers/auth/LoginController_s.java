@@ -4,6 +4,7 @@ import com.example.merchstore.components.models.User;
 import com.example.merchstore.repositories.CustomUserRepository;
 import com.example.merchstore.security.CustomAuthenticationSuccessHandler;
 import com.example.merchstore.services.CustomUserDetailsService;
+import com.example.merchstore.services.GlobalAttributeService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.Data;
@@ -50,6 +51,9 @@ public class LoginController_s {
     @Autowired
     private CustomAuthenticationSuccessHandler authenticationSuccessHandler;
 
+    @Autowired
+    private GlobalAttributeService globalAttributeService;
+
 
     public LoginController_s(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
@@ -71,6 +75,7 @@ public class LoginController_s {
             }
 
             httpSession.setAttribute("user", user);
+            globalAttributeService.addAttribute("user", user);
 
             UsernamePasswordAuthenticationToken authReq
                     = new UsernamePasswordAuthenticationToken(user.getUsername(), loginForm.getPassword());
@@ -81,6 +86,7 @@ public class LoginController_s {
             HttpSession session = req.getSession(true);
             session.setAttribute(SPRING_SECURITY_CONTEXT_KEY, sc);
             session.setAttribute("isLoggedIn", true);
+            globalAttributeService.addAttribute("isLoggedIn", true);
 
             return "redirect:" + authenticationSuccessHandler.determineTargetUrl(req); // Redirect using the custom success handler
         } else {

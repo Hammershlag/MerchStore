@@ -3,6 +3,7 @@ package com.example.merchstore.controllers.user;
 import com.example.merchstore.components.models.User;
 import com.example.merchstore.repositories.CustomUserRepository;
 import com.example.merchstore.services.CustomUserDetailsService;
+import com.example.merchstore.services.GlobalAttributeService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -39,29 +40,16 @@ public class UserController_u {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private GlobalAttributeService globalAttributeService;
+
     @GetMapping("/profile")
     public String getCurrentUser(Model model) {
-        User user = (User) httpSession.getAttribute("user");
-
-        if (user == null) {
-            user = new User();
-        } else {
-            user = user.displayData();
-        }
-
-        model.addAttribute("user", user);
         return "user/profile";
     }
 
     @GetMapping("/api/update/user")
     public String showEditUserForm(Model model) {
-        User user = (User) httpSession.getAttribute("user");
-
-        if (user == null) {
-            return "redirect:/login";
-        }
-
-        model.addAttribute("user", user);
         return "user/update";
     }
 
@@ -125,8 +113,8 @@ public class UserController_u {
 
         userRepository.updateById(currentUser.getUserId(), currentUser);
         httpSession.setAttribute("user", currentUser);
+        globalAttributeService.addAttribute("user", currentUser);
 
-        model.addAttribute("user", currentUser);
         return new RedirectView("/profile");
     }
 }

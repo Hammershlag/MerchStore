@@ -54,10 +54,12 @@ public class ItemController_g {
                             @RequestParam(value = "page", required = false, defaultValue = "1") int page,
                             @RequestParam(value = "itemsPerPage", required = false, defaultValue = "" + DEFAULT_ITEMS_PER_PAGE) int itemsPerPage,
                             @RequestParam(value = "search", required = false) String search,
+                            @RequestParam(value = "searchItems", required = false) String searchItems,
                             Model model) {
         if (itemsPerPage < 1) {
             itemsPerPage = DEFAULT_ITEMS_PER_PAGE;
         }
+        if (search == null) search = searchItems;
 
         Pageable pageable = PageRequest.of(page - 1, itemsPerPage, Sort.Direction.fromString(order), sortField);
 
@@ -89,6 +91,7 @@ public class ItemController_g {
         model.addAttribute("totalPages", totalPages);
         model.addAttribute("itemsPerPage", itemsPerPage);
         model.addAttribute("search", search);
+        model.addAttribute("searchItems", search);
         return "general/viewItems";
     }
 
@@ -101,6 +104,7 @@ public class ItemController_g {
         List<Review> reviews = reviewRepository.findAllByItem(item);
         model.addAttribute("item", item);
         model.addAttribute("reviews", reviews);
+        model.addAttribute("search", item.getName());
         if (addedToCart != null) {
             model.addAttribute("addedToCart", addedToCart);
         }

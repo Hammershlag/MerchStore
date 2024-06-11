@@ -42,7 +42,7 @@ public class CategoryController_a {
     }
 
     @GetMapping("/view/categories")
-    public String getAllCategories(@RequestParam(value = "search", required = false) String search, Model model) {
+    public String getAllCategories(@RequestParam(value = "searchCat", required = false) String search, Model model) {
         List<Category> categories;
         if (search != null && !search.isEmpty()) {
             categories = categoryRepository.findByNameStartingWithIgnoreCase(search);
@@ -50,7 +50,7 @@ public class CategoryController_a {
             categories = categoryRepository.findAll();
         }
         model.addAttribute("categories", categories);
-        model.addAttribute("search", search);
+        model.addAttribute("searchCat", search);
         return "admin/view/viewCategories";
     }
 

@@ -27,7 +27,7 @@ public class UserController_a {
     @GetMapping("/view/users")
     public String viewUsers(@RequestParam(value = "page", defaultValue = "0") int page,
                             @RequestParam(value = "size", defaultValue = "10") int size,
-                            @RequestParam(value = "search", required = false) String search,
+                            @RequestParam(value = "searchUser", required = false) String search,
                             Model model) {
         Page<User> usersPage;
 
@@ -41,7 +41,7 @@ public class UserController_a {
         model.addAttribute("totalPages", usersPage.getTotalPages());
         model.addAttribute("currentPage", page);
         model.addAttribute("pageSize", size);
-        model.addAttribute("search", search);
+        model.addAttribute("searchUser", search);
         return "admin/view/viewUsers";
     }
 }
