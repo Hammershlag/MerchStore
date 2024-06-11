@@ -6,9 +6,13 @@ import com.example.merchstore.components.models.*;
 import com.example.merchstore.repositories.*;
 import com.example.merchstore.services.CheckoutService;
 import com.example.merchstore.services.CustomUserDetailsService;
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.PdfWriter;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -19,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.FileOutputStream;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -51,6 +56,55 @@ public class CheckoutController_u {
     private DiscountRepository discountRepository;
 
     @Autowired ItemDiscountRepository itemDiscountRepository;
+
+    @SneakyThrows // Handles DocumentException and IOException
+    @GetMapping("/file")
+    public void getFile(@RequestParam("orderID") Long orderID, HttpSession session, HttpServletResponse response) {
+        User currentUser = (User) session.getAttribute("user");
+        Order order = orderRepository.findByOrderId(orderID);
+
+        if (currentUser == null || !currentUser.getUserId().equals(order.getUser().getUserId())) {
+            response.sendRedirect("/home?message=wrongUser");
+            return;
+        }
+
+        List<OrderItem> orderItems = orderItemRepository.findAllByOrder(order);
+
+        response.setContentType("application/pdf");
+        response.setHeader("Content-Disposition", "attachment; filename=OrderDetails.pdf");
+
+        Document document = new Document();
+        PdfWriter.getInstance(document, response.getOutputStream());
+
+        document.open();
+        Font font = FontFactory.getFont(FontFactory.COURIER, 16, BaseColor.BLACK);
+        Font boldFont = FontFactory.getFont(FontFactory.COURIER_BOLD, 16, BaseColor.BLACK);
+
+        // Add Title
+        document.add(new Paragraph("Order Details for Order ID: " + orderID, boldFont));
+        document.add(new Paragraph("\n"));
+
+        // Add User Details
+        document.add(new Paragraph("Ordered by: " + currentUser.getUsername(), font));
+        document.add(new Paragraph("\n"));
+
+        // Add Order Items
+        for (OrderItem item : orderItems) {
+            document.add(new Paragraph("Item: " + item.getItem().getName(), font));
+            document.add(new Paragraph("Quantity: " + item.getQuantity(), font));
+            document.add(new Paragraph("Price: $" + item.getPrice(), font));
+            document.add(new Paragraph("\n"));
+        }
+
+        // Check for Discounts
+        ItemDiscount itemDiscount = itemDiscountRepository.findItemDiscountByDiscount(order.getDiscount());
+        if (itemDiscount != null) {
+            document.add(new Paragraph("Discount Applied: " + itemDiscount.getDiscount().getDescription(), font));
+            document.add(new Paragraph("Discount Percentage: " + itemDiscount.getDiscount().getDiscountPercentage() + "%", font));
+        }
+
+        document.close();
+    }
 
     @PostMapping
     public String performCheckout(HttpSession session, Model model, @RequestParam(value = "discountCode", required = false) String discountCode) {

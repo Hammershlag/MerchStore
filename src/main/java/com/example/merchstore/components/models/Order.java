@@ -43,6 +43,7 @@ public class Order implements DataDisplay {
     @JoinColumn(name = "discount_id")
     private Discount discount;
 
+
     public Order(Order other) {
         this.orderId = other.orderId;
         this.user = other.user;
