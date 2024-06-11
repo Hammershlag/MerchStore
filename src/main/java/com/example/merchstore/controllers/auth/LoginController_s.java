@@ -96,7 +96,10 @@ public class LoginController_s {
 
     @GetMapping("/logout")
     public RedirectView logout(HttpSession session) {
+        globalAttributeService.addAttribute("isLoggedIn", false);
+        session.setAttribute("isLoggedIn", false);
         session.invalidate();
+
         return new RedirectView("/home");
     }
 
