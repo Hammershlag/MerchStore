@@ -1,11 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <th:block th:replace="~{fragments/header :: headerfiles}"></th:block>
   <title>Add Item</title>
-  <link rel="stylesheet" href="/css/styles.css">
-  <link rel="stylesheet" href="/css/nav.css">
   <script>
     document.addEventListener("DOMContentLoaded", function() {
       const priceInput = document.getElementById('price');
@@ -60,5 +57,7 @@
 
   <input type="submit" value="Add Item">
 </form>
+<div th:replace="~{fragments/footer :: footer}"></div>
+
 </body>
 </html>

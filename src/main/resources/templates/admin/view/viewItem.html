@@ -1,11 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <th:block th:replace="~{fragments/header :: headerfiles}"></th:block>
     <title>Item Details</title>
-    <link rel="stylesheet" href="/css/styles.css">
-    <link rel="stylesheet" href="/css/nav.css">
     <style>
         .item-container {
             max-width: 800px;
@@ -54,5 +51,7 @@
 <div th:if="${item == null}">
     <p>Item not found.</p>
 </div>
+<div th:replace="~{fragments/footer :: footer}"></div>
+
 </body>
 </html>

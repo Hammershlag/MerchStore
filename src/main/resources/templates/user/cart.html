@@ -1,11 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <th:block th:replace="~{fragments/header :: headerfiles}"></th:block>
     <title>Cart</title>
-    <link rel="stylesheet" href="/css/styles.css">
-    <link rel="stylesheet" href="/css/nav.css">
     <style>
         table {
             width: 100%;
@@ -113,6 +110,8 @@
         <button type="submit">Checkout</button>
     </form>
 </div>
+<div th:replace="~{fragments/footer :: footer}"></div>
+
 <script>
     function updateSorting() {
         var sortField = document.getElementById('sort').value;

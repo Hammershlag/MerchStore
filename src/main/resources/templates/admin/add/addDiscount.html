@@ -1,11 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <th:block th:replace="~{fragments/header :: headerfiles}"></th:block>
     <title>Add Discount</title>
-    <link rel="stylesheet" href="/css/styles.css">
-    <link rel="stylesheet" href="/css/nav.css">
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const today = new Date().toISOString().split('T')[0];
@@ -76,5 +73,7 @@
 
     <input type="submit" value="Submit">
 </form>
+<div th:replace="~{fragments/footer :: footer}"></div>
+
 </body>
 </html>

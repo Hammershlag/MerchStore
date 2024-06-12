@@ -1,10 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
+    <th:block th:replace="~{fragments/header :: headerfiles}"></th:block>
     <title th:text="${statusCode} + ' ' + ${errorMessage}">Error Page</title>
-    <link rel="stylesheet" href="/css/styles.css">
-    <link rel="stylesheet" href="/css/nav.css">
 </head>
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
@@ -16,5 +14,7 @@
     <p><span th:text="${customMessage}"></span></p>
 </div>
 <a href="/">Go Home</a>
+<div th:replace="~{fragments/footer :: footer}"></div>
+
 </body>
 </html>

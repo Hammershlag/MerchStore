@@ -1,10 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title th:text="#{app.name}">Name of Ap</title>
-    <link rel="stylesheet" href="/css/styles.css">
-    <link rel="stylesheet" href="/css/nav.css">
+    <title th:text="#{app.name}">Name of App</title>
+    <th:block th:replace="~{fragments/header :: headerfiles}"></th:block>
 </head>
 <body>
 
@@ -20,6 +18,8 @@
     <h3>Our Products</h3>
     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce eleifend massa vitae ipsum tristique, a tempor quam pharetra. Sed finibus, dui nec sodales eleifend, sapien ex sollicitudin justo, ut dignissim risus lectus ut dolor. Curabitur ultricies urna a tempor suscipit. Phasellus pharetra ante nec ipsum malesuada, non ultricies ipsum congue. Integer sit amet turpis a magna sagittis molestie eget nec libero. Nam fermentum mauris eget massa fringilla, vel dignissim turpis facilisis. Donec sodales varius sapien, ac blandit quam vulputate in. Nulla eu sem in arcu malesuada accumsan.</p>
 </div>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
 
 </body>
 </html>

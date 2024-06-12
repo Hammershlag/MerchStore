@@ -1,0 +1,18 @@
+<!--
+Author: ${AUTHOR}
+Date: ${DATE}
+-->
+<!DOCTYPE html>
+<html lan="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="~{fragmments/header :: headerfiles}"></th:block>
+    <title>#[[$Title$]]#</title>
+</head>
+<body>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+<!--Place content here-->
+
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

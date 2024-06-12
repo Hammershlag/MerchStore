@@ -1,11 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <th:block th:replace="~{fragments/header :: headerfiles}"></th:block>
     <title>Document</title>
-    <link rel="stylesheet" href="/css/styles.css">
-    <link rel="stylesheet" href="/css/nav.css">
     <style>
         pre {
             white-space: pre-wrap; /* Enable word wrap */
@@ -22,5 +19,7 @@
 
 <h2 th:text="${documentName}"></h2>
 <pre th:text="${documentContent}"></pre>
+<div th:replace="~{fragments/footer :: footer}"></div>
+
 </body>
 </html>

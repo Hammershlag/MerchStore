@@ -1,10 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <th:block th:replace="~{fragments/header :: headerfiles}"></th:block>
     <title>Title</title>
-    <link rel="stylesheet" href="/css/styles.css">
-    <link rel="stylesheet" href="/css/nav.css">
 </head>
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
@@ -19,4 +17,6 @@ ADMIN DASHBOARD<br>
 <a href="/api/admin/view/users">View Users</a><br>
 <a href="/api/admin/view/items">View Items</a><br>
 </body>
+<div th:replace="~{fragments/footer :: footer}"></div>
+
 </html>

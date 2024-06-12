@@ -1,10 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
+    <th:block th:replace="~{fragments/header :: headerfiles}"></th:block>
     <title>User Profile</title>
-    <link rel="stylesheet" href="/css/styles.css">
-    <link rel="stylesheet" href="/css/nav.css">
     <style>
         .profile-container {
             text-align: center;
@@ -35,5 +33,7 @@
     <p><strong>Gender:</strong> <span th:text="${user.gender}"></span></p>
 </div>
 <a href="/api/update/user">Update Profile</a>
+<div th:replace="~{fragments/footer :: footer}"></div>
+
 </body>
 </html>

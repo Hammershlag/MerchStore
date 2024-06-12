@@ -1,10 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/styles.css">
-    <link rel="stylesheet" href="/css/nav.css">
+    <th:block th:replace="~{fragments/header :: headerfiles}"></th:block>
     <title>Add Category</title>
 </head>
 <body>
@@ -19,5 +16,7 @@
     <textarea id="description" name="description" required></textarea><br><br>
     <input type="submit" value="Submit">
 </form>
+<div th:replace="~{fragments/footer :: footer}"></div>
+
 </body>
 </html>
