@@ -1,0 +1,20 @@
+<!--
+Author: Tomasz Zbroszczyk
+Date: 12.06.2024
+-->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="~{fragments/header :: headerfiles}"></th:block>
+    <title>Contact</title>
+</head>
+<body>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+<!--Place content here-->
+
+<h1>Contact</h1>
+<p>For any questions or concerns, please contact us at 555-555-5555 or by email at <a th:href="'mailto:' + #{company.email}" th:text="#{company.email}">Email</a></p>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

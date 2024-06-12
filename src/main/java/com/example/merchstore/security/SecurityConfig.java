@@ -41,7 +41,7 @@ public class SecurityConfig {
                         authorizeRequests
                                 .requestMatchers("/api/login", "/api/register", "/home", "/",
                                         "/api/register/form", "/api/login/form", "/item/**", "/api/image/**",
-                                        "/error").permitAll()
+                                        "/error", "/help/**", "/info/**", "/join/**").permitAll()
                                 .requestMatchers("/documents/**","/css/**", "/javascript/**", "/images/**").permitAll() //static recourses
                                 .requestMatchers("/api/admin/**").hasAnyRole("ADMIN", "OWNER")
                                 .anyRequest().authenticated()

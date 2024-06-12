@@ -1,0 +1,31 @@
+<!--
+Author: Tomasz Zbroszczyk
+Date: 12.06.2024
+-->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="~{fragments/header :: headerfiles}"></th:block>
+    <title>FAQ</title>
+</head>
+<body>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<h1>FAQ</h1>
+<ul>
+    <li>What is the return policy?
+        <br>Our return policy is 30 days. If 30 days have gone by since your purchase, unfortunately we can’t offer you a refund or exchange.
+    </li>
+    <li>How can I track my order?
+        <br>Once your order has been shipped, you will receive an email with a tracking number. You can use this number to track your order.
+    </li>
+    <li>How can I contact customer service?
+        <br>You can contact customer service by phone at 555-555-5555 or by email at
+    </li>
+</ul>
+
+
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

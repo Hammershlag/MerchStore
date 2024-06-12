@@ -1,0 +1,41 @@
+<!--
+Author: Tomasz Zbroszczyk
+Date: 13.06.2024
+-->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="~{fragments/header :: headerfiles}"></th:block>
+    <title>Careers</title>
+</head>
+<body>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+<!--Place content here-->
+
+<h2>Careers</h2>
+
+<p>Welcome to our Careers page! We are excited that you are interested in joining our team. Below are the current job openings:</p>
+
+<div class="job-listing">
+    <h3>Job Openings</h3>
+    <ul>
+        <li>
+            <strong>Position:</strong> Software Engineer<br>
+            <strong>Location:</strong> Remote<br>
+            <strong>Description:</strong> We are seeking a skilled software engineer to join our dynamic team. This role involves developing innovative solutions and collaborating with cross-functional teams.<br>
+            <a href="#">Apply Now</a>
+        </li>
+        <li>
+            <strong>Position:</strong> Marketing Specialist<br>
+            <strong>Location:</strong> New York, NY<br>
+            <strong>Description:</strong> Looking for a creative marketing specialist to drive our marketing campaigns. This role requires a strong understanding of digital marketing strategies.<br>
+            <a href="#">Apply Now</a>
+        </li>
+        <!-- Add more job listings here as needed -->
+    </ul>
+</div>
+
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>
