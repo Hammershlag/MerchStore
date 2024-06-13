@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <th:block th:replace="~{fragments/header :: headerfiles}"></th:block>
     <title>View Discounts</title>
@@ -40,43 +40,54 @@
 </head>
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
+<div th:replace="~{fragments/layout :: layout(left_content=${left_content}, content=${content}, right_content=${right_content})}">
+    <th:block th:fragment="left_content">
+        <p></p>
+    </th:block>
+    <th:block th:fragment="content">
+        <div>
+            <a href="/api/admin/dashboard">Dashboard</a>
+            <h2>Discounts</h2>
 
-<a href="/api/admin/dashboard">Dashboard</a>
-<h2>Discounts</h2>
+            <form>
+                <ul>
+                    <li><label><input type="checkbox" id="validDiscounts"> View Only Valid Discounts</label></li>
+                </ul>
+                <label for="searchDis">Search:</label>
+                <input type="text" id="searchDis" name="searchDis" placeholder="Enter item name" th:value="${searchDis}">
+                <button type="submit">Search</button>
+            </form>
 
-<form>
-    <ul>
-        <li><label><input type="checkbox" id="validDiscounts"> View Only Valid Discounts</label></li>
-    </ul>
-    <label for="searchDis">Search:</label>
-    <input type="text" id="searchDis" name="searchDis" placeholder="Enter item name" th:value="${searchDis}">
-    <button type="submit">Search</button>
-</form>
-
-<table>
-    <thead>
-    <tr>
-        <th>Code</th>
-        <th>Description</th>
-        <th>Discount Percentage</th>
-        <th>Valid From</th>
-        <th>Valid Until</th>
-        <th>Item ID</th>
-        <th>Item Name</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="mapItem : ${discountItemMap}">
-        <td th:text="${mapItem.key.code}">Code</td>
-        <td th:text="${mapItem.key.description}">Description</td>
-        <td th:text="${mapItem.key.discountPercentage}">Percentage</td>
-        <td th:text="${mapItem.key.validFrom}">From</td>
-        <td th:text="${mapItem.key.validUntil}">Until</td>
-        <td th:text="${mapItem.value.itemId}">-1</td>
-        <td th:text="${mapItem.value.name}">No name</td>
-    </tr>
-    </tbody>
-</table>
+            <table>
+                <thead>
+                <tr>
+                    <th>Code</th>
+                    <th>Description</th>
+                    <th>Discount Percentage</th>
+                    <th>Valid From</th>
+                    <th>Valid Until</th>
+                    <th>Item ID</th>
+                    <th>Item Name</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="mapItem : ${discountItemMap}">
+                    <td th:text="${mapItem.key.code}">Code</td>
+                    <td th:text="${mapItem.key.description}">Description</td>
+                    <td th:text="${mapItem.key.discountPercentage}">Percentage</td>
+                    <td th:text="${mapItem.key.validFrom}">From</td>
+                    <td th:text="${mapItem.key.validUntil}">Until</td>
+                    <td th:text="${mapItem.value.itemId}">-1</td>
+                    <td th:text="${mapItem.value.name}">No name</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </th:block>
+    <th:block th:fragment="right_content">
+        <p></p>
+    </th:block>
+</div>
 <div th:replace="~{fragments/footer :: footer}"></div>
 
 </body>

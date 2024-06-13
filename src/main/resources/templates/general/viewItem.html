@@ -51,56 +51,67 @@
 </head>
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
+<div th:replace="~{fragments/layout :: layout(left_content=${left_content}, content=${content}, right_content=${right_content})}">
+    <th:block th:fragment="left_content">
+        <p></p>
+    </th:block>
+    <th:block th:fragment="content">
+        <div>
+            <div class="item-container" th:if="${item != null}">
+                <p th:if="${addedToCart != null}" th:text="${addedToCart}"></p>
+                <img th:src="@{/api/image/item/{id}(id=${item.itemId})}" alt="Item Image" class="item-image">
+                <div class="item-details">
+                    <h2 th:text="${item.name}">Item Name</h2>
+                    <p th:text="${item.description}">Item Description</p>
+                    <p class="price" th:text="${item.price} + ' $'">Item Price</p>
+                    <p th:if="${item.stockQuantity > 0}">Stock Quantity: <span th:text="${item.stockQuantity}">0</span></p>
+                    <p>Category: <span th:text="${item.category.name}">Category Name</span></p>
+                </div>
+                <div th:if="${item.stockQuantity > 0}">
+                    <form th:action="@{/user/cart/add}" method="post">
+                        <input type="hidden" name="itemId" th:value="${item.itemId}" />
+                        <label for="quantity">Quantity:</label>
+                        <input type="number" id="quantity" name="quantity" value="1" min="1" />
+                        <button type="submit">Add to cart</button>
+                    </form>
+                </div>
+                <p th:if="${item.stockQuantity == 0}" class="out-of-stock">Currently out of stock. Wait for new supply.</p>
+                <p th:if="${item.stockQuantity < 0}" class="out-of-stock">This item will no longer be supplied again.</p>
 
-<div class="item-container" th:if="${item != null}">
-    <p th:if="${addedToCart != null}" th:text="${addedToCart}"></p>
-    <img th:src="@{/api/image/item/{id}(id=${item.itemId})}" alt="Item Image" class="item-image">
-    <div class="item-details">
-        <h2 th:text="${item.name}">Item Name</h2>
-        <p th:text="${item.description}">Item Description</p>
-        <p class="price" th:text="${item.price} + ' $'">Item Price</p>
-        <p th:if="${item.stockQuantity > 0}">Stock Quantity: <span th:text="${item.stockQuantity}">0</span></p>
-        <p>Category: <span th:text="${item.category.name}">Category Name</span></p>
-    </div>
-    <div th:if="${item.stockQuantity > 0}">
-        <form th:action="@{/user/cart/add}" method="post">
-            <input type="hidden" name="itemId" th:value="${item.itemId}" />
-            <label for="quantity">Quantity:</label>
-            <input type="number" id="quantity" name="quantity" value="1" min="1" />
-            <button type="submit">Add to cart</button>
-        </form>
-    </div>
-    <p th:if="${item.stockQuantity == 0}" class="out-of-stock">Currently out of stock. Wait for new supply.</p>
-    <p th:if="${item.stockQuantity < 0}" class="out-of-stock">This item will no longer be supplied again.</p>
+                <!-- Reviews Section -->
+                <div class="reviews">
+                    <h3>Reviews</h3>
+                    <div th:if="${reviews != null && !reviews.isEmpty()}">
+                        <div th:each="review : ${reviews}">
+                            <div class="review">
+                                <p><strong th:text="${review.user.username}">Username</strong> - added at: <span th:text="${review.createdAt}">Date</span></p>
+                                <p th:text="${review.description}">Review Description</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div th:if="${reviews == null || reviews.isEmpty()}">
+                        <p>No reviews yet.</p>
+                    </div>
 
-    <!-- Reviews Section -->
-    <div class="reviews">
-        <h3>Reviews</h3>
-        <div th:if="${reviews != null && !reviews.isEmpty()}">
-            <div th:each="review : ${reviews}">
-                <div class="review">
-                    <p><strong th:text="${review.user.username}">Username</strong> - added at: <span th:text="${review.createdAt}">Date</span></p>
-                    <p th:text="${review.description}">Review Description</p>
+                    <!-- Add Review Form -->
+                    <div class="review-form">
+                        <form th:action="@{/review/addReview}" method="post">
+                            <input type="hidden" name="itemId" th:value="${item.itemId}" />
+                            <label for="reviewDescription">Add a review:</label>
+                            <textarea id="reviewDescription" name="description" rows="4" cols="50" required></textarea>
+                            <button type="submit">Submit</button>
+                        </form>
+                    </div>
                 </div>
             </div>
+            <div th:if="${item == null}">
+                <p>Item not found.</p>
+            </div>
         </div>
-        <div th:if="${reviews == null || reviews.isEmpty()}">
-            <p>No reviews yet.</p>
-        </div>
-
-        <!-- Add Review Form -->
-        <div class="review-form">
-            <form th:action="@{/review/addReview}" method="post">
-                <input type="hidden" name="itemId" th:value="${item.itemId}" />
-                <label for="reviewDescription">Add a review:</label>
-                <textarea id="reviewDescription" name="description" rows="4" cols="50" required></textarea>
-                <button type="submit">Submit</button>
-            </form>
-        </div>
-    </div>
-</div>
-<div th:if="${item == null}">
-    <p>Item not found.</p>
+    </th:block>
+    <th:block th:fragment="right_content">
+        <p></p>
+    </th:block>
 </div>
 <div th:replace="~{fragments/footer :: footer}"></div>
 

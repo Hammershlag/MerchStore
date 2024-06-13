@@ -11,20 +11,30 @@ Date: 12.06.2024
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 
-<h1>FAQ</h1>
-<ul>
-    <li>What is the return policy?
-        <br>Our return policy is 30 days. If 30 days have gone by since your purchase, unfortunately we can’t offer you a refund or exchange.
-    </li>
-    <li>How can I track my order?
-        <br>Once your order has been shipped, you will receive an email with a tracking number. You can use this number to track your order.
-    </li>
-    <li>How can I contact customer service?
-        <br>You can contact customer service by phone at 555-555-5555 or by email at
-    </li>
-</ul>
-
-
+<div th:replace="~{fragments/layout :: layout(left_content=${left_content}, content=${content}, right_content=${right_content})}">
+    <th:block th:fragment="left_content">
+        <p></p>
+    </th:block>
+    <th:block th:fragment="content">
+        <div>
+            <h1>FAQ</h1>
+            <ul>
+                <li>What is the return policy?
+                    <br>Our return policy is 30 days. If 30 days have gone by since your purchase, unfortunately we can’t offer you a refund or exchange.
+                </li>
+                <li>How can I track my order?
+                    <br>Once your order has been shipped, you will receive an email with a tracking number. You can use this number to track your order.
+                </li>
+                <li>How can I contact customer service?
+                    <br>You can contact customer service by phone at 555-555-5555 or by email at
+                </li>
+            </ul>
+        </div>
+    </th:block>
+    <th:block th:fragment="right_content">
+        <p></p>
+    </th:block>
+</div>
 
 <div th:replace="~{fragments/footer :: footer}"></div>
 </body>

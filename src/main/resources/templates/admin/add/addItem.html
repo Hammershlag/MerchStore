@@ -30,33 +30,44 @@
 </head>
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
+<div th:replace="~{fragments/layout :: layout(left_content=${left_content}, content=${content}, right_content=${right_content})}">
+  <th:block th:fragment="left_content">
+    <p></p>
+  </th:block>
+  <th:block th:fragment="content">
+    <div>
+      <a href="/api/admin/dashboard">Dashboard</a>
+      <h2>Add Item</h2>
+      <form action="/api/admin/add/item" method="post" enctype="multipart/form-data">
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="name" required><br>
 
-<a href="/api/admin/dashboard">Dashboard</a>
-<h2>Add Item</h2>
-<form action="/api/admin/add/item" method="post" enctype="multipart/form-data">
-  <label for="name">Name:</label><br>
-  <input type="text" id="name" name="name" required><br>
+        <label for="description">Description:</label><br>
+        <textarea id="description" name="description" required></textarea><br>
 
-  <label for="description">Description:</label><br>
-  <textarea id="description" name="description" required></textarea><br>
+        <label for="price">Price:</label><br>
+        <input type="number" id="price" name="price" required><br>
 
-  <label for="price">Price:</label><br>
-  <input type="number" id="price" name="price" required><br>
+        <label for="stockQuantity">Stock Quantity:</label><br>
+        <input type="number" id="stockQuantity" name="stockQuantity" min="0" required><br>
 
-  <label for="stockQuantity">Stock Quantity:</label><br>
-  <input type="number" id="stockQuantity" name="stockQuantity" min="0" required><br>
+        <label for="category">Category:</label><br>
+        <select id="category" name="category" required>
+          <option value="">Select Category</option>
+          <option th:each="category : ${categories}" th:value="${category.categoryId}" th:text="${category.name + ' - ' + category.description}"></option>
+        </select><br>
 
-  <label for="category">Category:</label><br>
-  <select id="category" name="category" required>
-    <option value="">Select Category</option>
-    <option th:each="category : ${categories}" th:value="${category.categoryId}" th:text="${category.name + ' - ' + category.description}"></option>
-  </select><br>
+        <label for="imageData">Image:</label><br>
+        <input type="file" id="imageData" name="imageData"><br>
 
-  <label for="imageData">Image:</label><br>
-  <input type="file" id="imageData" name="imageData"><br>
-
-  <input type="submit" value="Add Item">
-</form>
+        <input type="submit" value="Add Item">
+      </form>
+    </div>
+  </th:block>
+  <th:block th:fragment="right_content">
+    <p></p>
+  </th:block>
+</div>
 <div th:replace="~{fragments/footer :: footer}"></div>
 
 </body>

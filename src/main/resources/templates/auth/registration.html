@@ -27,53 +27,64 @@
 </head>
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
+<div th:replace="~{fragments/layout :: layout(left_content=${left_content}, content=${content}, right_content=${right_content})}">
+    <th:block th:fragment="left_content">
+        <p></p>
+    </th:block>
+    <th:block th:fragment="content">
+        <div>
+            <h2>User Registration</h2>
+            <form th:action="@{/api/register}" th:object="${user}" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+                <div th:if="${errorMessage}" style="color: red;">
+                    <p th:text="${errorMessage}"></p>
+                </div>
+                <label for="username">Username:</label><br>
+                <input type="text" id="username" name="username" th:field="*{username}" required><br>
 
+                <label for="password">Password:</label><br>
+                <input type="password" id="password" name="password" th:field="*{password}" oninput="checkPasswordStrength()" required>
+                <div id="password-strength"></div><br>
 
-<h2>User Registration</h2>
-<form th:action="@{/api/register}" th:object="${user}" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
-    <div th:if="${errorMessage}" style="color: red;">
-        <p th:text="${errorMessage}"></p>
-    </div>
-    <label for="username">Username:</label><br>
-    <input type="text" id="username" name="username" th:field="*{username}" required><br>
+                <label for="email">Email:</label><br>
+                <input type="email" id="email" name="email" th:field="*{email}" required><br>
 
-    <label for="password">Password:</label><br>
-    <input type="password" id="password" name="password" th:field="*{password}" oninput="checkPasswordStrength()" required>
-    <div id="password-strength"></div><br>
+                <label for="firstName">First Name:</label><br>
+                <input type="text" id="firstName" name="firstName" th:field="*{firstName}" oninput="validateName(this)" required><br>
 
-    <label for="email">Email:</label><br>
-    <input type="email" id="email" name="email" th:field="*{email}" required><br>
+                <label for="lastName">Last Name:</label><br>
+                <input type="text" id="lastName" name="lastName" th:field="*{lastName}" oninput="validateSurname(this)" required><br>
 
-    <label for="firstName">First Name:</label><br>
-    <input type="text" id="firstName" name="firstName" th:field="*{firstName}" oninput="validateName(this)" required><br>
+                <label for="birthDate">Birth Date:</label><br>
+                <input type="date" id="birthDate" name="birthDate" th:field="*{birthDate}" required><br><br>
 
-    <label for="lastName">Last Name:</label><br>
-    <input type="text" id="lastName" name="lastName" th:field="*{lastName}" oninput="validateSurname(this)" required><br>
+                <label for="phoneNumber">Phone Number:</label><br>
+                <input type="text" id="phoneNumber" name="phoneNumber" th:field="*{phoneNumber}"><br>
 
-    <label for="birthDate">Birth Date:</label><br>
-    <input type="date" id="birthDate" name="birthDate" th:field="*{birthDate}" required><br><br>
+                <label for="address">Address:</label><br>
+                <input type="text" id="address" name="address" th:field="*{address}"><br><br>
 
-    <label for="phoneNumber">Phone Number:</label><br>
-    <input type="text" id="phoneNumber" name="phoneNumber" th:field="*{phoneNumber}"><br>
+                <label for="gender">Gender:</label><br>
+                <select id="gender" name="gender" th:field="*{gender}" required>
+                    <option value="" selected="selected">Select your gender</option>
+                    <option value="MALE">Male</option>
+                    <option value="FEMALE">Female</option>
+                </select><br><br>
 
-    <label for="address">Address:</label><br>
-    <input type="text" id="address" name="address" th:field="*{address}"><br><br>
+                <label for="imageData">Profile Image:</label><br>
+                <input type="file" id="imageData" name="imageData" accept="image/jpeg,image/png,image/jpg"><br><br>
 
-    <label for="gender">Gender:</label><br>
-    <select id="gender" name="gender" th:field="*{gender}" required>
-        <option value="" selected="selected">Select your gender</option>
-        <option value="MALE">Male</option>
-        <option value="FEMALE">Female</option>
-    </select><br><br>
+                <input type="checkbox" id="termsCheckbox" onclick="toggleSubmitButton()">
+                <label for="termsCheckbox">I have read and agree to the <a href="/documents?name=termsandconditions" target="_blank">terms and conditions</a></label><br><br>
 
-    <label for="imageData">Profile Image:</label><br>
-    <input type="file" id="imageData" name="imageData" accept="image/jpeg,image/png,image/jpg"><br><br>
+                <input type="submit" id="submitButton" value="Register" disabled>
+            </form>
+        </div>
+    </th:block>
+    <th:block th:fragment="right_content">
+        <p></p>
+    </th:block>
+</div>
 
-    <input type="checkbox" id="termsCheckbox" onclick="toggleSubmitButton()">
-    <label for="termsCheckbox">I have read and agree to the <a href="/documents?name=termsandconditions" target="_blank">terms and conditions</a></label><br><br>
-
-    <input type="submit" id="submitButton" value="Register" disabled>
-</form>
 <div th:replace="~{fragments/footer :: footer}"></div>
 
 <script>

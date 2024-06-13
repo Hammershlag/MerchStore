@@ -10,8 +10,22 @@ Date: ${DATE}
 </head>
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
-<!--Place content here-->
 
+
+<div th:replace="~{fragments/layout :: layout(left_content=${left_content}, content=${content}, right_content=${right_content})}">
+    <th:block th:fragment="left_content">
+        <p></p>
+        <!-- Left side content -->
+    </th:block>
+    <th:block th:fragment="content">
+        <p></p>
+        <!-- Main content -->
+    </th:block>
+    <th:block th:fragment="right_content">
+        <p></p>
+        <!-- Right side content -->
+    </th:block>
+</div>
 
 <div th:replace="~{fragments/footer :: footer}"></div>
 </body>

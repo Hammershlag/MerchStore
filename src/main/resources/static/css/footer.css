@@ -6,6 +6,7 @@ footer {
     padding: 20px;
     text-align: center;
     box-sizing: border-box;
+    min-width: inherit;
 }
 
 .footer-links {

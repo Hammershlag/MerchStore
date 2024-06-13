@@ -10,34 +10,45 @@ Date: 13.06.2024
 </head>
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
-<!--Place content here-->
 
-<h2>Newsletter</h2>
+<div th:replace="~{fragments/layout :: layout(left_content=${left_content}, content=${content}, right_content=${right_content})}">
+    <th:block th:fragment="left_content">
+        <p></p>
+    </th:block>
+    <th:block th:fragment="content">
+        <div>
+            <h2>Newsletter</h2>
 
-<p>Stay informed with our latest updates, promotions, and news by subscribing to our newsletter.</p>
+            <p>Stay informed with our latest updates, promotions, and news by subscribing to our newsletter.</p>
 
-<form action="#" method="post" class="newsletter-form">
-    <label for="email">Subscribe to our Newsletter:</label><br>
-    <input type="email" id="email" name="email" placeholder="Your Email Address" required>
-    <button type="submit">Subscribe</button>
-</form>
+            <form action="#" method="post" class="newsletter-form">
+                <label for="email">Subscribe to our Newsletter:</label><br>
+                <input type="email" id="email" name="email" placeholder="Your Email Address" required>
+                <button type="submit">Subscribe</button>
+            </form>
 
-<div class="newsletter-benefits">
-    <h3>Newsletter Benefits</h3>
-    <ul>
-        <li><strong>Exclusive Offers:</strong> Receive special offers and discounts directly in your inbox.</li>
-        <li><strong>Latest Updates:</strong> Stay updated with our latest products, events, and company news.</li>
-        <li><strong>First Access:</strong> Be the first to know about upcoming promotions and new arrivals.</li>
-    </ul>
-</div>
+            <div class="newsletter-benefits">
+                <h3>Newsletter Benefits</h3>
+                <ul>
+                    <li><strong>Exclusive Offers:</strong> Receive special offers and discounts directly in your inbox.</li>
+                    <li><strong>Latest Updates:</strong> Stay updated with our latest products, events, and company news.</li>
+                    <li><strong>First Access:</strong> Be the first to know about upcoming promotions and new arrivals.</li>
+                </ul>
+            </div>
 
-<div class="manage-subscription">
-    <h3>Manage Your Subscription</h3>
-    <p>If you're already subscribed, you can manage your subscription preferences:</p>
-    <ul>
-        <li><a href="#">Update your email preferences</a></li>
-        <li><a href="#">Unsubscribe from our newsletter</a></li>
-    </ul>
+            <div class="manage-subscription">
+                <h3>Manage Your Subscription</h3>
+                <p>If you're already subscribed, you can manage your subscription preferences:</p>
+                <ul>
+                    <li><a href="#">Update your email preferences</a></li>
+                    <li><a href="#">Unsubscribe from our newsletter</a></li>
+                </ul>
+            </div>
+        </div>
+    </th:block>
+    <th:block th:fragment="right_content">
+        <p></p>
+    </th:block>
 </div>
 
 <div th:replace="~{fragments/footer :: footer}"></div>

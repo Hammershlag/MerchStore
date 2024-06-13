@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <th:block th:replace="~{fragments/header :: headerfiles}"></th:block>
     <title>Owner Dashboard</title>
@@ -7,9 +7,21 @@
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 
-<a href="/api/logout">Logout</a><br>
-<a href="/api/admin/dashboard">Admin Dashboard</a><br>
-<a href="/api/owner/add/user/form">Add User</a><br>
+<div th:replace="~{fragments/layout :: layout(left_content=${left_content}, content=${content}, right_content=${right_content})}">
+    <th:block th:fragment="left_content">
+        <p></p>
+    </th:block>
+    <th:block th:fragment="content">
+        <div>
+            <a href="/api/logout">Logout</a><br>
+            <a href="/api/admin/dashboard">Admin Dashboard</a><br>
+            <a href="/api/owner/add/user/form">Add User</a><br>
+        </div>
+    </th:block>
+    <th:block th:fragment="right_content">
+        <p></p>
+    </th:block>
+</div>
 <div th:replace="~{fragments/footer :: footer}"></div>
 
 </body>

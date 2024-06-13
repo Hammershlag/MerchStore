@@ -44,73 +44,84 @@
 </head>
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
-
-<h2>Items</h2>
-<a href="/">Home</a>
-<form action="/item/all" method="get">
-    <label for="category">Filter by Category:</label>
-    <select id="category" name="category">
-        <option value="">All Categories</option>
-        <option th:each="category : ${categories}" th:value="${category.categoryId}" th:text="${category.name}" th:selected="${selectedCategoryId == category.categoryId}"></option>
-    </select>
-    <label for="searchItems">Search:</label>
-    <input type="text" id="searchItems" name="searchItems" placeholder="Enter item name" th:value="${searchItems}">
-    <button type="submit">Search</button>
-</form>
-<div>
-    <label for="sort">Sort by: </label>
-    <select id="sort" onchange="updateSorting()">
-        <option value="name" th:selected="${sortField == 'name'}">Name</option>
-        <option value="price" th:selected="${sortField == 'price'}">Price</option>
-        <option value="stockQuantity" th:selected="${sortField == 'stockQuantity'}">Stock Quantity</option>
-        <option value="category" th:selected="${sortField == 'category'}">Category</option>
-    </select>
-</div>
-<div>
-    <label for="order">Order by: </label>
-    <select id="order" onchange="updateSorting()">
-        <option value="asc" th:selected="${order == 'asc'}">Ascending</option>
-        <option value="desc" th:selected="${order == 'desc'}">Descending</option>
-    </select>
-</div>
-<div>
-    <label for="itemsPerPage">Items per page: </label>
-    <input type="number" id="itemsPerPage" min="1" value="20" onchange="updateItemsPerPage()" th:value="${itemsPerPage}">
-</div>
-<table>
-    <thead>
-    <tr>
-        <th>Image</th>
-        <th>Name</th>
-        <th>Description</th>
-        <th>Price</th>
-        <th>Stock Quantity</th>
-        <th>Category</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="item : ${items}" th:if="${item.stockQuantity > 0}" th:onclick="|window.location='/item?id=' + ${item.itemId}|">
-        <td>
-            <img th:src="@{/api/image/item/{id}(id=${item.itemId})}" alt="Item Image" style="max-width: 100px; max-height: 100px;">
-        </td>
-        <td th:text="${item.name}"></td>
-        <td th:text="${item.description}"></td>
-        <td th:text="${item.price}"></td>
-        <td th:text="${item.stockQuantity}"></td>
-        <td th:text="${item.category.name}"></td>
-    </tr>
-    </tbody>
-</table>
-<div class="pagination">
-    <a th:if="${currentPage > 1}" th:href="@{|/item/all?page=${currentPage - 1}&category=${selectedCategoryId == null ? '' : selectedCategoryId}&sortField=${sortField}&order=${order}&itemsPerPage=${itemsPerPage}|}">&laquo;</a>
-    <a th:if="${currentPage > 2}" th:href="@{|/item/all?page=1&category=${selectedCategoryId == null ? '' : selectedCategoryId}&sortField=${sortField}&order=${order}&itemsPerPage=${itemsPerPage}|}">1</a>
-    <span th:if="${currentPage > 3}">...</span>
-    <a th:each="i : ${#numbers.sequence(1, totalPages)}" th:if="${i <= 2 or i >= totalPages - 1 or (i >= currentPage - 1 and i <= currentPage + 1)}" th:href="@{|/item/all?page=${i}&category=${selectedCategoryId == null ? '' : selectedCategoryId}&sortField=${sortField}&order=${order}&itemsPerPage=${itemsPerPage}|}" th:classappend="${currentPage == i} ? 'active'">
-        <span th:text="${i}"></span>
-    </a>
-    <span th:if="${currentPage < totalPages - 2}">...</span>
-    <a th:if="${currentPage < totalPages}" th:href="@{|/item/all?page=${totalPages}&category=${selectedCategoryId == null ? '' : selectedCategoryId}&sortField=${sortField}&order=${order}&itemsPerPage=${itemsPerPage}|}"><span th:text="${totalPages}"></span></a>
-    <a th:if="${currentPage < totalPages}" th:href="@{|/item/all?page=${currentPage + 1}&category=${selectedCategoryId == null ? '' : selectedCategoryId}&sortField=${sortField}&order=${order}&itemsPerPage=${itemsPerPage}|}">&raquo;</a>
+<div th:replace="~{fragments/layout :: layout(left_content=${left_content}, content=${content}, right_content=${right_content})}">
+    <th:block th:fragment="left_content">
+        <p></p>
+    </th:block>
+    <th:block th:fragment="content">
+        <div>
+            <h2>Items</h2>
+            <a href="/">Home</a>
+            <form action="/item/all" method="get">
+                <label for="category">Filter by Category:</label>
+                <select id="category" name="category">
+                    <option value="">All Categories</option>
+                    <option th:each="category : ${categories}" th:value="${category.categoryId}" th:text="${category.name}" th:selected="${selectedCategoryId == category.categoryId}"></option>
+                </select>
+                <label for="searchItems">Search:</label>
+                <input type="text" id="searchItems" name="searchItems" placeholder="Enter item name" th:value="${searchItems}">
+                <button type="submit">Search</button>
+            </form>
+            <div>
+                <label for="sort">Sort by: </label>
+                <select id="sort" onchange="updateSorting()">
+                    <option value="name" th:selected="${sortField == 'name'}">Name</option>
+                    <option value="price" th:selected="${sortField == 'price'}">Price</option>
+                    <option value="stockQuantity" th:selected="${sortField == 'stockQuantity'}">Stock Quantity</option>
+                    <option value="category" th:selected="${sortField == 'category'}">Category</option>
+                </select>
+            </div>
+            <div>
+                <label for="order">Order by: </label>
+                <select id="order" onchange="updateSorting()">
+                    <option value="asc" th:selected="${order == 'asc'}">Ascending</option>
+                    <option value="desc" th:selected="${order == 'desc'}">Descending</option>
+                </select>
+            </div>
+            <div>
+                <label for="itemsPerPage">Items per page: </label>
+                <input type="number" id="itemsPerPage" min="1" value="20" onchange="updateItemsPerPage()" th:value="${itemsPerPage}">
+            </div>
+            <table>
+                <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th>Stock Quantity</th>
+                    <th>Category</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="item : ${items}" th:if="${item.stockQuantity > 0}" th:onclick="|window.location='/item?id=' + ${item.itemId}|">
+                    <td>
+                        <img th:src="@{/api/image/item/{id}(id=${item.itemId})}" alt="Item Image" style="max-width: 100px; max-height: 100px;">
+                    </td>
+                    <td th:text="${item.name}"></td>
+                    <td th:text="${item.description}"></td>
+                    <td th:text="${item.price}"></td>
+                    <td th:text="${item.stockQuantity}"></td>
+                    <td th:text="${item.category.name}"></td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="pagination">
+                <a th:if="${currentPage > 1}" th:href="@{|/item/all?page=${currentPage - 1}&category=${selectedCategoryId == null ? '' : selectedCategoryId}&sortField=${sortField}&order=${order}&itemsPerPage=${itemsPerPage}|}">&laquo;</a>
+                <a th:if="${currentPage > 2}" th:href="@{|/item/all?page=1&category=${selectedCategoryId == null ? '' : selectedCategoryId}&sortField=${sortField}&order=${order}&itemsPerPage=${itemsPerPage}|}">1</a>
+                <span th:if="${currentPage > 3}">...</span>
+                <a th:each="i : ${#numbers.sequence(1, totalPages)}" th:if="${i <= 2 or i >= totalPages - 1 or (i >= currentPage - 1 and i <= currentPage + 1)}" th:href="@{|/item/all?page=${i}&category=${selectedCategoryId == null ? '' : selectedCategoryId}&sortField=${sortField}&order=${order}&itemsPerPage=${itemsPerPage}|}" th:classappend="${currentPage == i} ? 'active'">
+                    <span th:text="${i}"></span>
+                </a>
+                <span th:if="${currentPage < totalPages - 2}">...</span>
+                <a th:if="${currentPage < totalPages}" th:href="@{|/item/all?page=${totalPages}&category=${selectedCategoryId == null ? '' : selectedCategoryId}&sortField=${sortField}&order=${order}&itemsPerPage=${itemsPerPage}|}"><span th:text="${totalPages}"></span></a>
+                <a th:if="${currentPage < totalPages}" th:href="@{|/item/all?page=${currentPage + 1}&category=${selectedCategoryId == null ? '' : selectedCategoryId}&sortField=${sortField}&order=${order}&itemsPerPage=${itemsPerPage}|}">&raquo;</a>
+            </div>
+        </div>
+    </th:block>
+    <th:block th:fragment="right_content">
+        <p></p>
+    </th:block>
 </div>
 <div th:replace="~{fragments/footer :: footer}"></div>
 

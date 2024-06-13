@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <th:block th:replace="~{fragments/header :: headerfiles}"></th:block>
     <title>Cart</title>
@@ -35,80 +35,91 @@
 </head>
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
-
-<a href="/user/cart/checkout/all">View All existing Orders</a>
-<div th:if="${cartItems.size() == 0}">
-    <p>Your cart is empty.</p>
-</div>
-<div th:if="${cartItems.size() > 0}">
-    <h2>Cart</h2>
-    <div>
-        <label for="sort">Sort by: </label>
-        <select id="sort" onchange="updateSorting()">
-            <option value="" th:selected="${sortField == null}">Select</option>
-            <option value="name" th:selected="${sortField == 'name'}">Name</option>
-            <option value="price" th:selected="${sortField == 'price'}">Price</option>
-            <option value="quantity" th:selected="${sortField == 'quantity'}">Quantity</option>
-            <option value="totalPrice" th:selected="${sortField == 'totalPrice'}">Total Price</option>
-        </select>
-    </div>
-    <div>
-        <label for="order">Order by: </label>
-        <select id="order" onchange="updateSorting()">
-            <option value="" th:selected="${order == null}">Select</option>
-            <option value="asc" th:selected="${order == 'asc'}">Ascending</option>
-            <option value="desc" th:selected="${order == 'desc'}">Descending</option>
-        </select>
-    </div>
-    <table>
-        <thead>
-        <tr>
-            <th>Image</th>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Price</th>
-            <th>Quantity</th>
-            <th>Total Price</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="cartItem : ${cartItems}">
-            <td><img th:src="@{/api/image/item/{id}(id=${cartItem.item.itemId})}" alt="Item Image" style="max-width: 100px; max-height: 100px;"></td>
-            <td th:text="${cartItem.item.name}"></td>
-            <td th:text="${cartItem.item.description}"></td>
-            <td th:text="${cartItem.item.price}"></td>
-            <td th:text="${cartItem.quantity}"></td>
-            <td th:text="${cartItem.item.price * cartItem.quantity}"></td>
-            <td>
-                <!-- Update these forms -->
-                <form th:action="@{/user/cart/increase}" method="post" style="display: inline;">
-                    <input type="hidden" name="itemId" th:value="${cartItem.item.itemId}" />
-                    <input type="hidden" name="sortField" th:value="${sortField}" />
-                    <input type="hidden" name="order" th:value="${order}" />
-                    <button type="submit">+</button>
+<div th:replace="~{fragments/layout :: layout(left_content=${left_content}, content=${content}, right_content=${right_content})}">
+    <th:block th:fragment="left_content">
+        <p></p>
+    </th:block>
+    <th:block th:fragment="content">
+        <div>
+            <a href="/user/cart/checkout/all">View All existing Orders</a>
+            <div th:if="${cartItems.size() == 0}">
+                <p>Your cart is empty.</p>
+            </div>
+            <div th:if="${cartItems.size() > 0}">
+                <h2>Cart</h2>
+                <div>
+                    <label for="sort">Sort by: </label>
+                    <select id="sort" onchange="updateSorting()">
+                        <option value="" th:selected="${sortField == null}">Select</option>
+                        <option value="name" th:selected="${sortField == 'name'}">Name</option>
+                        <option value="price" th:selected="${sortField == 'price'}">Price</option>
+                        <option value="quantity" th:selected="${sortField == 'quantity'}">Quantity</option>
+                        <option value="totalPrice" th:selected="${sortField == 'totalPrice'}">Total Price</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="order">Order by: </label>
+                    <select id="order" onchange="updateSorting()">
+                        <option value="" th:selected="${order == null}">Select</option>
+                        <option value="asc" th:selected="${order == 'asc'}">Ascending</option>
+                        <option value="desc" th:selected="${order == 'desc'}">Descending</option>
+                    </select>
+                </div>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Total Price</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="cartItem : ${cartItems}">
+                        <td><img th:src="@{/api/image/item/{id}(id=${cartItem.item.itemId})}" alt="Item Image" style="max-width: 100px; max-height: 100px;"></td>
+                        <td th:text="${cartItem.item.name}"></td>
+                        <td th:text="${cartItem.item.description}"></td>
+                        <td th:text="${cartItem.item.price}"></td>
+                        <td th:text="${cartItem.quantity}"></td>
+                        <td th:text="${cartItem.item.price * cartItem.quantity}"></td>
+                        <td>
+                            <!-- Update these forms -->
+                            <form th:action="@{/user/cart/increase}" method="post" style="display: inline;">
+                                <input type="hidden" name="itemId" th:value="${cartItem.item.itemId}" />
+                                <input type="hidden" name="sortField" th:value="${sortField}" />
+                                <input type="hidden" name="order" th:value="${order}" />
+                                <button type="submit">+</button>
+                            </form>
+                            <form th:action="@{/user/cart/decrease}" method="post" style="display: inline;">
+                                <input type="hidden" name="itemId" th:value="${cartItem.item.itemId}" />
+                                <input type="hidden" name="sortField" th:value="${sortField}" />
+                                <input type="hidden" name="order" th:value="${order}" />
+                                <button type="submit">-</button>
+                            </form>
+                            <form th:action="@{/user/cart/remove}" method="post" style="display: inline;">
+                                <input type="hidden" name="itemId" th:value="${cartItem.item.itemId}" />
+                                <input type="hidden" name="sortField" th:value="${sortField}" />
+                                <input type="hidden" name="order" th:value="${order}" />
+                                <button type="submit" class="remove">Remove</button>
+                            </form>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <form th:action="@{/user/cart/checkout}" method="post">
+                    <label for="discountCode">Discount Code:</label>
+                    <input type="text" id="discountCode" name="discountCode" placeholder="Enter discount code" />
+                    <button type="submit">Checkout</button>
                 </form>
-                <form th:action="@{/user/cart/decrease}" method="post" style="display: inline;">
-                    <input type="hidden" name="itemId" th:value="${cartItem.item.itemId}" />
-                    <input type="hidden" name="sortField" th:value="${sortField}" />
-                    <input type="hidden" name="order" th:value="${order}" />
-                    <button type="submit">-</button>
-                </form>
-                <form th:action="@{/user/cart/remove}" method="post" style="display: inline;">
-                    <input type="hidden" name="itemId" th:value="${cartItem.item.itemId}" />
-                    <input type="hidden" name="sortField" th:value="${sortField}" />
-                    <input type="hidden" name="order" th:value="${order}" />
-                    <button type="submit" class="remove">Remove</button>
-                </form>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-    <form th:action="@{/user/cart/checkout}" method="post">
-        <label for="discountCode">Discount Code:</label>
-        <input type="text" id="discountCode" name="discountCode" placeholder="Enter discount code" />
-        <button type="submit">Checkout</button>
-    </form>
+            </div>
+        </div>
+    </th:block>
+    <th:block th:fragment="right_content">
+        <p></p>
+    </th:block>
 </div>
 <div th:replace="~{fragments/footer :: footer}"></div>
 

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Layout Fragment</title>
+    <link th:href="@{/css/layout.css}" rel="stylesheet">
+</head>
+<body>
+<div th:fragment="layout(left_content, content, right_content)">
+    <div class="content-area">
+        <div class="sidebar">
+            <div th:replace="~{${left_content} :: left_content}"></div>
+        </div>
+        <div class="content">
+            <!-- Main Content -->
+            <div th:replace="~{${content} :: content}"></div>
+        </div>
+        <div class="extra-content">
+            <div th:replace="~{${right_content} :: right_content}"></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

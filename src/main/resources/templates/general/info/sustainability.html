@@ -10,41 +10,51 @@ Date: 13.06.2024
 </head>
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
-<!--Place content here-->
 
-<h2>Sustainability</h2>
+<div th:replace="~{fragments/layout :: layout(left_content=${left_content}, content=${content}, right_content=${right_content})}">
+    <th:block th:fragment="left_content">
+        <p></p>
+    </th:block>
+    <th:block th:fragment="content">
+        <div>
+            <h2>Sustainability</h2>
 
-<p>Welcome to our Sustainability page! At [Your Company Name], we are committed to environmental stewardship and social responsibility. Here are some of the initiatives and practices we follow:</p>
+            <p>Welcome to our Sustainability page! At [Your Company Name], we are committed to environmental stewardship and social responsibility. Here are some of the initiatives and practices we follow:</p>
 
-<div class="initiatives">
-    <h3>Our Sustainability Initiatives</h3>
-    <ul>
-        <li>
-            <strong>Reducing Carbon Footprint:</strong> We actively monitor and reduce our carbon emissions through energy-efficient practices and renewable energy sources.
-        </li>
-        <li>
-            <strong>Recycling Program:</strong> We promote recycling within our offices and encourage employees to participate in waste reduction efforts.
-        </li>
-        <li>
-            <strong>Community Engagement:</strong> We engage with local communities to support environmental education and conservation projects.
-        </li>
-        <li>
-            <strong>Sustainable Sourcing:</strong> We prioritize suppliers who adhere to sustainable sourcing practices, ensuring our products and materials are responsibly sourced.
-        </li>
-    </ul>
+            <div class="initiatives">
+                <h3>Our Sustainability Initiatives</h3>
+                <ul>
+                    <li>
+                        <strong>Reducing Carbon Footprint:</strong> We actively monitor and reduce our carbon emissions through energy-efficient practices and renewable energy sources.
+                    </li>
+                    <li>
+                        <strong>Recycling Program:</strong> We promote recycling within our offices and encourage employees to participate in waste reduction efforts.
+                    </li>
+                    <li>
+                        <strong>Community Engagement:</strong> We engage with local communities to support environmental education and conservation projects.
+                    </li>
+                    <li>
+                        <strong>Sustainable Sourcing:</strong> We prioritize suppliers who adhere to sustainable sourcing practices, ensuring our products and materials are responsibly sourced.
+                    </li>
+                </ul>
+            </div>
+
+            <div class="goals">
+                <h3>Our Sustainability Goals</h3>
+                <p>Looking forward, we aim to achieve the following sustainability goals:</p>
+                <ul>
+                    <li>Reduce our overall waste generation by 20% by the end of next year.</li>
+                    <li>Implement water conservation measures to reduce consumption by 15% over the next five years.</li>
+                    <li>Expand our use of renewable energy sources to cover 50% of our energy needs by 2030.</li>
+                    <li>Enhance employee engagement in sustainability practices through awareness campaigns and training programs.</li>
+                </ul>
+            </div>
+        </div>
+    </th:block>
+    <th:block th:fragment="right_content">
+        <p></p>
+    </th:block>
 </div>
-
-<div class="goals">
-    <h3>Our Sustainability Goals</h3>
-    <p>Looking forward, we aim to achieve the following sustainability goals:</p>
-    <ul>
-        <li>Reduce our overall waste generation by 20% by the end of next year.</li>
-        <li>Implement water conservation measures to reduce consumption by 15% over the next five years.</li>
-        <li>Expand our use of renewable energy sources to cover 50% of our energy needs by 2030.</li>
-        <li>Enhance employee engagement in sustainability practices through awareness campaigns and training programs.</li>
-    </ul>
-</div>
-
 
 <div th:replace="~{fragments/footer :: footer}"></div>
 </body>

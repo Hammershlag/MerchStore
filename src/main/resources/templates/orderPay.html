@@ -1,16 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <th:block th:replace="~{fragments/header :: headerfiles}"></th:block>
     <title>Order Pay</title>
 </head>
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
-
-Do something to pay for the order.
-<form th::action="'/api/pay/order?id=' + ${id} " method="post">
-    <button type="submit">Pay</button>
-</form>
+<div th:replace="~{fragments/layout :: layout(left_content=${left_content}, content=${content}, right_content=${right_content})}">
+    <th:block th:fragment="left_content">
+        <p></p>
+    </th:block>
+    <th:block th:fragment="content">
+        <div>
+            Do something to pay for the order.
+            <form th::action="'/api/pay/order?id=' + ${id} " method="post">
+                <button type="submit">Pay</button>
+            </form>
+        </div>
+    </th:block>
+    <th:block th:fragment="right_content">
+        <p></p>
+    </th:block>
+</div>
 <div th:replace="~{fragments/footer :: footer}"></div>
 
 </body>

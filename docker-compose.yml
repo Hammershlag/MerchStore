@@ -2,6 +2,7 @@ version: '3.8'
 
 services:
   merchStore:
+    container_name: merchStoreDB
     image: 'postgres:latest'
     environment:
       - 'POSTGRES_DB=merchDatabase'
@@ -12,6 +13,18 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./backup:/docker-entrypoint-initdb.d
+
+  pg_admin:
+    image: dpage/pgadmin4:latest
+    container_name: pgadmin4
+    ports:
+      - '15432:80'
+    environment:
+      - GUNICORN_THREADS=1
+      - PGADMIN_DEFAULT_EMAIL=admin
+      - PGADMIN_DEFAULT_PASSWORD=admin
+    depends_on:
+      - merchStore
 
 volumes:
   postgres_data:

@@ -10,48 +10,59 @@ Date: 13.06.2024
 </head>
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
-<!--Place content here-->
 
-<h2>Press</h2>
+<div th:replace="~{fragments/layout :: layout(left_content=${left_content}, content=${content}, right_content=${right_content})}">
+    <th:block th:fragment="left_content">
+        <p></p>
+    </th:block>
+    <th:block th:fragment="content">
+        <div>
+            <h2>Press</h2>
 
-<div class="press-releases">
-    <h3>Recent Press Releases</h3>
-    <ul>
-        <li>
-            <strong>Date:</strong> June 1, 2024<br>
-            <strong>Title:</strong> [Your Company] Launches New Sustainability Initiative<br>
-            <strong>Summary:</strong> [Your Company] announces a new initiative aimed at reducing plastic waste by 50% within the next year. The initiative includes partnerships with local recycling facilities and educational outreach programs.
-            <a href="#">Read More</a>
-        </li>
-        <li>
-            <strong>Date:</strong> May 15, 2024<br>
-            <strong>Title:</strong> [Your Company] Receives Industry Recognition for Innovation in Technology<br>
-            <strong>Summary:</strong> [Your Company] is honored with the Innovation Award for its groundbreaking advancements in AI technology, revolutionizing customer service experiences worldwide.
-            <a href="#">Read More</a>
-        </li>
-        <!-- Add more press releases here as needed -->
-    </ul>
-</div>
+            <div class="press-releases">
+                <h3>Recent Press Releases</h3>
+                <ul>
+                    <li>
+                        <strong>Date:</strong> June 1, 2024<br>
+                        <strong>Title:</strong> [Your Company] Launches New Sustainability Initiative<br>
+                        <strong>Summary:</strong> [Your Company] announces a new initiative aimed at reducing plastic waste by 50% within the next year. The initiative includes partnerships with local recycling facilities and educational outreach programs.
+                        <a href="#">Read More</a>
+                    </li>
+                    <li>
+                        <strong>Date:</strong> May 15, 2024<br>
+                        <strong>Title:</strong> [Your Company] Receives Industry Recognition for Innovation in Technology<br>
+                        <strong>Summary:</strong> [Your Company] is honored with the Innovation Award for its groundbreaking advancements in AI technology, revolutionizing customer service experiences worldwide.
+                        <a href="#">Read More</a>
+                    </li>
+                    <!-- Add more press releases here as needed -->
+                </ul>
+            </div>
 
-<div class="media-coverage">
-    <h3>Media Coverage</h3>
-    <ul>
-        <li>
-            <strong>Date:</strong> April 25, 2024<br>
-            <strong>Publication:</strong> TechToday<br>
-            <strong>Title:</strong> How [Your Company] is Leading the Way in Sustainable Practices<br>
-            <strong>Summary:</strong> TechToday features [Your Company]'s efforts in sustainability, highlighting its innovative solutions and commitment to environmental stewardship.
-            <a href="#">Read More</a>
-        </li>
-        <li>
-            <strong>Date:</strong> March 10, 2024<br>
-            <strong>Publication:</strong> Business Insights<br>
-            <strong>Title:</strong> Interview with CEO of [Your Company] on Future Growth Strategies<br>
-            <strong>Summary:</strong> Business Insights interviews [Your Company]'s CEO, discussing strategic initiatives and future plans for expansion.
-            <a href="#">Read More</a>
-        </li>
-        <!-- Add more media coverage articles here as needed -->
-    </ul>
+            <div class="media-coverage">
+                <h3>Media Coverage</h3>
+                <ul>
+                    <li>
+                        <strong>Date:</strong> April 25, 2024<br>
+                        <strong>Publication:</strong> TechToday<br>
+                        <strong>Title:</strong> How [Your Company] is Leading the Way in Sustainable Practices<br>
+                        <strong>Summary:</strong> TechToday features [Your Company]'s efforts in sustainability, highlighting its innovative solutions and commitment to environmental stewardship.
+                        <a href="#">Read More</a>
+                    </li>
+                    <li>
+                        <strong>Date:</strong> March 10, 2024<br>
+                        <strong>Publication:</strong> Business Insights<br>
+                        <strong>Title:</strong> Interview with CEO of [Your Company] on Future Growth Strategies<br>
+                        <strong>Summary:</strong> Business Insights interviews [Your Company]'s CEO, discussing strategic initiatives and future plans for expansion.
+                        <a href="#">Read More</a>
+                    </li>
+                    <!-- Add more media coverage articles here as needed -->
+                </ul>
+            </div>
+        </div>
+    </th:block>
+    <th:block th:fragment="right_content">
+        <p></p>
+    </th:block>
 </div>
 
 <div th:replace="~{fragments/footer :: footer}"></div>

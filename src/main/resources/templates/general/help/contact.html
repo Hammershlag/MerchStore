@@ -10,11 +10,21 @@ Date: 12.06.2024
 </head>
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
-<!--Place content here-->
 
-<h1>Contact</h1>
-<p>For any questions or concerns, please contact us at 555-555-5555 or by email at <a th:href="'mailto:' + #{company.email}" th:text="#{company.email}">Email</a></p>
-
+<div th:replace="~{fragments/layout :: layout(left_content=${left_content}, content=${content}, right_content=${right_content})}">
+    <th:block th:fragment="left_content">
+        <p></p>
+    </th:block>
+    <th:block th:fragment="content">
+        <div>
+            <h1>Contact</h1>
+            <p>For any questions or concerns, please contact us at 555-555-5555 or by email at <a th:href="'mailto:' + #{company.email}" th:text="#{company.email}">Email</a></p>
+        </div>
+    </th:block>
+    <th:block th:fragment="right_content">
+        <p></p>
+    </th:block>
+</div>
 <div th:replace="~{fragments/footer :: footer}"></div>
 </body>
 </html>

@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <th:block th:replace="~{fragments/header :: headerfiles}"></th:block>
+
     <title>Add Discount</title>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
@@ -49,30 +50,41 @@
 </head>
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
+<div th:replace="~{fragments/layout :: layout(left_content=${left_content}, content=${content}, right_content=${right_content})}">
+    <th:block th:fragment="left_content">
+        <p></p>
+    </th:block>
+    <th:block th:fragment="content">
+        <div>
+            <a href="/api/admin/dashboard">Dashboard</a>
+            <h2>Add Discount</h2>
+            <form action="/api/admin/add/discount" method="post">
+                <label for="code">Code (letters and numbers only):</label><br>
+                <input type="text" id="code" name="code" pattern="[A-Za-z0-9]+" required><br>
 
-<a href="/api/admin/dashboard">Dashboard</a>
-<h2>Add Discount</h2>
-<form action="/api/admin/add/discount" method="post">
-    <label for="code">Code (letters and numbers only):</label><br>
-    <input type="text" id="code" name="code" pattern="[A-Za-z0-9]+" required><br>
+                <label for="description">Description:</label><br>
+                <textarea id="description" name="description"></textarea><br>
 
-    <label for="description">Description:</label><br>
-    <textarea id="description" name="description"></textarea><br>
+                <label for="discountPercentage">Discount Percentage:</label><br>
+                <input type="number" id="discountPercentage" name="discountPercentage" step="0.01" max="100.00" required><br>
 
-    <label for="discountPercentage">Discount Percentage:</label><br>
-    <input type="number" id="discountPercentage" name="discountPercentage" step="0.01" max="100.00" required><br>
+                <label for="validFrom">Valid From:</label><br>
+                <input type="date" id="validFrom" name="validFrom" required><br>
 
-    <label for="validFrom">Valid From:</label><br>
-    <input type="date" id="validFrom" name="validFrom" required><br>
+                <label for="validUntil">Valid Until:</label><br>
+                <input type="date" id="validUntil" name="validUntil" required><br><br>
 
-    <label for="validUntil">Valid Until:</label><br>
-    <input type="date" id="validUntil" name="validUntil" required><br><br>
+                <label for="itemId">Item ID:</label><br>
+                <input type="number" id="itemId" name="itemId" required><br><br>
 
-    <label for="itemId">Item ID:</label><br>
-    <input type="number" id="itemId" name="itemId" required><br><br>
-
-    <input type="submit" value="Submit">
-</form>
+                <input type="submit" value="Submit">
+            </form>
+        </div>
+    </th:block>
+    <th:block th:fragment="right_content">
+        <p></p>
+    </th:block>
+</div>
 <div th:replace="~{fragments/footer :: footer}"></div>
 
 </body>

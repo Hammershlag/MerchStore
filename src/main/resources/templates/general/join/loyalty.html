@@ -10,40 +10,51 @@ Date: 13.06.2024
 </head>
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
-<!--Place content here-->
 
-<h2>Loyalty Program</h2>
+<div th:replace="~{fragments/layout :: layout(left_content=${left_content}, content=${content}, right_content=${right_content})}">
+    <th:block th:fragment="left_content">
+        <p></p>
+    </th:block>
+    <th:block th:fragment="content">
+        <div>
+            <h2>Loyalty Program</h2>
 
-<p>Welcome to our Loyalty Program page! Join our loyalty program to enjoy exclusive benefits and rewards as a valued customer.</p>
+            <p>Welcome to our Loyalty Program page! Join our loyalty program to enjoy exclusive benefits and rewards as a valued customer.</p>
 
-<div class="program-benefits">
-    <h3>Program Benefits</h3>
-    <ul>
-        <li><strong>Points Accumulation:</strong> Earn points for every purchase, which can be redeemed for discounts or free products/services.</li>
-        <li><strong>Exclusive Offers:</strong> Access to member-only promotions, discounts, and special events.</li>
-        <li><strong>Birthday Rewards:</strong> Receive special offers or discounts during your birthday month.</li>
-        <li><strong>Early Access:</strong> Be the first to know about new product launches and get early access.</li>
-    </ul>
-</div>
+            <div class="program-benefits">
+                <h3>Program Benefits</h3>
+                <ul>
+                    <li><strong>Points Accumulation:</strong> Earn points for every purchase, which can be redeemed for discounts or free products/services.</li>
+                    <li><strong>Exclusive Offers:</strong> Access to member-only promotions, discounts, and special events.</li>
+                    <li><strong>Birthday Rewards:</strong> Receive special offers or discounts during your birthday month.</li>
+                    <li><strong>Early Access:</strong> Be the first to know about new product launches and get early access.</li>
+                </ul>
+            </div>
 
-<div class="how-to-join">
-    <h3>How to Join</h3>
-    <p>Joining our loyalty program is easy:</p>
-    <ol>
-        <li>Visit our website or store and sign up for an account.</li>
-        <li>Start earning points immediately with your purchases.</li>
-        <li>Enjoy the benefits of being a loyal member!</li>
-    </ol>
-</div>
+            <div class="how-to-join">
+                <h3>How to Join</h3>
+                <p>Joining our loyalty program is easy:</p>
+                <ol>
+                    <li>Visit our website or store and sign up for an account.</li>
+                    <li>Start earning points immediately with your purchases.</li>
+                    <li>Enjoy the benefits of being a loyal member!</li>
+                </ol>
+            </div>
 
-<div class="loyalty-app">
-    <h3>Loyalty App</h3>
-    <p>Download our loyalty app for even more convenience:</p>
-    <ul>
-        <li><strong>Mobile Access:</strong> Manage your account and track points on the go.</li>
-        <li><strong>Special Notifications:</strong> Receive alerts for new offers and rewards.</li>
-        <li><strong>Exclusive App-only Offers:</strong> Access special discounts and rewards through the app.</li>
-    </ul>
+            <div class="loyalty-app">
+                <h3>Loyalty App</h3>
+                <p>Download our loyalty app for even more convenience:</p>
+                <ul>
+                    <li><strong>Mobile Access:</strong> Manage your account and track points on the go.</li>
+                    <li><strong>Special Notifications:</strong> Receive alerts for new offers and rewards.</li>
+                    <li><strong>Exclusive App-only Offers:</strong> Access special discounts and rewards through the app.</li>
+                </ul>
+            </div>
+        </div>
+    </th:block>
+    <th:block th:fragment="right_content">
+        <p></p>
+    </th:block>
 </div>
 
 <div th:replace="~{fragments/footer :: footer}"></div>

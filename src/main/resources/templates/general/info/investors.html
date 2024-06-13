@@ -10,45 +10,55 @@ Date: 13.06.2024
 </head>
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
-<!--Place content here-->
 
-<h2>Investors</h2>
+<div th:replace="~{fragments/layout :: layout(left_content=${left_content}, content=${content}, right_content=${right_content})}">
+    <th:block th:fragment="left_content">
+        <p></p>
+    </th:block>
+    <th:block th:fragment="content">
+        <div>
+            <h2>Investors</h2>
 
-<p>Welcome to our Investors page! Here you'll find information about our financial performance, shareholder information, and more.</p>
+            <p>Welcome to our Investors page! Here you'll find information about our financial performance, shareholder information, and more.</p>
 
-<div class="financial-performance">
-    <h3>Financial Performance</h3>
-    <p>Here are some key financial highlights:</p>
-    <ul>
-        <li><strong>Revenue:</strong> $X million (Year)</li>
-        <li><strong>Net Income:</strong> $Y million (Year)</li>
-        <li><strong>Earnings per Share (EPS):</strong> $Z (Year)</li>
-        <!-- Add more financial metrics as needed -->
-    </ul>
+            <div class="financial-performance">
+                <h3>Financial Performance</h3>
+                <p>Here are some key financial highlights:</p>
+                <ul>
+                    <li><strong>Revenue:</strong> $X million (Year)</li>
+                    <li><strong>Net Income:</strong> $Y million (Year)</li>
+                    <li><strong>Earnings per Share (EPS):</strong> $Z (Year)</li>
+                    <!-- Add more financial metrics as needed -->
+                </ul>
+            </div>
+
+            <div class="shareholder-information">
+                <h3>Shareholder Information</h3>
+                <p>Information for our shareholders:</p>
+                <ul>
+                    <li><strong>Annual General Meeting:</strong> Date and location of the upcoming AGM.</li>
+                    <li><strong>Dividends:</strong> Details on dividend payments and history.</li>
+                    <li><strong>Stock Performance:</strong> Current stock price and performance trends.</li>
+                    <!-- Add more shareholder-related information as needed -->
+                </ul>
+            </div>
+
+            <div class="investor-resources">
+                <h3>Investor Resources</h3>
+                <p>Additional resources for investors:</p>
+                <ul>
+                    <li><a href="#">Investor Relations Contacts</a>: Contact information for our Investor Relations team.</li>
+                    <li><a href="#">Financial Reports</a>: Access to our latest annual and quarterly reports.</li>
+                    <li><a href="#">Corporate Governance</a>: Overview of our corporate governance practices.</li>
+                    <!-- Add more resources and links as needed -->
+                </ul>
+            </div>
+        </div>
+    </th:block>
+    <th:block th:fragment="right_content">
+        <p></p>
+    </th:block>
 </div>
-
-<div class="shareholder-information">
-    <h3>Shareholder Information</h3>
-    <p>Information for our shareholders:</p>
-    <ul>
-        <li><strong>Annual General Meeting:</strong> Date and location of the upcoming AGM.</li>
-        <li><strong>Dividends:</strong> Details on dividend payments and history.</li>
-        <li><strong>Stock Performance:</strong> Current stock price and performance trends.</li>
-        <!-- Add more shareholder-related information as needed -->
-    </ul>
-</div>
-
-<div class="investor-resources">
-    <h3>Investor Resources</h3>
-    <p>Additional resources for investors:</p>
-    <ul>
-        <li><a href="#">Investor Relations Contacts</a>: Contact information for our Investor Relations team.</li>
-        <li><a href="#">Financial Reports</a>: Access to our latest annual and quarterly reports.</li>
-        <li><a href="#">Corporate Governance</a>: Overview of our corporate governance practices.</li>
-        <!-- Add more resources and links as needed -->
-    </ul>
-</div>
-
 
 <div th:replace="~{fragments/footer :: footer}"></div>
 </body>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <th:block th:replace="~{fragments/header :: headerfiles}"></th:block>
     <title>View Users</title>
@@ -44,63 +44,75 @@
     </style>
 </head>
 <body>
+<!-- TODO Fix width -->
 <div th:replace="~{fragments/navbar :: navbar}"></div>
-
-<a href="/">Home</a>
-<a href="/api/admin/dashboard">Dashboard</a>
-<h2>Users</h2>
-<form action="/api/admin/view/users" method="get">
-    <label for="size">Page Size:</label>
-    <select id="size" name="size" onchange="this.form.submit()">
-        <option th:value="5" th:text="5" th:selected="${pageSize == 5}"></option>
-        <option th:value="10" th:text="10" th:selected="${pageSize == 10}"></option>
-        <option th:value="20" th:text="20" th:selected="${pageSize == 20}"></option>
-        <option th:value="50" th:text="50" th:selected="${pageSize == 50}"></option>
-    </select>
-    <label for="searchUser">Search:</label>
-    <input type="text" id="searchUser" name="searchUser" placeholder="Enter item name" th:value="${searchUser}">
-    <button type="submit">Search</button>
-</form>
-<table>
-    <thead>
-    <tr>
-        <th class="image">Image</th>
-        <th>Username</th>
-        <th>Email</th>
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th>Birth Date</th>
-        <th>Phone Number</th>
-        <th>Address</th>
-        <th>Role</th>
-        <th>Gender</th>
-        <th>Created At</th>
-        <th>Updated At</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="user : ${users}">
-        <td class="image"><img th:src="@{'/api/image/user/' + ${user.userId}}" alt="User Image"></td>
-        <td th:text="${user.username}">Username</td>
-        <td th:text="${user.email}">Email</td>
-        <td th:text="${user.firstName}">First Name</td>
-        <td th:text="${user.lastName}">Last Name</td>
-        <td th:text="${user.birthDate}">Birth Date</td>
-        <td th:text="${user.phoneNumber}">Phone Number</td>
-        <td th:text="${user.address}">Address</td>
-        <td th:text="${user.role}">Role</td>
-        <td th:text="${user.gender}">Gender</td>
-        <td th:text="${user.createdAt}">Created At</td>
-        <td th:text="${user.updatedAt}">Updated At</td>
-    </tr>
-    </tbody>
-</table>
-<div class="pagination">
-    <a th:if="${currentPage > 0}" th:href="@{/api/admin/view/users(page=${currentPage - 1}, size=${pageSize})}">Previous</a>
-    <span th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
-        <a th:class="${i == currentPage} ? 'active'" th:href="@{/api/admin/view/users(page=${i}, size=${pageSize})}" th:text="${i + 1}"></a>
-    </span>
-    <a th:if="${currentPage < totalPages - 1}" th:href="@{/api/admin/view/users(page=${currentPage + 1}, size=${pageSize})}">Next</a>
+<div th:replace="~{fragments/layout :: layout(left_content=${left_content}, content=${content}, right_content=${right_content})}">
+    <th:block th:fragment="left_content">
+        <p></p>
+    </th:block>
+    <th:block th:fragment="content">
+        <div>
+            <a href="/">Home</a>
+            <a href="/api/admin/dashboard">Dashboard</a>
+            <h2>Users</h2>
+            <form action="/api/admin/view/users" method="get">
+                <label for="size">Page Size:</label>
+                <select id="size" name="size" onchange="this.form.submit()">
+                    <option th:value="5" th:text="5" th:selected="${pageSize == 5}"></option>
+                    <option th:value="10" th:text="10" th:selected="${pageSize == 10}"></option>
+                    <option th:value="20" th:text="20" th:selected="${pageSize == 20}"></option>
+                    <option th:value="50" th:text="50" th:selected="${pageSize == 50}"></option>
+                </select>
+                <label for="searchUser">Search:</label>
+                <input type="text" id="searchUser" name="searchUser" placeholder="Enter item name" th:value="${searchUser}">
+                <button type="submit">Search</button>
+            </form>
+            <table>
+                <thead>
+                <tr>
+                    <th class="image">Image</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Birth Date</th>
+                    <th>Phone Number</th>
+                    <th>Address</th>
+                    <th>Role</th>
+                    <th>Gender</th>
+                    <th>Created At</th>
+                    <th>Updated At</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="user : ${users}">
+                    <td class="image"><img th:src="@{'/api/image/user/' + ${user.userId}}" alt="User Image"></td>
+                    <td th:text="${user.username}">Username</td>
+                    <td th:text="${user.email}">Email</td>
+                    <td th:text="${user.firstName}">First Name</td>
+                    <td th:text="${user.lastName}">Last Name</td>
+                    <td th:text="${user.birthDate}">Birth Date</td>
+                    <td th:text="${user.phoneNumber}">Phone Number</td>
+                    <td th:text="${user.address}">Address</td>
+                    <td th:text="${user.role}">Role</td>
+                    <td th:text="${user.gender}">Gender</td>
+                    <td th:text="${user.createdAt}">Created At</td>
+                    <td th:text="${user.updatedAt}">Updated At</td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="pagination">
+                <a th:if="${currentPage > 0}" th:href="@{/api/admin/view/users(page=${currentPage - 1}, size=${pageSize})}">Previous</a>
+                <span th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
+                    <a th:class="${i == currentPage} ? 'active'" th:href="@{/api/admin/view/users(page=${i}, size=${pageSize})}" th:text="${i + 1}"></a>
+                </span>
+                <a th:if="${currentPage < totalPages - 1}" th:href="@{/api/admin/view/users(page=${currentPage + 1}, size=${pageSize})}">Next</a>
+            </div>
+        </div>
+    </th:block>
+    <th:block th:fragment="right_content">
+        <p></p>
+    </th:block>
 </div>
 <div th:replace="~{fragments/footer :: footer}"></div>
 

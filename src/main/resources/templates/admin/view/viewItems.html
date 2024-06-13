@@ -38,64 +38,75 @@
 </head>
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
-
-<a href="/api/admin/dashboard">Dashboard</a>
-<h2>Items</h2>
-<form action="/api/admin/view/items" method="get">
-    <label for="category">Filter by Category:</label>
-    <select id="category" name="category">
-        <option value="">All Categories</option>
-        <option th:each="category : ${categories}" th:value="${category.categoryId}" th:text="${category.name}" th:selected="${selectedCategoryId == category.categoryId}"></option>
-    </select>
-    <label for="size">Page Size:</label>
-    <select id="size" name="size" onchange="this.form.submit()">
-        <option th:value="5" th:text="5" th:selected="${pageSize == 5}"></option>
-        <option th:value="10" th:text="10" th:selected="${pageSize == 10}"></option>
-        <option th:value="20" th:text="20" th:selected="${pageSize == 20}"></option>
-        <option th:value="50" th:text="50" th:selected="${pageSize == 50}"></option>
-    </select>
-    <label for="searchItem">Search:</label>
-    <input type="text" id="searchItem" name="searchItem" placeholder="Enter item name" th:value="${searchItem}">
-    <button type="submit">Search</button>
-</form>
-<table>
-    <thead>
-    <tr>
-        <th>Image</th>
-        <th>Name</th>
-        <th>Description</th>
-        <th>Price</th>
-        <th>Stock Quantity</th>
-        <th>Category</th>
-        <th>Created At</th>
-        <th>Updated At</th>
-        <th>Actions</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="item : ${items}" th:onclick="|window.location='/api/admin/view/item?id=' + ${item.itemId}|">
-        <td>
-            <img th:src="@{/api/image/item/{id}(id=${item.itemId})}" alt="Item Image" style="max-width: 100px; max-height: 100px;">
-        </td>
-        <td th:text="${item.name}"></td>
-        <td th:text="${item.description}"></td>
-        <td th:text="${item.price}"></td>
-        <td th:text="${item.stockQuantity}"></td>
-        <td th:text="${item.category.name}"></td>
-        <td th:text="${item.createdAt}"></td>
-        <td th:text="${item.updatedAt}"></td>
-        <td>
-            <a th:href="@{/api/admin/update/item(id=${item.itemId})}">Update</a>
-        </td>
-    </tr>
-    </tbody>
-</table>
-<div class="pagination">
-    <a th:if="${currentPage > 0}" th:href="@{/api/admin/view/items(page=${currentPage - 1}, size=${pageSize}, category=${selectedCategoryId})}">Previous</a>
-    <span th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
-        <a th:class="${i == currentPage} ? 'active'" th:href="@{/api/admin/view/items(page=${i}, size=${pageSize}, category=${selectedCategoryId})}" th:text="${i + 1}"></a>
-    </span>
-    <a th:if="${currentPage < totalPages - 1}" th:href="@{/api/admin/view/items(page=${currentPage + 1}, size=${pageSize}, category=${selectedCategoryId})}">Next</a>
+<div th:replace="~{fragments/layout :: layout(left_content=${left_content}, content=${content}, right_content=${right_content})}">
+    <th:block th:fragment="left_content">
+        <p></p>
+    </th:block>
+    <th:block th:fragment="content">
+        <div>
+            <a href="/api/admin/dashboard">Dashboard</a>
+            <h2>Items</h2>
+            <form action="/api/admin/view/items" method="get">
+                <label for="category">Filter by Category:</label>
+                <select id="category" name="category">
+                    <option value="">All Categories</option>
+                    <option th:each="category : ${categories}" th:value="${category.categoryId}" th:text="${category.name}" th:selected="${selectedCategoryId == category.categoryId}"></option>
+                </select>
+                <label for="size">Page Size:</label>
+                <select id="size" name="size" onchange="this.form.submit()">
+                    <option th:value="5" th:text="5" th:selected="${pageSize == 5}"></option>
+                    <option th:value="10" th:text="10" th:selected="${pageSize == 10}"></option>
+                    <option th:value="20" th:text="20" th:selected="${pageSize == 20}"></option>
+                    <option th:value="50" th:text="50" th:selected="${pageSize == 50}"></option>
+                </select>
+                <label for="searchItem">Search:</label>
+                <input type="text" id="searchItem" name="searchItem" placeholder="Enter item name" th:value="${searchItem}">
+                <button type="submit">Search</button>
+            </form>
+            <table>
+                <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th>Stock Quantity</th>
+                    <th>Category</th>
+                    <th>Created At</th>
+                    <th>Updated At</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="item : ${items}" th:onclick="|window.location='/api/admin/view/item?id=' + ${item.itemId}|">
+                    <td>
+                        <img th:src="@{/api/image/item/{id}(id=${item.itemId})}" alt="Item Image" style="max-width: 100px; max-height: 100px;">
+                    </td>
+                    <td th:text="${item.name}"></td>
+                    <td th:text="${item.description}"></td>
+                    <td th:text="${item.price}"></td>
+                    <td th:text="${item.stockQuantity}"></td>
+                    <td th:text="${item.category.name}"></td>
+                    <td th:text="${item.createdAt}"></td>
+                    <td th:text="${item.updatedAt}"></td>
+                    <td>
+                        <a th:href="@{/api/admin/update/item(id=${item.itemId})}">Update</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="pagination">
+                <a th:if="${currentPage > 0}" th:href="@{/api/admin/view/items(page=${currentPage - 1}, size=${pageSize}, category=${selectedCategoryId})}">Previous</a>
+                <span th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
+                    <a th:class="${i == currentPage} ? 'active'" th:href="@{/api/admin/view/items(page=${i}, size=${pageSize}, category=${selectedCategoryId})}" th:text="${i + 1}"></a>
+                </span>
+                <a th:if="${currentPage < totalPages - 1}" th:href="@{/api/admin/view/items(page=${currentPage + 1}, size=${pageSize}, category=${selectedCategoryId})}">Next</a>
+            </div>
+        </div>
+    </th:block>
+    <th:block th:fragment="right_content">
+        <p></p>
+    </th:block>
 </div>
 <div th:replace="~{fragments/footer :: footer}"></div>
 

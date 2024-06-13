@@ -6,14 +6,24 @@
 </head>
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
-
-<h1>Error Details</h1>
-<div>
-    <p>Status Code: <span th:text="${statusCode}"></span></p>
-    <p>Error Message: <span th:text="${errorMessage}"></span></p>
-    <p><span th:text="${customMessage}"></span></p>
+<div th:replace="~{fragments/layout :: layout(left_content=${left_content}, content=${content}, right_content=${right_content})}">
+    <th:block th:fragment="left_content">
+        <p></p>
+    </th:block>
+    <th:block th:fragment="content">
+        <div>
+            <h1>Error Details</h1>
+            <div>
+                <p>Status Code: <span th:text="${statusCode}"></span></p>
+                <p>Error Message: <span th:text="${errorMessage}"></span></p>
+                <p><span th:text="${customMessage}"></span></p>
+            </div>
+        </div>
+    </th:block>
+    <th:block th:fragment="right_content">
+        <p></p>
+    </th:block>
 </div>
-<a href="/">Go Home</a>
 <div th:replace="~{fragments/footer :: footer}"></div>
 
 </body>

@@ -6,23 +6,33 @@
 </head>
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
-
-
-<h2>Login</h2>
-
-<form th:action="@{/api/login}" th:object="${loginForm}" method="post">
-    <label for="username">Username or Email:</label><br>
-    <input type="text" id="username" th:field="*{username}"><br>
-    <label for="password">Password:</label><br>
-    <input type="password" id="password" th:field="*{password}"><br><br>
-    <input type="submit" value="Login">
-</form>
-<div>
-    <p><a href="/api/register/form">Register</a></p>
+<div th:replace="~{fragments/layout :: layout(left_content=${left_content}, content=${content}, right_content=${right_content})}">
+    <th:block th:fragment="left_content">
+        <p></p>
+    </th:block>
+    <th:block th:fragment="content">
+        <div>
+            <h2>Login</h2>
+            <form th:action="@{/api/login}" th:object="${loginForm}" method="post">
+                <label for="username">Username or Email:</label><br>
+                <input type="text" id="username" th:field="*{username}"><br>
+                <label for="password">Password:</label><br>
+                <input type="password" id="password" th:field="*{password}"><br><br>
+                <input type="submit" value="Login">
+            </form>
+            <div>
+                <p><a href="/api/register/form">Register</a></p>
+            </div>
+            <div th:if="${param.error}">
+                <p>Invalid username, email or password.</p>
+            </div>
+        </div>
+    </th:block>
+    <th:block th:fragment="right_content">
+        <p></p>
+    </th:block>
 </div>
-<div th:if="${param.error}">
-    <p>Invalid username, email or password.</p>
-</div>
+
 <div th:replace="~{fragments/footer :: footer}"></div>
 
 </body>
