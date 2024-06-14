@@ -70,9 +70,6 @@ public class ItemController_a {
         item.setUpdatedAt(LocalDateTime.now());
 
         itemRepository.save(item);
-        for (int i = 0; i < 100; i++) {
-            itemRepository.save(new Item(null, item.getName() + String.valueOf(i), item.getDescription() + String.valueOf(i), item.getPrice(), item.getStockQuantity() + i, item.getCategory(), item.getCreatedAt(), item.getUpdatedAt(), item.getImage()));
-        }
         return "redirect:/api/admin/dashboard";
     }
 
