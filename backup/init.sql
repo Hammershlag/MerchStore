@@ -111,5 +111,8 @@ CREATE TABLE reviews (
                          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
                          updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
                          FOREIGN KEY (user_id) REFERENCES users(user_id),
-                         FOREIGN KEY (item_id) REFERENCES items(item_id)
+                         FOREIGN KEY (item_id) REFERENCES items(item_id),
+                         star_rating INT NOT NULL,
+                         UNIQUE (user_id, item_id) -- Ensure a user can only review an item once
+
 );

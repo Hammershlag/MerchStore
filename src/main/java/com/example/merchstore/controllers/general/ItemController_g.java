@@ -92,6 +92,7 @@ public class ItemController_g {
         model.addAttribute("itemsPerPage", itemsPerPage);
         model.addAttribute("search", search);
         model.addAttribute("searchItems", search);
+
         return "general/viewItems";
     }
 
@@ -108,6 +109,18 @@ public class ItemController_g {
         if (addedToCart != null) {
             model.addAttribute("addedToCart", addedToCart);
         }
+        boolean submitted = ((User) session.getAttribute("user")) != null ? reviews.stream()
+                .anyMatch(review -> review.getUser().getUserId().equals(((User) session.getAttribute("user")).getUserId())) : false;
+        model.addAttribute("submitted", submitted);
+
+        double averageRating = reviews.stream()
+                .mapToInt(Review::getStarRating) // Assuming getStarRating() returns an integer
+                .average()
+                .orElse(0.0); // Use 0.0 if there are no reviews
+
+        model.addAttribute("averageRating", averageRating);
+
+
         return "general/viewItem";
     }
 

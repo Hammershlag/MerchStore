@@ -6,3 +6,10 @@ docker exec -t merchStoreDB pg_dumpall -c -U ToJestTrudnyLogin > backup_11_06_20
 3d0ae38bc64e - container id <br>
 ToJestTrudnyLogin - login <br>
 backup_11_06_2024 - backup name <br>
+
+
+
+To update docker app
+mvn clean package
+docker build -t merch-store-app .
+docker-compose up -d --build springboot-app

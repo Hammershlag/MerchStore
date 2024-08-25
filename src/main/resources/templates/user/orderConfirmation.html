@@ -31,10 +31,13 @@
                         <p>Discount: <span th:text="${order.discount.discountPercentage} + '%'">0%</span></p>
                         <p  th:if="${itemDiscount != null}">Discount for item: <span th:text="${itemDiscount.item.name}">Whole order</span></p>
                         <p>Status: <span th:text="${order.status}">Status</span></p>
-                        <p>Your order is currently unpaid. Please <a th:href="'/api/pay/order?id=' + ${order.orderId}">click here to pay now</a>.</p>
-
+                        <div th:if="${order.status.toString() != 'UNPAID'}">
+                            <p>Your order has been paid. Please check your email for further instructions on how to track your order.</p>
+                        </div>
+                        <div th:if="${order.status.toString() == 'UNPAID'}">
+                            <p>Your order is currently unpaid. Please <a th:href="'/api/pay/order?id=' + ${order.orderId}">click here to pay now</a>.</p>
+                        </div>
                     </div>
-                    <p>Please check your email for further instructions on how to track your order.</p>
                     <a th:href="'/user/cart/checkout/file?orderID=' + ${order.orderId}">Download PDF</a>
                 </div>
                 <div th:if="${order == null}">

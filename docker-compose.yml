@@ -21,10 +21,11 @@ services:
       - '15432:80'
     environment:
       - GUNICORN_THREADS=1
-      - PGADMIN_DEFAULT_EMAIL=admin
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.admin
       - PGADMIN_DEFAULT_PASSWORD=admin
     depends_on:
       - merchStore
+
 
 volumes:
   postgres_data:

@@ -43,7 +43,7 @@ public class ReviewController {
     private HttpSession session;
 
     @PostMapping("/addReview")
-    public String addReview(@RequestParam Long itemId, @RequestParam String description, Model model) {
+    public String addReview(@RequestParam Long itemId, @RequestParam String description, @RequestParam int star_rating, Model model) {
         Item item = itemRepository.findById(itemId).orElse(null);
         if (item == null) {
             return "redirect:/item/all";
@@ -60,6 +60,11 @@ public class ReviewController {
             return "redirect:/item?id=" + itemId + "&error=descriptionTooShort";
         }
 
+        // Check if the rating is between 1 and 5
+        if (star_rating < 1 || star_rating > 5) {
+            return "redirect:/item?id=" + itemId + "&error=invalidRating";
+        }
+
         List<Order> orders = orderRepository.findAllOrdersByUser(user);
         boolean hasOrdered = false;
         for (Order order : orders) {
@@ -72,10 +77,12 @@ public class ReviewController {
         }
         if(!hasOrdered)
             return "redirect:/item?id=" + itemId + "&error=notOrdered";
+
         Review review = new Review();
         review.setUser(user);
         review.setItem(item);
         review.setDescription(description);
+        review.setStarRating(star_rating);
         review.setCreatedAt(LocalDateTime.now());
         review.setUpdatedAt(LocalDateTime.now());
 

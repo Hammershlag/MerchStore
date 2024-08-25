@@ -41,6 +41,9 @@ public class Review implements DataDisplay {
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
 
+    @Column(name = "star_rating", nullable = false)
+    private int starRating;
+
     public Review(Review other) {
         this.reviewId = other.reviewId;
         this.user = other.user;
@@ -48,6 +51,7 @@ public class Review implements DataDisplay {
         this.description = other.description;
         this.createdAt = other.createdAt;
         this.updatedAt = other.updatedAt;
+        this.starRating = other.starRating;
     }
 
     @Override
