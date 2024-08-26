@@ -116,3 +116,20 @@ CREATE TABLE reviews (
                          UNIQUE (user_id, item_id) -- Ensure a user can only review an item once
 
 );
+
+-- Create ads table with additional fields and user reference
+CREATE TABLE ads (
+                     ad_id SERIAL PRIMARY KEY,
+                     item_id INT NOT NULL,
+                     user_id INT NOT NULL, -- Column to reference the user who added the ad
+                     description TEXT NOT NULL,
+                     start_date TIMESTAMP NOT NULL,
+                     end_date TIMESTAMP NOT NULL,
+                     status VARCHAR(20) DEFAULT 'active', -- Status of the ad
+                     image BYTEA, -- Optional: Image for the ad
+                     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+                     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+                     FOREIGN KEY (item_id) REFERENCES items(item_id),
+                     FOREIGN KEY (user_id) REFERENCES users(user_id) -- Foreign key reference to users table
+);
+

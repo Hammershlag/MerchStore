@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="~{fragments/header :: headerfiles}"></th:block>
+    <title>Add Ad</title>
+</head>
+<body>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+<div th:replace="~{fragments/layout :: layout(left_content=${left_content}, content=${content}, right_content=${right_content})}">
+    <th:block th:fragment="left_content">
+        <p></p>
+    </th:block>
+    <th:block th:fragment="content">
+        <div>
+            <a href="/api/admin/dashboard">Dashboard</a>
+            <h2>Add Ad</h2>
+            <form action="/api/admin/add/ad" method="post" enctype="multipart/form-data">
+                <label for="item">Item:</label><br>
+                <select id="item" name="item" required>
+                    <option value="">Select Item</option>
+                    <option th:each="item : ${items}" th:value="${item.itemId}" th:text="${item.name}"></option>
+                </select><br>
+
+                <label for="description">Description:</label><br>
+                <textarea id="description" name="description" required></textarea><br>
+
+                <label for="startDate">Start Date:</label><br>
+                <input type="datetime-local" id="startDate" name="startDate" required><br>
+
+                <label for="endDate">End Date:</label><br>
+                <input type="datetime-local" id="endDate" name="endDate" required><br>
+
+                <label for="status">Status:</label><br>
+                <select id="status" name="status" required>
+                    <option value="ACTIVE">Active</option>
+                    <option value="INACTIVE">Inactive</option>
+                </select><br>
+
+                <label for="imageData">Image:</label><br>
+                <input type="file" id="imageData" name="imageData"><br>
+
+                <input type="submit" value="Add Ad">
+            </form>
+        </div>
+    </th:block>
+    <th:block th:fragment="right_content">
+        <p></p>
+    </th:block>
+</div>
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+</body>
+</html>

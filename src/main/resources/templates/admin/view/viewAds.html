@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="~{fragments/header :: headerfiles}"></th:block>
+    <title>View Ads</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .pagination a {
+            margin: 0 5px;
+            padding: 8px 16px;
+            text-decoration: none;
+            color: #333;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .pagination a.active {
+            background-color: #4CAF50;
+            color: white;
+            border: 1px solid #4CAF50;
+        }
+    </style>
+</head>
+<body>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+<div th:replace="~{fragments/layout :: layout(left_content=${left_content}, content=${content}, right_content=${right_content})}">
+    <th:block th:fragment="left_content">
+        <p></p>
+    </th:block>
+    <th:block th:fragment="content">
+        <div>
+            <a href="/api/admin/dashboard">Dashboard</a>
+            <h2>Ads</h2>
+            <table>
+                <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Item Name</th>
+                    <th>Description</th>
+                    <th>Status</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Created By</th>
+                    <th>Created At</th>
+                    <th>Updated At</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="ad : ${ads}">
+                    <td>
+                        <img th:src="${'data:image/jpeg;base64,' + ad.base64Image()}"
+                             alt="Ad Image"
+                             style="max-width: 100px; max-height: 100px;">
+                    </td>
+                    <td th:text="${ad.item.name}"></td>
+                    <td th:text="${ad.description}"></td>
+                    <td th:text="${ad.status}"></td>
+                    <td th:text="${ad.startDate}"></td>
+                    <td th:text="${ad.endDate}"></td>
+                    <td th:text="${ad.user.username}"></td>
+                    <td th:text="${ad.createdAt}"></td>
+                    <td th:text="${ad.updatedAt}"></td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="pagination">
+                <a th:if="${currentPage > 0}" th:href="@{/api/admin/view/ads(page=${currentPage - 1}, size=${pageSize})}">Previous</a>
+                <span th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
+                    <a th:class="${i == currentPage} ? 'active'" th:href="@{/api/admin/view/ads(page=${i}, size=${pageSize})}" th:text="${i + 1}"></a>
+                </span>
+                <a th:if="${currentPage < totalPages - 1}" th:href="@{/api/admin/view/ads(page=${currentPage + 1}, size=${pageSize})}">Next</a>
+            </div>
+        </div>
+    </th:block>
+    <th:block th:fragment="right_content">
+        <p></p>
+    </th:block>
+</div>
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

@@ -1,7 +1,9 @@
 package com.example.merchstore.controllers.functionality;
 
+import com.example.merchstore.components.models.Ad;
 import com.example.merchstore.components.models.Item;
 import com.example.merchstore.components.models.User;
+import com.example.merchstore.repositories.AdRepository;
 import com.example.merchstore.repositories.CustomUserRepository;
 import com.example.merchstore.repositories.ItemRepository;
 import jakarta.servlet.http.HttpSession;
@@ -35,6 +37,9 @@ public class ImageController_f {
 
     @Autowired
     private ItemRepository itemRepository;
+
+    @Autowired
+    private AdRepository adRepository;
 
     @SneakyThrows
     @GetMapping("/user")
@@ -86,6 +91,22 @@ public class ImageController_f {
         Item item = itemRepository.findById(id).orElse(null);
         byte[] image = item != null ? item.getImage() : null;
         if (item == null || image == null || image.length == 0) {
+            image = getImageAsByteArray("static/images/avatars/male_avatar.jpg");
+        }
+        ByteBuffer imageBuffer = ByteBuffer.wrap(image);
+        byte[] imageData = new byte[imageBuffer.remaining()];
+        imageBuffer.get(imageData);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.IMAGE_JPEG);
+        return new ResponseEntity<>(imageData, headers, HttpStatus.OK);
+    }
+
+    @SneakyThrows
+    @GetMapping("/ad/{id}")
+    public ResponseEntity<byte[]> getAdImage(@PathVariable Long id) {
+        Ad ad = adRepository.findById(id).orElse(null);
+        byte[] image = ad != null ? ad.getImage() : null;
+        if (ad == null || image == null || image.length == 0) {
             image = getImageAsByteArray("static/images/avatars/male_avatar.jpg");
         }
         ByteBuffer imageBuffer = ByteBuffer.wrap(image);
