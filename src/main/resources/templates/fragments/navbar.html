@@ -29,7 +29,7 @@
       </a>
       <a href="/profile">
         <div class="profile">
-          <img th:src="@{'/api/image/user'}" alt="Profile Image" class="profile-image">
+          <img th:src="${'data:image/jpeg;base64,' + user.base64Image()}" alt="Profile Image" class="profile-image">
           <span th:text="${user.username}"></span>
         </div>
       </a>

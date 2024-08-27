@@ -9,6 +9,7 @@
 <div th:fragment="layout(left_content, content, right_content)">
     <div class="content-area">
         <div class="sidebar">
+            <div th:replace="~{fragments/ad :: ad}"></div>
             <div th:replace="~{${left_content} :: left_content}"></div>
         </div>
         <div class="content">

@@ -1,6 +1,7 @@
 package com.example.merchstore.components.models;
 
 import com.example.merchstore.components.interfaces.DataDisplay;
+import com.example.merchstore.components.interfaces.ImageDisplay;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
@@ -9,9 +10,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.JdbcTypeCode;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.Types;
 import java.time.LocalDateTime;
+import java.util.Base64;
+
+import static com.example.merchstore.components.utilities.ImageProcessor.getImageAsByteArray;
 
 /**
  * @author Tomasz Zbroszczyk
@@ -24,7 +29,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Entity
 @Table(name = "items")
-public class Item implements DataDisplay {
+public class Item implements DataDisplay, ImageDisplay {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -68,6 +73,7 @@ public class Item implements DataDisplay {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.image = null;
+        setDefaultImage();
     }
 
     public Item(String name, String description, BigDecimal price, Integer stockQuantity, Category category, LocalDateTime createdAt, LocalDateTime updatedAt) {
@@ -79,6 +85,7 @@ public class Item implements DataDisplay {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.image = null;
+        setDefaultImage();
     }
 
     public Item(Item item) {
@@ -91,6 +98,7 @@ public class Item implements DataDisplay {
         this.createdAt = item.getCreatedAt();
         this.updatedAt = item.getUpdatedAt();
         this.image = item.getImage() != null ? item.getImage().clone() : null;
+        setDefaultImage();
     }
 
     @JsonProperty("imageStatus")
@@ -107,5 +115,22 @@ public class Item implements DataDisplay {
     @Override
     public DataDisplay limitedDisplayData() {
         return null;
+    }
+
+    @Override
+    public void setDefaultImage() {
+        if (image == null || image.length == 0) {
+            try {
+                image = getImageAsByteArray("static/images/avatars/male_avatar_small.jpg");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    @Override
+    public String base64Image() {
+        setDefaultImage();
+        return Base64.getEncoder().encodeToString(image);
     }
 }

@@ -42,7 +42,7 @@
         <div>
             <a href="/api/admin/dashboard">Dashboard</a>
             <div class="item-container" th:if="${item != null}">
-                <img th:src="@{/api/image/item/{id}(id=${item.itemId})}" alt="Item Image" class="item-image">
+                <img  th:src="${'data:image/jpeg;base64,' + item.base64Image()}" alt="Item Image" class="item-image">
                 <div class="item-details">
                     <h2 th:text="${item.name}">Item Name</h2>
                     <p th:text="${item.description}">Item Description</p>

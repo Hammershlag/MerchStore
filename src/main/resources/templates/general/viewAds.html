@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>View Ads</title>
+
+    <style>
+        .ad-item {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+<div th:fragment="adsFragment">
+    <div id="ads-container">
+        <div th:each="ad : ${ads}" class="ad-item">
+            <img th:src="${'data:image/jpeg;base64,' + ad.base64Image()}" alt="Ad Image"
+                 style="max-width: 100%; height: auto;">
+            <div class="ad-description" th:text="${ad.description}"></div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

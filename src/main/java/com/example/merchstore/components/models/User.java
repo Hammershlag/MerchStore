@@ -3,6 +3,7 @@ package com.example.merchstore.components.models;
 import com.example.merchstore.components.enums.Gender;
 import com.example.merchstore.components.enums.Role;
 import com.example.merchstore.components.interfaces.DataDisplay;
+import com.example.merchstore.components.interfaces.ImageDisplay;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
@@ -10,9 +11,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.JdbcTypeCode;
+
+import java.io.IOException;
 import java.sql.Types;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Base64;
+
+import static com.example.merchstore.components.utilities.ImageProcessor.getImageAsByteArray;
 
 /**
  * @author Tomasz Zbroszczyk
@@ -24,7 +30,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor @AllArgsConstructor
 @Entity
 @Table(name = "users")
-public class User implements DataDisplay {
+public class User implements DataDisplay, ImageDisplay {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -87,6 +93,7 @@ public class User implements DataDisplay {
         this.updatedAt = updatedAt;
         this.gender = gender;
         this.image = null;
+        setDefaultImage();
         this.birthDate = birthDate;
     }
 
@@ -103,8 +110,24 @@ public class User implements DataDisplay {
         this.updatedAt = user.getUpdatedAt();
         this.gender = user.getGender();
         this.image = user.getImage() != null ? user.getImage().clone() : null;
+        setDefaultImage();
         this.role = user.getRole();
         this.birthDate = user.getBirthDate();
+    }
+
+    @Override
+    public void setDefaultImage() {
+        if (getImage() == null || getImage().length == 0) {
+            try {
+                switch (getGender()) {
+                    case MALE -> image = getImageAsByteArray("static/images/avatars/male_avatar_small.jpg");
+                    case FEMALE -> image = getImageAsByteArray("static/images/avatars/female_avatar_small.jpg");
+                    default -> image = getImageAsByteArray("static/images/avatars/default_avatar_small.jpg");
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     @JsonProperty("imageStatus")
@@ -120,5 +143,11 @@ public class User implements DataDisplay {
     @Override
     public DataDisplay limitedDisplayData() {
         return null;
+    }
+
+    @Override
+    public String base64Image() {
+        setDefaultImage();
+        return Base64.getEncoder().encodeToString(image);
     }
 }

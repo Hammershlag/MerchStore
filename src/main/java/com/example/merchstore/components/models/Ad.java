@@ -4,6 +4,7 @@ import com.example.merchstore.components.enums.AdStatus;
 import com.example.merchstore.components.enums.Gender;
 import com.example.merchstore.components.enums.Role;
 import com.example.merchstore.components.interfaces.DataDisplay;
+import com.example.merchstore.components.interfaces.ImageDisplay;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
@@ -12,12 +13,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.logging.log4j.util.Base64Util;
 import org.hibernate.annotations.JdbcTypeCode;
-import org.springframework.util.Base64Utils;
 
+import java.io.IOException;
 import java.sql.Types;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Base64;
+
+import static com.example.merchstore.components.utilities.ImageProcessor.getImageAsByteArray;
 
 /**
  * @author Tomasz Zbroszczyk
@@ -26,10 +29,9 @@ import java.util.Base64;
  */
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @Table(name = "ads")
-public class Ad implements DataDisplay { //TODO !!!
+public class Ad implements DataDisplay, ImageDisplay { //TODO !!!
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -79,6 +81,11 @@ public class Ad implements DataDisplay { //TODO !!!
         this.image = other.image;
         this.createdAt = other.createdAt;
         this.updatedAt = other.updatedAt;
+        setDefaultImage();
+    }
+
+    public Ad() {
+        setDefaultImage();
     }
 
     @Override
@@ -91,8 +98,24 @@ public class Ad implements DataDisplay { //TODO !!!
         return null;
     }
 
-    //TODO Get rid of ImageController and move to interface
+    @Override
+    public void setDefaultImage() {
+        if (image == null || image.length == 0) {
+            try {
+                image = getImageAsByteArray("static/images/avatars/male_avatar_small.jpg");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    @Override
     public String base64Image() {
+        setDefaultImage();
         return Base64.getEncoder().encodeToString(image);
+    }
+
+    public boolean shouldBeDisplayed() {
+        return status == AdStatus.ACTIVE && startDate.isBefore(LocalDateTime.now()) && endDate.isAfter(LocalDateTime.now());
     }
 }
