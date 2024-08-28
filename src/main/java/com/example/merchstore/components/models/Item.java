@@ -16,6 +16,7 @@ import java.sql.Types;
 import java.time.LocalDateTime;
 import java.util.Base64;
 
+import static com.example.merchstore.components.utilities.Defaults.DEFAULT_ITEM_IMAGE;
 import static com.example.merchstore.components.utilities.ImageProcessor.getImageAsByteArray;
 
 /**
@@ -121,7 +122,7 @@ public class Item implements DataDisplay, ImageDisplay {
     public void setDefaultImage() {
         if (image == null || image.length == 0) {
             try {
-                image = getImageAsByteArray("static/images/avatars/male_avatar_small.jpg");
+                image = getImageAsByteArray(DEFAULT_ITEM_IMAGE);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

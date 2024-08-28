@@ -13,6 +13,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.logging.log4j.util.Base64Util;
 import org.hibernate.annotations.JdbcTypeCode;
+import org.springframework.context.annotation.DependsOn;
 
 import java.io.IOException;
 import java.sql.Types;
@@ -20,6 +21,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Base64;
 
+import static com.example.merchstore.components.utilities.Defaults.DEFAULT_AD_IMAGE;
 import static com.example.merchstore.components.utilities.ImageProcessor.getImageAsByteArray;
 
 /**
@@ -31,7 +33,7 @@ import static com.example.merchstore.components.utilities.ImageProcessor.getImag
 @AllArgsConstructor
 @Entity
 @Table(name = "ads")
-public class Ad implements DataDisplay, ImageDisplay { //TODO !!!
+public class Ad implements DataDisplay, ImageDisplay {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -100,9 +102,12 @@ public class Ad implements DataDisplay, ImageDisplay { //TODO !!!
 
     @Override
     public void setDefaultImage() {
+        if (DEFAULT_AD_IMAGE == null) {
+            throw new IllegalStateException("Defaults.DEFAULT_AD_IMAGE is not initialized");
+        }
         if (image == null || image.length == 0) {
             try {
-                image = getImageAsByteArray("static/images/avatars/male_avatar_small.jpg");
+                image = getImageAsByteArray(DEFAULT_AD_IMAGE); //TODO Works everywhere but here
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

@@ -10,6 +10,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.Value;
 import org.hibernate.annotations.JdbcTypeCode;
 
 import java.io.IOException;
@@ -18,6 +19,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Base64;
 
+import static com.example.merchstore.components.utilities.Defaults.*;
 import static com.example.merchstore.components.utilities.ImageProcessor.getImageAsByteArray;
 
 /**
@@ -120,9 +122,9 @@ public class User implements DataDisplay, ImageDisplay {
         if (getImage() == null || getImage().length == 0) {
             try {
                 switch (getGender()) {
-                    case MALE -> image = getImageAsByteArray("static/images/avatars/male_avatar_small.jpg");
-                    case FEMALE -> image = getImageAsByteArray("static/images/avatars/female_avatar_small.jpg");
-                    default -> image = getImageAsByteArray("static/images/avatars/default_avatar_small.jpg");
+                    case MALE -> image = getImageAsByteArray(DEFAULT_USER_MALE_IMAGE);
+                    case FEMALE -> image = getImageAsByteArray(DEFAULT_USER_FEMALE_IMAGE);
+                    default -> image = getImageAsByteArray(DEFAULT_USER_IMAGE);
                 }
             } catch (IOException e) {
                 throw new RuntimeException(e);

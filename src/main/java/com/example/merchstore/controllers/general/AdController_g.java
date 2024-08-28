@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -23,8 +24,8 @@ public class AdController_g {
     private GlobalAttributeService globalAttributeService;
 
     @GetMapping("/updateAds")
-    public String updateAds(Model model) {
-        List<Ad> randomAds = globalAttributeService.getRandomAds(1); // Choose how many ads to display
+    public String updateAds(Model model, @RequestParam("maxAds") int maxAds) {
+        List<Ad> randomAds = globalAttributeService.getRandomAds(maxAds); // Choose how many ads to display
         model.addAttribute("ads", randomAds);
         return "fragments/ad :: ad";
     }

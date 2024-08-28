@@ -13,17 +13,15 @@
 </head>
 <body>
 <div th:fragment="ad">
-    <div id="ads-container" style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%; margin-top: 25%">
-        <div th:each="ad : ${ads}" class="ad-item" th:onclick="|window.location='/item?id=' + ${ad.item.itemId}|"
-             style="width: 100%; text-align: center; margin-bottom: 20px;">
+    <div id="ads-container" style="display: flex; flex-direction: column; justify-content: center; align-items: center; margin-top: 10%;">
+        <div th:each="ad, iterStat : ${ads}" class="ad-item" th:onclick="|window.location='/item?id=' + ${ad.item.itemId}|"
+             th:style="${iterStat.index == 0} ? 'display: block;' : 'display: none;'" style="width: 100%; text-align: center; margin-bottom: 20px; cursor: pointer;">
             <img th:src="${'data:image/jpeg;base64,' + ad.base64Image()}" alt="Ad Image"
                  style="max-width: 100%; height: auto; margin-bottom: 10px;">
             <div class="ad-description" th:text="${ad.description}" style="max-width: 100%;"></div>
         </div>
     </div>
 </div>
-
-
 
 
 </body>
