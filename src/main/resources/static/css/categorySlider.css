@@ -1,0 +1,79 @@
+.category-slider-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px;
+    position: relative;
+    width: 100%;
+}
+
+.category-slider-container .category-slider {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+
+}
+
+.category-slider-container .category-slider::-webkit-scrollbar {
+    display: none; /* Hide scrollbar in WebKit browsers */
+}
+
+.category-slider-container .category-slider .category-container {
+    flex: 0 0 auto;
+    margin-right: 10px;
+    margin-left: 10px;
+    scroll-snap-align: start;
+}
+
+.category-slider-container .scroll-button {
+    width: 40px;
+    height: 40px;
+    background-color: #4e4e4e;
+    font-weight: bolder;
+    color: white;
+    border: black solid 1px;
+    font-size: 20px;
+    border-radius: 50%;
+    padding: 10px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.8;
+    transition: opacity 0.5s;
+
+}
+
+.category-slider-container .scroll-button:hover {
+    transition: opacity 0.5s;
+    opacity: 1;
+}
+
+.category-slider-container .scroll-button:active {
+    transition: opacity 0.2s;
+    opacity: 0.8;
+}
+
+
+.category-slider-container .scroll-button#prevButton {
+    left: 10px;
+    z-index: 10000;
+}
+
+.category-slider-container .scroll-button#nextButton {
+    right: 10px;
+    z-index: 10000;
+}
+
+.scroll-button:disabled {
+    background-color: #393939;
+    cursor: not-allowed;
+}

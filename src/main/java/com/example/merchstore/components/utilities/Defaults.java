@@ -19,4 +19,6 @@ public class Defaults {
     public static String DEFAULT_ITEM_IMAGE = "static/images/avatars/male_avatar_small.jpg";
 
     public static String DEFAULT_AD_IMAGE = "static/images/avatars/male_avatar_small.jpg";
+
+    public static String DEFAULT_CATEGORY_IMAGE = "static/images/avatars/male_avatar_small.jpg";
 }

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Category</title>
+    <link rel="stylesheet" href="../../static/css/category.css">
+</head>
+<body>
+<div th:fragment="category">
+    <div class="category-container">
+        <a th:href="@{'/item/all?category=' + ${category.categoryId}}">
+            <div class="category-background"></div>
+            <img th:src="${'data:image/jpeg;base64,' + category.base64Image()}" alt="Category Image">
+            <p th:text="${category.name}"></p>
+        </a>
+    </div>
+</div>
+</body>
+</html>

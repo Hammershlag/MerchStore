@@ -90,6 +90,11 @@ public class Ad implements DataDisplay, ImageDisplay {
         setDefaultImage();
     }
 
+    @JsonProperty("imageStatus")
+    public String getImageStatus() {
+        return image != null ? "Uploaded" : "Not uploaded";
+    }
+
     @Override
     public DataDisplay displayData() {
         return new Ad(this);

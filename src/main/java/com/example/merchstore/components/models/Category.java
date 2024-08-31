@@ -1,10 +1,22 @@
 package com.example.merchstore.components.models;
 
 import com.example.merchstore.components.interfaces.DataDisplay;
+import com.example.merchstore.components.interfaces.ImageDisplay;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.JdbcTypeCode;
+
+import java.io.IOException;
+import java.sql.Types;
+import java.util.Base64;
+
+import static com.example.merchstore.components.utilities.Defaults.DEFAULT_CATEGORY_IMAGE;
+import static com.example.merchstore.components.utilities.Defaults.DEFAULT_ITEM_IMAGE;
+import static com.example.merchstore.components.utilities.ImageProcessor.getImageAsByteArray;
 
 /**
  * @author Tomasz Zbroszczyk
@@ -15,7 +27,7 @@ import lombok.NoArgsConstructor;
 @Data @AllArgsConstructor @NoArgsConstructor
 @Entity
 @Table(name = "categories")
-public class Category implements DataDisplay {
+public class Category implements DataDisplay, ImageDisplay {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "category_id")
@@ -27,11 +39,35 @@ public class Category implements DataDisplay {
     @Column(name = "description")
     private String description;
 
+    @JsonIgnore
+    @JdbcTypeCode(Types.BINARY)
+    @Column(name = "image", columnDefinition = "BYTEA", nullable = true)
+    private byte[] image;
+
+    @Column(name = "main", nullable = false)
+    private boolean main = false;
+
+
     public Category(Category other) {
         this.categoryId = other.categoryId;
         this.name = other.name;
         this.description = other.description;
+        this.image = other.image;
+        this.main = other.main;
     }
+
+    public Category(String name, String description, boolean main) {
+        this.name = name;
+        this.description = description;
+        this.main = main;
+        setDefaultImage();
+    }
+
+    @JsonProperty("imageStatus")
+    public String getImageStatus() {
+        return image != null ? "Uploaded" : "Not uploaded";
+    }
+
     @Override
     public DataDisplay displayData() {
         return new Category(this);
@@ -40,5 +76,22 @@ public class Category implements DataDisplay {
     @Override
     public DataDisplay limitedDisplayData() {
         return null;
+    }
+
+    @Override
+    public void setDefaultImage() {
+        if (image == null || image.length == 0) {
+            try {
+                image = getImageAsByteArray(DEFAULT_CATEGORY_IMAGE);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    @Override
+    public String base64Image() {
+        setDefaultImage();
+        return Base64.getEncoder().encodeToString(image);
     }
 }

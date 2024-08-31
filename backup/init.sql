@@ -21,7 +21,9 @@ CREATE TABLE users (
 CREATE TABLE categories (
                             category_id SERIAL PRIMARY KEY,
                             name VARCHAR(100) UNIQUE NOT NULL,
-                            description TEXT
+                            description TEXT,
+                            image BYTEA,
+                            main BOOLEAN DEFAULT FALSE NOT NULL
 );
 
 -- Create items table

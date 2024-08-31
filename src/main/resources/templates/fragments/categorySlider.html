@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Category Slider</title>
+    <link rel="stylesheet" href="../../static/css/categorySlider.css">
+    <link rel="stylesheet" href="../../static/css/category.css">
+    <script src="../../static/javascript/categorySlider.js"></script>
+
+</head>
+<body>
+<div th:fragment="categorySlider" class="category-slider-container">
+    <button id="prevButton" class="scroll-button" disabled><</button>
+    <div class="category-slider">
+        <div th:each="category : ${categories}">
+            <div th:replace="~{fragments/category :: category}"></div>
+        </div>
+    </div>
+    <button id="nextButton" class="scroll-button">></button>
+</div>
+
+
+</body>
+</html>
