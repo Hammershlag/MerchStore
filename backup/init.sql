@@ -84,16 +84,6 @@ CREATE TABLE order_items (
                              FOREIGN KEY (item_id) REFERENCES items(item_id)
 );
 
--- Create invoices table
-CREATE TABLE invoices (
-                          invoice_id SERIAL PRIMARY KEY,
-                          order_id INT NOT NULL,
-                          invoice_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-                          amount DECIMAL(10, 2) NOT NULL,
-                          status VARCHAR(50) DEFAULT 'unpaid' NOT NULL,
-                          FOREIGN KEY (order_id) REFERENCES orders(order_id)
-);
-
 -- Create cart table
 CREATE TABLE cart (
                       cart_id SERIAL PRIMARY KEY,
@@ -133,5 +123,14 @@ CREATE TABLE ads (
                      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
                      FOREIGN KEY (item_id) REFERENCES items(item_id),
                      FOREIGN KEY (user_id) REFERENCES users(user_id) -- Foreign key reference to users table
+);
+
+-- Create sales table (last 30 days)
+CREATE TABLE sales (
+                       id SERIAL PRIMARY KEY,
+                       item_id INT NOT NULL,
+                       quantity INT NOT NULL,
+                       sale_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+                       FOREIGN KEY (item_id) REFERENCES items(item_id)
 );
 

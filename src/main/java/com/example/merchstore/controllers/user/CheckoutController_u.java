@@ -59,7 +59,11 @@ public class CheckoutController_u {
     @Autowired
     private DiscountRepository discountRepository;
 
-    @Autowired ItemDiscountRepository itemDiscountRepository;
+    @Autowired
+    private ItemDiscountRepository itemDiscountRepository;
+
+    @Autowired
+    private SaleRepository saleRepository;
 
     @SneakyThrows // Handles DocumentException and IOException
     @GetMapping("/file")
@@ -116,10 +120,10 @@ public class CheckoutController_u {
         List<CartItem> cartItems = cartItemRepository.findAllByUser(currentUser);
         List<String> insufficientStockItems = new ArrayList<>();
         Discount discount = discountRepository.findByCode(discountCode);
-//        if (discount == null || !discount.isValid()) {
-//            discount = discountRepository.findByDiscountId(0L);
-//            return "redirect:/user/cart?error=" + String.valueOf(discount == null);
-//        }
+
+        if (discount == null || !discount.isValid()) {
+            discount = discountRepository.findByDiscountId(0L);
+        }
 
         for (CartItem cartItem : cartItems) {
             Item item = cartItem.getItem();
@@ -187,8 +191,6 @@ public class CheckoutController_u {
         order.setTotalAmount(BigDecimal.ZERO);
         order.setDiscount(discount);
 
-        //Logger.getAnonymousLogger().info("Discount: " + order.getDiscount().getCode());
-
         orderRepository.save(order);
 
         for(CartItem cartItem : cartItems) {
@@ -199,10 +201,17 @@ public class CheckoutController_u {
             orderItem.setOrder(order);
             orderItem.setItem(item);
             orderItem.setQuantity(cartItem.getQuantity());
+
+            Sale sale = new Sale();
+            sale.setItem(item);
+            sale.setQuantity(cartItem.getQuantity());
+            sale.setSaleDate(LocalDateTime.now());
+            saleRepository.save(sale);
+
             List<ItemDiscount> itemDiscounts = itemDiscountRepository.findAllByDiscount(discount);
-            if (itemDiscounts.isEmpty()) {
+            if (itemDiscounts.isEmpty() && discount != null) {
                 orderItem.setPrice(item.getPrice().multiply(BigDecimal.valueOf(100).subtract(discount.getDiscountPercentage())).divide(BigDecimal.valueOf(100)));
-            } else {
+            } else if (discount != null) {
                 orderItem.setPrice(item.getPrice().multiply(itemDiscounts.stream().anyMatch(itemDiscount -> Objects.equals(itemDiscount.getItem().getItemId(), item.getItemId())) ? BigDecimal.ONE.subtract(itemDiscounts.getFirst().getDiscount().getDiscountPercentage().divide(BigDecimal.valueOf(100))) : BigDecimal.ONE));
             }
             itemRepository.save(item);
