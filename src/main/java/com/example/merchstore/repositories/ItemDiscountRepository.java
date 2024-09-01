@@ -17,4 +17,5 @@ import java.util.List;
 public interface ItemDiscountRepository extends JpaRepository<ItemDiscount, Long> {
     List<ItemDiscount> findAll();
     ItemDiscount findItemDiscountByDiscount(Discount discount);
+    List<ItemDiscount> findAllByDiscount(Discount discount);
 }

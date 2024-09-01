@@ -34,6 +34,8 @@ html, body {
     display: flex;
     flex-direction: column;
     padding: 20px;
+    max-width: 20%;
+    word-wrap: break-word;
 }
 
 .content {

@@ -15,7 +15,7 @@ import java.util.List;
  */
 public interface DiscountRepository extends JpaRepository<Discount, Long> {
 
-    public Discount findByCode(String code);
+    Discount findByCode(String code);
     Discount findByDiscountId(Long id);
     List<Discount> findByCodeStartingWithIgnoreCase(String code);
 

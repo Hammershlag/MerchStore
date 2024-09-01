@@ -28,7 +28,11 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 /**
  * @author Tomasz Zbroszczyk
@@ -112,9 +116,10 @@ public class CheckoutController_u {
         List<CartItem> cartItems = cartItemRepository.findAllByUser(currentUser);
         List<String> insufficientStockItems = new ArrayList<>();
         Discount discount = discountRepository.findByCode(discountCode);
-        if (discount == null || !discount.isValid()) {
-            discount = discountRepository.findByDiscountId(0L);
-        }
+//        if (discount == null || !discount.isValid()) {
+//            discount = discountRepository.findByDiscountId(0L);
+//            return "redirect:/user/cart?error=" + String.valueOf(discount == null);
+//        }
 
         for (CartItem cartItem : cartItems) {
             Item item = cartItem.getItem();
@@ -170,7 +175,7 @@ public class CheckoutController_u {
     public String showAllOrders(HttpSession session, Model model) {
         User currentUser = (User) session.getAttribute("user");
         List<Order> orders = orderRepository.findAllOrdersByUser(currentUser);
-        model.addAttribute("orders", orders);
+        model.addAttribute("orders", orders.stream().sorted(Comparator.comparing(Order::getOrderDate).reversed()).collect(Collectors.toList()));
         return "user/orders";
     }
 
@@ -181,6 +186,9 @@ public class CheckoutController_u {
         order.setStatus(OrderStatus.UNPAID);
         order.setTotalAmount(BigDecimal.ZERO);
         order.setDiscount(discount);
+
+        //Logger.getAnonymousLogger().info("Discount: " + order.getDiscount().getCode());
+
         orderRepository.save(order);
 
         for(CartItem cartItem : cartItems) {
@@ -191,7 +199,12 @@ public class CheckoutController_u {
             orderItem.setOrder(order);
             orderItem.setItem(item);
             orderItem.setQuantity(cartItem.getQuantity());
-            orderItem.setPrice(item.getPrice());
+            List<ItemDiscount> itemDiscounts = itemDiscountRepository.findAllByDiscount(discount);
+            if (itemDiscounts.isEmpty()) {
+                orderItem.setPrice(item.getPrice().multiply(BigDecimal.valueOf(100).subtract(discount.getDiscountPercentage())).divide(BigDecimal.valueOf(100)));
+            } else {
+                orderItem.setPrice(item.getPrice().multiply(itemDiscounts.stream().anyMatch(itemDiscount -> Objects.equals(itemDiscount.getItem().getItemId(), item.getItemId())) ? BigDecimal.ONE.subtract(itemDiscounts.getFirst().getDiscount().getDiscountPercentage().divide(BigDecimal.valueOf(100))) : BigDecimal.ONE));
+            }
             itemRepository.save(item);
             orderItemRepository.save(orderItem);
         }

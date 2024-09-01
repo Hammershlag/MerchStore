@@ -33,11 +33,11 @@
 .category-slider-container .scroll-button {
     width: 40px;
     height: 40px;
-    background-color: #4e4e4e;
+    background: transparent;
     font-weight: bolder;
     color: white;
-    border: black solid 1px;
-    font-size: 20px;
+    border: transparent solid 1px;
+    font-size: 23px;
     border-radius: 50%;
     padding: 10px;
     cursor: pointer;
@@ -47,19 +47,17 @@
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    opacity: 0.8;
-    transition: opacity 0.5s;
-
+    transition: color 2s;
 }
 
 .category-slider-container .scroll-button:hover {
-    transition: opacity 0.5s;
-    opacity: 1;
+    transition: color 2s;
+    color: gray;
 }
 
 .category-slider-container .scroll-button:active {
-    transition: opacity 0.2s;
-    opacity: 0.8;
+    transition: color 2s;
+    color: black;
 }
 
 
@@ -73,7 +71,13 @@
     z-index: 10000;
 }
 
-.scroll-button:disabled {
-    background-color: #393939;
-    cursor: not-allowed;
+.category-slider-container .scroll-button:disabled {
+    transition: color 2s;
+    color: transparent;
 }
+
+.category-slider-container .scroll-button:disabled:hover {
+    color: transparent;
+    cursor: default;
+}
+

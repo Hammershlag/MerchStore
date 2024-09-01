@@ -20,19 +20,18 @@
 
 <div th:replace="~{fragments/layout :: layout(left_content=${left_content}, content=${content}, right_content=${right_content})}">
     <th:block th:fragment="left_content">
-        <p></p>
-
+        <p>This is a very nice and long text that i was totally willing to write only to have some content to test my homepage on and there was no other reason to that than this</p>
     </th:block>
     <th:block th:fragment="content">
         <div>
             <h2>Welcome</h2>
-            <div class="centered-content">
-                <div th:replace="~{fragments/categorySlider :: categorySlider}"></div>
-            </div>
             <h3>About Us</h3>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce eleifend massa vitae ipsum tristique, a tempor quam pharetra. Sed finibus, dui nec sodales eleifend, sapien ex sollicitudin justo, ut dignissim risus lectus ut dolor. Curabitur ultricies urna a tempor suscipit. Phasellus pharetra ante nec ipsum malesuada, non ultricies ipsum congue. Integer sit amet turpis a magna sagittis molestie eget nec libero. Nam fermentum mauris eget massa fringilla, vel dignissim turpis facilisis. Donec sodales varius sapien, ac blandit quam vulputate in. Nulla eu sem in arcu malesuada accumsan.</p>
 
             <h3>Our Products</h3>
+            <div class="centered-content">
+                <div th:replace="~{fragments/categorySlider :: categorySlider}"></div>
+            </div>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce eleifend massa vitae ipsum tristique, a tempor quam pharetra. Sed finibus, dui nec sodales eleifend, sapien ex sollicitudin justo, ut dignissim risus lectus ut dolor. Curabitur ultricies urna a tempor suscipit. Phasellus pharetra ante nec ipsum malesuada, non ultricies ipsum congue. Integer sit amet turpis a magna sagittis molestie eget nec libero. Nam fermentum mauris eget massa fringilla, vel dignissim turpis facilisis. Donec sodales varius sapien, ac blandit quam vulputate in. Nulla eu sem in arcu malesuada accumsan.</p>
         </div>
     </th:block>
