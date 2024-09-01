@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Bestseller</title>
+    <link rel="stylesheet" href="../../static/css/bestseller.css">
+
+</head>
+<body>
+<div th:fragment="bestseller">
+    <div th:if="${bestseller != null}">
+        <div class="bestseller-container">
+            <div class="bestseller">
+                <a th:href="@{'/item?id=' + ${bestseller.itemId}}">
+                    <img th:src="${'data:image/jpeg;base64,' + bestseller.base64Image()}" alt="Item Image">
+                </a>
+                <div class="bestseller-info">
+                    <a th:href="@{'/item?id=' + ${bestseller.itemId}}">
+                        <p class="title" th:text="${bestseller.name}"></p>
+                    </a>
+                    <h3>Price:</h3>
+                    <p class="price" th:text="${bestseller.price} + '$'"></p> <span class="unit">/ea</span>
+                </div>
+                <div class="see-product">
+                    <a th:href="@{'/item?id=' + ${bestseller.itemId}}">See Product</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

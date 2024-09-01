@@ -1,0 +1,18 @@
+.bestseller-panel-container {
+    width: inherit;
+}
+
+.bestseller-panel-container .bestseller-panel-title {
+    font-size: 1.8em;
+    font-weight: bold;
+    margin-bottom: 10px;
+    display: block;
+    text-align: center;
+}
+
+.bestseller-panel-container .bestseller-panel {
+    padding: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}

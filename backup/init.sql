@@ -134,3 +134,11 @@ CREATE TABLE sales (
                        FOREIGN KEY (item_id) REFERENCES items(item_id)
 );
 
+-- Create best_sellers view
+CREATE VIEW best_sellers AS
+SELECT item_id, SUM(quantity) as total_sales
+FROM sales
+WHERE sale_date >= current_date - interval '30 days'
+GROUP BY item_id
+ORDER BY total_sales DESC
+LIMIT 10;
