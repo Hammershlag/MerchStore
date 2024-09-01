@@ -1,6 +1,6 @@
 package com.example.merchstore.repositories;
 
-import com.example.merchstore.components.models.BestSeller;
+import com.example.merchstore.components.models.Bestseller;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
@@ -8,6 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @version 1.0
  * @since 01.09.2024
  */
-public interface BestSellerRepository extends JpaRepository<BestSeller, Long> {
+public interface BestSellerRepository extends JpaRepository<Bestseller, Long> {
 
 }

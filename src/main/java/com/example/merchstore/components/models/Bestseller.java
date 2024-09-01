@@ -1,11 +1,9 @@
 package com.example.merchstore.components.models;
 
-import com.example.merchstore.repositories.ItemRepository;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * @author Tomasz Zbroszczyk
@@ -17,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 @AllArgsConstructor @NoArgsConstructor
 @Entity
 @Table(name = "best_sellers")
-public class BestSeller {
+public class Bestseller {
 
     @Id
     @Column(name = "item_id")
