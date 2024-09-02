@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Recently Viewed Panel</title>
+    <link rel="stylesheet" href="../../static/css/itemMini.css">
+    <link rel="stylesheet" href="../../static/css/recentlyViewedPanel.css">
+    <script src="../../static/javascript/recentlyViewedPanelSlider.js"></script>
+
+</head>
+<body>
+<div th:fragment="recentlyViewedPanel">
+    <div class="recently-viewed-panel-container">
+        <p class="recently-viewed-panel-title">Recently Viewed Products</p>
+        <div class="recently-viewed-slider">
+            <button id="prevButtonRecentlyViewed" class="scroll-button" disabled><</button>
+            <div class="recently-viewed-panel">
+                <div th:each="item_mini : ${user_history_items}">
+                    <div  th:replace="~{fragments/itemMini :: itemMini}"></div>
+                </div>
+            </div>
+            <button id="nextButtonRecentlyViewed" class="scroll-button">></button>
+        </div>
+        <a href="/" class="deleteHistory" id="deleteHistory">Delete history</a>
+    </div>
+</div>
+</body>
+</html>

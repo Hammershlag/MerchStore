@@ -56,6 +56,47 @@
         <p></p>
     </th:block>
     <th:block th:fragment="content">
+        <script>
+            // Get the id parameter from the current URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const id = urlParams.get('id');
+
+            fetch('cookie/get?key=history&value=' + id, {
+                method: 'GET',
+            })
+                .then(response => response.text())
+                .then(data => {
+                    console.log('Response from /get:', data);
+                    if (data !== 'true') {
+                        fetch('/cookie/add?key=history&value=' + id, {
+                            method: 'GET',
+                        })
+                            .then(response => response.text())
+                            .then(data => {
+                                console.log('Response from /add:', data);
+
+                                // After the first request is done, send a request to "/cookie/delete?key=history"
+                                fetch('/cookie/delete?key=history', {
+                                    method: 'GET',
+                                })
+                                    .then(response => response.text())
+                                    .then(data => {
+                                        console.log('Response from /delete:', data);
+                                    })
+                                    .catch((error) => {
+                                        console.error('Error:', error);
+                                    });
+                            })
+                            .catch((error) => {
+                                console.error('Error:', error);
+                            });
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+
+        </script>
         <div>
             <div class="item-container" th:if="${item != null}">
                 <p th:if="${addedToCart != null}" th:text="${addedToCart}"></p>

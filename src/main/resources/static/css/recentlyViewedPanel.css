@@ -1,4 +1,16 @@
-.category-slider-container {
+.recently-viewed-panel-container {
+    width: inherit;
+}
+
+.recently-viewed-panel-container .recently-viewed-panel-title {
+    font-size: 1.8em;
+    font-weight: bold;
+    margin-bottom: 10px;
+    display: block;
+    text-align: center;
+}
+
+.recently-viewed-panel-container .recently-viewed-slider {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -7,7 +19,7 @@
     width: 100%;
 }
 
-.category-slider-container .category-slider {
+.recently-viewed-panel-container .recently-viewed-slider .recently-viewed-panel {
     display: flex;
     flex-wrap: nowrap;
     overflow-x: auto;
@@ -16,21 +28,20 @@
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
     -ms-overflow-style: none;
-
 }
 
-.category-slider-container .category-slider::-webkit-scrollbar {
+.recently-viewed-panel-container .recently-viewed-slider .recently-viewed-panel::-webkit-scrollbar {
     display: none; /* Hide scrollbar in WebKit browsers */
 }
 
-.category-slider-container .category-slider .category-container {
+.recently-viewed-panel-container .recently-viewed-slider .recently-viewed-panel .item-container {
     flex: 0 0 auto;
     margin-right: 10px;
     margin-left: 10px;
     scroll-snap-align: start;
 }
 
-.category-slider-container .scroll-button {
+.recently-viewed-panel-container .recently-viewed-slider .scroll-button {
     width: 40px;
     height: 40px;
     background: transparent;
@@ -50,34 +61,32 @@
     transition: color 2s;
 }
 
-.category-slider-container .scroll-button:hover {
+.recently-viewed-panel-container .recently-viewed-slider .scroll-button:hover {
     transition: color 2s;
     color: gray;
 }
 
-.category-slider-container .scroll-button:active {
+.recently-viewed-panel-container .recently-viewed-slider .scroll-button:active {
     transition: color 2s;
     color: black;
 }
 
-
-.category-slider-container .scroll-button#prevButton {
+.recently-viewed-panel-container .recently-viewed-slider .scroll-button#prevButtonRecentlyViewed {
     left: 10px;
     z-index: 10000;
 }
 
-.category-slider-container .scroll-button#nextButton {
+.recently-viewed-panel-container .recently-viewed-slider .scroll-button#nextButtonRecentlyViewed {
     right: 10px;
     z-index: 10000;
 }
 
-.category-slider-container .scroll-button:disabled {
+.recently-viewed-panel-container .recently-viewed-slider .scroll-button:disabled {
     transition: color 2s;
     color: transparent;
 }
 
-.category-slider-container .scroll-button:disabled:hover {
+.recently-viewed-panel-container .recently-viewed-slider .scroll-button:disabled:hover {
     color: transparent;
     cursor: default;
 }
-

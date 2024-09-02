@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Item</title>
+    <link rel="stylesheet" href="../../static/css/itemMini.css">
+</head>
+<body>
+<div th:fragment="itemMini">
+    <div class="item-mini-container">
+        <div class="item-mini">
+            <a th:href="@{'/item?id=' + ${item_mini.itemId}}">
+                <img th:src="${'data:image/jpeg;base64,' + item_mini.base64Image()}" alt="Item Image">
+            </a>
+            <div class="item-mini-info">
+                <a th:href="@{'/item?id=' + ${item_mini.itemId}}">
+                    <p class="title" th:text="${item_mini.name}"></p>
+                </a>
+                <h3>Price:</h3>
+                <p class="price" th:text="${item_mini.price} + '$'"></p> <span class="unit">/ea</span>
+            </div>
+            <div class="see-product">
+                <a th:href="@{'/item?id=' + ${item_mini.itemId}}">See Product</a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
