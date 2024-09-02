@@ -7,5 +7,6 @@ package com.example.merchstore.components.enums;
  */
 public enum Gender {
     MALE,
-    FEMALE, DEFAULT;
+    FEMALE,
+    DEFAULT;
 }

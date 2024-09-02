@@ -125,7 +125,7 @@ CREATE TABLE ads (
                      FOREIGN KEY (user_id) REFERENCES users(user_id) -- Foreign key reference to users table
 );
 
--- Create sales table (last 30 days)
+-- Create sales table
 CREATE TABLE sales (
                        id SERIAL PRIMARY KEY,
                        item_id INT NOT NULL,
@@ -134,7 +134,7 @@ CREATE TABLE sales (
                        FOREIGN KEY (item_id) REFERENCES items(item_id)
 );
 
--- Create best_sellers view
+-- Create best_sellers view (last 30 days)
 CREATE VIEW best_sellers AS
 SELECT item_id, SUM(quantity) as total_sales
 FROM sales
