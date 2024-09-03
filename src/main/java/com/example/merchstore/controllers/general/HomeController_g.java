@@ -2,6 +2,7 @@ package com.example.merchstore.controllers.general;
 
 import com.example.merchstore.components.models.*;
 import com.example.merchstore.repositories.CategoryRepository;
+import com.example.merchstore.repositories.CurrencyRepository;
 import com.example.merchstore.repositories.ItemRepository;
 import com.example.merchstore.services.BestSellerService;
 import com.example.merchstore.services.UserItemHistoryService;
@@ -38,6 +39,9 @@ public class HomeController_g {
     @Autowired
     private UserItemHistoryService userItemHistoryService;
 
+    @Autowired
+    private CurrencyRepository currencyRepository;
+
     @GetMapping("/home")
     public String home(HttpServletRequest request, HttpSession session, Model model) {
         Boolean isLoggedIn = (Boolean) session.getAttribute("isLoggedIn");
@@ -45,21 +49,35 @@ public class HomeController_g {
             isLoggedIn = false;
         }
 
+        Currency currency = currencyRepository.findById(1L).orElse(null);
+
+
+        Cookie[] cookies = request.getCookies();
+
         List<Item> user_history_items = new ArrayList<>();
         if (isLoggedIn) {
 
             // Get the user ID from the session
             Long userId = ((User) session.getAttribute("user")).getUserId();
 
-            //TODO After deleting history it should not be loaded again
             user_history_items = userItemHistoryService.getNewestBrowsedItemsForUser(userId);
 
+            if (cookies != null) {
+                for (Cookie cookie : cookies) {
+                    if (cookie.getName().equals("currency")) {
+                        currency = currencyRepository.findByShortName(cookie.getValue());
+                    }
+                }
+            }
+
         } else {
-            Cookie[] cookies = request.getCookies();
             if (cookies != null) {
                 for (Cookie cookie : cookies) {
                     if (cookie.getName().startsWith("history_")) {
                         user_history_items.add(itemRepository.findById(Long.parseLong(cookie.getValue())).orElse(itemRepository.findById(523L).orElse(null)));
+                    }
+                    if (cookie.getName().equals("currency")) {
+                        currency = currencyRepository.findByShortName(cookie.getValue());
                     }
                 }
             } else {
@@ -69,10 +87,12 @@ public class HomeController_g {
 
 
 
+
         model.addAttribute("isLoggedIn", isLoggedIn);
         model.addAttribute("categories", categoryRepository.findAll().stream().filter(Category::isMain).toList());
         model.addAttribute("bestsellers", bestSellersService.getBestSellers().keySet().stream().toList());
         model.addAttribute("user_history_items", user_history_items);
+        model.addAttribute("currency", currency);
         return "general/home";
     }
 

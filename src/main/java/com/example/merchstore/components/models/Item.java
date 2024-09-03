@@ -59,6 +59,10 @@ public class Item implements DataDisplay, ImageDisplay {
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
 
+    @JoinColumn(name = "currency_id", nullable = false)
+    @ManyToOne
+    private Currency currency;
+
     @JsonIgnore
     @JdbcTypeCode(Types.BINARY)
     @Column(name = "image", columnDefinition = "BYTEA", nullable = true)

@@ -23,6 +23,9 @@
         </button>
       </form>
     </div>
+    <select id="currencySelect">
+      <!-- Options will be populated by JavaScript -->
+    </select>
     <div class="nav-right" th:if="${isLoggedIn && user != null}">
       <a href="/user/cart">
         <img src="/images/icons/cart.png" alt="Cart">

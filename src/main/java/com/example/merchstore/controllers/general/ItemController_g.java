@@ -1,10 +1,9 @@
 package com.example.merchstore.controllers.general;
 
 import com.example.merchstore.components.models.*;
-import com.example.merchstore.repositories.CategoryRepository;
-import com.example.merchstore.repositories.ItemRepository;
-import com.example.merchstore.repositories.ReviewRepository;
-import com.example.merchstore.repositories.UserItemHistoryRepository;
+import com.example.merchstore.repositories.*;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -46,10 +45,13 @@ public class ItemController_g {
     @Autowired
     private HttpSession session;
 
+    @Autowired
+    private CurrencyRepository currencyRepository;
+
     private static final int DEFAULT_ITEMS_PER_PAGE = 20;
 
     @GetMapping("/all")
-    public String viewItems(@RequestParam(value = "category", required = false) Long categoryId,
+    public String viewItems(HttpServletRequest request, @RequestParam(value = "category", required = false) Long categoryId,
                             @RequestParam(value = "sortField", required = false, defaultValue = "name") String sortField,
                             @RequestParam(value = "order", required = false, defaultValue = "asc") String order,
                             @RequestParam(value = "page", required = false, defaultValue = "1") int page,
@@ -83,6 +85,18 @@ public class ItemController_g {
         List<Item> items = itemPage.getContent();
         int totalPages = itemPage.getTotalPages();
 
+        Currency currency = currencyRepository.findById(1L).orElse(null);
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("currency")) {
+                    currency = currencyRepository.findByShortName(cookie.getValue());
+                }
+            }
+        }
+        model.addAttribute("currency", currency);
+
+
         model.addAttribute("items", items);
         model.addAttribute("categories", categoryRepository.findAll());
         model.addAttribute("selectedCategoryId", categoryId);
@@ -98,11 +112,24 @@ public class ItemController_g {
     }
 
     @GetMapping
-    public String viewItem(@RequestParam Long id, @RequestParam(required = false) String addedToCart, Model model) {
+    public String viewItem(HttpServletRequest request, @RequestParam Long id, @RequestParam(required = false) String addedToCart, Model model) {
         Item item = itemRepository.findById(id).orElse(null);
         if (item == null) {
             return "redirect:/item/all";
         }
+
+        Currency currency = currencyRepository.findById(1L).orElse(null);
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("currency")) {
+                    currency = currencyRepository.findByShortName(cookie.getValue());
+                }
+            }
+        }
+        model.addAttribute("currency", currency);
+
+
         List<Review> reviews = reviewRepository.findAllByItem(item);
         model.addAttribute("item", item);
         model.addAttribute("reviews", reviews);

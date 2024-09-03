@@ -80,11 +80,11 @@
                 <tbody>
                 <tr th:each="item : ${items}" th:onclick="|window.location='/api/admin/view/item?id=' + ${item.itemId}|">
                     <td>
-                        <img  th:src="${'data:image/jpeg;base64,' + item.base64Image()}" alt="Item Image" style="max-width: 100px; max-height: 100px;">
+                        <img th:src="@{'/api/image/item/' + ${item.itemId}}" alt="Item Image" style="max-width: 100px; max-height: 100px;">
                     </td>
                     <td th:text="${item.name}"></td>
                     <td th:text="${item.description}"></td>
-                    <td th:text="${item.price}"></td>
+                    <td th:text="${#numbers.formatDecimal(item.price * currency.exchangeRate, 1, 2)} + ${currency.symbol}"></td>
                     <td th:text="${item.stockQuantity}"></td>
                     <td th:text="${item.category.name}"></td>
                     <td th:text="${item.createdAt}"></td>

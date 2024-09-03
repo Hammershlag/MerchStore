@@ -1,10 +1,14 @@
 package com.example.merchstore.controllers.user;
 
 import com.example.merchstore.components.models.CartItem;
+import com.example.merchstore.components.models.Currency;
 import com.example.merchstore.components.models.Item;
 import com.example.merchstore.components.models.User;
 import com.example.merchstore.repositories.CartItemRepository;
+import com.example.merchstore.repositories.CurrencyRepository;
 import com.example.merchstore.repositories.ItemRepository;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -33,8 +37,11 @@ public class CartController_u {
     @Autowired
     private ItemRepository itemRepository;
 
+    @Autowired
+    private CurrencyRepository currencyRepository;
+
     @GetMapping()
-    public String showCart(Model model, @RequestParam(value = "sortField", required = false) String sortField,
+    public String showCart(HttpServletRequest request, Model model, @RequestParam(value = "sortField", required = false) String sortField,
                            @RequestParam(value = "order", required = false, defaultValue = "asc") String order) {
         User user = (User) httpSession.getAttribute("user");
         List<CartItem> cartItems = cartItemRepository.findAllByUser(user);
@@ -70,6 +77,16 @@ public class CartController_u {
             return finalIsAscending ? result : -result;
         });
 
+        Currency currency = currencyRepository.findById(1L).orElse(null);
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("currency")) {
+                    currency = currencyRepository.findByShortName(cookie.getValue());
+                }
+            }
+        }
+        model.addAttribute("currency", currency);
         model.addAttribute("cartItems", cartItems);
         model.addAttribute("sortField", sortField);
         model.addAttribute("order", order);

@@ -37,7 +37,9 @@ CREATE TABLE items (
                        image BYTEA,
                        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
                        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-                       FOREIGN KEY (category_id) REFERENCES categories(category_id)
+                       currency_id INT NOT NULL DEFAULT 1,
+                       FOREIGN KEY (category_id) REFERENCES categories(category_id),
+                       FOREIGN KEY (currency_id) REFERENCES currencies(id)
 );
 
 -- Create discounts table
@@ -183,3 +185,12 @@ PREPARE get_newest_browsed_items_for_user_test AS
     WHERE
         rn <= 10;
 
+-- Create a table to store currencies data
+CREATE TABLE currencies (
+                            id SERIAL PRIMARY KEY,
+                            short VARCHAR(10) NOT NULL UNIQUE,
+                            symbol VARCHAR(10) NOT NULL,
+                            name VARCHAR(50),
+                            exchange_rate DECIMAL(10, 5),
+                            last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+);

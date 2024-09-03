@@ -1,9 +1,13 @@
 package com.example.merchstore.controllers.admin;
 
 import com.example.merchstore.components.models.Category;
+import com.example.merchstore.components.models.Currency;
 import com.example.merchstore.components.models.Item;
 import com.example.merchstore.repositories.CategoryRepository;
+import com.example.merchstore.repositories.CurrencyRepository;
 import com.example.merchstore.repositories.ItemRepository;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -41,6 +45,9 @@ public class ItemController_a {
     @Autowired
     private ItemRepository itemRepository;
 
+    @Autowired
+    private CurrencyRepository currencyRepository;
+
     @GetMapping("/add/item")
     public String addItem(Model model) {
         model.addAttribute("item", new Item());
@@ -74,7 +81,7 @@ public class ItemController_a {
     }
 
     @GetMapping("/view/items")
-    public String viewItems(@RequestParam(value = "category", required = false) Long categoryId,
+    public String viewItems(HttpServletRequest request, @RequestParam(value = "category", required = false) Long categoryId,
                             @RequestParam(value = "page", defaultValue = "0") int page,
                             @RequestParam(value = "size", defaultValue = "10") int size,
                             @RequestParam(value = "searchItem", required = false) String search,
@@ -101,6 +108,17 @@ public class ItemController_a {
             }
         }
 
+        Currency currency = currencyRepository.findById(1L).orElse(null);
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("currency")) {
+                    currency = currencyRepository.findByShortName(cookie.getValue());
+                }
+            }
+        }
+        model.addAttribute("currency", currency);
+
         model.addAttribute("items", items.getContent());
         model.addAttribute("totalPages", items.getTotalPages());
         model.addAttribute("currentPage", page);
@@ -112,11 +130,21 @@ public class ItemController_a {
     }
 
     @GetMapping("/view/item")
-    public String viewItem(@RequestParam Long id, Model model) {
+    public String viewItem(HttpServletRequest request, @RequestParam Long id, Model model) {
         Item item = itemRepository.findById(id).orElse(null);
         if (item == null) {
             return "redirect:/api/admin/view/items";
         }
+        Currency currency = currencyRepository.findById(1L).orElse(null);
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("currency")) {
+                    currency = currencyRepository.findByShortName(cookie.getValue());
+                }
+            }
+        }
+        model.addAttribute("currency", currency);
         model.addAttribute("item", item);
         return "admin/view/viewItem";
     }
