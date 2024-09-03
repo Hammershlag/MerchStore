@@ -1,12 +1,10 @@
 package com.example.merchstore.controllers.general;
 
-import com.example.merchstore.components.models.Category;
-import com.example.merchstore.components.models.Item;
-import com.example.merchstore.components.models.Review;
-import com.example.merchstore.components.models.User;
+import com.example.merchstore.components.models.*;
 import com.example.merchstore.repositories.CategoryRepository;
 import com.example.merchstore.repositories.ItemRepository;
 import com.example.merchstore.repositories.ReviewRepository;
+import com.example.merchstore.repositories.UserItemHistoryRepository;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -41,6 +39,9 @@ public class ItemController_g {
 
     @Autowired
     private ReviewRepository reviewRepository;
+
+    @Autowired
+    private UserItemHistoryRepository userItemHistoryRepository;
 
     @Autowired
     private HttpSession session;
@@ -117,6 +118,16 @@ public class ItemController_g {
                 .mapToInt(Review::getStarRating) // Assuming getStarRating() returns an integer
                 .average()
                 .orElse(0.0); // Use 0.0 if there are no reviews
+
+        Boolean isLoggedIn = (Boolean) session.getAttribute("isLoggedIn");
+        if (isLoggedIn == null) {
+            isLoggedIn = false;
+        }
+
+        if (isLoggedIn) {
+            User user = (User) session.getAttribute("user");
+            userItemHistoryRepository.save(new UserItemHistory(user, item));
+        }
 
         model.addAttribute("averageRating", averageRating);
 

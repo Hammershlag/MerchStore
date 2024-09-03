@@ -1,8 +1,12 @@
 package com.example.merchstore.controllers.general;
 
+import com.example.merchstore.components.models.User;
+import com.example.merchstore.repositories.UserItemHistoryRepository;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,6 +24,9 @@ import java.time.format.DateTimeFormatter;
 @RestController
 @RequestMapping("/cookie")
 public class CookieController_g {
+
+    @Autowired
+    private UserItemHistoryRepository userItemHistoryRepository;
 
     @GetMapping("/add")
     public String setCookie(HttpServletResponse response, @RequestParam(name = "key") String key, @RequestParam(name = "value") String value) {
@@ -87,7 +94,7 @@ public class CookieController_g {
     }
 
     @GetMapping("/delete")
-    public String deleteAllCookies(HttpServletRequest request, HttpServletResponse response, @RequestParam(required = false) String key) {
+    public String deleteAllCookies(HttpSession session, HttpServletRequest request, HttpServletResponse response, @RequestParam(required = false) String key) {
         Cookie[] cookies = request.getCookies();
         int historyCounter = 0;
         int firstHistoryIndex = -1;
@@ -109,6 +116,13 @@ public class CookieController_g {
                         cookie.setMaxAge(0);
                         cookie.setPath("/");
                         response.addCookie(cookie);
+                        Boolean isLoggedIn = (Boolean) session.getAttribute("isLoggedIn");
+                        if (isLoggedIn == null) {
+                            isLoggedIn = false;
+                        }
+                        if (isLoggedIn) {
+                            userItemHistoryRepository.deleteAllByUser(((User) session.getAttribute("user")));
+                        }
                     }
                 }
                 else {

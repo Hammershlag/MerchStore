@@ -1,11 +1,10 @@
 package com.example.merchstore.controllers.general;
 
-import com.example.merchstore.components.models.Category;
-import com.example.merchstore.components.models.Item;
-import com.example.merchstore.components.models.User;
+import com.example.merchstore.components.models.*;
 import com.example.merchstore.repositories.CategoryRepository;
 import com.example.merchstore.repositories.ItemRepository;
 import com.example.merchstore.services.BestSellerService;
+import com.example.merchstore.services.UserItemHistoryService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -36,6 +35,9 @@ public class HomeController_g {
     @Autowired
     private ItemRepository itemRepository;
 
+    @Autowired
+    private UserItemHistoryService userItemHistoryService;
+
     @GetMapping("/home")
     public String home(HttpServletRequest request, HttpSession session, Model model) {
         Boolean isLoggedIn = (Boolean) session.getAttribute("isLoggedIn");
@@ -45,19 +47,27 @@ public class HomeController_g {
 
         List<Item> user_history_items = new ArrayList<>();
         if (isLoggedIn) {
-            //TODO Create a db for logged in users
+
+            // Get the user ID from the session
+            Long userId = ((User) session.getAttribute("user")).getUserId();
+
+            //TODO After deleting history it should not be loaded again
+            user_history_items = userItemHistoryService.getNewestBrowsedItemsForUser(userId);
+
+        } else {
+            Cookie[] cookies = request.getCookies();
+            if (cookies != null) {
+                for (Cookie cookie : cookies) {
+                    if (cookie.getName().startsWith("history_")) {
+                        user_history_items.add(itemRepository.findById(Long.parseLong(cookie.getValue())).orElse(itemRepository.findById(523L).orElse(null)));
+                    }
+                }
+            } else {
+                Logger.getAnonymousLogger().info("No cookies found");
+            }
         }
 
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().startsWith("history_")) {
-                    user_history_items.add(itemRepository.findById(Long.parseLong(cookie.getValue())).orElse(itemRepository.findById(523L).orElse(null)));
-                }
-            }
-        } else {
-            Logger.getAnonymousLogger().info("No cookies found");
-        }
+
 
         model.addAttribute("isLoggedIn", isLoggedIn);
         model.addAttribute("categories", categoryRepository.findAll().stream().filter(Category::isMain).toList());

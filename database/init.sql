@@ -142,3 +142,44 @@ WHERE sale_date >= current_date - interval '30 days'
 GROUP BY item_id
 ORDER BY total_sales DESC
 LIMIT 10;
+
+-- Create user item browse history table
+CREATE TABLE user_item_history (
+                                  id SERIAL PRIMARY KEY,
+                                  user_id INT NOT NULL,
+                                  item_id INT NOT NULL,
+                                  last_browsed TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+                                  FOREIGN KEY (user_id) REFERENCES users(user_id),
+                                  FOREIGN KEY (item_id) REFERENCES items(item_id)
+);
+
+-- Statement for getting 10 newest browsed items for a user
+PREPARE get_newest_browsed_items_for_user_test AS
+    WITH RankedItems AS (
+        SELECT
+            user_id,
+            item_id,
+            last_browsed,
+            ROW_NUMBER() OVER (ORDER BY last_browsed DESC) AS rn
+        FROM (
+                 SELECT
+                     user_id,
+                     item_id,
+                     MAX(last_browsed) AS last_browsed
+                 FROM
+                     user_item_history
+                 WHERE
+                     user_id = $1
+                 GROUP BY
+                     user_id, item_id
+             ) AS UniqueItems
+    )
+    SELECT
+        user_id,
+        item_id,
+        last_browsed
+    FROM
+        RankedItems
+    WHERE
+        rn <= 10;
+
