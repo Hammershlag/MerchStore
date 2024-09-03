@@ -10,7 +10,7 @@
     <div class="item-mini-container">
         <div class="item-mini">
             <a th:href="@{'/item?id=' + ${item_mini.itemId}}">
-                <img th:src="${'data:image/jpeg;base64,' + item_mini.base64Image()}" alt="Item Image">
+                <img th:src="@{'/api/image/item/' + ${item_mini.itemId}}" alt="Item Image" class="item-image">
             </a>
             <div class="item-mini-info">
                 <a th:href="@{'/item?id=' + ${item_mini.itemId}}">

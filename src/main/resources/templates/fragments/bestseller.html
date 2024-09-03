@@ -12,7 +12,7 @@
         <div class="bestseller-container">
             <div class="bestseller">
                 <a th:href="@{'/item?id=' + ${bestseller.itemId}}">
-                    <img th:src="${'data:image/jpeg;base64,' + bestseller.base64Image()}" alt="Item Image">
+                    <img th:src="@{'/api/image/item/' + ${bestseller.itemId}}" alt="Item Image">
                 </a>
                 <div class="bestseller-info">
                     <a th:href="@{'/item?id=' + ${bestseller.itemId}}">

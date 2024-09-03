@@ -9,7 +9,8 @@
     <div class="category-container">
         <a th:href="@{'/item/all?category=' + ${category.categoryId}}">
             <div class="category-background"></div>
-            <img th:src="${'data:image/jpeg;base64,' + category.base64Image()}" alt="Category Image">
+            <img th:src="@{'/api/image/category/' + ${category.categoryId}}" alt="Category Image">
+
             <p th:text="${category.name}"></p>
         </a>
     </div>
