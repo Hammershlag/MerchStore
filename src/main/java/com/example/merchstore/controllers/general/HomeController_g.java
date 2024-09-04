@@ -5,6 +5,7 @@ import com.example.merchstore.repositories.CategoryRepository;
 import com.example.merchstore.repositories.CurrencyRepository;
 import com.example.merchstore.repositories.ItemRepository;
 import com.example.merchstore.services.BestSellerService;
+import com.example.merchstore.services.LatestExchangeRateService;
 import com.example.merchstore.services.UserItemHistoryService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -41,6 +42,9 @@ public class HomeController_g {
 
     @Autowired
     private CurrencyRepository currencyRepository;
+
+    @Autowired
+    private LatestExchangeRateService latestExchangeRateService;
 
     @GetMapping("/home")
     public String home(HttpServletRequest request, HttpSession session, Model model) {
@@ -85,6 +89,11 @@ public class HomeController_g {
             }
         }
 
+        ExchangeRate exchangeRate = latestExchangeRateService.getLatestExchangeRateForCurrency(currency.getId());
+
+        model.addAttribute("currency", currency);
+        model.addAttribute("exchangeRate", exchangeRate);
+
 
 
 
@@ -92,7 +101,7 @@ public class HomeController_g {
         model.addAttribute("categories", categoryRepository.findAll().stream().filter(Category::isMain).toList());
         model.addAttribute("bestsellers", bestSellersService.getBestSellers().keySet().stream().toList());
         model.addAttribute("user_history_items", user_history_items);
-        model.addAttribute("currency", currency);
+
         return "general/home";
     }
 

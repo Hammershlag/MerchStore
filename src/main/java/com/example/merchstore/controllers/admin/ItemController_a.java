@@ -2,10 +2,12 @@ package com.example.merchstore.controllers.admin;
 
 import com.example.merchstore.components.models.Category;
 import com.example.merchstore.components.models.Currency;
+import com.example.merchstore.components.models.ExchangeRate;
 import com.example.merchstore.components.models.Item;
 import com.example.merchstore.repositories.CategoryRepository;
 import com.example.merchstore.repositories.CurrencyRepository;
 import com.example.merchstore.repositories.ItemRepository;
+import com.example.merchstore.services.LatestExchangeRateService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.SneakyThrows;
@@ -47,6 +49,9 @@ public class ItemController_a {
 
     @Autowired
     private CurrencyRepository currencyRepository;
+
+    @Autowired
+    private LatestExchangeRateService latestExchangeRateService;
 
     @GetMapping("/add/item")
     public String addItem(Model model) {
@@ -117,7 +122,11 @@ public class ItemController_a {
                 }
             }
         }
+
+        ExchangeRate exchangeRate = latestExchangeRateService.getLatestExchangeRateForCurrency(currency.getId());
+
         model.addAttribute("currency", currency);
+        model.addAttribute("exchangeRate", exchangeRate);
 
         model.addAttribute("items", items.getContent());
         model.addAttribute("totalPages", items.getTotalPages());
@@ -144,7 +153,14 @@ public class ItemController_a {
                 }
             }
         }
+
+        ExchangeRate exchangeRate = latestExchangeRateService.getLatestExchangeRateForCurrency(currency.getId());
+
         model.addAttribute("currency", currency);
+        model.addAttribute("exchangeRate", exchangeRate);
+
+
+
         model.addAttribute("item", item);
         return "admin/view/viewItem";
     }

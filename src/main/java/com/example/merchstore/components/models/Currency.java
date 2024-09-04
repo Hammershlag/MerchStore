@@ -35,19 +35,12 @@ public class Currency implements DataDisplay {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "exchange_rate")
-    private double exchangeRate;
-
-    @Column(name = "last_updated")
-    private LocalDateTime lastUpdated;
 
     public Currency(Currency currency) {
         this.id = currency.getId();
         this.shortName = currency.getShortName();
         this.symbol = currency.getSymbol();
         this.name = currency.getName();
-        this.exchangeRate = currency.getExchangeRate();
-        this.lastUpdated = currency.getLastUpdated();
     }
 
     @Override

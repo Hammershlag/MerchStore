@@ -104,7 +104,7 @@
                 <div class="item-details">
                     <h2 th:text="${item.name}">Item Name</h2>
                     <p th:text="${item.description}">Item Description</p>
-                    <p class="price" th:text="${#numbers.formatDecimal(item.price * currency.exchangeRate, 1, 2)} + ${currency.symbol}">Item Price</p>
+                    <p class="price" th:text="${#numbers.formatDecimal(item.price * exchangeRate.exchangeRate, 1, 2)} + ${currency.symbol}">Item Price</p>
                     <p th:if="${item.stockQuantity > 0}">Stock Quantity: <span th:text="${item.stockQuantity}">0</span></p>
                     <p>Category: <span th:text="${item.category.name}">Category Name</span></p>
                 </div>

@@ -2,6 +2,7 @@ package com.example.merchstore.controllers.general;
 
 import com.example.merchstore.components.models.*;
 import com.example.merchstore.repositories.*;
+import com.example.merchstore.services.LatestExchangeRateService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -47,6 +48,9 @@ public class ItemController_g {
 
     @Autowired
     private CurrencyRepository currencyRepository;
+
+    @Autowired
+    private LatestExchangeRateService latestExchangeRateService;
 
     private static final int DEFAULT_ITEMS_PER_PAGE = 20;
 
@@ -94,7 +98,11 @@ public class ItemController_g {
                 }
             }
         }
+
+        ExchangeRate exchangeRate = latestExchangeRateService.getLatestExchangeRateForCurrency(currency.getId());
+
         model.addAttribute("currency", currency);
+        model.addAttribute("exchangeRate", exchangeRate);
 
 
         model.addAttribute("items", items);
@@ -127,7 +135,11 @@ public class ItemController_g {
                 }
             }
         }
+
+        ExchangeRate exchangeRate = latestExchangeRateService.getLatestExchangeRateForCurrency(currency.getId());
+
         model.addAttribute("currency", currency);
+        model.addAttribute("exchangeRate", exchangeRate);
 
 
         List<Review> reviews = reviewRepository.findAllByItem(item);

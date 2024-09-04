@@ -84,7 +84,7 @@
                     </td>
                     <td th:text="${item.name}"></td>
                     <td th:text="${item.description}"></td>
-                    <td th:text="${#numbers.formatDecimal(item.price * currency.exchangeRate, 1, 2)} + ${currency.symbol}"></td>
+                    <td th:text="${#numbers.formatDecimal(item.price * exchangeRate.exchangeRate, 1, 2)} + ${currency.symbol}"></td>
                     <td th:text="${item.stockQuantity}"></td>
                     <td th:text="${item.category.name}"></td>
                     <td th:text="${item.createdAt}"></td>

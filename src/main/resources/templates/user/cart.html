@@ -82,9 +82,9 @@
                         <td><img th:src="@{'/api/image/item/' + ${cartItem.item.itemId}}" alt="Item Image" class="item-image" style="max-width: 100px; max-height: 100px;"></td>
                         <td th:text="${cartItem.item.name}"></td>
                         <td th:text="${cartItem.item.description}"></td>
-                        <td th:text="${#numbers.formatDecimal(cartItem.item.price * currency.exchangeRate, 1, 2)} + ${currency.symbol}"></td>
+                        <td th:text="${#numbers.formatDecimal(cartItem.item.price * exchangeRate.exchangeRate, 1, 2)} + ${currency.symbol}"></td>
                         <td th:text="${cartItem.quantity}"></td>
-                        <td th:text="${#numbers.formatDecimal(cartItem.item.price * currency.exchangeRate * cartItem.quantity, 1, 2)} + ${currency.symbol}"></td>
+                        <td th:text="${#numbers.formatDecimal(cartItem.item.price * exchangeRate.exchangeRate * cartItem.quantity, 1, 2)} + ${currency.symbol}"></td>
                         <td>
                             <!-- Update these forms -->
                             <form th:action="@{/user/cart/increase}" method="post" style="display: inline;">

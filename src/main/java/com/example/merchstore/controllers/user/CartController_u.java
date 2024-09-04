@@ -1,12 +1,10 @@
 package com.example.merchstore.controllers.user;
 
-import com.example.merchstore.components.models.CartItem;
-import com.example.merchstore.components.models.Currency;
-import com.example.merchstore.components.models.Item;
-import com.example.merchstore.components.models.User;
+import com.example.merchstore.components.models.*;
 import com.example.merchstore.repositories.CartItemRepository;
 import com.example.merchstore.repositories.CurrencyRepository;
 import com.example.merchstore.repositories.ItemRepository;
+import com.example.merchstore.services.LatestExchangeRateService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -39,6 +37,9 @@ public class CartController_u {
 
     @Autowired
     private CurrencyRepository currencyRepository;
+
+    @Autowired
+    private LatestExchangeRateService latestExchangeRateService;
 
     @GetMapping()
     public String showCart(HttpServletRequest request, Model model, @RequestParam(value = "sortField", required = false) String sortField,
@@ -86,7 +87,11 @@ public class CartController_u {
                 }
             }
         }
+
+        ExchangeRate exchangeRate = latestExchangeRateService.getLatestExchangeRateForCurrency(currency.getId());
+
         model.addAttribute("currency", currency);
+        model.addAttribute("exchangeRate", exchangeRate);
         model.addAttribute("cartItems", cartItems);
         model.addAttribute("sortField", sortField);
         model.addAttribute("order", order);

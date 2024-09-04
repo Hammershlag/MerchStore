@@ -185,12 +185,29 @@ PREPARE get_newest_browsed_items_for_user_test AS
     WHERE
         rn <= 10;
 
--- Create a table to store currencies data
 CREATE TABLE currencies (
                             id SERIAL PRIMARY KEY,
                             short VARCHAR(10) NOT NULL UNIQUE,
                             symbol VARCHAR(10) NOT NULL,
-                            name VARCHAR(50),
-                            exchange_rate DECIMAL(10, 5),
-                            last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+                            name VARCHAR(50)
 );
+
+-- Create a new exchange_rates table
+CREATE TABLE exchange_rates (
+                                id SERIAL PRIMARY KEY,
+                                currency_id INT NOT NULL,
+                                exchange_rate DECIMAL(10, 5),
+                                last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+                                FOREIGN KEY (currency_id) REFERENCES currencies(id)
+);
+
+-- Create a view to get the latest exchange rates for each currency
+CREATE VIEW latest_exchange_rates AS
+SELECT er1.currency_id, er1.exchange_rate, er1.last_updated
+FROM exchange_rates er1
+         JOIN (
+    SELECT currency_id, MAX(last_updated) AS max_last_updated
+    FROM exchange_rates
+    GROUP BY currency_id
+) er2 ON er1.currency_id = er2.currency_id AND er1.last_updated = er2.max_last_updated;
+
