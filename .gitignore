@@ -6,6 +6,7 @@ target/
 
 # Application properties
 /src/main/resources/application.properties
+/javaDoc/*
 
 ### STS ###
 .apt_generated
