@@ -210,23 +210,35 @@ public class CheckoutController_u {
         order.setOrderDate(LocalDateTime.now());
         order.setStatus(OrderStatus.UNPAID);
         order.setTotalAmount(BigDecimal.ZERO);
+        order.setTotalAfterDiscount(BigDecimal.ZERO);
         order.setDiscount(discount);
         order.setCurrency(currency);
         order.setExchangeRate(exchangeRate);
-
-        System.out.println("Currency: " + currency.getShortName());
-        System.out.println("Exchange Rate: " + exchangeRate.getExchangeRate());
 
         orderRepository.save(order);
 
         for(CartItem cartItem : cartItems) {
             Item item = cartItem.getItem();
             item.setStockQuantity(item.getStockQuantity() - cartItem.getQuantity());
-            order.setTotalAmount(order.getTotalAmount().add(item.getPrice().multiply(BigDecimal.valueOf(cartItem.getQuantity()))));
+
             OrderItem orderItem = new OrderItem();
             orderItem.setOrder(order);
             orderItem.setItem(item);
             orderItem.setQuantity(cartItem.getQuantity());
+
+            BigDecimal itemPrice = item.getPrice();
+            orderItem.setPrice(itemPrice);
+            order.setTotalAmount(order.getTotalAmount().add(itemPrice.multiply(BigDecimal.valueOf(cartItem.getQuantity()))));
+
+            BigDecimal itemPriceAfterDiscount = itemPrice;
+            List<ItemDiscount> itemDiscounts = itemDiscountRepository.findAllByDiscount(discount);
+            if (itemDiscounts.isEmpty() && discount != null) {
+                itemPriceAfterDiscount = itemPrice.multiply(BigDecimal.valueOf(100).subtract(discount.getDiscountPercentage())).divide(BigDecimal.valueOf(100));
+            } else if (discount != null) {
+                itemPriceAfterDiscount = itemPrice.multiply(itemDiscounts.stream().anyMatch(itemDiscount -> Objects.equals(itemDiscount.getItem().getItemId(), item.getItemId())) ? BigDecimal.ONE.subtract(itemDiscounts.getFirst().getDiscount().getDiscountPercentage().divide(BigDecimal.valueOf(100))) : BigDecimal.ONE);
+            }
+            orderItem.setPriceAfterDiscount(itemPriceAfterDiscount);
+            order.setTotalAfterDiscount(order.getTotalAfterDiscount().add(itemPriceAfterDiscount.multiply(BigDecimal.valueOf(cartItem.getQuantity()))));
 
             Sale sale = new Sale();
             sale.setItem(item);
@@ -234,15 +246,11 @@ public class CheckoutController_u {
             sale.setSaleDate(LocalDateTime.now());
             saleRepository.save(sale);
 
-            List<ItemDiscount> itemDiscounts = itemDiscountRepository.findAllByDiscount(discount);
-            if (itemDiscounts.isEmpty() && discount != null) {
-                orderItem.setPrice(item.getPrice().multiply(BigDecimal.valueOf(100).subtract(discount.getDiscountPercentage())).divide(BigDecimal.valueOf(100)));
-            } else if (discount != null) {
-                orderItem.setPrice(item.getPrice().multiply(itemDiscounts.stream().anyMatch(itemDiscount -> Objects.equals(itemDiscount.getItem().getItemId(), item.getItemId())) ? BigDecimal.ONE.subtract(itemDiscounts.getFirst().getDiscount().getDiscountPercentage().divide(BigDecimal.valueOf(100))) : BigDecimal.ONE));
-            }
             itemRepository.save(item);
             orderItemRepository.save(orderItem);
         }
+
+        order.setServiceFee(order.getTotalAfterDiscount().multiply(BigDecimal.valueOf(order.getCurrency().getId() != 1 ? 0.1 : 0.01)));
 
         orderRepository.save(order);
         return order;

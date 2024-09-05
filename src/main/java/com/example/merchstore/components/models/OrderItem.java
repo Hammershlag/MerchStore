@@ -37,12 +37,16 @@ public class OrderItem implements DataDisplay {
     @Column(name = "price", nullable = false)
     private BigDecimal price;
 
+    @Column(name = "price_after_discount", nullable = false)
+    private BigDecimal priceAfterDiscount;
+
     public OrderItem(OrderItem other) {
         this.orderItemId = other.orderItemId;
         this.order = other.order;
         this.item = other.item;
         this.quantity = other.quantity;
         this.price = other.price;
+        this.priceAfterDiscount = other.priceAfterDiscount;
     }
 
     @Override

@@ -70,9 +70,11 @@ CREATE TABLE orders (
                         order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
                         status VARCHAR(50) DEFAULT 'pending' NOT NULL,
                         total_amount DECIMAL(10, 2) NOT NULL,
+                        total_after_discount DECIMAL(10, 2) NOT NULL,
                         discount_id INT,
                         currency_id INT NOT NULL DEFAULT 1,
                         exchange_rate_id INT NOT NULL DEFAULT 1,
+                        service_fee DECIMAL(10, 2) DEFAULT 0.00 NOT NULL,
                         FOREIGN KEY (user_id) REFERENCES users(user_id),
                         FOREIGN KEY (discount_id) REFERENCES discounts(discount_id),
                         FOREIGN KEY (currency_id) REFERENCES currencies(id),
@@ -86,6 +88,7 @@ CREATE TABLE order_items (
                              item_id INT NOT NULL,
                              quantity INT NOT NULL,
                              price DECIMAL(10, 2) NOT NULL,
+                             price_after_discount DECIMAL(10, 2) NOT NULL,
                              FOREIGN KEY (order_id) REFERENCES orders(order_id),
                              FOREIGN KEY (item_id) REFERENCES items(item_id)
 );

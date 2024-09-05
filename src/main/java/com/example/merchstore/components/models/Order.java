@@ -39,6 +39,9 @@ public class Order implements DataDisplay {
     @Column(name = "total_amount", nullable = false)
     private BigDecimal totalAmount;
 
+    @Column(name = "total_after_discount", nullable = false)
+    private BigDecimal totalAfterDiscount;
+
     @ManyToOne
     @JoinColumn(name = "discount_id")
     private Discount discount;
@@ -51,6 +54,9 @@ public class Order implements DataDisplay {
     @JoinColumn(name = "exchange_rate_id")
     private ExchangeRate exchangeRate;
 
+    @Column(name = "service_fee")
+    private BigDecimal serviceFee;
+
 
     public Order(Order other) {
         this.orderId = other.orderId;
@@ -61,6 +67,8 @@ public class Order implements DataDisplay {
         this.discount = other.discount;
         this.currency = other.currency;
         this.exchangeRate = other.exchangeRate;
+        this.totalAfterDiscount = other.totalAfterDiscount;
+        this.serviceFee = other.serviceFee;
     }
 
     @Override
