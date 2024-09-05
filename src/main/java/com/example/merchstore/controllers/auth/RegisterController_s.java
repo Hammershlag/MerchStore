@@ -1,5 +1,6 @@
 package com.example.merchstore.controllers.auth;
 
+import com.example.merchstore.components.enums.Role;
 import com.example.merchstore.components.models.User;
 import com.example.merchstore.services.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,7 +87,7 @@ public class RegisterController_s {
             e.printStackTrace();
             return new RedirectView( "/api/register/form?error=true");
         }
-
+        user.setRole(Role.USER);
         customUserDetailsService.registerUser(user, passwordEncoder);
 
         return new RedirectView("/api/login/form");
