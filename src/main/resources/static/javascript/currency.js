@@ -1,5 +1,5 @@
 // JavaScript code to fetch currencies and populate dropdown
-window.onload = function() {
+window.addEventListener('load', function() {
     fetch('/api/currencies') // Fetch the list of currencies from the server
         .then(response => response.json())
         .then(currencies => {
@@ -50,4 +50,4 @@ window.onload = function() {
                 .catch(error => console.error('Error fetching exchange rate:', error));
         }
     }
-}
+});
