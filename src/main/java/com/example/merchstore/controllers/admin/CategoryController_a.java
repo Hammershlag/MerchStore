@@ -19,6 +19,15 @@ import java.util.List;
 import static com.example.merchstore.components.utilities.ImageProcessor.*;
 
 /**
+ * The CategoryController_a class handles the web requests related to categories in the admin section of the application.
+ *
+ * It has three methods:
+ * <ul>
+ *     <li>addCategory(Model model): Prepares the model for adding a new category and returns the view name.</li>
+ *     <li>addCategory(Category category, MultipartFile image): Handles the POST request for adding a new category. It processes the image data, sets the category's properties, saves the category, and redirects to the admin dashboard.</li>
+ *     <li>getAllCategories(String search, Model model): Handles the GET request for viewing categories. It retrieves the categories based on the search parameter and adds them to the model, then returns the view name.</li>
+ * </ul>
+ *
  * @author Tomasz Zbroszczyk
  * @version 1.0
  * @since 03.06.2024

@@ -25,6 +25,27 @@ import static com.example.merchstore.components.utilities.Defaults.DEFAULT_AD_IM
 import static com.example.merchstore.components.utilities.ImageProcessor.getImageAsByteArray;
 
 /**
+ * The Ad class represents an advertisement in the system.
+ * It implements the DataDisplay and ImageDisplay interfaces to control the display of data and images.
+ *
+ * It has several fields, including:
+ * <ul>
+ *     <li>adId: The ID of the ad.</li>
+ *     <li>item: The item being advertised.</li>
+ *     <li>user: The user who posted the ad.</li>
+ *     <li>description: The description of the ad.</li>
+ *     <li>startDate: The start date of the ad.</li>
+ *     <li>endDate: The end date of the ad.</li>
+ *     <li>status: The status of the ad (active by default).</li>
+ *     <li>image: The image of the ad in byte array format.</li>
+ *     <li>createdAt: The creation date of the ad.</li>
+ *     <li>updatedAt: The last update date of the ad.</li>
+ * </ul>
+ *
+ * It also includes methods to get the status of the image, display data, set the default image, get the Base64 representation of the image, and check if the ad should be displayed.
+ *
+ * This class is also a JPA entity, meaning it is mapped to a corresponding table in the database.
+ *
  * @author Tomasz Zbroszczyk
  * @version 1.0
  * @since 25.08.2024
@@ -35,19 +56,31 @@ import static com.example.merchstore.components.utilities.ImageProcessor.getImag
 @Table(name = "ads")
 public class Ad implements DataDisplay, ImageDisplay {
 
+    /**
+     * The ID of the ad.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ad_id")
     private Long adId;
 
+    /**
+     * The item being advertised.
+     */
     @ManyToOne
     @JoinColumn(name = "item_id", nullable = false)
     private Item item;
 
+    /**
+     * The user who posted the ad.
+     */
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    /**
+     * The description of the ad.
+     */
     @Column(name = "description", nullable = false)
     private String description;
 

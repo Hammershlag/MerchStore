@@ -23,6 +23,15 @@ import java.time.LocalDateTime;
 import static com.example.merchstore.components.utilities.ImageProcessor.*;
 
 /**
+ * The AdController_a class handles the web requests related to ads in the admin section of the application.
+ *
+ * It has four methods:
+ * <ul>
+ *     <li>addAd(Model model): Prepares the model for adding a new ad and returns the view name.</li>
+ *     <li>addAd(Ad ad, MultipartFile imageData): Handles the POST request for adding a new ad. It processes the image data, sets the ad's properties, saves the ad, and redirects to the admin dashboard.</li>
+ *     <li>viewAds(int page, int size, Model model): Handles the GET request for viewing ads. It retrieves the ads in a paginated manner and adds them to the model, then returns the view name.</li>
+ * </ul>
+ *
  * @author Tomasz Zbroszczyk
  * @version 1.0
  * @since 26.08.2024

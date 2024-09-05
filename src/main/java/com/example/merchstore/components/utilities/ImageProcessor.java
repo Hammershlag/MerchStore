@@ -13,6 +13,18 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
+ * The ImageProcessor class provides utility methods for image processing.
+ *
+ * It has seven static methods:
+ * <ul>
+ *     <li>getImageAsByteArray(String imagePath): Converts an image file to a byte array.</li>
+ *     <li>rotateImage(BufferedImage image, double angle): Rotates an image by a specified angle.</li>
+ *     <li>imageToByteArray(BufferedImage image, String formatName): Converts a BufferedImage to a byte array.</li>
+ *     <li>simpleResizeImage(BufferedImage originalImage, int targetWidth): Resizes an image to a specified width while maintaining aspect ratio.</li>
+ *     <li>simpleResizeImage(BufferedImage originalImage, int targetWidth, int targetHeight): Resizes an image to specified width and height.</li>
+ *     <li>resizeAndCropImage(BufferedImage originalImage, int targetWidth, int targetHeight): Resizes and crops an image to specified width and height.</li>
+ * </ul>
+ *
  * @author Tomasz Zbroszczyk
  * @version 1.0
  * @since 02.06.2024

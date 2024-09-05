@@ -7,6 +7,20 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
+ * The ItemDiscount class represents a discount applied to an item in the system.
+ * It implements the DataDisplay interface to control the display of data.
+ *
+ * It has three fields:
+ * <ul>
+ *     <li>discountItemId: The ID of the item discount.</li>
+ *     <li>discount: The discount applied to the item.</li>
+ *     <li>item: The item to which the discount is applied.</li>
+ * </ul>
+ *
+ * It also includes methods to display data and limited display data.
+ *
+ * This class is also a JPA entity, meaning it is mapped to a corresponding table in the database.
+ *
  * @author Tomasz Zbroszczyk
  * @version 1.0
  * @since 09.06.2024

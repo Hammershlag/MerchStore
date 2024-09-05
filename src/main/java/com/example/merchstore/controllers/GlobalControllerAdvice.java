@@ -7,6 +7,14 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 /**
+ * The GlobalControllerAdvice class is a global controller advice in the application.
+ * It provides shared logic that is used across all @Controller classes.
+ *
+ * It has one method:
+ * <ul>
+ *     <li>addAttributes(Model model): This method is invoked before any controller method. It adds all global attributes to the model.</li>
+ * </ul>
+ *
  * @author Tomasz Zbroszczyk
  * @version 1.0
  * @since 11.06.2024

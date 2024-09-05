@@ -16,6 +16,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.Objects;
 
 /**
+ * The PayController_f class handles the web requests related to payments in the application.
+ *
+ * It has two methods:
+ * <ul>
+ *     <li>order(Long id, Model model): Handles the GET request for processing an order. It retrieves the order from the repository, checks if the order exists, if the user is correct, and if the order is unpaid. If all checks pass, it adds the order id to the model and returns the view name for the payment page.</li>
+ *     <li>orderPost(Long id): Handles the POST request for submitting an order. It retrieves the order from the repository, sets its status to PENDING, saves the order, and returns a redirect to the home page with a success message.</li>
+ * </ul>
+ *
  * @author Tomasz Zbroszczyk
  * @version 1.0
  * @since 09.06.2024

@@ -11,10 +11,18 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 /**
+ * The DocumentController_f class handles the web requests related to documents in the application.
+ *
+ * It has one method:
+ * <ul>
+ *     <li>displayDocument(String documentName, Model model): Handles the GET request for displaying a document. It retrieves the document based on the provided name, reads its content, adds the document name and content to the model, then returns the view name.</li>
+ * </ul>
+ *
  * @author Tomasz Zbroszczyk
  * @version 1.0
  * @since 05.06.2024
  */
+
 @Controller
 @RequestMapping("/documents")
 public class DocumentController_f {

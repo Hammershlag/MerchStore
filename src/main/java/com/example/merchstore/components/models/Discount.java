@@ -10,6 +10,23 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 /**
+ * The Discount class represents a discount in the system.
+ * It implements the DataDisplay interface to control the display of data.
+ *
+ * It has six fields:
+ * <ul>
+ *     <li>discountId: The ID of the discount.</li>
+ *     <li>code: The unique code of the discount.</li>
+ *     <li>description: The description of the discount.</li>
+ *     <li>discountPercentage: The percentage of the discount.</li>
+ *     <li>validFrom: The start date of the discount's validity.</li>
+ *     <li>validUntil: The end date of the discount's validity.</li>
+ * </ul>
+ *
+ * It also includes methods to display data, limited display data, and check if the discount is valid.
+ *
+ * This class is also a JPA entity, meaning it is mapped to a corresponding table in the database.
+ *
  * @author Tomasz Zbroszczyk
  * @version 1.0
  * @since 28.05.2024

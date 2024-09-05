@@ -19,6 +19,22 @@ import static com.example.merchstore.components.utilities.Defaults.DEFAULT_ITEM_
 import static com.example.merchstore.components.utilities.ImageProcessor.getImageAsByteArray;
 
 /**
+ * The Category class represents a category in the system.
+ * It implements the DataDisplay and ImageDisplay interfaces to control the display of data and images.
+ *
+ * It has five fields:
+ * <ul>
+ *     <li>categoryId: The ID of the category.</li>
+ *     <li>name: The name of the category.</li>
+ *     <li>description: The description of the category.</li>
+ *     <li>image: The image of the category in byte array format.</li>
+ *     <li>main: A boolean indicating if the category is a main category.</li>
+ * </ul>
+ *
+ * It also includes methods to get the status of the image, display data, set the default image, and get the Base64 representation of the image.
+ *
+ * This class is also a JPA entity, meaning it is mapped to a corresponding table in the database.
+ *
  * @author Tomasz Zbroszczyk
  * @version 1.0
  * @since 28.05.2024

@@ -16,10 +16,20 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 
 /**
+ * The CustomAuthenticationSuccessHandler class is a custom authentication success handler for a Spring Security application.
+ * It extends SavedRequestAwareAuthenticationSuccessHandler, which is a built-in Spring Security class that handles redirections after successful authentication.
+ *
+ * It has two main methods:
+ * <ul>
+ *     <li>onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication): This method is called when a user is successfully authenticated. It determines the target URL and then redirects the user to that URL.</li>
+ *     <li>determineTargetUrl(HttpServletRequest request): This method determines the URL to redirect the user to after successful authentication. If there is a saved request that does not contain "register", it redirects the user to the URL they originally tried to access. Otherwise, it checks the role of the authenticated user and redirects them to the appropriate dashboard ("/api/admin/dashboard" for admins and owners, "/home" for others).</li>
+ * </ul>
+ *
  * @author Tomasz Zbroszczyk
  * @version 1.0
  * @since 08.06.2024
  */
+
 @Component
 public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 

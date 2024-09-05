@@ -16,6 +16,18 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 /**
+ * The CookieController_g class handles the web requests related to cookies in the application.
+ *
+ * It has several methods:
+ * <ul>
+ *     <li>setCookie(HttpServletResponse response, String key, String value): Handles the GET request for setting a cookie. It creates a new cookie with the provided key and value, sets its max age and path, adds it to the response, and returns a success message.</li>
+ *     <li>historyKey(): Generates a unique key for history cookies based on the current date and time.</li>
+ *     <li>getCookie(HttpServletRequest request, String key, String value): Handles the GET request for retrieving a cookie. It retrieves the cookie with the provided key from the request, checks if the value matches (if provided), and returns the cookie value or a default value.</li>
+ *     <li>getAllCookies(HttpServletRequest request): Handles the GET request for retrieving all cookies. It retrieves all cookies from the request and returns their names and values.</li>
+ *     <li>getHistoryCookies(HttpServletRequest request): Handles the GET request for retrieving all history cookies. It retrieves all cookies from the request, filters the history cookies, and returns their names and values.</li>
+ *     <li>deleteAllCookies(HttpSession session, HttpServletRequest request, HttpServletResponse response, String key): Handles the GET request for deleting cookies. It retrieves all cookies from the request, deletes the cookie with the provided key or all cookies if no key is provided, and returns a success message or a count of history cookies and the index of the first history cookie.</li>
+ * </ul>
+ *
  * @author Tomasz Zbroszczyk
  * @version 1.0
  * @since 02.09.2024

@@ -17,6 +17,17 @@ import org.springframework.web.multipart.MultipartFile;
 import java.time.LocalDateTime;
 
 /**
+ * The CustomUserDetailsService class is a service component in the Spring framework.
+ * It implements the UserDetailsService interface from Spring Security, which is used to retrieve user-related data.
+ *
+ * It has several methods:
+ * <ul>
+ *     <li>loadUserByUsername(String username): This method retrieves a User by their username from the CustomUserRepository. If the User is not found, it throws a UsernameNotFoundException. Otherwise, it returns a new CustomUserPrincipal with the User.</li>
+ *     <li>existsByUsername(String username), existsByEmail(String email), existsByPhoneNumber(String phoneNumber): These methods check if a User exists in the CustomUserRepository by their username, email, or phone number, respectively.</li>
+ *     <li>registerUser(User user, PasswordEncoder passwordEncoder), registerUser(User user, MultipartFile image, PasswordEncoder passwordEncoder): These methods register a new User. They check if the username already exists, set the User's image, encode the User's password, set the User's role, set the creation and update timestamps, and save the User in the CustomUserRepository.</li>
+ *     <li>authenticateUser(String username, String password, PasswordEncoder passwordEncoder), authenticateUser(LoginController_s.LoginForm loginForm, PasswordEncoder passwordEncoder): These methods authenticate a User. They retrieve a User by their username or email, and then check if the provided password matches the User's password.</li>
+ * </ul>
+ *
  * @author Tomasz Zbroszczyk
  * @version 1.0
  * @since 28.05.2024

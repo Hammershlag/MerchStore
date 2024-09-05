@@ -9,6 +9,24 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 /**
+ * The Review class represents a review in the system.
+ * It implements the DataDisplay interface to control the display of data.
+ *
+ * It has seven fields:
+ * <ul>
+ *     <li>reviewId: The ID of the review.</li>
+ *     <li>user: The user who wrote the review.</li>
+ *     <li>item: The item that the review is about.</li>
+ *     <li>description: The text of the review.</li>
+ *     <li>createdAt: The date and time when the review was created.</li>
+ *     <li>updatedAt: The date and time when the review was last updated.</li>
+ *     <li>starRating: The star rating given in the review.</li>
+ * </ul>
+ *
+ * It also includes methods to display data and limited display data.
+ *
+ * This class is also a JPA entity, meaning it is mapped to a corresponding table in the database.
+ *
  * @author Tomasz Zbroszczyk
  * @version 1.0
  * @since 10.06.2024

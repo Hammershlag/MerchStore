@@ -8,6 +8,21 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
+ * The CartItem class represents an item in a user's cart in the system.
+ * It implements the DataDisplay interface to control the display of data.
+ *
+ * It has four fields:
+ * <ul>
+ *     <li>cartId: The ID of the cart item.</li>
+ *     <li>user: The user who owns the cart.</li>
+ *     <li>item: The item in the cart.</li>
+ *     <li>quantity: The quantity of the item in the cart.</li>
+ * </ul>
+ *
+ * It also includes methods to display data and limited display data.
+ *
+ * This class is also a JPA entity, meaning it is mapped to a corresponding table in the database.
+ *
  * @author Tomasz Zbroszczyk
  * @version 1.0
  * @since 03.06.2024

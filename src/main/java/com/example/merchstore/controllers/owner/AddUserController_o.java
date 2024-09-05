@@ -19,6 +19,14 @@ import java.awt.image.BufferedImage;
 import static com.example.merchstore.components.utilities.ImageProcessor.*;
 
 /**
+ * The AddUserController_o class handles the web requests related to adding a user in the application.
+ *
+ * It has two methods:
+ * <ul>
+ *     <li>addUserForm(Model model): Handles the GET request for the add user form. It adds a new User object and the list of roles to the model and returns the view name for the add user form.</li>
+ *     <li>addUser(User user, MultipartFile image, String role, Model model): Handles the POST request for adding a user. It checks if a user with the same username, email, or phone number already exists, processes the image, sets the role of the user, adds the user to the model, registers the user, and returns a redirect view to the dashboard.</li>
+ * </ul>
+ *
  * @author Tomasz Zbroszczyk
  * @version 1.0
  * @since 08.06.2024

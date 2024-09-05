@@ -20,6 +20,14 @@ import java.util.List;
 import java.util.logging.Logger;
 
 /**
+ * The HomeController_g class handles the web requests related to the home page in the application.
+ *
+ * It has two methods:
+ * <ul>
+ *     <li>home(HttpServletRequest request, HttpSession session, Model model): Handles the GET request for the home page. It retrieves the login status, currency, and user history from the session and cookies, retrieves the latest exchange rate for the currency, adds all these attributes to the model, and returns the view name for the home page.</li>
+ *     <li>homeRedirect(): Handles the GET request for the root URL. It returns a redirect to the home page.</li>
+ * </ul>
+ *
  * @author Tomasz Zbroszczyk
  * @version 1.0
  * @since 28.05.2024

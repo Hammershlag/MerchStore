@@ -11,6 +11,14 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
+ * The BestSellerService class is a service component in the Spring framework.
+ * It provides a method to get the best-selling items.
+ *
+ * It has one main method:
+ * <ul>
+ *     <li>getBestSellers(): This method retrieves all the best sellers from the BestSellerRepository, finds the corresponding Item from the ItemRepository, and adds them to a HashMap with the total sales as the value. The HashMap is then returned.</li>
+ * </ul>
+ *
  * @author Tomasz Zbroszczyk
  * @version 1.0
  * @since 01.09.2024

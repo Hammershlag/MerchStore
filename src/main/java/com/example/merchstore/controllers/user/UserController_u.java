@@ -21,10 +21,19 @@ import java.time.LocalDateTime;
 import static com.example.merchstore.components.utilities.ImageProcessor.*;
 
 /**
- * UserController_a for handling user-related requests.
+ * The UserController_u class handles the web requests related to the user's profile in the application.
+ *
+ * It has three methods:
+ * <ul>
+ *     <li>getCurrentUser(Model model): Handles the GET request for viewing the user's profile. It returns the view name for the profile page.</li>
+ *     <li>showEditUserForm(Model model): Handles the GET request for showing the edit user form. It returns the view name for the update page.</li>
+ *     <li>updateUser(User user, MultipartFile image, String currentPassword, String newPassword, Model model): Handles the POST request for updating the user's profile. It retrieves the current user, checks the username, email, and phone number, checks and updates the image, checks and updates the password, updates the other fields, saves the user, adds the user to the session and global attributes, and returns a redirect to the profile page.</li>
+ * </ul>
+ *
  * @version 1.0
  * @since 31.05.2024
  */
+
 @Controller
 public class UserController_u {
 

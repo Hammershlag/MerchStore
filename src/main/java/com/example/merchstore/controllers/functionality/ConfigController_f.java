@@ -10,6 +10,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.Locale;
 
 /**
+ * The ConfigController_f class handles the web requests related to configuration in the application.
+ *
+ * It has one method:
+ * <ul>
+ *     <li>getConfigValue(String key): Handles the GET request for retrieving a configuration value. It retrieves the value associated with the provided key from the messages.properties file and returns it.</li>
+ * </ul>
+ *
  * @author Tomasz Zbroszczyk
  * @version 1.0
  * @since 27.08.2024

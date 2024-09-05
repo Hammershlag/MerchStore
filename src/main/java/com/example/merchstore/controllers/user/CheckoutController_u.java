@@ -37,6 +37,18 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 /**
+ * The CheckoutController_u class handles the web requests related to the user's checkout process in the application.
+ *
+ * It has six methods:
+ * <ul>
+ *     <li>getFile(Long orderID, HttpSession session, HttpServletResponse response): Handles the GET request for downloading the order details as a PDF file. It retrieves the order and its items, generates the PDF file, and sends it as a response.</li>
+ *     <li>performCheckout(HttpServletRequest request, HttpSession session, Model model, String discountCode): Handles the POST request for performing the checkout. It retrieves the cart items, checks the stock quantity, retrieves the currency from the cookies, creates the order, clears the cart, adds the order to the model, and returns a redirect to the checkout page.</li>
+ *     <li>showCheckoutPage(HttpSession session, Model model, Long orderID): Handles the GET request for showing the checkout page. It retrieves the order, checks the user, adds the order and its items to the model, and returns the view name for the order confirmation page.</li>
+ *     <li>showAllOrders(HttpSession session, Model model): Handles the GET request for showing all orders. It retrieves all orders of the user, sorts them by order date, adds them to the model, and returns the view name for the orders page.</li>
+ *     <li>createOrderFromCartItems(List<CartItem> cartItems, User user, Discount discount, Currency currency, ExchangeRate exchangeRate): Creates an order from the cart items. It creates a new order, saves it, creates the order items, saves them, updates the stock quantity of the items, and returns the order.</li>
+ *     <li>clearCart(List<CartItem> cartItems): Clears the cart. It deletes all cart items.</li>
+ * </ul>
+ *
  * @author Tomasz Zbroszczyk
  * @version 1.0
  * @since 09.06.2024

@@ -8,6 +8,14 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
+ * The UserDecorator class is a decorator for the User class in the application.
+ * It provides a method to create a default User object with predefined values and a specified username.
+ *
+ * It has one method:
+ * <ul>
+ *     <li>create(String username): This static method creates a default User object with predefined values and a specified username, and returns it.</li>
+ * </ul>
+ *
  * @author Tomasz Zbroszczyk
  * @version 1.0
  * @since 28.05.2024

@@ -13,6 +13,14 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 /**
+ * The CurrencyController_f class handles the web requests related to currencies in the application.
+ *
+ * It has two methods:
+ * <ul>
+ *     <li>getAllCurrencies(): Handles the GET request for retrieving all currencies. It retrieves all currencies from the repository and returns them.</li>
+ *     <li>getCurrencyByShortName(String shortName): Handles the GET request for retrieving a currency by its short name. It retrieves the currency from the repository, gets the latest exchange rate for the currency, and returns it.</li>
+ * </ul>
+ *
  * @author Tomasz Zbroszczyk
  * @version 1.0
  * @since 03.09.2024

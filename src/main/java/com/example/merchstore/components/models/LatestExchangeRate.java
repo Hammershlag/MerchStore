@@ -18,6 +18,21 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 /**
+ * The LatestExchangeRate class represents the latest exchange rate in the system.
+ * It implements the DataDisplay interface to control the display of data.
+ *
+ * It has four fields:
+ * <ul>
+ *     <li>id: The ID of the latest exchange rate.</li>
+ *     <li>currencyId: The ID of the currency associated with this latest exchange rate.</li>
+ *     <li>exchangeRate: The value of the latest exchange rate.</li>
+ *     <li>lastUpdated: The date and time when the latest exchange rate was last updated.</li>
+ * </ul>
+ *
+ * It also includes methods to display data and limited display data.
+ *
+ * This class is also a JPA entity, meaning it is mapped to a corresponding table in the database.
+ *
  * @author Tomasz Zbroszczyk
  * @version 1.0
  * @since 04.09.2024

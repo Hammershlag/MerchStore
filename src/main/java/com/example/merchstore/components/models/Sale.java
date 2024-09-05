@@ -9,6 +9,21 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 /**
+ * The Sale class represents a sale in the system.
+ * It implements the DataDisplay interface to control the display of data.
+ *
+ * It has four fields:
+ * <ul>
+ *     <li>id: The ID of the sale.</li>
+ *     <li>item: The item that was sold.</li>
+ *     <li>quantity: The quantity of the item that was sold.</li>
+ *     <li>saleDate: The date and time when the sale occurred.</li>
+ * </ul>
+ *
+ * It also includes methods to display data and limited display data.
+ *
+ * This class is also a JPA entity, meaning it is mapped to a corresponding table in the database.
+ *
  * @author Tomasz Zbroszczyk
  * @version 1.0
  * @since 01.09.2024

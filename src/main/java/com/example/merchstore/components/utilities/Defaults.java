@@ -3,6 +3,18 @@ package com.example.merchstore.components.utilities;
 import org.springframework.stereotype.Component;
 
 /**
+ * The Defaults class provides default values for various entities in the system.
+ *
+ * It has seven static fields:
+ * <ul>
+ *     <li>DEFAULT_USER_MALE_IMAGE: The default image path for a male user.</li>
+ *     <li>DEFAULT_USER_FEMALE_IMAGE: The default image path for a female user.</li>
+ *     <li>DEFAULT_USER_IMAGE: The default image path for a user.</li>
+ *     <li>DEFAULT_ITEM_IMAGE: The default image path for an item.</li>
+ *     <li>DEFAULT_AD_IMAGE: The default image path for an ad.</li>
+ *     <li>DEFAULT_CATEGORY_IMAGE: The default image path for a category.</li>
+ * </ul>
+ *
  * @author Tomasz Zbroszczyk
  * @version 1.0
  * @since 28.08.2024

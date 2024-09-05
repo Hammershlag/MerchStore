@@ -23,6 +23,31 @@ import static com.example.merchstore.components.utilities.Defaults.*;
 import static com.example.merchstore.components.utilities.ImageProcessor.getImageAsByteArray;
 
 /**
+ * The User class represents a user in the system.
+ * It implements the DataDisplay and ImageDisplay interfaces to control the display of data and images.
+ *
+ * It has fourteen fields:
+ * <ul>
+ *     <li>userId: The ID of the user.</li>
+ *     <li>username: The username of the user.</li>
+ *     <li>email: The email of the user.</li>
+ *     <li>password: The password of the user.</li>
+ *     <li>firstName: The first name of the user.</li>
+ *     <li>lastName: The last name of the user.</li>
+ *     <li>phoneNumber: The phone number of the user.</li>
+ *     <li>address: The address of the user.</li>
+ *     <li>role: The role of the user.</li>
+ *     <li>createdAt: The date and time when the user was created.</li>
+ *     <li>updatedAt: The date and time when the user was last updated.</li>
+ *     <li>image: The image of the user.</li>
+ *     <li>gender: The gender of the user.</li>
+ *     <li>birthDate: The birth date of the user.</li>
+ * </ul>
+ *
+ * It also includes methods to display data, limited display data, and base64 image.
+ *
+ * This class is also a JPA entity, meaning it is mapped to a corresponding table in the database.
+ *
  * @author Tomasz Zbroszczyk
  * @version 1.0
  * @since 28.05.2024

@@ -17,6 +17,17 @@ import java.math.BigDecimal;
 import java.util.List;
 
 /**
+ * The CartController_u class handles the web requests related to the user's cart in the application.
+ *
+ * It has five methods:
+ * <ul>
+ *     <li>showCart(HttpServletRequest request, Model model, String sortField, String order): Handles the GET request for viewing the cart. It retrieves the cart items, sorts them based on the provided parameters, retrieves the currency from the cookies, retrieves the latest exchange rate for the currency, adds all these attributes to the model, and returns the view name for the cart page.</li>
+ *     <li>increaseItemQuantity(Long itemId, String sortField, String order): Handles the POST request for increasing the quantity of an item in the cart. It retrieves the cart item, increases its quantity if it's less than the stock quantity, saves the cart item, and returns a redirect to the cart page.</li>
+ *     <li>addItemToCart(Long itemId, int quantity, Model model): Handles the POST request for adding an item to the cart. It retrieves the item, creates a new cart item or updates the existing one, checks the stock quantity, saves the cart item, adds the addedToCart attribute to the model, and returns a redirect to the item page.</li>
+ *     <li>decreaseItemQuantity(Long itemId, String sortField, String order): Handles the POST request for decreasing the quantity of an item in the cart. It retrieves the cart item, decreases its quantity if it's more than 1 or deletes it if it's 1, saves the cart item or deletes it, and returns a redirect to the cart page.</li>
+ *     <li>removeItemFromCart(Long itemId, String sortField, String order): Handles the POST request for removing an item from the cart. It retrieves the cart item, deletes it, and returns a redirect to the cart page.</li>
+ * </ul>
+ *
  * @author Tomasz Zbroszczyk
  * @version 1.0
  * @since 04.06.2024

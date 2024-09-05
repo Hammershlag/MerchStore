@@ -20,6 +20,26 @@ import static com.example.merchstore.components.utilities.Defaults.DEFAULT_ITEM_
 import static com.example.merchstore.components.utilities.ImageProcessor.getImageAsByteArray;
 
 /**
+ * The Item class represents an item in the system.
+ * It implements the DataDisplay and ImageDisplay interfaces to control the display of data and images.
+ *
+ * It has nine fields:
+ * <ul>
+ *     <li>itemId: The ID of the item.</li>
+ *     <li>name: The name of the item.</li>
+ *     <li>description: The description of the item.</li>
+ *     <li>price: The price of the item.</li>
+ *     <li>stockQuantity: The quantity of the item in stock.</li>
+ *     <li>category: The category of the item.</li>
+ *     <li>createdAt: The date and time when the item was created.</li>
+ *     <li>updatedAt: The date and time when the item was last updated.</li>
+ *     <li>image: The image of the item.</li>
+ * </ul>
+ *
+ * It also includes methods to display data, limited display data, set default image, and convert image to base64 string.
+ *
+ * This class is also a JPA entity, meaning it is mapped to a corresponding table in the database.
+ *
  * @author Tomasz Zbroszczyk
  * @version 1.0
  * @since 28.05.2024

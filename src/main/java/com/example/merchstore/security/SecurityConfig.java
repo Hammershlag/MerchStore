@@ -17,6 +17,17 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 /**
+ * The SecurityConfig class is a configuration class for Spring Security.
+ * It provides several beans that are used to configure the security settings of the application.
+ *
+ * It has several methods:
+ * <ul>
+ *     <li>securityFilterChain(HttpSecurity http): This method configures the security filter chain. It sets up the security rules for different URL patterns and configures the login and logout behavior.</li>
+ *     <li>passwordEncoder(): This method provides a BCryptPasswordEncoder bean for password encoding.</li>
+ *     <li>authenticationManager(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder): This method provides an AuthenticationManager bean. It sets up a DaoAuthenticationProvider with the provided UserDetailsService and PasswordEncoder, and uses it to create a ProviderManager.</li>
+ *     <li>userDetailsService(): This method provides a UserDetailsService bean. It returns the customUserDetailsService that is used to load user-specific data.</li>
+ * </ul>
+ *
  * @author Tomasz Zbroszczyk
  * @version 1.0
  * @since 28.05.2024

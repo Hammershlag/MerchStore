@@ -11,6 +11,27 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
+ * The Order class represents an order in the system.
+ * It implements the DataDisplay interface to control the display of data.
+ *
+ * It has ten fields:
+ * <ul>
+ *     <li>orderId: The ID of the order.</li>
+ *     <li>user: The user who placed the order.</li>
+ *     <li>orderDate: The date and time when the order was placed.</li>
+ *     <li>status: The status of the order.</li>
+ *     <li>totalAmount: The total amount of the order before discount.</li>
+ *     <li>totalAfterDiscount: The total amount of the order after discount.</li>
+ *     <li>discount: The discount applied to the order.</li>
+ *     <li>currency: The currency used for the order.</li>
+ *     <li>exchangeRate: The exchange rate used for the order.</li>
+ *     <li>serviceFee: The service fee applied to the order.</li>
+ * </ul>
+ *
+ * It also includes methods to display data and limited display data.
+ *
+ * This class is also a JPA entity, meaning it is mapped to a corresponding table in the database.
+ *
  * @author Tomasz Zbroszczyk
  * @version 1.0
  * @since 28.05.2024

@@ -17,6 +17,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * The UserItemHistoryService class is a service component in the Spring framework.
+ * It provides a method to get the most recently browsed items for a specific user.
+ *
+ * It has one main method:
+ * <ul>
+ *     <li>getNewestBrowsedItemsForUser(Long userId): This method retrieves the 10 most recently browsed items for the provided user from the database. It uses a SQL query to get the item IDs of the most recently browsed items, and then fetches the corresponding Item objects from the ItemRepository.</li>
+ * </ul>
+ *
  * @author Tomasz Zbroszczyk
  * @version 1.0
  * @since 03.09.2024

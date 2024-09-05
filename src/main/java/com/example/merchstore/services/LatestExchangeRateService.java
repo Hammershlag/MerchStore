@@ -16,6 +16,16 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * The LatestExchangeRateService class is a service component in the Spring framework.
+ * It provides methods to manage and update exchange rates.
+ *
+ * It has several methods:
+ * <ul>
+ *     <li>updateExchangeRates(): This method retrieves the latest exchange rates from an external API and updates the local repository with these rates.</li>
+ *     <li>getLatestExchangeRateForCurrency(Long currencyId): This method retrieves the latest exchange rate for a specific currency. If the latest exchange rate is older than 24 hours, it updates the exchange rates before returning the rate.</li>
+ *     <li>getAllLatestExchangeRates(): This method retrieves all the latest exchange rates. If any of the rates are older than 24 hours, it updates the exchange rates before returning them.</li>
+ * </ul>
+ *
  * @author Tomasz Zbroszczyk
  * @version 1.0
  * @since 04.09.2024

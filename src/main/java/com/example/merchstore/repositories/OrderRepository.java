@@ -8,6 +8,15 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 /**
+ * The OrderRepository interface is a Spring Data JPA repository for the Order entity.
+ * It provides CRUD operations and methods to find Order entities by order id and by associated User.
+ *
+ * It has two methods:
+ * <ul>
+ *     <li>findByOrderId(Long orderId): This method retrieves an Order entity with the provided order id.</li>
+ *     <li>findAllOrdersByUser(User currentUser): This method retrieves a list of Order entities associated with the provided User entity.</li>
+ * </ul>
+ *
  * @author Tomasz Zbroszczyk
  * @version 1.0
  * @since 09.06.2024

@@ -22,6 +22,14 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 /**
+ * The ItemController_g class handles the web requests related to items in the application.
+ *
+ * It has two methods:
+ * <ul>
+ *     <li>viewItems(HttpServletRequest request, Long categoryId, String sortField, String order, int page, int itemsPerPage, String search, String searchItems, Model model): Handles the GET request for viewing items. It retrieves items based on the provided parameters, retrieves the currency from the cookies, retrieves the latest exchange rate for the currency, adds all these attributes to the model, and returns the view name for the items page.</li>
+ *     <li>viewItem(HttpServletRequest request, Long id, String addedToCart, Model model): Handles the GET request for viewing a single item. It retrieves the item based on the provided id, retrieves the currency from the cookies, retrieves the latest exchange rate for the currency, retrieves the reviews for the item, checks if the user has submitted a review, calculates the average rating, checks the login status, saves the user item history if the user is logged in, adds all these attributes to the model, and returns the view name for the item page.</li>
+ * </ul>
+ *
  * @author Tomasz Zbroszczyk
  * @version 1.0
  * @since 03.06.2024

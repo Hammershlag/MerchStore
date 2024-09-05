@@ -24,10 +24,21 @@ import java.nio.ByteBuffer;
 import static com.example.merchstore.components.utilities.ImageProcessor.getImageAsByteArray;
 
 /**
+ * The ImageController_f class handles the web requests related to images in the application.
+ *
+ * It has four methods:
+ * <ul>
+ *     <li>getItemImage(Long id): Handles the GET request for retrieving an item's image. It retrieves the item from the repository, gets its image, and returns it. If the item or its image is not found, it returns a default image.</li>
+ *     <li>getCategoryImage(Long id): Handles the GET request for retrieving a category's image. It retrieves the category from the repository, gets its image, and returns it. If the category or its image is not found, it returns a default image.</li>
+ *     <li>getUserImage(Long id): Handles the GET request for retrieving a user's image. It retrieves the user from the repository, gets its image, and returns it. If the user or its image is not found, it returns a default image.</li>
+ *     <li>getAdImage(Long id): Handles the GET request for retrieving an ad's image. It retrieves the ad from the repository, gets its image, and returns it. If the ad or its image is not found, it returns a default image.</li>
+ * </ul>
+ *
  * @author Tomasz Zbroszczyk
  * @version 1.0
  * @since 03.09.2024
  */
+
 @RestController
 @RequestMapping("/api/image")
 public class ImageController_f {

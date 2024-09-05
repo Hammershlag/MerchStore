@@ -19,8 +19,16 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 /**
+ * The DiscountController_a class handles the web requests related to discounts in the admin section of the application.
+ *
+ * It has three methods:
+ * <ul>
+ *     <li>addDiscount(Model model): Prepares the model for adding a new discount and returns the view name.</li>
+ *     <li>addDiscount(Discount discount, Long itemId): Handles the POST request for adding a new discount. It validates the discount data, saves the discount, optionally associates it with an item, and redirects to the admin dashboard.</li>
+ *     <li>viewDiscounts(Boolean valid, String search, Model model): Handles the GET request for viewing discounts. It retrieves the discounts based on the search parameter and validity, adds them to the model along with their associated items, then returns the view name.</li>
+ * </ul>
+ *
  * @author Tomasz Zbroszczyk
  * @version 1.0
  * @since 03.06.2024

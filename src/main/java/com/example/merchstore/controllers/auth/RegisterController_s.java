@@ -17,6 +17,14 @@ import java.awt.image.BufferedImage;
 import static com.example.merchstore.components.utilities.ImageProcessor.*;
 
 /**
+ * The RegisterController_s class handles the web requests related to user registration in the application.
+ *
+ * It has two methods:
+ * <ul>
+ *     <li>registrationForm(String error, Model model): Prepares the model for the registration form, handles any error messages, and returns the view name.</li>
+ *     <li>registerUser(User user, MultipartFile image, Model model): Handles the POST request for user registration. It validates the user data, processes the image data, sets the user's properties, registers the user, and redirects to the login form.</li>
+ * </ul>
+ *
  * @author Tomasz Zbroszczyk
  * @version 1.0
  * @since 28.05.2024

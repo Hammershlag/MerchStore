@@ -31,6 +31,18 @@ import java.util.List;
 import static com.example.merchstore.components.utilities.ImageProcessor.*;
 
 /**
+ * The ItemController_a class handles the web requests related to items in the admin section of the application.
+ *
+ * It has seven methods:
+ * <ul>
+ *     <li>addItem(Model model): Prepares the model for adding a new item and returns the view name.</li>
+ *     <li>addItem(Item item, MultipartFile image): Handles the POST request for adding a new item. It processes the image data, sets the item's properties, saves the item, and redirects to the admin dashboard.</li>
+ *     <li>viewItems(HttpServletRequest request, Long categoryId, int page, int size, String search, Model model): Handles the GET request for viewing items. It retrieves the items based on the search parameter, category, and pagination, adds them to the model, then returns the view name.</li>
+ *     <li>viewItem(HttpServletRequest request, Long id, Model model): Handles the GET request for viewing a single item. It retrieves the item and adds it to the model, then returns the view name.</li>
+ *     <li>updateItemForm(Long id, Model model): Prepares the model for updating an item and returns the view name.</li>
+ *     <li>updateItem(Item item, MultipartFile image, Long categoryId): Handles the POST request for updating an item. It validates the item data, updates the item's properties, saves the item, and redirects to the items view.</li>
+ * </ul>
+ *
  * @author Tomasz Zbroszczyk
  * @version 1.0
  * @since 03.06.2024

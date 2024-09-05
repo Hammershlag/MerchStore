@@ -28,6 +28,15 @@ import org.springframework.web.servlet.view.RedirectView;
 import static org.springframework.security.web.context.HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY;
 
 /**
+ * The LoginController_s class handles the web requests related to user authentication in the application.
+ *
+ * It has three methods:
+ * <ul>
+ *     <li>showLoginForm(Model model): Prepares the model for the login form and returns the view name.</li>
+ *     <li>login(HttpServletRequest req, HttpServletResponse res, LoginForm loginForm): Handles the POST request for user login. It authenticates the user, sets the user and login status in the session, creates a login cookie, and redirects to the appropriate URL based on the custom success handler.</li>
+ *     <li>logout(HttpSession session): Handles the GET request for user logout. It invalidates the session and redirects to the home page.</li>
+ * </ul>
+ *
  * @author Tomasz Zbroszczyk
  * @version 1.0
  * @since 28.05.2024

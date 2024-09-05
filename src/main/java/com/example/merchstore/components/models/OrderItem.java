@@ -9,6 +9,23 @@ import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
 
 /**
+ * The OrderItem class represents an item in an order in the system.
+ * It implements the DataDisplay interface to control the display of data.
+ *
+ * It has six fields:
+ * <ul>
+ *     <li>orderItemId: The ID of the order item.</li>
+ *     <li>order: The order to which the item belongs.</li>
+ *     <li>item: The item in the order.</li>
+ *     <li>quantity: The quantity of the item in the order.</li>
+ *     <li>price: The price of the item in the order.</li>
+ *     <li>priceAfterDiscount: The price of the item in the order after discount.</li>
+ * </ul>
+ *
+ * It also includes methods to display data and limited display data.
+ *
+ * This class is also a JPA entity, meaning it is mapped to a corresponding table in the database.
+ *
  * @author Tomasz Zbroszczyk
  * @version 1.0
  * @since 28.05.2024

@@ -9,6 +9,21 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 /**
+ * The Currency class represents a currency in the system.
+ * It implements the DataDisplay interface to control the display of data.
+ *
+ * It has four fields:
+ * <ul>
+ *     <li>id: The ID of the currency.</li>
+ *     <li>shortName: The short name of the currency.</li>
+ *     <li>symbol: The symbol of the currency.</li>
+ *     <li>name: The name of the currency.</li>
+ * </ul>
+ *
+ * It also includes methods to display data and limited display data.
+ *
+ * This class is also a JPA entity, meaning it is mapped to a corresponding table in the database.
+ *
  * @author Tomasz Zbroszczyk
  * @version 1.0
  * @since 03.09.2024

@@ -8,6 +8,16 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 /**
+ * The ItemDiscountRepository interface is a Spring Data JPA repository for the ItemDiscount entity.
+ * It provides CRUD operations and methods to find ItemDiscount entities by associated Discount.
+ *
+ * It has three methods:
+ * <ul>
+ *     <li>findAll(): This method retrieves all ItemDiscount entities.</li>
+ *     <li>findItemDiscountByDiscount(Discount discount): This method retrieves an ItemDiscount entity associated with the provided Discount entity.</li>
+ *     <li>findAllByDiscount(Discount discount): This method retrieves a list of ItemDiscount entities associated with the provided Discount entity.</li>
+ * </ul>
+ *
  * @author Tomasz Zbroszczyk
  * @version 1.0
  * @since 09.06.2024

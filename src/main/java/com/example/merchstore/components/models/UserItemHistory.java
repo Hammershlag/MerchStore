@@ -9,6 +9,21 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 /**
+ * The UserItemHistory class represents a user's browsing history of items in the system.
+ * It implements the DataDisplay interface to control the display of data.
+ *
+ * It has four fields:
+ * <ul>
+ *     <li>id: The ID of the user item history.</li>
+ *     <li>user: The user who browsed the item.</li>
+ *     <li>item: The item that was browsed.</li>
+ *     <li>lastBrowsed: The date and time when the item was last browsed by the user.</li>
+ * </ul>
+ *
+ * It also includes methods to display data and limited display data.
+ *
+ * This class is also a JPA entity, meaning it is mapped to a corresponding table in the database.
+ *
  * @author Tomasz Zbroszczyk
  * @version 1.0
  * @since 03.09.2024

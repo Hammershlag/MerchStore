@@ -9,6 +9,16 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 /**
+ * The CustomUserPrincipal class is an implementation of the UserDetails interface from Spring Security.
+ * It provides core user information to the framework.
+ *
+ * It has three methods:
+ * <ul>
+ *     <li>getAuthorities(): This method returns a collection of authorities granted to the user.</li>
+ *     <li>getPassword(): This method returns the password used to authenticate the user.</li>
+ *     <li>getUsername(): This method returns the username used to authenticate the user.</li>
+ * </ul>
+ *
  * @author Tomasz Zbroszczyk
  * @version 1.0
  * @since 28.05.2024

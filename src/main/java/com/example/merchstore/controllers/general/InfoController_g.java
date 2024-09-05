@@ -4,6 +4,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
+ * The InfoController_g class handles the web requests related to information pages in the application.
+ *
+ * It has five methods:
+ * <ul>
+ *     <li>about(): Handles the request for the about information page. It returns the view name for the about information page.</li>
+ *     <li>careers(): Handles the request for the careers information page. It returns the view name for the careers information page.</li>
+ *     <li>sustainability(): Handles the request for the sustainability information page. It returns the view name for the sustainability information page.</li>
+ *     <li>press(): Handles the request for the press information page. It returns the view name for the press information page.</li>
+ *     <li>investors(): Handles the request for the investors information page. It returns the view name for the investors information page.</li>
+ * </ul>
+ *
  * @author Tomasz Zbroszczyk
  * @version 1.0
  * @since 13.06.2024

@@ -12,6 +12,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
+ * The UserController_a class handles the web requests related to users in the admin section of the application.
+ *
+ * It has one method:
+ * <ul>
+ *     <li>viewUsers(int page, int size, String search, Model model): Handles the GET request for viewing users. It retrieves the users based on the search parameter and pagination, adds them to the model, then returns the view name.</li>
+ * </ul>
+ *
  * @author Tomasz Zbroszczyk
  * @version 1.0
  * @since 03.06.2024

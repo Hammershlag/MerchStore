@@ -18,6 +18,13 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 /**
+ * The ReviewController class handles the web requests related to the user's reviews in the application.
+ *
+ * It has one method:
+ * <ul>
+ *     <li>addReview(Long itemId, String description, int star_rating, Model model): Handles the POST request for adding a review. It retrieves the item, checks the user, checks if a review by the user for the item already exists, checks the length of the description, checks the rating, checks if the user has ordered the item, creates a new review, saves it, and returns a redirect to the item page.</li>
+ * </ul>
+ *
  * @author Tomasz Zbroszczyk
  * @version 1.0
  * @since 10.06.2024

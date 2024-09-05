@@ -7,6 +7,19 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
+ * The Bestseller class represents a best-selling item in the system.
+ * It implements the DataDisplay interface to control the display of data.
+ *
+ * It has two fields:
+ * <ul>
+ *     <li>itemId: The ID of the item.</li>
+ *     <li>totalSales: The total sales of the item.</li>
+ * </ul>
+ *
+ * It also includes methods to display data and limited display data.
+ *
+ * This class is also a JPA entity, meaning it is mapped to a corresponding table in the database.
+ *
  * @author Tomasz Zbroszczyk
  * @version 1.0
  * @since 01.09.2024
