@@ -42,6 +42,9 @@ CREATE TABLE items (
                        FOREIGN KEY (currency_id) REFERENCES currencies(id)
 );
 
+-- Create index on category_id in items table
+CREATE INDEX ON items (category_id);
+
 -- Create discounts table
 CREATE TABLE discounts (
                            discount_id SERIAL PRIMARY KEY,
@@ -103,6 +106,9 @@ CREATE TABLE cart (
                       FOREIGN KEY (item_id) REFERENCES items(item_id)
 );
 
+-- Create index on user_id in cart table
+CREATE INDEX ON cart (user_id);
+
 -- Create reviews table
 CREATE TABLE reviews (
                          review_id SERIAL PRIMARY KEY,
@@ -117,6 +123,9 @@ CREATE TABLE reviews (
                          UNIQUE (user_id, item_id) -- Ensure a user can only review an item once
 
 );
+
+-- Create index on item_id in reviews table
+CREATE INDEX ON reviews (item_id);
 
 -- Create ads table with additional fields and user reference
 CREATE TABLE ads (
@@ -143,6 +152,9 @@ CREATE TABLE sales (
                        FOREIGN KEY (item_id) REFERENCES items(item_id)
 );
 
+-- Create index on item_id in sales table
+CREATE INDEX ON sales (item_id);
+
 -- Create best_sellers view (last 30 days)
 CREATE VIEW best_sellers AS
 SELECT item_id, SUM(quantity) as total_sales
@@ -161,6 +173,9 @@ CREATE TABLE user_item_history (
                                   FOREIGN KEY (user_id) REFERENCES users(user_id),
                                   FOREIGN KEY (item_id) REFERENCES items(item_id)
 );
+
+-- Create index on user_id in user_item_history table
+CREATE INDEX ON user_item_history (user_id);
 
 -- Statement for getting 10 newest browsed items for a user
 PREPARE get_newest_browsed_items_for_user_test AS
@@ -199,6 +214,9 @@ CREATE TABLE currencies (
                             name VARCHAR(50)
 );
 
+-- Create an index on short in currencies table
+CREATE INDEX ON currencies (short);
+
 -- Create a new exchange_rates table
 CREATE TABLE exchange_rates (
                                 id SERIAL PRIMARY KEY,
@@ -207,6 +225,9 @@ CREATE TABLE exchange_rates (
                                 last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
                                 FOREIGN KEY (currency_id) REFERENCES currencies(id)
 );
+
+-- Create an index on currency_id in exchange_rates table
+CREATE INDEX ON exchange_rates (currency_id);
 
 -- Create a view to get the latest exchange rates for each currency
 CREATE VIEW latest_exchange_rates AS
@@ -217,3 +238,4 @@ FROM exchange_rates er1
     FROM exchange_rates
     GROUP BY currency_id
 ) er2 ON er1.currency_id = er2.currency_id AND er1.last_updated = er2.max_last_updated;
+
