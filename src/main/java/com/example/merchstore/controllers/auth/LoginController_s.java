@@ -46,36 +46,81 @@ import static org.springframework.security.web.context.HttpSessionSecurityContex
 @RequestMapping("/api")
 public class LoginController_s {
 
+    /**
+     * The CustomUserDetailsService that this controller uses to authenticate users.
+     * @see CustomUserDetailsService
+     */
     @Autowired
     CustomUserDetailsService customUserDetailsService;
 
+    /**
+     * The CustomUserRepository that this controller uses to perform CRUD operations on users.
+     * @see CustomUserRepository
+     */
     @Autowired
     CustomUserRepository customUserRepository;
 
+    /**
+     * The PasswordEncoder that this controller uses to encode passwords.
+     * @see PasswordEncoder
+     */
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    /**
+     * The HttpSession object that this controller uses to store and retrieve session attributes.
+     */
     @Autowired
     private HttpSession httpSession;
+
+    /**
+     * The AuthenticationManager that this controller uses to authenticate users.
+     */
     private final AuthenticationManager authenticationManager;
 
+    /**
+     * The CustomAuthenticationSuccessHandler that this controller uses to determine the target URL after successful login.
+     * @see CustomAuthenticationSuccessHandler
+     */
     @Autowired
     private CustomAuthenticationSuccessHandler authenticationSuccessHandler;
 
+    /**
+     * The GlobalAttributeService that this controller uses to add global attributes.
+     * @see GlobalAttributeService
+     */
     @Autowired
     private GlobalAttributeService globalAttributeService;
 
-
+    /**
+     * Creates a new LoginController_s with the specified AuthenticationManager.
+     *
+     * @param authenticationManager The AuthenticationManager to be used.
+     */
     public LoginController_s(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
     }
 
+    /**
+     * Prepares the model for the login form and returns the view name.
+     *
+     * @param model The model to be prepared.
+     * @return The view name.
+     */
     @GetMapping("/login/form")
     public String showLoginForm(Model model) {
         model.addAttribute("loginForm", new LoginForm());
         return "auth/login";
     }
 
+    /**
+     * Handles the POST request for user login. It authenticates the user, sets the user and login status in the session, creates a login cookie, and redirects to the appropriate URL based on the custom success handler.
+     *
+     * @param req The HttpServletRequest object.
+     * @param res The HttpServletResponse object.
+     * @param loginForm The login form data.
+     * @return The redirect URL.
+     */
     @PostMapping("/login")
     public String login(HttpServletRequest req, HttpServletResponse res, @ModelAttribute LoginForm loginForm) {
         if (customUserDetailsService.authenticateUser(loginForm, passwordEncoder)) {
@@ -110,6 +155,12 @@ public class LoginController_s {
         }
     }
 
+    /**
+     * Handles the GET request for user logout. It invalidates the session and redirects to the home page.
+     *
+     * @param session The HttpSession object.
+     * @return The redirect URL.
+     */
     @GetMapping("/logout")
     public RedirectView logout(HttpSession session) {
         globalAttributeService.addAttribute("isLoggedIn", false);
@@ -119,6 +170,9 @@ public class LoginController_s {
         return new RedirectView("/home");
     }
 
+    /**
+     * The LoginForm class represents the login form data.
+     */
     @Data
     public static class LoginForm {
         private String username;

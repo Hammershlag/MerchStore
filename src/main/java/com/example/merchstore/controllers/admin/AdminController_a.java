@@ -21,11 +21,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/api/admin")
 public class  AdminController_a {
 
+    /**
+     * Handles the GET request for the admin dashboard and returns the view name.
+     *
+     * @return The view name.
+     */
     @RequestMapping("/dashboard")
     public String showDashboard() {
         return "admin/dashboard";
     }
 
+    /**
+     * Handles the GET request for the admin base URL and redirects to the admin dashboard.
+     *
+     * @return The redirect URL.
+     */
     @RequestMapping
     public String adminRed() {
         return "redirect:/api/admin/dashboard";

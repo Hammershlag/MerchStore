@@ -34,12 +34,27 @@ import static com.example.merchstore.components.utilities.ImageProcessor.*;
 @RequestMapping("/api/register")
 public class RegisterController_s {
 
+    /**
+     * The CustomUserDetailsService that this controller uses to perform CRUD operations on users.
+     * @see CustomUserDetailsService
+     */
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
 
+    /**
+     * The PasswordEncoder that this controller uses to encode user passwords.
+     * @see PasswordEncoder
+     */
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    /**
+     * Prepares the model for the registration form, handles any error messages, and returns the view name.
+     *
+     * @param error The error message to be displayed.
+     * @param model The model to be prepared.
+     * @return The view name.
+     */
     @GetMapping("/form")
     public String registrationForm(@RequestParam(value = "error", required = false) String error, Model model) {
         model.addAttribute("user", new User());
@@ -64,6 +79,14 @@ public class RegisterController_s {
         return "auth/registration";
     }
 
+    /**
+     * Handles the POST request for user registration. It validates the user data, processes the image data, sets the user's properties, registers the user, and redirects to the login form.
+     *
+     * @param user The user to be registered.
+     * @param image The image data for the user.
+     * @param model The model to be prepared.
+     * @return The redirect URL.
+     */
     @PostMapping
     @ResponseBody
     public RedirectView registerUser(@ModelAttribute User user, @RequestParam("imageData") MultipartFile image, Model model) {

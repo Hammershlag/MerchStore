@@ -52,42 +52,85 @@ import static com.example.merchstore.components.utilities.ImageProcessor.getImag
 @Table(name = "items")
 public class Item implements DataDisplay, ImageDisplay {
 
+    /**
+     * The ID of the item.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "item_id")
     private Long itemId;
 
+    /**
+     * The name of the item.
+     */
     @Column(name = "name", nullable = false)
     private String name;
 
+    /**
+     * The description of the item.
+     */
     @Column(name = "description", nullable = false)
     private String description;
 
+    /**
+     * The price of the item.
+     */
     @Column(name = "price", nullable = false)
     private BigDecimal price;
 
+    /**
+     * The quantity of the item in stock.
+     */
     @Column(name = "stock_quantity", nullable = false)
     private Integer stockQuantity;
 
+    /**
+     * The category of the item.
+     * @see Category
+     */
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
+    /**
+     * The date and time when the item was created.
+     */
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
+    /**
+     * The date and time when the item was last updated.
+     */
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
 
+    /**
+     * The default currency of the item.
+     * @see Currency
+     */
     @JoinColumn(name = "currency_id", nullable = false)
     @ManyToOne
     private Currency currency;
 
+    /**
+     * The image of the item in byte array format.
+     */
     @JsonIgnore
     @JdbcTypeCode(Types.BINARY)
     @Column(name = "image", columnDefinition = "BYTEA", nullable = true)
     private byte[] image;
 
+    /**
+     * The constructor for the Item class.
+     * @param itemId The ID of the item.
+     * @param name The name of the item.
+     * @param description The description of the item.
+     * @param price The price of the item.
+     * @param stockQuantity The quantity of the item in stock.
+     * @param category The category of the item.
+     * @param createdAt The date and time when the item was created.
+     * @param updatedAt The date and time when the item was last updated.
+     */
     public Item(Long itemId, String name, String description, BigDecimal price, Integer stockQuantity, Category category, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.itemId = itemId;
         this.name = name;
@@ -101,6 +144,16 @@ public class Item implements DataDisplay, ImageDisplay {
         setDefaultImage();
     }
 
+    /**
+     * The constructor for the Item class.
+     * @param name The name of the item.
+     * @param description The description of the item.
+     * @param price The price of the item.
+     * @param stockQuantity The quantity of the item in stock.
+     * @param category The category of the item.
+     * @param createdAt The date and time when the item was created.
+     * @param updatedAt The date and time when the item was last updated.
+     */
     public Item(String name, String description, BigDecimal price, Integer stockQuantity, Category category, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.name = name;
         this.description = description;
@@ -113,6 +166,10 @@ public class Item implements DataDisplay, ImageDisplay {
         setDefaultImage();
     }
 
+    /**
+     * The copy constructor for the Item class.
+     * @param item The Item object to copy.
+     */
     public Item(Item item) {
         this.itemId = item.getItemId();
         this.name = item.getName();
@@ -126,22 +183,42 @@ public class Item implements DataDisplay, ImageDisplay {
         setDefaultImage();
     }
 
+    /**
+     * Get the status of the image. Uploaded if the image is not null, Not uploaded otherwise.
+     * @return a String representing the status of the image.
+     */
     @JsonProperty("imageStatus")
     public String getImageStatus() {
         return image != null ? "Uploaded" : "Not uploaded";
     }
 
-
+    /**
+     * Display the data of the item.
+     *
+     * @see DataDisplay
+     *
+     * @return a DataDisplay object representing the item data.
+     */
     @Override
     public DataDisplay displayData() {
         return new Item(this);
     }
 
+    /**
+     * Display a limited set of data of the item.
+     *
+     * @see DataDisplay
+     *
+     * @return null, as it is not implemented yet.
+     */
     @Override
     public DataDisplay limitedDisplayData() {
         return null;
     }
 
+    /**
+     * Set the default image if the image is null.
+     */
     @Override
     public void setDefaultImage() {
         if (image == null || image.length == 0) {
@@ -153,6 +230,11 @@ public class Item implements DataDisplay, ImageDisplay {
         }
     }
 
+    /**
+     * Convert the image to a base64 string.
+     *
+     * @return a String representing the image in base64 format.
+     */
     @Override
     public String base64Image() {
         setDefaultImage();

@@ -38,22 +38,46 @@ import java.util.Map;
 @RequestMapping("/api/admin")
 public class DiscountController_a {
 
-
+    /**
+     * The DiscountRepository that this controller uses to perform CRUD operations on discounts.
+     * @see DiscountRepository
+     */
     @Autowired
     private DiscountRepository discountRepository;
 
+    /**
+     * The ItemRepository that this controller uses to perform CRUD operations on items.
+     * @see ItemRepository
+     */
     @Autowired
     private ItemRepository itemRepository;
 
+    /**
+     * The ItemDiscountRepository that this controller uses to perform CRUD operations on item discounts.
+     * @see ItemDiscountRepository
+     */
     @Autowired
     private ItemDiscountRepository itemDiscountRepository;
 
+    /**
+     * Prepares the model for adding a new discount and returns the view name.
+     *
+     * @param model The model to be prepared.
+     * @return The view name.
+     */
     @GetMapping("/add/discount")
     public String addDiscount(Model model) {
         model.addAttribute("discount", new Discount());
         return "admin/add/addDiscount";
     }
 
+    /**
+     * Handles the POST request for adding a new discount. It validates the discount data, saves the discount, optionally associates it with an item, and redirects to the admin dashboard.
+     *
+     * @param discount The discount to be added.
+     * @param itemId The ID of the item to associate the discount with.
+     * @return The redirect URL.
+     */
     @PostMapping("/add/discount")
     public String addDiscount(Discount discount, @RequestParam(value = "itemId", required = false) Long itemId) {
         if (discountRepository.findByCode(discount.getCode()) != null) {
@@ -75,12 +99,17 @@ public class DiscountController_a {
             itemDiscountRepository.save(itemDiscount);
         }
 
-
-
-
         return "redirect:/api/admin/dashboard";
     }
 
+    /**
+     * Handles the GET request for viewing discounts. It retrieves the discounts based on the search parameter and validity, adds them to the model along with their associated items, then returns the view name.
+     *
+     * @param valid The validity parameter for filtering discounts.
+     * @param search The search parameter for filtering discounts.
+     * @param model The model to be prepared.
+     * @return The view name.
+     */
     @GetMapping("/view/discounts")
     public String viewDiscounts(@RequestParam(value = "valid", required = false) Boolean valid,
                                 @RequestParam(value = "searchDis", required = false) String search,

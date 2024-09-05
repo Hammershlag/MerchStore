@@ -66,6 +66,7 @@ public class Ad implements DataDisplay, ImageDisplay {
 
     /**
      * The item being advertised.
+     * @see Item
      */
     @ManyToOne
     @JoinColumn(name = "item_id", nullable = false)
@@ -73,6 +74,7 @@ public class Ad implements DataDisplay, ImageDisplay {
 
     /**
      * The user who posted the ad.
+     * @see User
      */
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
@@ -84,27 +86,51 @@ public class Ad implements DataDisplay, ImageDisplay {
     @Column(name = "description", nullable = false)
     private String description;
 
+    /**
+     * The start date of the ad.
+     */
     @Column(name = "start_date", nullable = false)
     private LocalDateTime startDate;
 
+    /**
+     * The end date of the ad.
+     */
     @Column(name = "end_date", nullable = false)
     private LocalDateTime endDate;
 
+    /**
+     * The status of the ad.
+     * @see AdStatus
+     */
     @Enumerated(EnumType.STRING)
     @Column(name = "status", length = 20, nullable = false)
     private AdStatus status = AdStatus.ACTIVE; // Default status
 
+    /**
+     * The image of the ad in byte array format.
+     */
     @JsonIgnore
     @JdbcTypeCode(Types.BINARY)
     @Column(name = "image", columnDefinition = "BYTEA", nullable = true)
     private byte[] image;
 
+    /**
+     * The creation date of the ad.
+     */
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
+    /**
+     * The last update date of the ad.
+     */
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
 
+    /**
+     * The copy constructor of the Ad class.
+     *
+     * @param other the Ad object to copy.
+     */
     public Ad(Ad other) {
         this.adId = other.adId;
         this.item = other.item;
@@ -119,25 +145,52 @@ public class Ad implements DataDisplay, ImageDisplay {
         setDefaultImage();
     }
 
+    /**
+     * The default constructor of the Ad class.
+     */
     public Ad() {
         setDefaultImage();
     }
 
+    /**
+     * Get the status of the image.
+     *
+     * @return a String representing the status of the image.
+     */
     @JsonProperty("imageStatus")
     public String getImageStatus() {
         return image != null ? "Uploaded" : "Not uploaded";
     }
 
+    /**
+     * Display the data of the ad.
+     *
+     * @see DataDisplay
+     *
+     * @return a DataDisplay object representing the ad data.
+     */
     @Override
     public DataDisplay displayData() {
         return new Ad(this);
     }
 
+    /**
+     * Display a limited set of data of the ad.
+     *
+     * @see DataDisplay
+     *
+     * @return a DataDisplay object representing the limited ad data.
+     */
     @Override
     public DataDisplay limitedDisplayData() {
         return null;
     }
 
+    /**
+     * Set the default image.
+     *
+     * @see ImageDisplay
+     */
     @Override
     public void setDefaultImage() {
         if (DEFAULT_AD_IMAGE == null) {
@@ -152,12 +205,26 @@ public class Ad implements DataDisplay, ImageDisplay {
         }
     }
 
+    /**
+     * Get the Base64 representation of the image.
+     *
+     * @see ImageDisplay
+     *
+     * @return a String representing the Base64 image.
+     */
     @Override
     public String base64Image() {
         setDefaultImage();
         return Base64.getEncoder().encodeToString(image);
     }
 
+    /**
+     * Check if the ad should be displayed.
+     *
+     * @see AdStatus
+     *
+     * @return a boolean indicating if the ad should be displayed.
+     */
     public boolean shouldBeDisplayed() {
         return status == AdStatus.ACTIVE && startDate.isBefore(LocalDateTime.now()) && endDate.isAfter(LocalDateTime.now());
     }

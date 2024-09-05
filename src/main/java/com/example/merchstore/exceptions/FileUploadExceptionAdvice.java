@@ -23,6 +23,13 @@ import org.springframework.web.multipart.MaxUploadSizeExceededException;
 @RestControllerAdvice
 public class FileUploadExceptionAdvice {
 
+    /**
+     * This method is invoked when a MaxUploadSizeExceededException is thrown in the application.
+     * It returns a ResponseEntity with a status of HttpStatus.PAYLOAD_TOO_LARGE and a body message of "File too large! Maximum upload size is 10MB."
+     *
+     * @param exc The MaxUploadSizeExceededException that was thrown.
+     * @return A ResponseEntity with a status of HttpStatus.PAYLOAD_TOO_LARGE and a body message of "File too large! Maximum upload size is 10MB."
+     */
     @ExceptionHandler(MaxUploadSizeExceededException.class)
     public ResponseEntity<String> handleMaxSizeException(MaxUploadSizeExceededException exc) {
         return ResponseEntity.status(HttpStatus.PAYLOAD_TOO_LARGE)

@@ -20,11 +20,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/api/owner")
 public class OwnerController_o {
 
+    /**
+     * Handles the GET request for the owner's dashboard. It returns the view name for the owner's dashboard.
+     *
+     * @return The view name for the owner's dashboard.
+     */
     @RequestMapping("/dashboard")
     public String showDashboard() {
         return "owner/dashboard";
     }
 
+    /**
+     * Handles the GET request for the owner's base URL. It returns a redirect to the owner's dashboard.
+     *
+     * @return A redirect to the owner's dashboard.
+     */
     @RequestMapping
     public String ownerRed() {
         return "redirect:/api/owner/dashboard";

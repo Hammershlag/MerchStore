@@ -24,6 +24,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class ErrorController_f implements ErrorController {
 
+    /**
+     * Handles the GET request for displaying an error page. It retrieves the error status code from the request, sets the status code, error message, and a custom message based on the status code in the model, then returns the view name for the error page.
+     *
+     * @param request The HTTP request.
+     * @param model The model to be prepared.
+     * @return The view name for the error page.
+     */
     @RequestMapping("/error")
     public String handleError(HttpServletRequest request, Model model) {
         Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);

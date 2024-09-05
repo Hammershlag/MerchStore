@@ -37,21 +37,49 @@ import java.util.List;
 @RequestMapping("/user/cart")
 public class CartController_u {
 
+    /**
+     * The HttpSession that this controller uses to retrieve the user.
+     */
     @Autowired
     private HttpSession httpSession;
 
+    /**
+     * The CartItemRepository that this controller uses to perform CRUD operations on cart items.
+     * @see CartItemRepository
+     */
     @Autowired
     private CartItemRepository cartItemRepository;
 
+    /**
+     * The ItemRepository that this controller uses to perform CRUD operations on items.
+     * @see ItemRepository
+     */
     @Autowired
     private ItemRepository itemRepository;
 
+    /**
+     * The CurrencyRepository that this controller uses to perform CRUD operations on currencies.
+     * @see CurrencyRepository
+     */
     @Autowired
     private CurrencyRepository currencyRepository;
 
+    /**
+     * The LatestExchangeRateService that this controller uses to retrieve the latest exchange rate for a currency.
+     * @see LatestExchangeRateService
+     */
     @Autowired
     private LatestExchangeRateService latestExchangeRateService;
 
+    /**
+     * Handles the GET request for viewing the cart. It retrieves the cart items, sorts them based on the provided parameters, retrieves the currency from the cookies, retrieves the latest exchange rate for the currency, adds all these attributes to the model, and returns the view name for the cart page.
+     *
+     * @param request The HttpServletRequest to retrieve the cookies from.
+     * @param model The model to be prepared.
+     * @param sortField The field to sort the cart items by.
+     * @param order The order to sort the cart items in.
+     * @return The view name for the cart page.
+     */
     @GetMapping()
     public String showCart(HttpServletRequest request, Model model, @RequestParam(value = "sortField", required = false) String sortField,
                            @RequestParam(value = "order", required = false, defaultValue = "asc") String order) {
@@ -109,6 +137,14 @@ public class CartController_u {
         return "user/cart";
     }
 
+    /**
+     * Handles the POST request for increasing the quantity of an item in the cart. It retrieves the cart item, increases its quantity if it's less than the stock quantity, saves the cart item, and returns a redirect to the cart page.
+     *
+     * @param itemId The ID of the item to increase the quantity of.
+     * @param sortField The field to sort the cart items by.
+     * @param order The order to sort the cart items in.
+     * @return The redirect to the cart page.
+     */
     @PostMapping("/increase")
     public String increaseItemQuantity(@RequestParam("itemId") Long itemId,
                                        @RequestParam(value = "sortField", required = false) String sortField,
@@ -129,6 +165,14 @@ public class CartController_u {
         return "redirect:/user/cart";
     }
 
+    /**
+     * Handles the POST request for adding an item to the cart. It retrieves the item, creates a new cart item or updates the existing one, checks the stock quantity, saves the cart item, adds the addedToCart attribute to the model, and returns a redirect to the item page.
+     *
+     * @param itemId The ID of the item to add to the cart.
+     * @param quantity The quantity of the item to add to the cart.
+     * @param model The model to be prepared.
+     * @return The redirect to the item page.
+     */
     @PostMapping("/add")
     public String addItemToCart(@RequestParam("itemId") Long itemId, @RequestParam("quantity") int quantity, Model model) {
         User user = (User) httpSession.getAttribute("user");
@@ -160,6 +204,14 @@ public class CartController_u {
         return "redirect:/item?id=" + itemId + "&addedToCart=" + addedToCart;
     }
 
+    /**
+     * Handles the POST request for decreasing the quantity of an item in the cart. It retrieves the cart item, decreases its quantity if it's more than 1 or deletes it if it's 1, saves the cart item or deletes it, and returns a redirect to the cart page.
+     *
+     * @param itemId The ID of the item to decrease the quantity of.
+     * @param sortField The field to sort the cart items by.
+     * @param order The order to sort the cart items in.
+     * @return The redirect to the cart page.
+     */
     @PostMapping("/decrease")
     public String decreaseItemQuantity(@RequestParam("itemId") Long itemId,
                                        @RequestParam(value = "sortField", required = false) String sortField,
@@ -184,6 +236,14 @@ public class CartController_u {
         return "redirect:/user/cart";
     }
 
+    /**
+     * Handles the POST request for removing an item from the cart. It retrieves the cart item, deletes it, and returns a redirect to the cart page.
+     *
+     * @param itemId The ID of the item to remove from the cart.
+     * @param sortField The field to sort the cart items by.
+     * @param order The order to sort the cart items in.
+     * @return The redirect to the cart page.
+     */
     @PostMapping("/remove")
     public String removeItemFromCart(@RequestParam("itemId") Long itemId,
                                      @RequestParam(value = "sortField", required = false) String sortField,

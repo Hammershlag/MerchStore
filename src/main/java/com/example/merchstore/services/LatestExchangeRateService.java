@@ -34,17 +34,36 @@ import java.util.Map;
 @Service
 public class LatestExchangeRateService {
 
+    /**
+     * The LatestExchangeRateRepository dependency is injected by Spring.
+     * @see LatestExchangeRateRepository
+     */
     @Autowired
     private LatestExchangeRateRepository latestExchangeRateRepository;
 
+    /**
+     * The CurrencyRepository dependency is injected by Spring.
+     * @see CurrencyRepository
+     */
     @Autowired
     private CurrencyRepository currencyRepository;
 
+    /**
+     * The ExchangeRateRepository dependency is injected by Spring.
+     * @see ExchangeRateRepository
+     */
     @Autowired
     private ExchangeRateRepository exchangeRateRepository;
 
+    /**
+     * The RestTemplate dependency is injected by Spring.
+     * @see RestTemplate
+     */
     private RestTemplate restTemplate = new RestTemplate();
 
+    /**
+     * This method retrieves the latest exchange rates from an external API and updates the local repository with these rates.
+     */
     public void updateExchangeRates() {
         String url = "https://api.exchangerate-api.com/v4/latest/PLN";
         Map<String, Object> response = restTemplate.getForObject(url, Map.class);
@@ -71,6 +90,12 @@ public class LatestExchangeRateService {
         });
     }
 
+    /**
+     * This method retrieves the latest exchange rate for a specific currency. If the latest exchange rate is older than 24 hours, it updates the exchange rates before returning the rate.
+     *
+     * @param currencyId The ID of the currency to retrieve the latest exchange rate for.
+     * @return The latest exchange rate for the specified currency.
+     */
     public ExchangeRate getLatestExchangeRateForCurrency(Long currencyId) {
         LatestExchangeRate latestExchangeRate = latestExchangeRateRepository.findFirstByCurrencyIdOrderByLastUpdatedDesc(currencyId);
         if (latestExchangeRate == null || Duration.between(latestExchangeRate.getLastUpdated(), LocalDateTime.now()).toHours() > 24) {
@@ -80,6 +105,11 @@ public class LatestExchangeRateService {
         return new ExchangeRate(latestExchangeRate.getId(), currencyRepository.findById(latestExchangeRate.getCurrencyId()).orElse(null), latestExchangeRate.getExchangeRate(), latestExchangeRate.getLastUpdated());
     }
 
+    /**
+     * This method retrieves all the latest exchange rates. If any of the rates are older than 24 hours, it updates the exchange rates before returning them.
+     *
+     * @return A list of all the latest exchange rates.
+     */
     public List<ExchangeRate> getAllLatestExchangeRates() {
         List<ExchangeRate> exchangeRates = new ArrayList<>();
         List<LatestExchangeRate> latestExchangeRates = latestExchangeRateRepository.findAll();

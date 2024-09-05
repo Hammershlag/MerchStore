@@ -33,12 +33,27 @@ import java.util.Objects;
 @RequestMapping("/api/pay/")
 public class PayController_f {
 
+    /**
+     * The OrderRepository that this controller uses to perform CRUD operations on orders.
+     * @see OrderRepository
+     */
     @Autowired
     private OrderRepository orderRepository;
 
+    /**
+     * The HttpSession that this controller uses to store session attributes.
+     * @see HttpSession
+     */
     @Autowired
     HttpSession session;
 
+    /**
+     * Handles the GET request for processing an order. It retrieves the order from the repository, checks if the order exists, if the user is correct, and if the order is unpaid. If all checks pass, it adds the order id to the model and returns the view name for the payment page.
+     *
+     * @param id The id of the order.
+     * @param model The model to be prepared.
+     * @return The view name.
+     */
     @GetMapping("order")
     public String order(@RequestParam(value = "id", required = true) Long id, Model model) {
         Order order = orderRepository.findByOrderId(id);
@@ -55,6 +70,12 @@ public class PayController_f {
         return "orderPay";
     }
 
+    /**
+     * Handles the POST request for submitting an order. It retrieves the order from the repository, sets its status to PENDING, saves the order, and returns a redirect to the home page with a success message.
+     *
+     * @param id The id of the order.
+     * @return A redirect to the home page with a success message.
+     */
     @PostMapping("order")
     public String orderPost(@RequestParam(value = "id", required = true) Long id) {
         Order order = orderRepository.findByOrderId(id);

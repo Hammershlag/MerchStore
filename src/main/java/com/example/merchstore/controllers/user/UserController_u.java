@@ -33,35 +33,75 @@ import static com.example.merchstore.components.utilities.ImageProcessor.*;
  * @version 1.0
  * @since 31.05.2024
  */
-
 @Controller
 public class UserController_u {
 
+    /**
+     * The HttpSession that this controller uses to store the current user.
+     */
     @Autowired
     private HttpSession httpSession;
 
+    /**
+     * The CustomUserDetailsService that this controller uses to perform CRUD operations on users.
+     * @see CustomUserDetailsService
+     */
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
 
+    /**
+     * The CustomUserRepository that this controller uses to perform CRUD operations on users.
+     * @see CustomUserRepository
+     */
     @Autowired
     private CustomUserRepository userRepository;
 
+    /**
+     * The PasswordEncoder that this controller uses to encode the password of a user.
+     * @see PasswordEncoder
+     */
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    /**
+     * The GlobalAttributeService that this controller uses to add the user to the global attributes.
+     * @see GlobalAttributeService
+     */
     @Autowired
     private GlobalAttributeService globalAttributeService;
 
+    /**
+     * Handles the GET request for viewing the user's profile. It returns the view name for the profile page.
+     *
+     * @param model The model to be prepared.
+     * @return The view name for the profile page.
+     */
     @GetMapping("/profile")
     public String getCurrentUser(Model model) {
         return "user/profile";
     }
 
+    /**
+     * Handles the GET request for showing the edit user form. It returns the view name for the update page.
+     *
+     * @param model The model to be prepared.
+     * @return The view name for the update page.
+     */
     @GetMapping("/api/update/user")
     public String showEditUserForm(Model model) {
         return "user/update";
     }
 
+    /**
+     * Handles the POST request for updating the user's profile. It retrieves the current user, checks the username, email, and phone number, checks and updates the image, checks and updates the password, updates the other fields, saves the user, adds the user to the session and global attributes, and returns a redirect to the profile page.
+     *
+     * @param user The user to be updated.
+     * @param image The image of the user.
+     * @param currentPassword The current password of the user.
+     * @param newPassword The new password of the user.
+     * @param model The model to be prepared.
+     * @return A redirect to the profile page.
+     */
     @PostMapping("/api/update/user")
     public RedirectView updateUser(
             @ModelAttribute User user,

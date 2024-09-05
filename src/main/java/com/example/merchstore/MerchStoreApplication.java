@@ -16,10 +16,14 @@ import org.springframework.context.annotation.ImportResource;
  * @version 1.0
  * @since 29.05.2024
  */
-
 @SpringBootApplication
 public class MerchStoreApplication {
 
+    /**
+     * This method starts the Spring Boot application.
+     *
+     * @param args The command line arguments.
+     */
     public static void main(String[] args) {
         SpringApplication.run(MerchStoreApplication.class, args);
     }

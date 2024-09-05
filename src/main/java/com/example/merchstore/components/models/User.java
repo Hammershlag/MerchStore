@@ -59,55 +59,112 @@ import static com.example.merchstore.components.utilities.ImageProcessor.getImag
 @Table(name = "users")
 public class User implements DataDisplay, ImageDisplay {
 
+    /**
+     * The ID of the user.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id", unique = true, nullable = false)
     private Long userId;
 
+    /**
+     * The username of the user.
+     */
     @Column(name = "username", unique = true, nullable = false)
     private String username;
 
+    /**
+     * The email of the user.
+     */
     @Column(name = "email", unique = true, nullable = false)
     private String email;
 
+    /**
+     * The password of the user.
+     */
     @JsonIgnore
     @Column(name = "password", nullable = false)
     private String password;
 
+    /**
+     * The first name of the user.
+     */
     @Column(name = "first_name", nullable = false)
     private String firstName;
 
+    /**
+     * The last name of the user.
+     */
     @Column(name = "last_name", nullable = false)
     private String lastName;
 
+    /**
+     * The phone number of the user.
+     */
     @Column(name = "phone_number")
     private String phoneNumber;
 
+    /**
+     * The address of the user.
+     */
     @Column(name = "address")
     private String address;
 
+    /**
+     * The role of the user.
+     * @see Role
+     */
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false)
     private Role role;
 
+    /**
+     * The date and time when the user was created.
+     */
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
+    /**
+     * The date and time when the user was last updated.
+     */
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
 
+    /**
+     * The image of the user in byte array format.
+     */
     @JsonIgnore
     @JdbcTypeCode(Types.BINARY)
     @Column(name = "image", columnDefinition = "BYTEA", nullable = true)
     private byte[] image;
 
+    /**
+     * The gender of the user
+     * @see Gender
+     */
     @Enumerated(EnumType.STRING)
     @Column(name = "gender", nullable = false)
     private Gender gender;
 
+    /**
+     * The birth date of the user.
+     */
     @Column(name = "birth_date", nullable = false)
     private LocalDate birthDate;
 
+    /**
+     * The constructor of the User class.
+     *
+     * @param userId The ID of the user.
+     * @param username The username of the user.
+     * @param email The email of the user.
+     * @param firstName The first name of the user.
+     * @param lastName The last name of the user.
+     * @param phoneNumber The phone number of the user.
+     * @param address The address of the user.
+     * @param createdAt The date and time when the user was created.
+     * @param updatedAt The date and time when the user was last updated
+     */
     public User(Long userId, String username, String email, String firstName, String lastName, String phoneNumber, String address, LocalDateTime createdAt, LocalDateTime updatedAt, Gender gender, LocalDate birthDate) {
         this.userId = userId;
         this.username = username;
@@ -124,6 +181,11 @@ public class User implements DataDisplay, ImageDisplay {
         this.birthDate = birthDate;
     }
 
+    /**
+     * The copy constructor of the User class.
+     *
+     * @param user the User object to copy.
+     */
     public User(User user) {
         this.userId = user.getUserId();
         this.username = user.getUsername();
@@ -142,6 +204,10 @@ public class User implements DataDisplay, ImageDisplay {
         this.birthDate = user.getBirthDate();
     }
 
+    /**
+     * The method to set the default image of the user.
+     * @see ImageDisplay
+     */
     @Override
     public void setDefaultImage() {
         if (getImage() == null || getImage().length == 0) {
@@ -157,21 +223,44 @@ public class User implements DataDisplay, ImageDisplay {
         }
     }
 
+    /**
+     * Get the status of the image. Uploaded if the image is not null, Not uploaded otherwise.
+     * @return a String representing the status of the image.
+     */
     @JsonProperty("imageStatus")
     public String getImageStatus() {
         return image != null ? "Uploaded" : "Not uploaded";
     }
 
+    /**
+     * Display the data of the user.
+     *
+     * @see DataDisplay
+     *
+     * @return a DataDisplay object representing the user data.
+     */
     @Override
     public User displayData() {
         return new User(this);
     }
 
+    /**
+     * Display a limited set of data of the user.
+     *
+     * @see DataDisplay
+     *
+     * @return a DataDisplay object representing the limited user data.
+     */
     @Override
     public DataDisplay limitedDisplayData() {
         return null;
     }
 
+    /**
+     * Convert the image to a base64 string.
+     *
+     * @return a String representing the image in base64 format.
+     */
     @Override
     public String base64Image() {
         setDefaultImage();

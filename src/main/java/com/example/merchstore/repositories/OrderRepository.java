@@ -25,7 +25,19 @@ import java.util.List;
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
 
+    /**
+     * This method retrieves an Order entity with the provided order id.
+     *
+     * @param orderId The order id of the Order entity to retrieve.
+     * @return An Order entity with the provided order id.
+     */
     Order findByOrderId(Long orderId);
 
+    /**
+     * This method retrieves a list of Order entities associated with the provided User entity.
+     *
+     * @param currentUser The User entity to retrieve the Order entities for.
+     * @return A list of Order entities associated with the provided User entity.
+     */
     List<Order> findAllOrdersByUser(User currentUser);
 }

@@ -33,13 +33,76 @@ import java.util.List;
 
 @Repository
 public interface ItemRepository extends JpaRepository<Item, Long> {
+
+    /**
+     * This method retrieves an Item entity with the provided name.
+     *
+     * @param name The name of the Item entity to retrieve.
+     * @return An Item entity with the provided name.
+     */
     Item findByName(String name);
+
+    /**
+     * This method retrieves a list of Item entities associated with the provided Category entity.
+     *
+     * @param category The Category entity to retrieve the Item entities for.
+     * @return A list of Item entities associated with the provided Category entity.
+     */
     List<Item> findByCategory(Category category);
+
+    /**
+     * This method retrieves a page of Item entities associated with the provided Category entity, with pagination.
+     *
+     * @param category The Category entity to retrieve the Item entities for.
+     * @param pageable The pagination information.
+     * @return A page of Item entities associated with the provided Category entity.
+     */
     Page<Item> findByCategory(Category category, Pageable pageable);
+
+    /**
+     * This method retrieves all Item entities with pagination.
+     *
+     * @param pageable The pagination information.
+     * @return A page of all Item entities.
+     */
     Page<Item> findAll(Pageable pageable);
+
+    /**
+     * This method retrieves a page of Item entities where the name starts with the provided string.
+     *
+     * @param name The string to search for at the beginning of the name.
+     * @param pageable The pagination information.
+     * @return A page of Item entities where the name starts with the provided string.
+     */
     Page<Item> findByNameStartingWith(String name, Pageable pageable);
+
+    /**
+     * This method retrieves a page of Item entities associated with the provided Category entity and where the name starts with the provided string.
+     *
+     * @param category The Category entity to retrieve the Item entities for.
+     * @param name The string to search for at the beginning of the name.
+     * @param pageable The pagination information.
+     * @return A page of Item entities associated with the provided Category entity and where the name starts with the provided string.
+     */
     Page<Item> findByCategoryAndNameStartingWith(Category category, String name, Pageable pageable);
+
+    /**
+     * This method retrieves a page of Item entities where the name starts with the provided string, ignoring case.
+     *
+     * @param name The string to search for at the beginning of the name.
+     * @param pageable The pagination information.
+     * @return A page of Item entities where the name starts with the provided string, ignoring case.
+     */
     Page<Item> findByNameStartingWithIgnoreCase(String name, Pageable pageable);
+
+    /**
+     * This method retrieves a page of Item entities associated with the provided Category entity and where the name starts with the provided string, ignoring case.
+     *
+     * @param category The Category entity to retrieve the Item entities for.
+     * @param name The string to search for at the beginning of the name.
+     * @param pageable The pagination information.
+     * @return A page of Item entities associated with the provided Category entity and where the name starts with the provided string, ignoring case.
+     */
     Page<Item> findByCategoryAndNameStartingWithIgnoreCase(Category category, String name, Pageable pageable);
 
 

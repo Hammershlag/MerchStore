@@ -35,23 +35,52 @@ public enum Role {
      */
     OWNER(2);
 
+    /**
+     * The integer value associated with the role.
+     */
     private final int value;
+
+    /**
+     * A map to store the Role constants by their name.
+     */
     private static final Map<String, Role> ROLE_MAP = new HashMap<>();
 
+    /**
+     * Constructs a Role with the specified integer value.
+     *
+     * @param value The integer value associated with the role.
+     */
     Role(int value) {
         this.value = value;
     }
 
+    /**
+     * Returns the integer value associated with the role.
+     *
+     * @return The integer value associated with the role.
+     */
     public int getValue() {
         return value;
     }
 
+    /**
+     * Returns the Role constant with the specified name.
+     *
+     * @param role The name of the Role constant.
+     * @return The Role constant with the specified name.
+     */
     static {
         for (Role role : Role.values()) {
             ROLE_MAP.put(role.name(), role);
         }
     }
 
+    /**
+     * Returns the Role constant with the specified name.
+     *
+     * @param role The name of the Role constant.
+     * @return The Role constant with the specified name.
+     */
     public static Role getRole(String role) {
         return ROLE_MAP.get(role);
     }

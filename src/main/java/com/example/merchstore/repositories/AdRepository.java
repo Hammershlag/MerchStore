@@ -24,7 +24,12 @@ import java.util.List;
 @Repository
 public interface AdRepository extends JpaRepository<Ad, Long> {
 
-    //Find
+    /**
+     * This method retrieves all Ad entities associated with the provided Item entity.
+     *
+     * @param item The Item entity to retrieve the Ad entities for.
+     * @return A list of Ad entities associated with the provided Item entity.
+     */
     public List<Ad> findAllByItem(Item item);
 
 

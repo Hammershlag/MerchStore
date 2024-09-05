@@ -21,6 +21,12 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CurrencyRepository extends JpaRepository<Currency, Long> {
 
+    /**
+     * This method retrieves a Currency entity with the provided short name.
+     *
+     * @param shortName The short name of the Currency entity to retrieve.
+     * @return A Currency entity with the provided short name.
+     */
     Currency findByShortName(String shortName);
 
 }

@@ -26,8 +26,21 @@ import java.util.List;
 @Repository
 public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
 
+    /**
+     * This method retrieves a list of OrderItem entities associated with the provided Order entity.
+     *
+     * @param order The Order entity to retrieve the OrderItem entities for.
+     * @return A list of OrderItem entities associated with the provided Order entity.
+     */
     List<OrderItem> findAllByOrder(Order order);
 
+    /**
+     * This method checks if an OrderItem entity exists that is associated with the provided Item and Order entities.
+     *
+     * @param item The Item entity to check the OrderItem entity for.
+     * @param order The Order entity to check the OrderItem entity for.
+     * @return A boolean value indicating if an OrderItem entity exists that is associated with the provided Item and Order entities.
+     */
     boolean existsByItemAndOrder(Item item, Order order);
 
 }

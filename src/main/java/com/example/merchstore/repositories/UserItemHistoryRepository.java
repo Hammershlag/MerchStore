@@ -26,8 +26,19 @@ import java.util.List;
 @Repository
 public interface UserItemHistoryRepository extends JpaRepository<UserItemHistory, Long> {
 
+    /**
+     * This method retrieves a list of UserItemHistory entities associated with the provided User entity.
+     *
+     * @param user The User entity to retrieve the UserItemHistory entities for.
+     * @return A list of UserItemHistory entities associated with the provided User entity.
+     */
     List<UserItemHistory> findAllByUser(User user);
 
+    /**
+     * This method deletes all UserItemHistory entities associated with the provided User entity. This operation is transactional.
+     *
+     * @param user The User entity to delete the UserItemHistory entities for.
+     */
     @Transactional
     void deleteAllByUser(User user);
 

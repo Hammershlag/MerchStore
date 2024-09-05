@@ -30,29 +30,59 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "discount_items")
 public class ItemDiscount implements DataDisplay {
+
+    /**
+     * The ID of the item discount.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long discountItemId;
 
+    /**
+     * The discount applied to the item.
+     * @see Discount
+     */
     @ManyToOne
     @JoinColumn(name = "discount_id", nullable = false)
     private Discount discount;
 
+    /**
+     * The item to which the discount is applied.
+     * @see Item
+     */
     @ManyToOne
     @JoinColumn(name = "item_id", nullable = false)
     private Item item;
 
+    /**
+     * Copy constructor for the ItemDiscount class.
+     * @param other The ItemDiscount object to copy.
+     */
     public ItemDiscount(ItemDiscount other) {
         this.discountItemId = other.discountItemId;
         this.discount = other.discount;
         this.item = other.item;
     }
 
+    /**
+     * Displays the data of the item discount.
+     *
+     * @see DataDisplay
+     *
+     * @return The data display of the item discount.
+     */
     @Override
     public DataDisplay displayData() {
         return new ItemDiscount(this);
     }
 
+    /**
+     * Displays limited data of the item discount.
+     *
+     * @see DataDisplay
+     *
+     * @return The limited data display of the item discount.
+     */
     @Override
     public DataDisplay limitedDisplayData() {
         return null;

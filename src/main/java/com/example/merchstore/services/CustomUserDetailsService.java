@@ -36,9 +36,22 @@ import java.time.LocalDateTime;
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
+    /**
+     * The CustomUserRepository dependency is injected by Spring.
+     * @see CustomUserRepository
+     */
     @Autowired
     private CustomUserRepository customUserRepository;
 
+    /**
+     * This method retrieves a User by their username from the CustomUserRepository.
+     * If the User is not found, it throws a UsernameNotFoundException.
+     * Otherwise, it returns a new CustomUserPrincipal with the User.
+     *
+     * @param username The username of the User to retrieve.
+     * @return A new CustomUserPrincipal with the User.
+     * @throws UsernameNotFoundException If the User is not found.
+     */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = customUserRepository.findByUsername(username);
@@ -48,10 +61,24 @@ public class CustomUserDetailsService implements UserDetailsService {
         return new CustomUserPrincipal(user);
     }
 
+    /**
+     * This method checks if a User exists in the CustomUserRepository by their username.
+     *
+     * @param username The username of the User to check.
+     * @return A boolean value indicating if a User exists with the provided username.
+     */
     public boolean existsByUsername(String username) {
         return customUserRepository.existsByUsername(username);
     }
 
+    /**
+     * This method registers a new User.
+     * It checks if the username already exists, sets the User's image, encodes the User's password, sets the User's role, sets the creation and update timestamps, and saves the User in the CustomUserRepository.
+     *
+     * @param user The User to register.
+     * @param passwordEncoder The PasswordEncoder to encode the User's password with.
+     * @return The registered User.
+     */
     public User registerUser(User user, PasswordEncoder passwordEncoder) {
         if (customUserRepository.existsByUsername(user.getUsername())) {
             throw new RuntimeException("Username already exists");
@@ -67,6 +94,15 @@ public class CustomUserDetailsService implements UserDetailsService {
         return customUserRepository.save(user);
     }
 
+    /**
+     * This method registers a new User.
+     * It checks if the username already exists, sets the User's image, encodes the User's password, sets the User's role, sets the creation and update timestamps, and saves the User in the CustomUserRepository.
+     *
+     * @param user The User to register.
+     * @param image The image file for the User.
+     * @param passwordEncoder The PasswordEncoder to encode the User's password with.
+     * @return The registered User.
+     */
     @SneakyThrows
     public User registerUser(User user, MultipartFile image, PasswordEncoder passwordEncoder) {
         if (customUserRepository.existsByUsername(user.getUsername())) {
@@ -86,6 +122,15 @@ public class CustomUserDetailsService implements UserDetailsService {
         return customUserRepository.save(user);
     }
 
+    /**
+     * This method authenticates a User.
+     * It retrieves a User by their username or email, and then checks if the provided password matches the User's password.
+     *
+     * @param username The username or email of the User to authenticate.
+     * @param password The password to authenticate the User with.
+     * @param passwordEncoder The PasswordEncoder to encode the password with.
+     * @return A boolean value indicating if the User is authenticated.
+     */
     public boolean authenticateUser(String username, String password, PasswordEncoder passwordEncoder) {
         User user = customUserRepository.findByUsername(username);
         if (user == null) {
@@ -97,6 +142,14 @@ public class CustomUserDetailsService implements UserDetailsService {
         return false;
     }
 
+    /**
+     * This method authenticates a User.
+     * It retrieves a User by their username or email, and then checks if the provided password matches the User's password.
+     *
+     * @param loginForm The LoginForm object containing the username and password to authenticate.
+     * @param passwordEncoder The PasswordEncoder to encode the password with.
+     * @return A boolean value indicating if the User is authenticated.
+     */
     public boolean authenticateUser(LoginController_s.LoginForm loginForm, PasswordEncoder passwordEncoder) {
         User user = customUserRepository.findByUsername(loginForm.getUsername());
         if (user == null) {
@@ -108,10 +161,22 @@ public class CustomUserDetailsService implements UserDetailsService {
         return false;
     }
 
+    /**
+     * This method checks if a User exists in the CustomUserRepository by their email.
+     *
+     * @param email The email of the User to check.
+     * @return A boolean value indicating if a User exists with the provided email.
+     */
     public boolean existsByEmail(String email) {
         return customUserRepository.existsByEmail(email);
     }
 
+    /**
+     * This method checks if a User exists in the CustomUserRepository by their phone number.
+     *
+     * @param phoneNumber The phone number of the User to check.
+     * @return A boolean value indicating if a User exists with the provided phone number.
+     */
     public boolean existsByPhoneNumber(String phoneNumber) {
         return customUserRepository.existsByPhoneNumber(phoneNumber);
     }

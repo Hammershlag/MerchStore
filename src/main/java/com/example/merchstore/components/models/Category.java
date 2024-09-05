@@ -44,26 +44,45 @@ import static com.example.merchstore.components.utilities.ImageProcessor.getImag
 @Entity
 @Table(name = "categories")
 public class Category implements DataDisplay, ImageDisplay {
+
+    /**
+     * The ID of the category.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "category_id")
     private Long categoryId;
 
+    /**
+     * The name of the category.
+     */
     @Column(name = "name", unique = true, nullable = false)
     private String name;
 
+    /**
+     * The description of the category.
+     */
     @Column(name = "description")
     private String description;
 
+    /**
+     * The image of the category in byte array format.
+     */
     @JsonIgnore
     @JdbcTypeCode(Types.BINARY)
     @Column(name = "image", columnDefinition = "BYTEA", nullable = true)
     private byte[] image;
 
+    /**
+     * A boolean indicating if the category is a main category.
+     */
     @Column(name = "main", nullable = false)
     private boolean main = false;
 
-
+    /**
+     * The copy constructor for the Category class.
+     * @param other The Category object to copy.
+     */
     public Category(Category other) {
         this.categoryId = other.categoryId;
         this.name = other.name;
@@ -72,6 +91,12 @@ public class Category implements DataDisplay, ImageDisplay {
         this.main = other.main;
     }
 
+    /**
+     * The constructor for the Category class.
+     * @param name The name of the category.
+     * @param description The description of the category.
+     * @param main A boolean indicating if the category is a main category.
+     */
     public Category(String name, String description, boolean main) {
         this.name = name;
         this.description = description;
@@ -79,21 +104,44 @@ public class Category implements DataDisplay, ImageDisplay {
         setDefaultImage();
     }
 
+    /**
+     * Get the status of the image.
+     * @return "Uploaded" if the image is not null, "Not uploaded" otherwise.
+     */
     @JsonProperty("imageStatus")
     public String getImageStatus() {
         return image != null ? "Uploaded" : "Not uploaded";
     }
 
+    /**
+     * Display the data of the category.
+     *
+     * @see DataDisplay
+     *
+     * @return a DataDisplay object representing the category data.
+     */
     @Override
     public DataDisplay displayData() {
         return new Category(this);
     }
 
+    /**
+     * Display the limited data of the category.
+     *
+     * @see DataDisplay
+     *
+     * @return null, as it is not implemented yet.
+     */
     @Override
     public DataDisplay limitedDisplayData() {
         return null;
     }
 
+    /**
+     * Set the default image for the category.
+     *
+     * @see ImageDisplay
+     */
     @Override
     public void setDefaultImage() {
         if (image == null || image.length == 0) {
@@ -105,6 +153,13 @@ public class Category implements DataDisplay, ImageDisplay {
         }
     }
 
+    /**
+     * Get the Base64 representation of the image.
+     *
+     * @see ImageDisplay
+     *
+     * @return a String representing the Base64 image.
+     */
     @Override
     public String base64Image() {
         setDefaultImage();

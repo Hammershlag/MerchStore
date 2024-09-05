@@ -32,30 +32,67 @@ import java.util.concurrent.ConcurrentHashMap;
 @Service
 public class GlobalAttributeService {
 
+    /**
+     * The AdRepository dependency is injected by Spring.
+     * @see AdRepository
+     */
     @Autowired
     AdRepository adRepository;
+
+    /**
+     * The list of ads that should be displayed.
+     */
     private List<Ad> ads;
+
+    /**
+     * The Random object used to generate random numbers.
+     */
     private final Random random = new Random();
 
-
+    /**
+     * The map of global attributes.
+     */
     private final Map<String, Object> globalAttributes = new ConcurrentHashMap<>();
 
+    /**
+     * The constructor initializes the isLoggedIn attribute to false.
+     */
     public GlobalAttributeService() {
         globalAttributes.put("isLoggedIn", false);
     }
 
+    /**
+     * This method adds a new global attribute with the provided key and value.
+     *
+     * @param key The key of the attribute.
+     * @param value The value of the attribute.
+     */
     public void addAttribute(String key, Object value) {
         globalAttributes.put(key, value);
     }
 
+    /**
+     * This method returns a copy of the current global attributes.
+     *
+     * @return A copy of the current global attributes.
+     */
     public Map<String, Object> getGlobalAttributes() {
         return new ConcurrentHashMap<>(globalAttributes);
     }
 
+    /**
+     * This method removes the global attribute with the provided key.
+     *
+     * @param key The key of the attribute to remove.
+     */
     public void removeAttribute(String key) {
         globalAttributes.remove(key);
     }
 
+    /**
+     * This method loads all ads that should be displayed from the AdRepository.
+     * It is annotated with @PostConstruct, so it is executed after dependency injection is done.
+     */
     @PostConstruct
     public void loadAds() {
         this.ads = adRepository.findAll().stream()
@@ -63,6 +100,13 @@ public class GlobalAttributeService {
                 .toList();
     }
 
+    /**
+     * This method returns a random subset of the loaded ads.
+     * The number of ads returned is specified by the count parameter.
+     *
+     * @param count The number of ads to return.
+     * @return A list of random ads.
+     */
     public List<Ad> getRandomAds(int count) {
         loadAds();
         return ads.stream()

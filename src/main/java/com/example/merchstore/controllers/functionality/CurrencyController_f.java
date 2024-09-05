@@ -30,17 +30,36 @@ import java.util.List;
 @RequestMapping("/api/currencies")
 public class CurrencyController_f {
 
+    /**
+     * The CurrencyRepository that this controller uses to perform CRUD operations on currencies.
+     * @see CurrencyRepository
+     */
     @Autowired
     private CurrencyRepository currencyRepository;
 
+    /**
+     * The LatestExchangeRateService that this controller uses to retrieve the latest exchange rate for a currency.
+     * @see LatestExchangeRateService
+     */
     @Autowired
     private LatestExchangeRateService latestExchangeRateService;
 
+    /**
+     * Handles the GET request for retrieving all currencies. It retrieves all currencies from the repository and returns them.
+     *
+     * @return All currencies.
+     */
     @GetMapping
     public List<Currency> getAllCurrencies() {
         return currencyRepository.findAll();
     }
 
+    /**
+     * Handles the GET request for retrieving a currency by its short name. It retrieves the currency from the repository, gets the latest exchange rate for the currency, and returns it.
+     *
+     * @param shortName The short name of the currency.
+     * @return The latest exchange rate for the currency.
+     */
     @GetMapping("/{shortName}")
     public Double getCurrencyByShortName(@PathVariable String shortName) {
         return latestExchangeRateService.getLatestExchangeRateForCurrency(currencyRepository.findByShortName(shortName).getId()).getExchangeRate();

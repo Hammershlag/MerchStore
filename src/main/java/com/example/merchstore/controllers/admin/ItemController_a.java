@@ -53,18 +53,40 @@ import static com.example.merchstore.components.utilities.ImageProcessor.*;
 @RequestMapping("/api/admin")
 public class ItemController_a {
 
+    /**
+     * The CategoryRepository that this controller uses to perform CRUD operations on categories.
+     * @see CategoryRepository
+     */
     @Autowired
     private CategoryRepository categoryRepository;
 
+    /**
+     * The ItemRepository that this controller uses to perform CRUD operations on items.
+     * @see ItemRepository
+     */
     @Autowired
     private ItemRepository itemRepository;
 
+    /**
+     * The CurrencyRepository that this controller uses to perform CRUD operations on currencies.
+     * @see CurrencyRepository
+     */
     @Autowired
     private CurrencyRepository currencyRepository;
 
+    /**
+     * The LatestExchangeRateService that this controller uses to get the latest exchange rate for a currency.
+     * @see LatestExchangeRateService
+     */
     @Autowired
     private LatestExchangeRateService latestExchangeRateService;
 
+    /**
+     * Prepares the model for adding a new item and returns the view name.
+     *
+     * @param model The model to be prepared.
+     * @return The view name.
+     */
     @GetMapping("/add/item")
     public String addItem(Model model) {
         model.addAttribute("item", new Item());
@@ -73,6 +95,13 @@ public class ItemController_a {
         return "admin/add/addItem";
     }
 
+    /**
+     * Handles the POST request for adding a new item. It processes the image data, sets the item's properties, saves the item, and redirects to the admin dashboard.
+     *
+     * @param item The item to be added.
+     * @param image The image data for the item.
+     * @return The redirect URL.
+     */
     @SneakyThrows
     @PostMapping("/add/item")
     public String addItem(Item item, @RequestParam("imageData") MultipartFile image) {
@@ -97,6 +126,17 @@ public class ItemController_a {
         return "redirect:/api/admin/dashboard";
     }
 
+    /**
+     * Handles the GET request for viewing items. It retrieves the items based on the search parameter, category, and pagination, adds them to the model, then returns the view name.
+     *
+     * @param request The HttpServletRequest object.
+     * @param categoryId The ID of the category to filter the items by.
+     * @param page The page number.
+     * @param size The number of items per page.
+     * @param search The search parameter.
+     * @param model The model to be prepared.
+     * @return The view name.
+     */
     @GetMapping("/view/items")
     public String viewItems(HttpServletRequest request, @RequestParam(value = "category", required = false) Long categoryId,
                             @RequestParam(value = "page", defaultValue = "0") int page,
@@ -150,6 +190,14 @@ public class ItemController_a {
         return "admin/view/viewItems";
     }
 
+    /**
+     * Handles the GET request for viewing a single item. It retrieves the item and adds it to the model, then returns the view name.
+     *
+     * @param request The HttpServletRequest object.
+     * @param id The ID of the item to view.
+     * @param model The model to be prepared.
+     * @return The view name.
+     */
     @GetMapping("/view/item")
     public String viewItem(HttpServletRequest request, @RequestParam Long id, Model model) {
         Item item = itemRepository.findById(id).orElse(null);
@@ -177,6 +225,13 @@ public class ItemController_a {
         return "admin/view/viewItem";
     }
 
+    /**
+     * Prepares the model for updating an item and returns the view name.
+     *
+     * @param id The ID of the item to update.
+     * @param model The model to be prepared.
+     * @return The view name.
+     */
     @GetMapping("/update/item")
     public String updateItemForm(@RequestParam Long id, Model model) {
         Item item = itemRepository.findById(id).orElse(null);
@@ -189,6 +244,14 @@ public class ItemController_a {
         return "admin/update/updateItem";
     }
 
+    /**
+     * Handles the POST request for updating an item. It validates the item data, updates the item's properties, saves the item, and redirects to the items view.
+     *
+     * @param item The item to be updated.
+     * @param image The image data for the item.
+     * @param categoryId The ID of the category to update the item with.
+     * @return The redirect URL.
+     */
     @SneakyThrows
     @PostMapping("/update/item")
     public String updateItem(Item item,

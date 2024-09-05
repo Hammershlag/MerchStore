@@ -36,12 +36,26 @@ import static com.example.merchstore.components.utilities.ImageProcessor.*;
 @RequestMapping("/api/owner/add/user")
 public class AddUserController_o {
 
+    /**
+     * The CustomUserDetailsService that this controller uses to register a user.
+     * @see CustomUserDetailsService
+     */
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
 
+    /**
+     * The PasswordEncoder that this controller uses to encode the password of a user.
+     * @see PasswordEncoder
+     */
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    /**
+     * Handles the GET request for the add user form. It adds a new User object and the list of roles to the model and returns the view name for the add user form.
+     *
+     * @param model The model to be prepared.
+     * @return The view name for the add user form.
+     */
     @GetMapping("/form")
     public String addUserForm(Model model) {
         model.addAttribute("newUser", new User());
@@ -49,8 +63,15 @@ public class AddUserController_o {
         return "owner/add/user";
     }
 
-    Logger logger = LoggerFactory.getLogger(AddUserController_o.class);
-
+    /**
+     * Handles the POST request for adding a user. It checks if a user with the same username, email, or phone number already exists, processes the image, sets the role of the user, adds the user to the model, registers the user, and returns a redirect view to the dashboard.
+     *
+     * @param user The user to be added.
+     * @param image The image of the user.
+     * @param role The role of the user.
+     * @param model The model to be prepared.
+     * @return The redirect view to the dashboard.
+     */
     @PostMapping
     @ResponseBody
     public RedirectView addUser(@ModelAttribute User user, @RequestParam("imageData") MultipartFile image,
@@ -81,11 +102,7 @@ public class AddUserController_o {
             e.printStackTrace();
             return new RedirectView("/api/owner/add/user/form?error=true");
         }
-        logger.info("Adding user: " + role.toString());
-
         user.setRole(Role.getRole(role));
-
-        logger.info("User role: " + user.getRole().toString());
 
         model.addAttribute("user", user);
 

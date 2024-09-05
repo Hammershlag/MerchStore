@@ -31,6 +31,13 @@ import java.io.InputStream;
  */
 public class ImageProcessor {
 
+    /**
+     * Converts an image file to a byte array.
+     *
+     * @param imagePath The path to the image file.
+     * @return The byte array representation of the image.
+     * @throws IOException If an I/O error occurs.
+     */
     public static byte[] getImageAsByteArray(String imagePath) throws IOException {
         ClassPathResource imgFile = new ClassPathResource(imagePath);
         try (InputStream inputStream = imgFile.getInputStream()) {
@@ -38,6 +45,13 @@ public class ImageProcessor {
         }
     }
 
+    /**
+     * Rotates an image by a specified angle.
+     *
+     * @param image The image to rotate.
+     * @param angle The angle by which to rotate the image.
+     * @return The rotated image.
+     */
     public static BufferedImage rotateImage(BufferedImage image, double angle) {
         double rads = Math.toRadians(angle);
         double sin = Math.abs(Math.sin(rads)), cos = Math.abs(Math.cos(rads));
@@ -56,6 +70,13 @@ public class ImageProcessor {
         return rotated;
     }
 
+    /**
+     * Converts a BufferedImage to a byte array.
+     *
+     * @param image The BufferedImage to convert.
+     * @param formatName The format name of the image.
+     * @return The byte array representation of the image.
+     */
     public static byte[] imageToByteArray(BufferedImage image, String formatName) {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         try {
@@ -66,14 +87,40 @@ public class ImageProcessor {
         return stream.toByteArray();
     }
 
+    /**
+     * Resizes an image to a specified width while maintaining aspect ratio.
+     *
+     * @param originalImage The original image to resize.
+     * @param targetWidth The target width of the resized image.
+     * @return The resized image.
+     * @throws Exception If an error occurs during resizing.
+     */
     public static BufferedImage simpleResizeImage(BufferedImage originalImage, int targetWidth) throws Exception {
         return Scalr.resize(originalImage, targetWidth);
     }
 
+    /**
+     * Resizes an image to specified width and height.
+     *
+     * @param originalImage The original image to resize.
+     * @param targetWidth The target width of the resized image.
+     * @param targetHeight The target height of the resized image.
+     * @return The resized image.
+     * @throws Exception If an error occurs during resizing.
+     */
     public static BufferedImage simpleResizeImage(BufferedImage originalImage, int targetWidth, int targetHeight) throws Exception {
         return Scalr.resize(originalImage, targetWidth, targetHeight);
     }
 
+    /**
+     * Resizes and crops an image to specified width and height.
+     *
+     * @param originalImage The original image to resize and crop.
+     * @param targetWidth The target width of the resized and cropped image.
+     * @param targetHeight The target height of the resized and cropped image.
+     * @return The resized and cropped image.
+     * @throws Exception If an error occurs during resizing and cropping.
+     */
     public static BufferedImage resizeAndCropImage(BufferedImage originalImage, int targetWidth, int targetHeight) throws Exception {
         int originalWidth = originalImage.getWidth();
         int originalHeight = originalImage.getHeight();

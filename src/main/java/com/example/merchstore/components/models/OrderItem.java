@@ -35,28 +35,53 @@ import java.math.BigDecimal;
 @Entity
 @Table(name = "order_items")
 public class OrderItem implements DataDisplay {
+
+    /**
+     * The ID of the order item.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_item_id")
     private Long orderItemId;
 
+    /**
+     * The order to which the item belongs.
+     * @see Order
+     */
     @ManyToOne
     @JoinColumn(name = "order_id", nullable = false)
     private Order order;
 
+    /**
+     * The item in the order.
+     * @see Item
+     */
     @ManyToOne
     @JoinColumn(name = "item_id", nullable = false)
     private Item item;
 
+    /**
+     * The quantity of the item in the order.
+     */
     @Column(name = "quantity", nullable = false)
     private Integer quantity;
 
+    /**
+     * The price of the item in the order.
+     */
     @Column(name = "price", nullable = false)
     private BigDecimal price;
 
+    /**
+     * The price of the item in the order after discount.
+     */
     @Column(name = "price_after_discount", nullable = false)
     private BigDecimal priceAfterDiscount;
 
+    /**
+     * Copy constructor for the OrderItem class.
+     * @param other The OrderItem object to copy.
+     */
     public OrderItem(OrderItem other) {
         this.orderItemId = other.orderItemId;
         this.order = other.order;
@@ -66,11 +91,25 @@ public class OrderItem implements DataDisplay {
         this.priceAfterDiscount = other.priceAfterDiscount;
     }
 
+    /**
+     * Display the data of the order item.
+     *
+     * @see DataDisplay
+     *
+     * @return The data display of the order item.
+     */
     @Override
     public DataDisplay displayData() {
         return new OrderItem(this);
     }
 
+    /**
+     * Display limited data of the order item.
+     *
+     * @see DataDisplay
+     *
+     * @return The limited data display of the order item.
+     */
     @Override
     public DataDisplay limitedDisplayData() {
         return null;

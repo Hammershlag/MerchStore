@@ -24,13 +24,33 @@ import org.springframework.stereotype.Component;
 @Component
 public class Defaults {
 
+    /**
+     * The default image path for user male image
+     */
     public static String DEFAULT_USER_MALE_IMAGE = "static/images/avatars/male_avatar_small.jpg";
+
+    /**
+     * The default image path user female image
+     */
     public static String DEFAULT_USER_FEMALE_IMAGE = "static/images/avatars/female_avatar_small.jpg";
+
+    /**
+     * The default image path for user image
+     */
     public static String DEFAULT_USER_IMAGE = "static/images/avatars/default_avatar_small.jpg";
 
+    /**
+     * The default image path for item image
+     */
     public static String DEFAULT_ITEM_IMAGE = "static/images/avatars/male_avatar_small.jpg";
 
+    /**
+     * The default image path for ad image
+     */
     public static String DEFAULT_AD_IMAGE = "static/images/avatars/male_avatar_small.jpg";
 
+    /**
+     * The default image path for category image
+     */
     public static String DEFAULT_CATEGORY_IMAGE = "static/images/avatars/male_avatar_small.jpg";
 }

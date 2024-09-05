@@ -27,12 +27,25 @@ import java.util.List;
 @Service
 public class BestSellerService {
 
+    /**
+     * The BestSellerRepository dependency is injected by Spring.
+     * @see BestSellerRepository
+     */
     @Autowired
     private BestSellerRepository bestSellerRepository;
 
+    /**
+     * The ItemRepository dependency is injected by Spring.
+     * @see ItemRepository
+     */
     @Autowired
     private ItemRepository itemRepository;
 
+    /**
+     * This method retrieves all the bestsellers from the BestSellerRepository, finds the corresponding Item from the ItemRepository, and adds them to a HashMap with the total sales as the value. The HashMap is then returned.
+     *
+     * @return A HashMap containing the best-selling items and their total sales.
+     */
     public HashMap<Item, Integer> getBestSellers() {
         HashMap<Item, Integer> bestSellers = new HashMap<>();
         bestSellerRepository.findAll().forEach(bestSeller -> {

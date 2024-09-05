@@ -43,18 +43,40 @@ import static com.example.merchstore.components.utilities.ImageProcessor.getImag
 @RequestMapping("/api/image")
 public class ImageController_f {
 
+    /**
+     * The ItemRepository that this controller uses to perform CRUD operations on items.
+     * @see ItemRepository
+     */
     @Autowired
     private ItemRepository itemRepository;
 
+    /**
+     * The CategoryRepository that this controller uses to perform CRUD operations on categories.
+     * @see CategoryRepository
+     */
     @Autowired
     private CategoryRepository categoryRepository;
 
+    /**
+     * The CustomUserRepository that this controller uses to perform CRUD operations on users.
+     * @see CustomUserRepository
+     */
     @Autowired
     private CustomUserRepository userRepository;
 
+    /**
+     * The AdRepository that this controller uses to perform CRUD operations on ads.
+     * @see AdRepository
+     */
     @Autowired
     private AdRepository adRepository;
 
+    /**
+     * Handles the GET request for retrieving an item's image. It retrieves the item from the repository, gets its image, and returns it. If the item or its image is not found, it returns a default image.
+     *
+     * @param id The ID of the item.
+     * @return The item's image.
+     */
     @SneakyThrows
     @GetMapping("/item/{id}")
     public ResponseEntity<byte[]> getItemImage(@PathVariable Long id) {
@@ -66,6 +88,12 @@ public class ImageController_f {
         return getResponseEntity(image);
     }
 
+    /**
+     * Handles the GET request for retrieving a category's image. It retrieves the category from the repository, gets its image, and returns it. If the category or its image is not found, it returns a default image.
+     *
+     * @param id The ID of the category.
+     * @return The category's image.
+     */
     @SneakyThrows
     @GetMapping("/category/{id}")
     public ResponseEntity<byte[]> getCategoryImage(@PathVariable Long id) {
@@ -77,6 +105,12 @@ public class ImageController_f {
         return getResponseEntity(image);
     }
 
+    /**
+     * Handles the GET request for retrieving a user's image. It retrieves the user from the repository, gets its image, and returns it. If the user or its image is not found, it returns a default image.
+     *
+     * @param id The ID of the user.
+     * @return The user's image.
+     */
     @SneakyThrows
     @GetMapping("/user/{id}")
     public ResponseEntity<byte[]> getUserImage(@PathVariable Long id) {
@@ -88,6 +122,12 @@ public class ImageController_f {
         return getResponseEntity(image);
     }
 
+    /**
+     * Handles the GET request for retrieving an ad's image. It retrieves the ad from the repository, gets its image, and returns it. If the ad or its image is not found, it returns a default image.
+     *
+     * @param id The ID of the ad.
+     * @return The ad's image.
+     */
     @SneakyThrows
     @GetMapping("/ad/{id}")
     public ResponseEntity<byte[]> getAdImage(@PathVariable Long id) {
@@ -99,6 +139,12 @@ public class ImageController_f {
         return getResponseEntity(image);
     }
 
+    /**
+     * Creates a ResponseEntity with the provided image data.
+     *
+     * @param image The image data.
+     * @return The ResponseEntity.
+     */
     private ResponseEntity<byte[]> getResponseEntity(byte[] image) {
         ByteBuffer imageBuffer = ByteBuffer.wrap(image);
         byte[] imageData = new byte[imageBuffer.remaining()];

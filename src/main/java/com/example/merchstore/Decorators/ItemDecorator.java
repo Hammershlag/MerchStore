@@ -19,6 +19,12 @@ import java.math.BigDecimal;
  */
 
 public class ItemDecorator {
+
+    /**
+     * This static method creates a default Item object with predefined values and returns it.
+     *
+     * @return A default Item object with predefined values.
+     */
     public static Item create() {
         Item item = new Item();
         item.setItemId(-1L);

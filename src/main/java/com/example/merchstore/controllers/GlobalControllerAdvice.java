@@ -23,9 +23,19 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 @ControllerAdvice
 public class GlobalControllerAdvice {
 
+    /**
+     * The GlobalAttributeService that this controller advice uses to get global attributes.
+     * @see GlobalAttributeService
+     */
     @Autowired
     private GlobalAttributeService globalAttributeService;
 
+
+    /**
+     * This method is invoked before any controller method. It adds all global attributes to the model.
+     *
+     * @param model The model to which the global attributes are added.
+     */
     @ModelAttribute
     public void addAttributes(Model model) {
         model.addAllAttributes(globalAttributeService.getGlobalAttributes());

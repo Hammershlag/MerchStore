@@ -26,9 +26,19 @@ import java.util.List;
 @Service
 public class CheckoutService {
 
+    /**
+     * The CartItemRepository dependency is injected by Spring.
+     * @see CartItemRepository
+     */
     @Autowired
     private CartItemRepository cartItemRepository;
 
+    /**
+     * This method retrieves all the cart items for the provided user from the CartItemRepository. The operation is transactional, meaning it is part of a single unit of work.
+     *
+     * @param user The User entity to retrieve the cart items for.
+     * @return A list of CartItem entities associated with the provided User entity.
+     */
     @Transactional
     public List<CartItem> getUserCartItems(User user) {
         return cartItemRepository.findAllByUser(user);

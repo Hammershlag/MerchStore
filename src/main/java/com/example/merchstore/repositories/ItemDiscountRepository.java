@@ -25,7 +25,27 @@ import java.util.List;
 
 @Repository
 public interface ItemDiscountRepository extends JpaRepository<ItemDiscount, Long> {
+
+    /**
+     * This method retrieves all ItemDiscount entities.
+     *
+     * @return A list of all ItemDiscount entities.
+     */
     List<ItemDiscount> findAll();
+
+    /**
+     * This method retrieves an ItemDiscount entity associated with the provided Discount entity.
+     *
+     * @param discount The Discount entity to retrieve the ItemDiscount entity for.
+     * @return An ItemDiscount entity associated with the provided Discount entity.
+     */
     ItemDiscount findItemDiscountByDiscount(Discount discount);
+
+    /**
+     * This method retrieves a list of ItemDiscount entities associated with the provided Discount entity.
+     *
+     * @param discount The Discount entity to retrieve the ItemDiscount entities for.
+     * @return A list of ItemDiscount entities associated with the provided Discount entity.
+     */
     List<ItemDiscount> findAllByDiscount(Discount discount);
 }

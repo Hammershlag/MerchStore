@@ -22,11 +22,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/join")
 public class JoinController_g {
 
+    /**
+     * Handles the GET request for the loyalty join page. It returns the view name for the loyalty join page.
+     *
+     * @return The view name for the loyalty join page.
+     */
     @GetMapping("/loyalty")
     public String loyalty() {
         return "general/join/loyalty";
     }
 
+    /**
+     * Handles the GET request for the newsletter join page. It returns the view name for the newsletter join page.
+     *
+     * @return The view name for the newsletter join page.
+     */
     @GetMapping("/newsletter")
     public String newsletter() {
         return "general/join/newsletter";

@@ -30,10 +30,36 @@ import java.util.List;
 @Repository
 public interface DiscountRepository extends JpaRepository<Discount, Long> {
 
+    /**
+     * This method retrieves a Discount entity with the provided code.
+     *
+     * @param code The code of the Discount entity to retrieve.
+     * @return A Discount entity with the provided code.
+     */
     Discount findByCode(String code);
+
+    /**
+     * This method retrieves a Discount entity with the provided id.
+     *
+     * @param id The id of the Discount entity to retrieve.
+     * @return A Discount entity with the provided id.
+     */
     Discount findByDiscountId(Long id);
+
+    /**
+     * This method retrieves a list of Discount entities where the code starts with the provided string, ignoring case.
+     *
+     * @param code The string to search for at the beginning of the code.
+     * @return A list of Discount entities where the code starts with the provided string, ignoring case.
+     */
     List<Discount> findByCodeStartingWithIgnoreCase(String code);
 
+    /**
+     * This method retrieves a list of Discount entities that are valid on the provided date.
+     *
+     * @param today The date to check the validity of the discounts for.
+     * @return A list of Discount entities that are valid on the provided date.
+     */
     @Query("SELECT d FROM Discount d WHERE d.validUntil >= :today AND d.validFrom <= :today")
     List<Discount> findAllValidDiscounts(@Param("today") LocalDate today);
 }

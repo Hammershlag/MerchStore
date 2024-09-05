@@ -39,29 +39,74 @@ import java.util.List;
 @RequestMapping("/item")
 public class ItemController_g {
 
+    /**
+     * The CategoryRepository that this controller uses to perform CRUD operations on categories.
+     * @see CategoryRepository
+     */
     @Autowired
     private CategoryRepository categoryRepository;
 
+    /**
+     * The ItemRepository that this controller uses to perform CRUD operations on items.
+     * @see ItemRepository
+     */
     @Autowired
     private ItemRepository itemRepository;
 
+    /**
+     * The ReviewRepository that this controller uses to perform CRUD operations on reviews.
+     * @see ReviewRepository
+     */
     @Autowired
     private ReviewRepository reviewRepository;
 
+    /**
+     * The UserItemHistoryRepository that this controller uses to perform CRUD operations on user item history.
+     * @see UserItemHistoryRepository
+     */
     @Autowired
     private UserItemHistoryRepository userItemHistoryRepository;
 
+    /**
+     * The CurrencyRepository that this controller uses to perform CRUD operations on currencies.
+     * @see CurrencyRepository
+     */
     @Autowired
     private HttpSession session;
 
+    /**
+     * The CurrencyRepository that this controller uses to perform CRUD operations on currencies.
+     * @see CurrencyRepository
+     */
     @Autowired
     private CurrencyRepository currencyRepository;
 
+    /**
+     * The LatestExchangeRateService that this controller uses to retrieve the latest exchange rate for a currency.
+     * @see LatestExchangeRateService
+     */
     @Autowired
     private LatestExchangeRateService latestExchangeRateService;
 
+    /**
+     * The default number of items per page.
+     */
     private static final int DEFAULT_ITEMS_PER_PAGE = 20;
 
+    /**
+     * Handles the GET request for viewing items. It retrieves items based on the provided parameters, retrieves the currency from the cookies, retrieves the latest exchange rate for the currency, adds all these attributes to the model, and returns the view name for the items page.
+     *
+     * @param request The HTTP request.
+     * @param categoryId The ID of the category.
+     * @param sortField The field to sort by.
+     * @param order The order to sort in.
+     * @param page The page number.
+     * @param itemsPerPage The number of items per page.
+     * @param search The search query.
+     * @param searchItems The search query for items.
+     * @param model The model to be prepared.
+     * @return The view name for the items page.
+     */
     @GetMapping("/all")
     public String viewItems(HttpServletRequest request, @RequestParam(value = "category", required = false) Long categoryId,
                             @RequestParam(value = "sortField", required = false, defaultValue = "name") String sortField,
@@ -127,6 +172,15 @@ public class ItemController_g {
         return "general/viewItems";
     }
 
+    /**
+     * Handles the GET request for viewing a single item. It retrieves the item based on the provided id, retrieves the currency from the cookies, retrieves the latest exchange rate for the currency, retrieves the reviews for the item, checks if the user has submitted a review, calculates the average rating, checks the login status, saves the user item history if the user is logged in, adds all these attributes to the model, and returns the view name for the item page.
+     *
+     * @param request The HTTP request.
+     * @param id The ID of the item.
+     * @param addedToCart The message for adding to cart.
+     * @param model The model to be prepared.
+     * @return The view name for the item page.
+     */
     @GetMapping
     public String viewItem(HttpServletRequest request, @RequestParam Long id, @RequestParam(required = false) String addedToCart, Model model) {
         Item item = itemRepository.findById(id).orElse(null);

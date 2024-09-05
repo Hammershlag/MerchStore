@@ -27,6 +27,13 @@ import java.nio.file.Paths;
 @RequestMapping("/documents")
 public class DocumentController_f {
 
+    /**
+     * Handles the GET request for displaying a document. It retrieves the document based on the provided name, reads its content, adds the document name and content to the model, then returns the view name.
+     *
+     * @param documentName The name of the document.
+     * @param model The model to be prepared.
+     * @return The view name.
+     */
     @GetMapping
     public String displayDocument(@RequestParam("name") String documentName, Model model) {
         String documentPath = null;

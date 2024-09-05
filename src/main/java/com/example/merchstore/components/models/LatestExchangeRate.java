@@ -45,25 +45,51 @@ import java.time.LocalDateTime;
 @Table(name = "latest_exchange_rates")
 public class LatestExchangeRate implements DataDisplay {
 
+    /**
+     * The ID of the latest exchange rate.
+     */
     @Id
     @Column(name = "id")
     private Long id;
 
+    /**
+     * The currency associated with this latest exchange rate.
+     * @see Currency
+     */
     @Column(name = "currency_id")
     private Long currencyId;
 
+    /**
+     * The value of the latest exchange rate.
+     */
     @Column(name = "exchange_rate")
     private Double exchangeRate;
 
+    /**
+     * The date and time when the latest exchange rate was last updated.
+     */
     @Column(name = "last_updated")
     private LocalDateTime lastUpdated;
 
-
+    /**
+     * Displays the data of the latest exchange rate.
+     *
+     * @see DataDisplay
+     *
+     * @return The data of the latest exchange rate.
+     */
     @Override
     public DataDisplay displayData() {
         return null;
     }
 
+    /**
+     * Displays limited data of the latest exchange rate.
+     *
+     * @see DataDisplay
+     *
+     * @return The limited data of the latest exchange rate.
+     */
     @Override
     public DataDisplay limitedDisplayData() {
         return null;

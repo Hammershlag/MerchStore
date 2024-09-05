@@ -45,8 +45,8 @@ import java.util.stream.Collectors;
  *     <li>performCheckout(HttpServletRequest request, HttpSession session, Model model, String discountCode): Handles the POST request for performing the checkout. It retrieves the cart items, checks the stock quantity, retrieves the currency from the cookies, creates the order, clears the cart, adds the order to the model, and returns a redirect to the checkout page.</li>
  *     <li>showCheckoutPage(HttpSession session, Model model, Long orderID): Handles the GET request for showing the checkout page. It retrieves the order, checks the user, adds the order and its items to the model, and returns the view name for the order confirmation page.</li>
  *     <li>showAllOrders(HttpSession session, Model model): Handles the GET request for showing all orders. It retrieves all orders of the user, sorts them by order date, adds them to the model, and returns the view name for the orders page.</li>
- *     <li>createOrderFromCartItems(List<CartItem> cartItems, User user, Discount discount, Currency currency, ExchangeRate exchangeRate): Creates an order from the cart items. It creates a new order, saves it, creates the order items, saves them, updates the stock quantity of the items, and returns the order.</li>
- *     <li>clearCart(List<CartItem> cartItems): Clears the cart. It deletes all cart items.</li>
+ *     <li>createOrderFromCartItems(List CartItem cartItems, User user, Discount discount, Currency currency, ExchangeRate exchangeRate): Creates an order from the cart items. It creates a new order, saves it, creates the order items, saves them, updates the stock quantity of the items, and returns the order.</li>
+ *     <li>clearCart(List CartItem cartItems): Clears the cart. It deletes all cart items.</li>
  * </ul>
  *
  * @author Tomasz Zbroszczyk
@@ -58,33 +58,76 @@ import java.util.stream.Collectors;
 @RequestMapping("/user/cart/checkout")
 public class CheckoutController_u {
 
+    /**
+     * The CartItemRepository that this controller uses to perform CRUD operations on cart items.
+     * @see CartItemRepository
+     */
     @Autowired
     private CartItemRepository cartItemRepository;
 
+    /**
+     * The ItemRepository that this controller uses to perform CRUD operations on items.
+     * @see ItemRepository
+     */
     @Autowired
     private ItemRepository itemRepository;
 
+    /**
+     * The OrderRepository that this controller uses to perform CRUD operations on orders.
+     * @see OrderRepository
+     */
     @Autowired
     private OrderRepository orderRepository;
 
+    /**
+     * The OrderItemRepository that this controller uses to perform CRUD operations on order items.
+     * @see OrderItemRepository
+     */
     @Autowired
     private OrderItemRepository orderItemRepository;
 
+    /**
+     * The DiscountRepository that this controller uses to perform CRUD operations on discounts.
+     * @see DiscountRepository
+     */
     @Autowired
     private DiscountRepository discountRepository;
 
+    /**
+     * The ItemDiscountRepository that this controller uses to perform CRUD operations on item discounts.
+     * @see ItemDiscountRepository
+     */
     @Autowired
     private ItemDiscountRepository itemDiscountRepository;
 
+    /**
+     * The SaleRepository that this controller uses to perform CRUD operations on sales.
+     * @see SaleRepository
+     */
     @Autowired
     private SaleRepository saleRepository;
 
+    /**
+     * The CurrencyRepository that this controller uses to perform CRUD operations on currencies.
+     * @see CurrencyRepository
+     */
     @Autowired
     private CurrencyRepository currencyRepository;
 
+    /**
+     * The LatestExchangeRateService that this controller uses to retrieve the latest exchange rate for a currency.
+     * @see LatestExchangeRateService
+     */
     @Autowired
     private LatestExchangeRateService latestExchangeRateService;
 
+    /**
+     * Handles the GET request for downloading the order details as a PDF file. It retrieves the order and its items, generates the PDF file, and sends it as a response.
+     *
+     * @param orderID The ID of the order to download the details for.
+     * @param session The HTTP session.
+     * @param response The HttpServletResponse to send the PDF file to.
+     */
     @SneakyThrows // Handles DocumentException and IOException
     @GetMapping("/file")
     public void getFile(@RequestParam("orderID") Long orderID, HttpSession session, HttpServletResponse response) {
@@ -134,6 +177,15 @@ public class CheckoutController_u {
         document.close();
     }
 
+    /**
+     * Handles the POST request for performing the checkout. It retrieves the cart items, checks the stock quantity, retrieves the currency from the cookies, creates the order, clears the cart, adds the order to the model, and returns a redirect to the checkout page.
+     *
+     * @param request The HTTP request.
+     * @param session The HTTP session.
+     * @param model The model to be prepared.
+     * @param discountCode The discount code to be applied.
+     * @return The redirect to the checkout page.
+     */
     @PostMapping
     public String performCheckout(HttpServletRequest request, HttpSession session, Model model, @RequestParam(value = "discountCode", required = false) String discountCode) {
         User currentUser = (User) session.getAttribute("user");
@@ -184,6 +236,14 @@ public class CheckoutController_u {
         return "redirect:/user/cart/checkout?orderID=" + order.getOrderId();
     }
 
+    /**
+     * Handles the GET request for showing the checkout page. It retrieves the order, checks the user, adds the order and its items to the model, and returns the view name for the order confirmation page.
+     *
+     * @param session The HTTP session.
+     * @param model The model to be prepared.
+     * @param orderID The ID of the order to show the checkout page for.
+     * @return The view name for the order confirmation page.
+     */
     @GetMapping
     public String showCheckoutPage(HttpSession session, Model model, @RequestParam(value = "orderID", required = false) Long orderID) {
         if (orderID == null) {
@@ -208,6 +268,13 @@ public class CheckoutController_u {
         return "user/orderConfirmation";
     }
 
+    /**
+     * Handles the GET request for showing all orders. It retrieves all orders of the user, sorts them by order date, adds them to the model, and returns the view name for the orders page.
+     *
+     * @param session The HTTP session.
+     * @param model The model to be prepared.
+     * @return The view name for the orders page.
+     */
     @GetMapping("/all")
     public String showAllOrders(HttpSession session, Model model) {
         User currentUser = (User) session.getAttribute("user");
@@ -216,6 +283,16 @@ public class CheckoutController_u {
         return "user/orders";
     }
 
+    /**
+     * Creates an order from the cart items. It creates a new order, saves it, creates the order items, saves them, updates the stock quantity of the items, and returns the order.
+     *
+     * @param cartItems The cart items to create the order from.
+     * @param user The user to create the order for.
+     * @param discount The discount to apply to the order.
+     * @param currency The currency to use for the order.
+     * @param exchangeRate The exchange rate to use for the order.
+     * @return The order created from the cart items.
+     */
     private Order createOrderFromCartItems(List<CartItem> cartItems, User user, Discount discount, Currency currency, ExchangeRate exchangeRate) {
         Order order = new Order();
         order.setUser(user);
@@ -268,6 +345,11 @@ public class CheckoutController_u {
         return order;
     }
 
+    /**
+     * Clears the cart. It deletes all cart items.
+     *
+     * @param cartItems The cart items to clear.
+     */
     private void clearCart(List<CartItem> cartItems) {
         for (CartItem item : cartItems) {
             cartItemRepository.delete(item);

@@ -37,16 +37,32 @@ import static com.example.merchstore.components.utilities.ImageProcessor.*;
 @RequestMapping("/api/admin")
 public class CategoryController_a {
 
-
+    /**
+     * The CategoryRepository that this controller uses to perform CRUD operations on categories.
+     * @see CategoryRepository
+     */
     @Autowired
     private CategoryRepository categoryRepository;
 
+    /**
+     * Prepares the model for adding a new category and returns the view name.
+     *
+     * @param model The model to be prepared.
+     * @return The view name.
+     */
     @GetMapping("/add/category")
     public String addCategory(Model model) {
         model.addAttribute("category", new Category());
         return "admin/add/addCategory";
     }
 
+    /**
+     * Handles the POST request for adding a new category. It processes the image data, sets the category's properties, saves the category, and redirects to the admin dashboard.
+     *
+     * @param category The category to be added.
+     * @param image The image data for the category.
+     * @return The redirect URL.
+     */
     @SneakyThrows
     @PostMapping("/add/category")
     public String addCategory(Category category, @RequestParam("imageData") MultipartFile image) {
@@ -72,6 +88,13 @@ public class CategoryController_a {
         return "redirect:/api/admin/dashboard";
     }
 
+    /**
+     * Handles the GET request for viewing categories. It retrieves the categories based on the search parameter and adds them to the model, then returns the view name.
+     *
+     * @param search The search parameter for filtering categories.
+     * @param model The model to be prepared.
+     * @return The view name.
+     */
     @GetMapping("/view/categories")
     public String getAllCategories(@RequestParam(value = "searchCat", required = false) String search, Model model) {
         List<Category> categories;

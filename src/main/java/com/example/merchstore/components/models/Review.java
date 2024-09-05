@@ -37,31 +37,58 @@ import java.time.LocalDateTime;
 @Table(name = "reviews")
 public class Review implements DataDisplay {
 
+    /**
+     * The ID of the review.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "review_id")
     private Long reviewId;
 
+    /**
+     * The user who wrote the review.
+     * @see User
+     */
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    /**
+     * The item that the review is about.
+     * @see Item
+     */
     @ManyToOne
     @JoinColumn(name = "item_id", nullable = false)
     private Item item;
 
+    /**
+     * The text of the review.
+     */
     @Column(name = "description", length = 1500, nullable = false)
     private String description;
 
+    /**
+     * The date and time when the review was created.
+     */
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
+    /**
+     * The date and time when the review was last updated.
+     */
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
 
+    /**
+     * The star rating given in the review.
+     */
     @Column(name = "star_rating", nullable = false)
     private int starRating;
 
+    /**
+     * Copy constructor for the Review class.
+     * @param other The Review object to copy.
+     */
     public Review(Review other) {
         this.reviewId = other.reviewId;
         this.user = other.user;
@@ -72,11 +99,25 @@ public class Review implements DataDisplay {
         this.starRating = other.starRating;
     }
 
+    /**
+     * Displays the data of the review.
+     *
+     * @see DataDisplay
+     *
+     * @return The data display of the review.
+     */
     @Override
     public DataDisplay displayData() {
         return new Review(this);
     }
 
+    /**
+     * Displays limited data of the review.
+     *
+     * @see DataDisplay
+     *
+     * @return The limited data display of the review.
+     */
     @Override
     public DataDisplay limitedDisplayData() {
         return null;

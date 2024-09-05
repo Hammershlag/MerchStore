@@ -34,21 +34,50 @@ import java.util.List;
 @RequestMapping("/review")
 public class ReviewController {
 
+    /**
+     * The ItemRepository that this controller uses to perform CRUD operations on items.
+     * @see ItemRepository
+     */
     @Autowired
     private ItemRepository itemRepository;
 
+    /**
+     * The ReviewRepository that this controller uses to perform CRUD operations on reviews.
+     * @see ReviewRepository
+     */
     @Autowired
     private ReviewRepository reviewRepository;
 
+    /**
+     * The OrderItemRepository that this controller uses to perform CRUD operations on order items.
+     * @see OrderItemRepository
+     */
     @Autowired
     private OrderItemRepository orderItemRepository;
 
+    /**
+     * The OrderRepository that this controller uses to perform CRUD operations on orders.
+     * @see OrderRepository
+     */
     @Autowired
     private OrderRepository orderRepository;
 
+    /**
+     * The HttpSession that this controller uses to store the session.
+     * @see HttpSession
+     */
     @Autowired
     private HttpSession session;
 
+    /**
+     * Handles the POST request for adding a review. It retrieves the item, checks the user, checks if a review by the user for the item already exists, checks the length of the description, checks the rating, checks if the user has ordered the item, creates a new review, saves it, and returns a redirect to the item page.
+     *
+     * @param itemId The ID of the item to be reviewed.
+     * @param description The description of the review.
+     * @param star_rating The rating of the review.
+     * @param model The model to be prepared.
+     * @return A redirect to the item page.
+     */
     @PostMapping("/addReview")
     public String addReview(@RequestParam Long itemId, @RequestParam String description, @RequestParam int star_rating, Model model) {
         Item item = itemRepository.findById(itemId).orElse(null);

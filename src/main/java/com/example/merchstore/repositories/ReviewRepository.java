@@ -26,8 +26,21 @@ import java.util.List;
 @Repository
 public interface ReviewRepository extends JpaRepository<Review, Long> {
 
+    /**
+     * This method retrieves a list of Review entities associated with the provided Item entity.
+     *
+     * @param item The Item entity to retrieve the Review entities for.
+     * @return A list of Review entities associated with the provided Item entity.
+     */
     List<Review> findAllByItem(Item item);
 
+    /**
+     * This method checks if a Review entity exists that is associated with the provided Item and User entities.
+     *
+     * @param item The Item entity to check the Review entity for.
+     * @param user The User entity to check the Review entity for.
+     * @return A boolean value indicating if a Review entity exists that is associated with the provided Item and User entities.
+     */
     boolean existsByItemAndUser(Item item, User user);
 
 }

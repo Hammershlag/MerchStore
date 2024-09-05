@@ -24,9 +24,18 @@ import java.util.Locale;
 @Controller
 public class ConfigController_f {
 
+    /**
+     * The MessageSource that this controller uses to retrieve configuration values.
+     */
     @Autowired
     private MessageSource messageSource;
 
+    /**
+     * Handles the GET request for retrieving a configuration value. It retrieves the value associated with the provided key from the messages.properties file and returns it.
+     *
+     * @param key The key of the configuration value.
+     * @return The configuration value.
+     */
     @GetMapping("/api/config")
     @ResponseBody
     public String getConfigValue(@RequestParam("key") String key) {

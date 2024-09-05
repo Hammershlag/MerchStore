@@ -27,9 +27,20 @@ import java.util.List;
 @Controller
 public class AdController_g {
 
+    /**
+     * The GlobalAttributeService that this controller uses to retrieve random advertisements.
+     * @see GlobalAttributeService
+     */
     @Autowired
     private GlobalAttributeService globalAttributeService;
 
+    /**
+     * Handles the GET request for updating advertisements. It retrieves a list of random advertisements based on the provided maximum number, adds the list to the model, and returns the view name for the advertisement fragment.
+     *
+     * @param model The model to be prepared.
+     * @param maxAds The maximum number of advertisements to display.
+     * @return The view name for the advertisement fragment.
+     */
     @GetMapping("/updateAds")
     public String updateAds(Model model, @RequestParam("maxAds") int maxAds) {
         List<Ad> randomAds = globalAttributeService.getRandomAds(maxAds); // Choose how many ads to display

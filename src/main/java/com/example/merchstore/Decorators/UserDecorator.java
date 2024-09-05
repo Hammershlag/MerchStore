@@ -20,9 +20,14 @@ import java.time.LocalDateTime;
  * @version 1.0
  * @since 28.05.2024
  */
-
 public class UserDecorator {
 
+    /**
+     * This static method creates a default User object with predefined values and a specified username, and returns it.
+     *
+     * @param username The username for the User object.
+     * @return A default User object with predefined values and a specified username.
+     */
     public static User create(String username) {
         User user = new User();
         user.setUserId(Long.MIN_VALUE);

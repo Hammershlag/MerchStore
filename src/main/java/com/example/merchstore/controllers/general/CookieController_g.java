@@ -37,9 +37,21 @@ import java.time.format.DateTimeFormatter;
 @RequestMapping("/cookie")
 public class CookieController_g {
 
+    /**
+     * The UserItemHistoryRepository that this controller uses to perform CRUD operations on user item history.
+     * @see UserItemHistoryRepository
+     */
     @Autowired
     private UserItemHistoryRepository userItemHistoryRepository;
 
+    /**
+     * Handles the GET request for setting a cookie. It creates a new cookie with the provided key and value, sets its max age and path, adds it to the response, and returns a success message.
+     *
+     * @param response The HttpServletResponse to add the cookie to.
+     * @param key The key of the cookie.
+     * @param value The value of the cookie.
+     * @return A success message.
+     */
     @GetMapping("/add")
     public String setCookie(HttpServletResponse response, @RequestParam(name = "key") String key, @RequestParam(name = "value") String value) {
         if (key.equals("history")) {
@@ -54,12 +66,25 @@ public class CookieController_g {
         return "Cookies set successfully";
     }
 
+    /**
+     * Generates a unique key for history cookies based on the current date and time.
+     *
+     * @return A unique key for history cookies.
+     */
     public String historyKey() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd_MM_yyyy_HH_mm_ss");
         LocalDateTime now = LocalDateTime.now();
         return "history_" + formatter.format(now);
     }
 
+    /**
+     * Handles the GET request for retrieving a cookie. It retrieves the cookie with the provided key from the request, checks if the value matches (if provided), and returns the cookie value or a default value.
+     *
+     * @param request The HttpServletRequest to retrieve the cookie from.
+     * @param key The key of the cookie.
+     * @param value The value to match (if provided).
+     * @return The cookie value or a default value.
+     */
     @GetMapping("/get")
     public String getCookie(HttpServletRequest request, @RequestParam(required = true) String key, @RequestParam(required = false, name = "value") String value) {
         Cookie[] cookies = request.getCookies();
@@ -81,6 +106,12 @@ public class CookieController_g {
         return cookieValue;
     }
 
+    /**
+     * Handles the GET request for retrieving all cookies. It retrieves all cookies from the request and returns their names and values.
+     *
+     * @param request The HttpServletRequest to retrieve the cookies from.
+     * @return The names and values of all cookies.
+     */
     @GetMapping("/get/all")
     public String getAllCookies(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
@@ -91,6 +122,12 @@ public class CookieController_g {
         return cookieValue.toString();
     }
 
+    /**
+     * Handles the GET request for retrieving all history cookies. It retrieves all cookies from the request, filters the history cookies, and returns their names and values.
+     *
+     * @param request The HttpServletRequest to retrieve the cookies from.
+     * @return The names and values of all history cookies.
+     */
     @GetMapping("/get/history")
     public String getHistoryCookies(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
@@ -105,6 +142,15 @@ public class CookieController_g {
         return cookieValue.toString();
     }
 
+    /**
+     * Handles the GET request for deleting cookies. It retrieves all cookies from the request, deletes the cookie with the provided key or all cookies if no key is provided, and returns a success message or a count of history cookies and the index of the first history cookie.
+     *
+     * @param session The HttpSession to retrieve the user from.
+     * @param request The HttpServletRequest to retrieve the cookies from.
+     * @param response The HttpServletResponse to delete the cookie from.
+     * @param key The key of the cookie to delete (if provided).
+     * @return A success message or a count of history cookies and the index of the first history cookie.
+     */
     @GetMapping("/delete")
     public String deleteAllCookies(HttpSession session, HttpServletRequest request, HttpServletResponse response, @RequestParam(required = false) String key) {
         Cookie[] cookies = request.getCookies();

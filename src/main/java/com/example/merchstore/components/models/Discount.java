@@ -36,26 +36,49 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "discounts")
 public class Discount implements DataDisplay {
+
+    /**
+     * The ID of the discount.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "discount_id")
     private Long discountId;
 
+    /**
+     * The unique code of the discount.
+     */
     @Column(name = "code", unique = true, nullable = false)
     private String code;
 
+    /**
+     * The description of the discount.
+     */
     @Column(name = "description")
     private String description;
 
+    /**
+     * The percentage of the discount.
+     */
     @Column(name = "discount_percentage", nullable = false)
     private BigDecimal discountPercentage;
 
+    /**
+     * The start date of the discount's validity.
+     */
     @Column(name = "valid_from", nullable = false)
     private LocalDate validFrom;
 
+    /**
+     * The end date of the discount's validity.
+     */
     @Column(name = "valid_until", nullable = false)
     private LocalDate validUntil;
 
+    /**
+     * The copy constructor for the Discount class.
+     * @param other The Discount object to copy.
+     */
     public Discount(Discount other) {
         this.discountId = other.discountId;
         this.code = other.code;
@@ -65,16 +88,35 @@ public class Discount implements DataDisplay {
         this.validUntil = other.validUntil;
     }
 
+    /**
+     * Display the data of the discount.
+     *
+     * @see DataDisplay
+     *
+     * @return a DataDisplay object representing the discount data.
+     */
     @Override
     public DataDisplay displayData() {
         return new Discount(this);
     }
 
+    /**
+     * Display the limited data of the discount.
+     *
+     * @see DataDisplay
+     *
+     * @return null, as it is not implemented yet.
+     */
     @Override
     public DataDisplay limitedDisplayData() {
         return null;
     }
 
+    /**
+     * Check if the discount is valid.
+     *
+     * @return true if the discount is valid, false otherwise.
+     */
     public boolean isValid() {
         LocalDate now = LocalDate.now();
         return now.isAfter(validFrom) && now.isBefore(validUntil);

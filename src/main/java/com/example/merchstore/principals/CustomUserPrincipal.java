@@ -26,12 +26,26 @@ import java.util.Collection;
 
 public class CustomUserPrincipal implements UserDetails {
 
+    /**
+     * The User object associated with the principal.
+     * @see User
+     */
     private User user;
 
+    /**
+     * Constructs a CustomUserPrincipal object with the specified User object.
+     *
+     * @param user The User object associated with the principal.
+     */
     public CustomUserPrincipal(User user) {
         this.user = user;
     }
 
+    /**
+     * Returns a collection of authorities granted to the user.
+     *
+     * @return A collection of authorities granted to the user.
+     */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Collection<GrantedAuthority> authorities = new ArrayList<>();
@@ -39,11 +53,21 @@ public class CustomUserPrincipal implements UserDetails {
         return authorities;
     }
 
+    /**
+     * Returns the password used to authenticate the user.
+     *
+     * @return The password used to authenticate the user.
+     */
     @Override
     public String getPassword() {
         return user.getPassword();
     }
 
+    /**
+     * Returns the username used to authenticate the user.
+     *
+     * @return The username used to authenticate the user.
+     */
     @Override
     public String getUsername() {
         return user.getUsername();

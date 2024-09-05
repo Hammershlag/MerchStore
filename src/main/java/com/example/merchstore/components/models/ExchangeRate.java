@@ -42,21 +42,38 @@ import java.time.LocalDateTime;
 @Table(name = "exchange_rates")
 public class ExchangeRate implements DataDisplay {
 
+    /**
+     * The ID of the exchange rate.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
+    /**
+     * The the currency associated with this exchange rate.
+     * @see Currency
+     */
     @JoinColumn(name = "currency_id")
     @ManyToOne
     private Currency currencyId;
 
+    /**
+     * The value of the exchange rate.
+     */
     @Column(name = "exchange_rate")
     private Double exchangeRate;
 
+    /**
+     * The date and time when the exchange rate was updated.
+     */
     @Column(name = "last_updated")
     private LocalDateTime lastUpdated;
 
+    /**
+     * The copy constructor for the ExchangeRate class.
+     * @param exchangeRate The ExchangeRate object to copy.
+     */
     public ExchangeRate(ExchangeRate exchangeRate) {
         this.id = exchangeRate.getId();
         this.currencyId = exchangeRate.getCurrencyId();
@@ -64,11 +81,25 @@ public class ExchangeRate implements DataDisplay {
         this.lastUpdated = exchangeRate.getLastUpdated();
     }
 
+    /**
+     * Display the data of the exchange rate.
+     *
+     * @see DataDisplay
+     *
+     * @return a DataDisplay object representing the exchange rate data.
+     */
     @Override
     public DataDisplay displayData() {
         return new ExchangeRate(this);
     }
 
+    /**
+     * Display the limited data of the exchange rate.
+     *
+     * @see DataDisplay
+     *
+     * @return a DataDisplay object representing the limited exchange rate data.
+     */
     @Override
     public DataDisplay limitedDisplayData() {
         return null;

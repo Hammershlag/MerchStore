@@ -24,7 +24,20 @@ import java.util.List;
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Long> {
 
+    /**
+     * This method retrieves a Category entity with the provided name.
+     *
+     * @param name The name of the Category entity to retrieve.
+     * @return A Category entity with the provided name.
+     */
     Category findByName(String name);
+
+    /**
+     * This method retrieves a list of Category entities where the name starts with the provided string, ignoring case.
+     *
+     * @param name The string to search for at the beginning of the name.
+     * @return A list of Category entities where the name starts with the provided string, ignoring case.
+     */
     List<Category> findByNameStartingWithIgnoreCase(String name);
 
 }

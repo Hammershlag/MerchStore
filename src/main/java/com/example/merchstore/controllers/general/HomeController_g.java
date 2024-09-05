@@ -36,24 +36,56 @@ import java.util.logging.Logger;
 @Controller
 public class HomeController_g {
 
+    /**
+     * The CategoryRepository that this controller uses to perform CRUD operations on categories.
+     * @see CategoryRepository
+     */
     @Autowired
     private CategoryRepository categoryRepository;
 
+    /**
+     * The BestSellerService that this controller uses to retrieve the best sellers.
+     * @see BestSellerService
+     */
     @Autowired
     private BestSellerService bestSellersService;
 
+    /**
+     * The ItemRepository that this controller uses to perform CRUD operations on items.
+     * @see ItemRepository
+     */
     @Autowired
     private ItemRepository itemRepository;
 
+    /**
+     * The UserItemHistoryService that this controller uses to retrieve the newest browsed items for a user.
+     * @see UserItemHistoryService
+     */
     @Autowired
     private UserItemHistoryService userItemHistoryService;
 
+    /**
+     * The CurrencyRepository that this controller uses to perform CRUD operations on currencies.
+     * @see CurrencyRepository
+     */
     @Autowired
     private CurrencyRepository currencyRepository;
 
+    /**
+     * The LatestExchangeRateService that this controller uses to retrieve the latest exchange rate for a currency.
+     * @see LatestExchangeRateService
+     */
     @Autowired
     private LatestExchangeRateService latestExchangeRateService;
 
+    /**
+     * Handles the GET request for the home page. It retrieves the login status, currency, and user history from the session and cookies, retrieves the latest exchange rate for the currency, adds all these attributes to the model, and returns the view name for the home page.
+     *
+     * @param request The HTTP request.
+     * @param session The HTTP session.
+     * @param model The model to be prepared.
+     * @return The view name for the home page.
+     */
     @GetMapping("/home")
     public String home(HttpServletRequest request, HttpSession session, Model model) {
         Boolean isLoggedIn = (Boolean) session.getAttribute("isLoggedIn");

@@ -23,14 +23,26 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @version 1.0
  * @since 03.06.2024
  */
-
 @Controller
 @RequestMapping("/api/admin")
 public class UserController_a {
 
+    /**
+     * The CustomUserRepository that this controller uses to perform CRUD operations on users.
+     * @see CustomUserRepository
+     */
     @Autowired
     private CustomUserRepository userRepository;
 
+    /**
+     * Handles the GET request for viewing users. It retrieves the users based on the search parameter and pagination, adds them to the model, then returns the view name.
+     *
+     * @param page The page number.
+     * @param size The number of users per page.
+     * @param search The search parameter.
+     * @param model The model to be prepared.
+     * @return The view name.
+     */
     @GetMapping("/view/users")
     public String viewUsers(@RequestParam(value = "page", defaultValue = "0") int page,
                             @RequestParam(value = "size", defaultValue = "10") int size,

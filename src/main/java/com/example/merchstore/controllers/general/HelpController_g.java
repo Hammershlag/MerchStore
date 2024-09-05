@@ -23,21 +23,41 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/help")
 public class HelpController_g {
 
+    /**
+     * Handles the request for the contact help page. It returns the view name for the contact help page.
+     *
+     * @return The view name for the contact help page.
+     */
     @RequestMapping("/contact")
     public String contact() {
         return "general/help/contact";
     }
 
+    /**
+     * Handles the request for the FAQ help page. It returns the view name for the FAQ help page.
+     *
+     * @return The view name for the FAQ help page.
+     */
     @RequestMapping("/faq")
     public String faq() {
         return "general/help/faq";
     }
 
+    /**
+     * Handles the request for the returns help page. It returns the view name for the returns help page.
+     *
+     * @return The view name for the returns help page.
+     */
     @RequestMapping("/returns")
     public String returns() {
         return "general/help/returns";
     }
 
+    /**
+     * Handles the request for the customer service help page. It returns the view name for the customer service help page.
+     *
+     * @return The view name for the customer service help page.
+     */
     @RequestMapping("customer-service")
     public String customerService() {
         return "general/help/customer-service";

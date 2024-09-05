@@ -21,6 +21,12 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface LatestExchangeRateRepository extends JpaRepository<LatestExchangeRate, Long> {
 
+    /**
+     * This method retrieves the most recent LatestExchangeRate entity associated with the provided currency id, ordered by the lastUpdated field in descending order.
+     *
+     * @param currencyId The currency id to retrieve the most recent LatestExchangeRate entity for.
+     * @return The most recent LatestExchangeRate entity associated with the provided currency id.
+     */
     LatestExchangeRate findFirstByCurrencyIdOrderByLastUpdatedDesc(Long currencyId);
 
 }

@@ -29,16 +29,30 @@ import java.util.List;
  * @version 1.0
  * @since 03.09.2024
  */
-
 @Service
 public class UserItemHistoryService {
 
+    /**
+     * The DataSource dependency is injected by Spring.
+     * @see DataSource
+     */
     @Autowired
     private DataSource dataSource;
 
+    /**
+     * The ItemRepository dependency is injected by Spring.
+     * @see ItemRepository
+     */
     @Autowired
     private ItemRepository itemRepository;
 
+    /**
+     * This method retrieves the 10 most recently browsed items for the provided user from the database.
+     * It uses a SQL query to get the item IDs of the most recently browsed items, and then fetches the corresponding Item objects from the ItemRepository.
+     *
+     * @param userId The ID of the user to retrieve the most recently browsed items for.
+     * @return A list of the 10 most recently browsed items for the provided user.
+     */
     public List<Item> getNewestBrowsedItemsForUser(Long userId) {
         List<Item> items = new ArrayList<>();
 

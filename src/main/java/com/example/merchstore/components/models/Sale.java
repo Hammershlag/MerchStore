@@ -36,21 +36,38 @@ import java.time.LocalDateTime;
 @Table(name = "sales")
 public class Sale implements DataDisplay {
 
+    /**
+     * The ID of the sale.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
+    /**
+     * The item that was sold.
+     * @see Item
+     */
     @ManyToOne
     @JoinColumn(name = "item_id")
     private Item item;
 
+    /**
+     * The quantity of the item that was sold.
+     */
     @Column(name = "quantity")
     private Integer quantity;
 
+    /**
+     * The date and time when the sale occurred.
+     */
     @Column(name = "sale_date")
     private LocalDateTime saleDate;
 
+    /**
+     * Copy constructor for the Sale class.
+     * @param sale The Sale object to copy.
+     */
     public Sale(Sale sale) {
         this.id = sale.getId();
         this.item = sale.getItem();
@@ -58,11 +75,25 @@ public class Sale implements DataDisplay {
         this.saleDate = sale.getSaleDate();
     }
 
+    /**
+     * Displays the data of the sale.
+     *
+     * @see DataDisplay
+     *
+     * @return The data display of the sale.
+     */
     @Override
     public DataDisplay displayData() {
         return new Sale(this);
     }
 
+    /**
+     * Displays limited data of the sale.
+     *
+     * @see DataDisplay
+     *
+     * @return The limited data display of the sale.
+     */
     @Override
     public DataDisplay limitedDisplayData() {
         return null;
