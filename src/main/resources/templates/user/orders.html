@@ -52,6 +52,8 @@
                         <th>Order Status</th>
                         <th>Total Amount</th>
                         <th>Discount</th>
+                        <th>Currency</th>
+                        <th>Exchamge rate</th>
                         <th>Actions</th>
                     </tr>
                     <tr th:each="order : ${orders}">
@@ -60,6 +62,8 @@
                         <td th:text="${order.status}">Pending</td>
                         <td th:text="${order.totalAmount}">$0.00</td>
                         <td th:text="${order.discount.discountPercentage}">Discount</td>
+                        <td th:text="${order.currency.shortName}">PLN</td>
+                        <td th:text="${order.exchangeRate.exchangeRate}">1.00</td>
                         <td>
                             <a th:href="'/user/cart/checkout?orderID=' + ${order.orderId}">View</a>
                         </td>

@@ -6,8 +6,10 @@ import com.example.merchstore.components.models.*;
 import com.example.merchstore.repositories.*;
 import com.example.merchstore.services.CheckoutService;
 import com.example.merchstore.services.CustomUserDetailsService;
+import com.example.merchstore.services.LatestExchangeRateService;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfWriter;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -65,6 +67,12 @@ public class CheckoutController_u {
     @Autowired
     private SaleRepository saleRepository;
 
+    @Autowired
+    private CurrencyRepository currencyRepository;
+
+    @Autowired
+    private LatestExchangeRateService latestExchangeRateService;
+
     @SneakyThrows // Handles DocumentException and IOException
     @GetMapping("/file")
     public void getFile(@RequestParam("orderID") Long orderID, HttpSession session, HttpServletResponse response) {
@@ -115,7 +123,7 @@ public class CheckoutController_u {
     }
 
     @PostMapping
-    public String performCheckout(HttpSession session, Model model, @RequestParam(value = "discountCode", required = false) String discountCode) {
+    public String performCheckout(HttpServletRequest request, HttpSession session, Model model, @RequestParam(value = "discountCode", required = false) String discountCode) {
         User currentUser = (User) session.getAttribute("user");
         List<CartItem> cartItems = cartItemRepository.findAllByUser(currentUser);
         List<String> insufficientStockItems = new ArrayList<>();
@@ -144,7 +152,20 @@ public class CheckoutController_u {
             return "redirect:/user/cart";
         }
 
-        Order order = createOrderFromCartItems(cartItems, currentUser, discount);
+        Currency currency = currencyRepository.findById(1L).orElse(null);
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("currency")) {
+                    currency = currencyRepository.findByShortName(cookie.getValue());
+                }
+            }
+        }
+
+        ExchangeRate exchangeRate = latestExchangeRateService.getLatestExchangeRateForCurrency(currency.getId());
+
+        Order order = createOrderFromCartItems(cartItems, currentUser, discount, currency, exchangeRate);
+
         clearCart(cartItems);
 
         model.addAttribute("order", order);
@@ -183,13 +204,18 @@ public class CheckoutController_u {
         return "user/orders";
     }
 
-    private Order createOrderFromCartItems(List<CartItem> cartItems, User user, Discount discount) {
+    private Order createOrderFromCartItems(List<CartItem> cartItems, User user, Discount discount, Currency currency, ExchangeRate exchangeRate) {
         Order order = new Order();
         order.setUser(user);
         order.setOrderDate(LocalDateTime.now());
         order.setStatus(OrderStatus.UNPAID);
         order.setTotalAmount(BigDecimal.ZERO);
         order.setDiscount(discount);
+        order.setCurrency(currency);
+        order.setExchangeRate(exchangeRate);
+
+        System.out.println("Currency: " + currency.getShortName());
+        System.out.println("Exchange Rate: " + exchangeRate.getExchangeRate());
 
         orderRepository.save(order);
 

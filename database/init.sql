@@ -71,8 +71,12 @@ CREATE TABLE orders (
                         status VARCHAR(50) DEFAULT 'pending' NOT NULL,
                         total_amount DECIMAL(10, 2) NOT NULL,
                         discount_id INT,
+                        currency_id INT NOT NULL DEFAULT 1,
+                        exchange_rate_id INT NOT NULL DEFAULT 1,
                         FOREIGN KEY (user_id) REFERENCES users(user_id),
-                        FOREIGN KEY (discount_id) REFERENCES discounts(discount_id)
+                        FOREIGN KEY (discount_id) REFERENCES discounts(discount_id),
+                        FOREIGN KEY (currency_id) REFERENCES currencies(id),
+                        FOREIGN KEY (exchange_rate_id) REFERENCES exchange_rates(id)
 );
 
 -- Create order_items table
@@ -203,11 +207,10 @@ CREATE TABLE exchange_rates (
 
 -- Create a view to get the latest exchange rates for each currency
 CREATE VIEW latest_exchange_rates AS
-SELECT er1.currency_id, er1.exchange_rate, er1.last_updated
+SELECT er1.id, er1.currency_id, er1.exchange_rate, er1.last_updated
 FROM exchange_rates er1
          JOIN (
     SELECT currency_id, MAX(last_updated) AS max_last_updated
     FROM exchange_rates
     GROUP BY currency_id
 ) er2 ON er1.currency_id = er2.currency_id AND er1.last_updated = er2.max_last_updated;
-

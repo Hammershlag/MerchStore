@@ -67,7 +67,7 @@ public class LatestExchangeRateService {
             updateExchangeRates();
             latestExchangeRate = latestExchangeRateRepository.findFirstByCurrencyIdOrderByLastUpdatedDesc(currencyId);
         }
-        return new ExchangeRate(-1L, currencyRepository.findById(latestExchangeRate.getCurrencyId()).orElse(null), latestExchangeRate.getExchangeRate(), latestExchangeRate.getLastUpdated());
+        return new ExchangeRate(latestExchangeRate.getId(), currencyRepository.findById(latestExchangeRate.getCurrencyId()).orElse(null), latestExchangeRate.getExchangeRate(), latestExchangeRate.getLastUpdated());
     }
 
     public List<ExchangeRate> getAllLatestExchangeRates() {

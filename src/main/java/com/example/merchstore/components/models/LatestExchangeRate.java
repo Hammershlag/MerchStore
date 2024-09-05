@@ -31,6 +31,9 @@ import java.time.LocalDateTime;
 public class LatestExchangeRate implements DataDisplay {
 
     @Id
+    @Column(name = "id")
+    private Long id;
+
     @Column(name = "currency_id")
     private Long currencyId;
 

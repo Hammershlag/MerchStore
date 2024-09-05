@@ -43,6 +43,14 @@ public class Order implements DataDisplay {
     @JoinColumn(name = "discount_id")
     private Discount discount;
 
+    @ManyToOne
+    @JoinColumn(name = "currency_id")
+    private Currency currency;
+
+    @ManyToOne
+    @JoinColumn(name = "exchange_rate_id")
+    private ExchangeRate exchangeRate;
+
 
     public Order(Order other) {
         this.orderId = other.orderId;
@@ -51,6 +59,8 @@ public class Order implements DataDisplay {
         this.status = other.status;
         this.totalAmount = other.totalAmount;
         this.discount = other.discount;
+        this.currency = other.currency;
+        this.exchangeRate = other.exchangeRate;
     }
 
     @Override
