@@ -28,28 +28,24 @@
             searchBox.addEventListener('input', function() {
               let searchText = this.value;
               if (searchText.trim() === '') {
-                // If the search bar is empty, clear the searchResultsContainer
                 searchResultsContainer.innerHTML = '';
               } else {
                 fetch(`/item/search?search=${searchText}`)
                         .then(response => response.text())
                         .then(html => {
-                          // Use the HTML to update your page
                           searchResultsContainer.innerHTML = html;
                         });
               }
             });
 
             searchBox.addEventListener('focus', function() {
-              // Add the 'visible' class when the search box is focused
               searchResultsContainer.style.display = 'block';
             });
 
             searchBox.addEventListener('blur', function() {
-              // Remove the 'visible' class when the search box is blurred
               setTimeout(function() {
                 searchResultsContainer.style.display = 'none';
-              }, 300); // Delay hiding to allow for click events on search results
+              }, 300);
             });
           });
         </script>
