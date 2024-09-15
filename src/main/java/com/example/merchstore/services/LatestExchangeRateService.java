@@ -98,7 +98,7 @@ public class LatestExchangeRateService {
      */
     public ExchangeRate getLatestExchangeRateForCurrency(Long currencyId) {
         LatestExchangeRate latestExchangeRate = latestExchangeRateRepository.findFirstByCurrencyIdOrderByLastUpdatedDesc(currencyId);
-        if (latestExchangeRate == null || Duration.between(latestExchangeRate.getLastUpdated(), LocalDateTime.now()).toHours() > 24) {
+        if (latestExchangeRate == null || Duration.between(latestExchangeRate.getLastUpdated(), LocalDateTime.now()).toHours() > 6) {
             updateExchangeRates();
             latestExchangeRate = latestExchangeRateRepository.findFirstByCurrencyIdOrderByLastUpdatedDesc(currencyId);
         }

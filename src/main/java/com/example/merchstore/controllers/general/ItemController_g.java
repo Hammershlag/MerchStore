@@ -236,5 +236,31 @@ public class ItemController_g {
         return "general/viewItem";
     }
 
+    @GetMapping("/search")
+    public String searchItems(HttpServletRequest request, @RequestParam String search, Model model) {
+        if (search.isEmpty()) {
+            return "fragments/itemSearchResults";
+        }
+        List<Item> items = itemRepository.findTop3ByNameStartingWithIgnoreCase(search);
+        model.addAttribute("searchItems", items);
+
+        Currency currency = currencyRepository.findById(1L).orElse(null);
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("currency")) {
+                    currency = currencyRepository.findByShortName(cookie.getValue());
+                }
+            }
+        }
+
+        ExchangeRate exchangeRate = latestExchangeRateService.getLatestExchangeRateForCurrency(currency.getId());
+
+        model.addAttribute("currency", currency);
+        model.addAttribute("exchangeRate", exchangeRate);
+
+        return "fragments/itemSearchResults";
+    }
+
 
 }

@@ -11,6 +11,7 @@ nav {
 
 nav .nav-left {
     margin-right: 20px;
+    width: 25%;
 }
 
 nav .nav-left .app-name {
@@ -36,11 +37,15 @@ nav .nav-center {
     justify-content: center;
     margin-left: auto;
     margin-right: auto;
+    width: 50%;
 }
 
 nav .nav-right {
     display: flex;
     align-items: center;
+    justify-content: flex-end;
+    width: 25%;
+
 }
 
 nav .nav-right a {
@@ -105,4 +110,17 @@ nav .nav-center a img {
 
 nav label {
     display: none;
+}
+
+#searchResultsContainer {
+    position: absolute;
+    top: 60px; /* Position it below the search box */
+    left: 50%; /* Position it at the middle horizontally */
+    transform: translate(-50%, 0); /* This ensures the center of the element is at the middle, not the top-left corner */
+    display: none; /* Hide it by default */
+    z-index: 1; /* Ensure it appears above other elements */
+}
+
+#search:focus ~ #searchResultsContainer {
+    display: block; /* Show it when the search box is focused */
 }

@@ -13,36 +13,75 @@
       <a href="/" class="app-name" th:text="#{app.name}">Name of App</a>
     </div>
     <div class="nav-center">
+
       <a href="/item/all">
         <img src="/images/icons/shop.png" alt="Shop">
       </a>
+
       <form action="/item/all" method="get" class="search-form">
         <input type="text" id="search" name="search" placeholder="Search" th:value="${search}">
+        <script>
+          window.addEventListener('load', function() {
+            var searchBox = document.getElementById('search');
+            var searchResultsContainer = document.getElementById('searchResultsContainer');
+
+            searchBox.addEventListener('input', function() {
+              let searchText = this.value;
+              if (searchText.trim() === '') {
+                // If the search bar is empty, clear the searchResultsContainer
+                searchResultsContainer.innerHTML = '';
+              } else {
+                fetch(`/item/search?search=${searchText}`)
+                        .then(response => response.text())
+                        .then(html => {
+                          // Use the HTML to update your page
+                          searchResultsContainer.innerHTML = html;
+                        });
+              }
+            });
+
+            searchBox.addEventListener('focus', function() {
+              // Add the 'visible' class when the search box is focused
+              searchResultsContainer.style.display = 'block';
+            });
+
+            searchBox.addEventListener('blur', function() {
+              // Remove the 'visible' class when the search box is blurred
+              setTimeout(function() {
+                searchResultsContainer.style.display = 'none';
+              }, 300); // Delay hiding to allow for click events on search results
+            });
+          });
+        </script>
         <button type="submit">
           <img src="/images/icons/search.png" alt="Search">
         </button>
       </form>
     </div>
-    <p id="exchangeRate" style="color: black">PLN -> <span></span></p>
-    <select id="currencySelect">
-      <!-- Options will be populated by JavaScript -->
-    </select>
-    <div class="nav-right" th:if="${isLoggedIn && user != null}">
-      <a href="/user/cart">
-        <img src="/images/icons/cart.png" alt="Cart">
-      </a>
-      <a href="/profile">
-        <div class="profile">
-          <img th:src="@{'/api/image/user/' + ${user.userId}}" alt="User Image" class="profile-image">
-          <span th:text="${user.username}"></span>
-        </div>
-      </a>
-      <a href="/api/logout">Logout</a>
+    <div class="nav-right">
+      <p id="exchangeRate" style="color: black">PLN -> <span></span></p>
+      <select id="currencySelect">
+        <!-- Options will be populated by JavaScript -->
+      </select>
+      <div th:if="${isLoggedIn && user != null}">
+        <a href="/user/cart">
+          <img src="/images/icons/cart.png" alt="Cart">
+        </a>
+        <a href="/profile">
+          <div class="profile">
+            <img th:src="@{'/api/image/user/' + ${user.userId}}" alt="User Image" class="profile-image">
+            <span th:text="${user.username}"></span>
+          </div>
+        </a>
+        <a href="/api/logout">Logout</a>
+      </div>
+      <div th:if="${!isLoggedIn || user == null}">
+        <a href="/api/login/form">Login</a>
+      </div>
     </div>
-    <div class="nav-right" th:if="${!isLoggedIn || user == null}">
-      <a href="/api/login/form">Login</a>
-    </div>
+
   </nav>
+  <div id="searchResultsContainer"></div>
 </div>
 
 </body>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Item Search Result</title>
+    <link rel="stylesheet" href="../../static/css/itemSearchResult.css">
+</head>
+<body>
+<div th:fragment="itemSearchResult">
+    <div class="item-search-result-box">
+        <!--/*@thymesVar id="searchItem" type="com.example.merchstore.components.models.Item"*/-->
+        <a th:href="@{'/item?id=' + ${searchItem.itemId}}">
+            <div class="item-search-result">
+                <div class="item-search-result-image">
+                    <img th:src="@{'/api/image/item/' + ${searchItem.itemId}}" alt="Item Image">
+                </div>
+                <div class="item-search-result-info">
+                    <div class="item-search-result-name" th:text="${searchItem.name}"></div>
+                    <div class="item-search-result-price" th:text="${#numbers.formatDecimal(searchItem.price * exchangeRate.exchangeRate, 1, 2)} + ${currency.symbol}"></div>
+                </div>
+            </div>
+        </a>
+    </div>
+</div>
+</body>
+</html>
