@@ -19,7 +19,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * The ItemController_g class handles the web requests related to items in the application.
@@ -241,7 +244,19 @@ public class ItemController_g {
         if (search.isEmpty()) {
             return "fragments/itemSearchResults";
         }
-        List<Item> items = itemRepository.findTop3ByNameStartingWithIgnoreCase(search);
+        Set<Item> itemsSet = new LinkedHashSet<>(itemRepository.findTop3ByNameStartingWithIgnoreCase(search));
+        if (itemsSet.size() < 3) {
+            List<Item> itemsContaining = itemRepository.findTop3ByNameContainingIgnoreCase(search);
+            for (Item item : itemsContaining) {
+                if (!itemsSet.contains(item)) {
+                    itemsSet.add(item);
+                }
+                if (itemsSet.size() == 3) {
+                    break;
+                }
+            }
+        }
+        List<Item> items = new ArrayList<>(itemsSet);
         model.addAttribute("searchItems", items);
 
         Currency currency = currencyRepository.findById(1L).orElse(null);

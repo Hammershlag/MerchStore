@@ -107,5 +107,6 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
 
 
     List<Item> findTop3ByNameStartingWithIgnoreCase(String name);
+    List<Item> findTop3ByNameContainingIgnoreCase(String name);
 
 }
