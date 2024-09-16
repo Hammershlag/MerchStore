@@ -1,17 +1,3 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>View Ads</title>
-
-    <style>
-        .ad-item {
-            margin-bottom: 20px;
-        }
-    </style>
-
-</head>
-<body>
 <div th:fragment="ad">
     <div id="ads-container" style="display: flex; flex-direction: column; justify-content: center; align-items: center; margin-top: 10%;">
         <div th:each="ad, iterStat : ${ads}" class="ad-item" th:onclick="|window.location='/item?id=' + ${ad.item.itemId}|"
@@ -22,7 +8,3 @@
         </div>
     </div>
 </div>
-
-
-</body>
-</html>

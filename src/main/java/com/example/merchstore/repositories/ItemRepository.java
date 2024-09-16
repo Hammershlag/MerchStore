@@ -106,7 +106,7 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
     Page<Item> findByCategoryAndNameStartingWithIgnoreCase(Category category, String name, Pageable pageable);
 
 
-    List<Item> findTop3ByNameStartingWithIgnoreCase(String name);
-    List<Item> findTop3ByNameContainingIgnoreCase(String name);
+    List<Item> findTop3ByNameStartingWithIgnoreCaseAndStockQuantityGreaterThan(String name, int quantity);
+    List<Item> findTop3ByNameContainingIgnoreCaseAndStockQuantityGreaterThan(String name, int quantity);
 
 }

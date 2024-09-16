@@ -1,12 +1,3 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Item Search Results</title>
-    <link rel="stylesheet" href="../../static/css/itemSearchResult.css">
-    <link rel="stylesheet" href="../../static/css/itemSearchResults.css">
-</head>
-<body>
 <div th:fragment="itemSearchResults">
     <div class="item-search-results-box">
         <div th:each="searchItem : ${searchItems}">
@@ -14,5 +5,3 @@
         </div>
     </div>
 </div>
-</body>
-</html>

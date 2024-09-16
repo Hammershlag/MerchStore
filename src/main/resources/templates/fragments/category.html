@@ -1,10 +1,3 @@
-<!DOCTYPE html>
-<head>
-    <meta charset="UTF-8">
-    <title>Category</title>
-    <link rel="stylesheet" href="../../static/css/category.css">
-</head>
-<body>
 <div th:fragment="category">
     <div class="category-container">
         <a th:href="@{'/item/all?category=' + ${category.categoryId}}">
@@ -15,5 +8,3 @@
         </a>
     </div>
 </div>
-</body>
-</html>
