@@ -1,12 +1,3 @@
-<!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8">
-  <title>Navbar Fragment</title>
-  <link th:href="@{/css/nav.css}" rel="stylesheet">
-</head>
-<body>
-<!-- navbar.html -->
 <div th:fragment="navbar">
   <nav>
     <div class="nav-left">
@@ -59,7 +50,7 @@
       <select id="currencySelect">
         <!-- Options will be populated by JavaScript -->
       </select>
-      <div th:if="${isLoggedIn && user != null}">
+      <div th:if="${isLoggedIn && user != null}" class="nav-user">
         <a href="/user/cart">
           <img src="/images/icons/cart.png" alt="Cart">
         </a>
@@ -71,7 +62,7 @@
         </a>
         <a href="/api/logout">Logout</a>
       </div>
-      <div th:if="${!isLoggedIn || user == null}">
+      <div th:if="${!isLoggedIn || user == null}" class="nav-user">
         <a href="/api/login/form">Login</a>
       </div>
     </div>
@@ -79,6 +70,3 @@
   </nav>
   <div id="searchResultsContainer"></div>
 </div>
-
-</body>
-</html>

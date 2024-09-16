@@ -244,9 +244,9 @@ public class ItemController_g {
         if (search.isEmpty()) {
             return "fragments/itemSearchResults";
         }
-        Set<Item> itemsSet = new LinkedHashSet<>(itemRepository.findTop3ByNameStartingWithIgnoreCase(search));
+        Set<Item> itemsSet = new LinkedHashSet<>(itemRepository.findTop3ByNameStartingWithIgnoreCaseAndStockQuantityGreaterThan(search, 0));
         if (itemsSet.size() < 3) {
-            List<Item> itemsContaining = itemRepository.findTop3ByNameContainingIgnoreCase(search);
+            List<Item> itemsContaining = itemRepository.findTop3ByNameContainingIgnoreCaseAndStockQuantityGreaterThan(search, 0);
             for (Item item : itemsContaining) {
                 if (!itemsSet.contains(item)) {
                     itemsSet.add(item);
