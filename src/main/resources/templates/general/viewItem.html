@@ -47,9 +47,65 @@
         .review-form {
             margin-top: 20px;
         }
+
+         .star-checkbox {
+             display: none;
+         }
+
+        .star-label {
+            cursor: pointer;
+        }
+
+        .star-checkbox:checked + .star-label .star-svg {
+            fill: yellow;
+        }
     </style>
 </head>
 <body>
+<script>
+    // Get the id parameter from the current URL
+    const urlParamsWishList = new URLSearchParams(window.location.search);
+    const id = urlParamsWishList.get('id');
+
+    function changeWishlistStatus() {
+        var xhr = new XMLHttpRequest();
+        var url = "/user/wishlist/change?itemId=" + id;
+        xhr.open("POST", url, true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                var json = JSON.parse(xhr.responseText);
+                document.getElementById("wishlist").checked = json;
+                // Update the display of the divs based on the checked status of the checkbox
+                document.getElementById("addToWishlist").style.display = json ? "none" : "block";
+                document.getElementById("removeFromWishlist").style.display = json ? "block" : "none";
+            }
+        };
+        xhr.send();
+    }
+
+    // Call the function on page load to set the initial display of the divs
+    window.onload = function() {
+        // Get the id parameter from the current URL
+        const urlParamsWishList = new URLSearchParams(window.location.search);
+        const id = urlParamsWishList.get('id');
+
+        // Fetch the wishlist status from the server
+        fetch('/user/wishlist/get', {
+            method: 'GET',
+        })
+            .then(response => response.json())
+            .then(data => {
+                // Check if the item is in the wishlist
+                const isWishListed = data.some(wishlistItem => wishlistItem.item.itemId === id);
+                document.getElementById("addToWishlist").style.display = isWishListed ? "none" : "block";
+                document.getElementById("removeFromWishlist").style.display = isWishListed ? "block" : "none";
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    }
+</script>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 <div th:replace="~{fragments/layout :: layout(left_content=${left_content}, content=${content}, right_content=${right_content})}">
     <th:block th:fragment="left_content">
@@ -103,6 +159,16 @@
                 <img th:src="@{'/api/image/item/' + ${item.itemId}}" alt="Item Image" class="item-image">
                 <div class="item-details">
                     <h2 th:text="${item.name}">Item Name</h2>
+                    <div th:if="${isLoggedIn && user != null}" style="display: flex; align-items: center;">
+                        <input type="checkbox" id="wishlist" class="star-checkbox" th:checked="${isWishListed}" onchange="changeWishlistStatus()"/>
+                        <label for="wishlist" class="star-label">
+                            <svg class="star-svg" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                            </svg>
+                        </label>
+                        <div id="addToWishlist" style="display: none; margin-left: 10px;">Add to Wishlist</div>
+                        <div id="removeFromWishlist" style="display: none; margin-left: 10px;">Remove from Wishlist</div>
+                    </div>
                     <p th:text="${item.description}">Item Description</p>
                     <p class="price" th:text="${#numbers.formatDecimal(item.price * exchangeRate.exchangeRate, 1, 2)} + ${currency.symbol}">Item Price</p>
                     <p th:if="${item.stockQuantity > 0}">Stock Quantity: <span th:text="${item.stockQuantity}">0</span></p>

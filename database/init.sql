@@ -239,3 +239,11 @@ FROM exchange_rates er1
     GROUP BY currency_id
 ) er2 ON er1.currency_id = er2.currency_id AND er1.last_updated = er2.max_last_updated;
 
+-- Create a table to store items wish-listed by users
+CREATE TABLE wishlist (
+                          wishlist_id SERIAL PRIMARY KEY,
+                          user_id INT,
+                          item_id INT,
+                          FOREIGN KEY (user_id) REFERENCES users(user_id),
+                          FOREIGN KEY (item_id) REFERENCES items(item_id)
+);
