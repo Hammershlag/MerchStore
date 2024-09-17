@@ -51,6 +51,10 @@
     <th:block th:fragment="content">
         <div>
             <h2>Items</h2>
+            <div th:if="${isLoggedIn && user != null}">
+                <a href="/user/wishlist/all" style="text-decoration: none; color: black; border: 1px solid black; padding: 5px">View Wishlist</a>
+            </div>
+        </div>
             <form action="/item/all" method="get">
                 <label for="category">Filter by Category:</label>
                 <select id="category" name="category">

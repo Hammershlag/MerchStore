@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Wishlist</title>
+    <th:block th:replace="~{fragments/header :: headerfiles}"></th:block>
+
+</head>
+<body>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+<div th:replace="~{fragments/layout :: layout(left_content=${left_content}, content=${content}, right_content=${right_content})}">
+    <th:block th:fragment="left_content">
+        <p></p>
+    </th:block>
+    <th:block th:fragment="content">
+        <div>
+            <div class="wish-listed-items-panel-container">
+                <p class="wish-listed-items-panel-title">Wishlisted Items</p>
+                <div class="wish-listed-items-panel">
+                    <div th:each="wishlistItem : ${wishlistItems}">
+                        <div class="wish-listed-item">
+                            <div th:with="item_mini=${wishlistItem.item}">
+                                <div  th:replace="~{fragments/itemMini :: itemMini}"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </th:block>
+    <th:block th:fragment="right_content">
+        <p></p>
+    </th:block>
+</div>
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

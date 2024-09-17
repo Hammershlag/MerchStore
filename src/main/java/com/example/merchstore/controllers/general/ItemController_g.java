@@ -91,6 +91,9 @@ public class ItemController_g {
     @Autowired
     private LatestExchangeRateService latestExchangeRateService;
 
+    @Autowired
+    private WishlistItemRepository wishlistItemRepository;
+
     /**
      * The default number of items per page.
      */
@@ -185,11 +188,13 @@ public class ItemController_g {
      * @return The view name for the item page.
      */
     @GetMapping
-    public String viewItem(HttpServletRequest request, @RequestParam Long id, @RequestParam(required = false) String addedToCart, Model model) {
+    public String viewItem(HttpSession session, HttpServletRequest request, @RequestParam Long id, @RequestParam(required = false) String addedToCart, Model model) {
         Item item = itemRepository.findById(id).orElse(null);
         if (item == null) {
             return "redirect:/item/all";
         }
+
+
 
         Currency currency = currencyRepository.findById(1L).orElse(null);
         Cookie[] cookies = request.getCookies();
@@ -226,11 +231,17 @@ public class ItemController_g {
         Boolean isLoggedIn = (Boolean) session.getAttribute("isLoggedIn");
         if (isLoggedIn == null) {
             isLoggedIn = false;
+            model.addAttribute("isWishListed", false);
         }
+
+
 
         if (isLoggedIn) {
             User user = (User) session.getAttribute("user");
             userItemHistoryRepository.save(new UserItemHistory(user, item));
+
+            model.addAttribute("isWishListed", wishlistItemRepository.existsByItemAndUser(item, user));
+
         }
 
         model.addAttribute("averageRating", averageRating);

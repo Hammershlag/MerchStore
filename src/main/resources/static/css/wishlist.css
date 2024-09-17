@@ -1,0 +1,21 @@
+.wish-listed-items-panel-container {
+    width: inherit;
+
+}
+
+.wish-listed-items-panel-container .wish-listed-items-panel-title {
+    font-size: 1.8em;
+    font-weight: bold;
+    margin-bottom: 10px;
+    display: block;
+    text-align: center;
+}
+
+.wish-listed-items-panel-container .wish-listed-items-panel {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    margin-left: 10px;
+    margin-right: 10px;
+}
