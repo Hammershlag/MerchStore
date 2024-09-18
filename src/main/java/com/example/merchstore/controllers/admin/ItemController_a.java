@@ -1,12 +1,7 @@
 package com.example.merchstore.controllers.admin;
 
-import com.example.merchstore.components.models.Category;
-import com.example.merchstore.components.models.Currency;
-import com.example.merchstore.components.models.ExchangeRate;
-import com.example.merchstore.components.models.Item;
-import com.example.merchstore.repositories.CategoryRepository;
-import com.example.merchstore.repositories.CurrencyRepository;
-import com.example.merchstore.repositories.ItemRepository;
+import com.example.merchstore.components.models.*;
+import com.example.merchstore.repositories.*;
 import com.example.merchstore.services.LatestExchangeRateService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -81,6 +76,12 @@ public class ItemController_a {
     @Autowired
     private LatestExchangeRateService latestExchangeRateService;
 
+    @Autowired
+    private AttributeTypeRepository attributeTypeRepository;
+
+    @Autowired
+    private AttributesRepository attributesRepository;
+
     /**
      * Prepares the model for adding a new item and returns the view name.
      *
@@ -91,7 +92,9 @@ public class ItemController_a {
     public String addItem(Model model) {
         model.addAttribute("item", new Item());
         List<Category> categories = categoryRepository.findAll();
+        List<AttributeType> attributeTypes = attributeTypeRepository.findAll();
         model.addAttribute("categories", categories);
+        model.addAttribute("attributeTypes", attributeTypes);
         return "admin/add/addItem";
     }
 
@@ -104,7 +107,10 @@ public class ItemController_a {
      */
     @SneakyThrows
     @PostMapping("/add/item")
-    public String addItem(Item item, @RequestParam("imageData") MultipartFile image) {
+    public String addItem(Item item,
+                          @RequestParam("imageData") MultipartFile image,
+                          @RequestParam("attributeType[]") String[] attributeTypes,
+                          @RequestParam("attributeValue[]") String[] attributeValues) {
         if (!image.isEmpty()) {
             BufferedImage bufferedImage = ImageIO.read(image.getInputStream());
 
@@ -114,15 +120,34 @@ public class ItemController_a {
             bufferedImage = resizeAndCropImage(bufferedImage, 200, 200);
             byte[] imageBytes = imageToByteArray(bufferedImage, image.getOriginalFilename().substring(image.getOriginalFilename().lastIndexOf(".") + 1));
             item.setImage(imageBytes);
-
         } else {
             item.setImage(new byte[0]);
         }
 
         item.setCreatedAt(LocalDateTime.now());
+        item.setCurrency(currencyRepository.findById(1L).orElse(null));
         item.setUpdatedAt(LocalDateTime.now());
 
-        itemRepository.save(item);
+        item = itemRepository.save(item);
+
+        for (int i = 0; i < attributeTypes.length; i++) {
+            String attributeTypeName = attributeTypes[i];
+            String attributeValue = attributeValues[i];
+
+            AttributeType attributeType = attributeTypeRepository.findByName(attributeTypeName);
+            if (attributeType == null) {
+                attributeType = new AttributeType();
+                attributeType.setName(attributeTypeName);
+                attributeType = attributeTypeRepository.save(attributeType);
+            }
+
+            Attribute attribute = new Attribute();
+            attribute.setAttributeType(attributeType);
+            attribute.setValue(attributeValue);
+            attribute.setItem(item);
+            attributesRepository.save(attribute);
+        }
+
         return "redirect:/api/admin/dashboard";
     }
 
@@ -219,7 +244,8 @@ public class ItemController_a {
         model.addAttribute("currency", currency);
         model.addAttribute("exchangeRate", exchangeRate);
 
-
+        List<Attribute> attributes = attributesRepository.findAllByItem(item);
+        model.addAttribute("attributes", attributes);
 
         model.addAttribute("item", item);
         return "admin/view/viewItem";

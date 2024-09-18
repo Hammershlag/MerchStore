@@ -247,3 +247,18 @@ CREATE TABLE wishlist (
                           FOREIGN KEY (user_id) REFERENCES users(user_id),
                           FOREIGN KEY (item_id) REFERENCES items(item_id)
 );
+
+CREATE TABLE attribute_types (
+    attribute_type_id SERIAL PRIMARY KEY,
+    name VARCHAR(50) UNIQUE NOT NULL
+);
+
+CREATE TABLE attributes (
+    attribute_id SERIAL PRIMARY KEY,
+    value VARCHAR(50) NOT NULL,
+    attribute_type_id INT NOT NULL,
+    item_id INT NOT NULL,
+    FOREIGN KEY (attribute_type_id) REFERENCES attribute_types(attribute_type_id),
+    FOREIGN KEY (item_id) REFERENCES items(item_id),
+    UNIQUE (attribute_type_id, item_id)
+);

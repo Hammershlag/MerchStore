@@ -94,6 +94,9 @@ public class ItemController_g {
     @Autowired
     private WishlistItemRepository wishlistItemRepository;
 
+    @Autowired
+    private AttributesRepository attributesRepository;
+
     /**
      * The default number of items per page.
      */
@@ -210,6 +213,9 @@ public class ItemController_g {
 
         model.addAttribute("currency", currency);
         model.addAttribute("exchangeRate", exchangeRate);
+
+        List<Attribute> attributes = attributesRepository.findAllByItem(item);
+        model.addAttribute("attributes", attributes);
 
 
         List<Review> reviews = reviewRepository.findAllByItem(item);

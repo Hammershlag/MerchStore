@@ -170,6 +170,12 @@
                         <div id="removeFromWishlist" style="display: none; margin-left: 10px;">Remove from Wishlist</div>
                     </div>
                     <p th:text="${item.description}">Item Description</p>
+                    <div th:each="attribute : ${attributes}" th:if="${attributes.size() > 0 && attributes != null}">
+                        <div class="attributePair" style="border: black solid 1px; display: inline-block; padding-left: 10px; padding-right: 10px">
+                            <p th:text="${attribute.attributeType.name}">Attribute Key</p>
+                            <p th:text="${attribute.value}">Attribute Value</p>
+                        </div>
+                    </div>
                     <p class="price" th:text="${#numbers.formatDecimal(item.price * exchangeRate.exchangeRate, 1, 2)} + ${currency.symbol}">Item Price</p>
                     <p th:if="${item.stockQuantity > 0}">Stock Quantity: <span th:text="${item.stockQuantity}">0</span></p>
                     <p>Category: <span th:text="${item.category.name}">Category Name</span></p>
@@ -184,6 +190,7 @@
                 </div>
                 <p th:if="${item.stockQuantity == 0}" class="out-of-stock">Currently out of stock. Wait for new supply.</p>
                 <p th:if="${item.stockQuantity < 0}" class="out-of-stock">This item will no longer be supplied again.</p>
+
                 <!-- Reviews Section -->
                 <div class="reviews">
                     <h3>Reviews</h3>

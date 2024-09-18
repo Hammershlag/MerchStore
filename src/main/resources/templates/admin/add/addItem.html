@@ -27,6 +27,13 @@
       });
     });
   </script>
+  <style>
+    .attributePair {
+      border: 1px solid #000;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+  </style>
 </head>
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
@@ -56,6 +63,47 @@
           <option value="">Select Category</option>
           <option th:each="category : ${categories}" th:value="${category.categoryId}" th:text="${category.name + ' - ' + category.description}"></option>
         </select><br>
+
+        <div id="attributesContainer">
+          <div class="attributePair">
+            <label for="attributeType">Attribute Type:</label><br>
+            <input list="attributeTypes" id="attributeType" name="attributeType[]" required>
+            <datalist id="attributeTypes">
+              <option th:each="attributeType : ${attributeTypes}" th:value="${attributeType.name}" th:text="${attributeType.name}"></option>
+            </datalist><br>
+
+            <label for="attributeValue">Attribute Value:</label><br>
+            <input type="text" id="attributeValue" name="attributeValue[]" required><br>
+          </div>
+        </div>
+
+        <button type="button" id="addMore" style="display: none;">Add More</button> <br>
+        <script>
+          document.addEventListener('DOMContentLoaded', function() {
+            var attributeTypeInput = document.getElementById('attributeType');
+            var attributeValueInput = document.getElementById('attributeValue');
+            var addMoreButton = document.getElementById('addMore');
+
+            function checkFields() {
+              if (attributeTypeInput.value && attributeValueInput.value) {
+                addMoreButton.style.display = 'block';
+              } else {
+                addMoreButton.style.display = 'none';
+              }
+            }
+
+            attributeTypeInput.addEventListener('input', checkFields);
+            attributeValueInput.addEventListener('input', checkFields);
+
+            addMoreButton.addEventListener('click', function() {
+              var attributesContainer = document.getElementById('attributesContainer');
+              var newAttributePair = document.querySelector('.attributePair').cloneNode(true);
+              newAttributePair.querySelector('#attributeType').value = '';
+              newAttributePair.querySelector('#attributeValue').value = '';
+              attributesContainer.appendChild(newAttributePair);
+            });
+          });
+        </script>
 
         <label for="imageData">Image:</label><br>
         <input type="file" id="imageData" name="imageData"><br>
