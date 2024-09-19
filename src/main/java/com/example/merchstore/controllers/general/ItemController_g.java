@@ -197,6 +197,8 @@ public class ItemController_g {
             return "redirect:/item/all";
         }
 
+        String categoryHierarchy = item.getCategory().buildCategoryHierarchy(item.getCategory());
+        model.addAttribute("categoryHierarchy", categoryHierarchy);
 
 
         Currency currency = currencyRepository.findById(1L).orElse(null);

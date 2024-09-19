@@ -178,7 +178,7 @@
                     </div>
                     <p class="price" th:text="${#numbers.formatDecimal(item.price * exchangeRate.exchangeRate, 1, 2)} + ${currency.symbol}">Item Price</p>
                     <p th:if="${item.stockQuantity > 0}">Stock Quantity: <span th:text="${item.stockQuantity}">0</span></p>
-                    <p>Category: <span th:text="${item.category.name}">Category Name</span></p>
+                    <p>Category: <span th:text="${categoryHierarchy}">Category Hierarchy</span></p>
                 </div>
                 <div th:if="${item.stockQuantity > 0}">
                     <form th:action="@{/user/cart/add}" method="post">

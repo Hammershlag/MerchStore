@@ -79,6 +79,10 @@ public class Category implements DataDisplay, ImageDisplay {
     @Column(name = "main", nullable = false)
     private boolean main = false;
 
+    @ManyToOne
+    @JoinColumn(name = "parent_category_id")
+    private Category parentCategory;
+
     /**
      * The copy constructor for the Category class.
      * @param other The Category object to copy.
@@ -89,6 +93,7 @@ public class Category implements DataDisplay, ImageDisplay {
         this.description = other.description;
         this.image = other.image;
         this.main = other.main;
+        this.parentCategory = other.parentCategory;
     }
 
     /**
@@ -97,10 +102,11 @@ public class Category implements DataDisplay, ImageDisplay {
      * @param description The description of the category.
      * @param main A boolean indicating if the category is a main category.
      */
-    public Category(String name, String description, boolean main) {
+    public Category(String name, String description, boolean main, Category parentCategory) {
         this.name = name;
         this.description = description;
         this.main = main;
+        this.parentCategory = parentCategory;
         setDefaultImage();
     }
 
@@ -164,5 +170,13 @@ public class Category implements DataDisplay, ImageDisplay {
     public String base64Image() {
         setDefaultImage();
         return Base64.getEncoder().encodeToString(image);
+    }
+
+    public String buildCategoryHierarchy(Category category) {
+        if (category.getParentCategory() != null) {
+            return buildCategoryHierarchy(category.getParentCategory()) + " -> " + category.getName();
+        } else {
+            return category.getName();
+        }
     }
 }

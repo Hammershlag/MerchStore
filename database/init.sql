@@ -19,11 +19,13 @@ CREATE TABLE users (
 
 -- Create categories table
 CREATE TABLE categories (
-                            category_id SERIAL PRIMARY KEY,
-                            name VARCHAR(100) UNIQUE NOT NULL,
-                            description TEXT,
-                            image BYTEA,
-                            main BOOLEAN DEFAULT FALSE NOT NULL
+            category_id SERIAL PRIMARY KEY,
+            name VARCHAR(100) UNIQUE NOT NULL,
+            description TEXT,
+            image BYTEA,
+            main BOOLEAN DEFAULT FALSE NOT NULL,
+            parent_category_id INT,
+            FOREIGN KEY (parent_category_id) REFERENCES categories(category_id)
 );
 
 -- Create items table
