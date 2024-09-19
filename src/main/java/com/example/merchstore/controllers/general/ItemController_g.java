@@ -132,13 +132,16 @@ public class ItemController_g {
 
         Pageable pageable = PageRequest.of(page - 1, itemsPerPage, Sort.Direction.fromString(order), sortField);
 
+
         Page<Item> itemPage;
         if (categoryId != null) {
             Category category = categoryRepository.findById(categoryId).orElse(null);
             if (category != null) {
+                List<Category> subcategories = categoryRepository.findAllSubcategories(categoryId);
+                subcategories.add(category); // Include the selected category itself
                 itemPage = (search != null && !search.isEmpty()) ?
-                        itemRepository.findByCategoryAndNameStartingWithIgnoreCase(category, search, pageable) :
-                        itemRepository.findByCategory(category, pageable);
+                        itemRepository.findByCategoryInAndNameStartingWithIgnoreCase(subcategories, search, pageable) :
+                        itemRepository.findByCategoryIn(subcategories, pageable);
             } else {
                 itemPage = Page.empty();
             }
@@ -168,7 +171,7 @@ public class ItemController_g {
 
 
         model.addAttribute("items", items);
-        model.addAttribute("categories", categoryRepository.findAll());
+        model.addAttribute("categories", categoryRepository.findAll().stream().filter(Category::isShouldDisplay).toList());
         model.addAttribute("selectedCategoryId", categoryId);
         model.addAttribute("sortField", sortField);
         model.addAttribute("order", order);

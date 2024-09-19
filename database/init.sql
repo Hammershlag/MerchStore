@@ -25,6 +25,7 @@ CREATE TABLE categories (
             image BYTEA,
             main BOOLEAN DEFAULT FALSE NOT NULL,
             parent_category_id INT,
+            should_display BOOLEAN DEFAULT TRUE NOT NULL,
             FOREIGN KEY (parent_category_id) REFERENCES categories(category_id)
 );
 

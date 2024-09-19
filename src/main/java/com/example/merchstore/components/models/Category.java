@@ -83,6 +83,9 @@ public class Category implements DataDisplay, ImageDisplay {
     @JoinColumn(name = "parent_category_id")
     private Category parentCategory;
 
+    @Column(name = "should_display", nullable = false)
+    private boolean shouldDisplay;
+
     /**
      * The copy constructor for the Category class.
      * @param other The Category object to copy.
@@ -94,6 +97,7 @@ public class Category implements DataDisplay, ImageDisplay {
         this.image = other.image;
         this.main = other.main;
         this.parentCategory = other.parentCategory;
+        this.shouldDisplay = other.shouldDisplay;
     }
 
     /**
@@ -107,6 +111,7 @@ public class Category implements DataDisplay, ImageDisplay {
         this.description = description;
         this.main = main;
         this.parentCategory = parentCategory;
+        this.shouldDisplay = true;
         setDefaultImage();
     }
 
