@@ -53,4 +53,9 @@ public class Defaults {
      * The default image path for category image
      */
     public static String DEFAULT_CATEGORY_IMAGE = "static/images/avatars/male_avatar_small.jpg";
+
+    public static int BACKUP_INTERVAL_HOURS = 1;
+    public static int BACKUP_INTERVAL_MINUTES = 0;
+    public static int BACKUP_INTERVAL_SECONDS = 0;
+    public static int BACKUP_INTERVAL = ((BACKUP_INTERVAL_HOURS * 60 + BACKUP_INTERVAL_MINUTES) * 60 + BACKUP_INTERVAL_SECONDS) * 1000;
 }

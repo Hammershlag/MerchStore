@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Define the backup directory
-backup_dir="backups"
+backup_dir="database/backups"
 
 # Check if the backup directory exists, if not, create it
 [ ! -d "$backup_dir" ] && mkdir -p "$backup_dir"
@@ -10,7 +10,7 @@ backup_dir="backups"
 file_count=$(ls -1 $backup_dir | wc -l)
 
 # If there are 5 or more files, delete the oldest one
-if [ "$file_count" -ge 5 ]; then
+if [ "$file_count" -ge 6 ]; then
     # Find the oldest file and delete it
     oldest_file=$(ls -t $backup_dir | tail -1)
     rm "$backup_dir/$oldest_file"
