@@ -49,6 +49,10 @@
         <p></p>
     </th:block>
     <th:block th:fragment="content">
+        <div class="categoryTree">
+            <div th:replace="~{fragments/categoryTree :: categoryTree(categoryList=${parentCategories}, first=${true})}"></div>
+        </div>
+
         <div>
             <h2>Items</h2>
             <div th:if="${isLoggedIn && user != null}">

@@ -1,6 +1,7 @@
 package com.example.merchstore.repositories;
 
 import com.example.merchstore.components.models.Category;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -52,5 +53,8 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
             ") " +
             "SELECT * FROM subcategories", nativeQuery = true)
     List<Category> findAllSubcategories(@Param("categoryId") Long categoryId);
+
+    @EntityGraph(attributePaths = {"childCategories"})
+    List<Category> findByParentCategoryIsNullAndShouldDisplayTrue();
 
 }

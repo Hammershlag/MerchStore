@@ -1,6 +1,7 @@
 package com.example.merchstore.controllers.general;
 
 import com.example.merchstore.components.models.*;
+import com.example.merchstore.components.models.Currency;
 import com.example.merchstore.repositories.*;
 import com.example.merchstore.services.LatestExchangeRateService;
 import jakarta.servlet.http.Cookie;
@@ -14,15 +15,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * The ItemController_g class handles the web requests related to items in the application.
@@ -132,6 +128,10 @@ public class ItemController_g {
 
         Pageable pageable = PageRequest.of(page - 1, itemsPerPage, Sort.Direction.fromString(order), sortField);
 
+        List<Category> parentCategories = categoryRepository.findByParentCategoryIsNullAndShouldDisplayTrue();
+        parentCategories.forEach(this::loadCategoryChildren);
+
+        model.addAttribute("parentCategories", parentCategories);
 
         Page<Item> itemPage;
         if (categoryId != null) {
@@ -300,4 +300,7 @@ public class ItemController_g {
     }
 
 
+    private void loadCategoryChildren(Category category) {
+        category.getChildCategories().forEach(this::loadCategoryChildren);
+    }
 }

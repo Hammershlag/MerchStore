@@ -12,7 +12,9 @@ import org.hibernate.annotations.JdbcTypeCode;
 
 import java.io.IOException;
 import java.sql.Types;
+import java.util.ArrayList;
 import java.util.Base64;
+import java.util.List;
 
 import static com.example.merchstore.components.utilities.Defaults.DEFAULT_CATEGORY_IMAGE;
 import static com.example.merchstore.components.utilities.Defaults.DEFAULT_ITEM_IMAGE;
@@ -85,6 +87,10 @@ public class Category implements DataDisplay, ImageDisplay {
 
     @Column(name = "should_display", nullable = false)
     private boolean shouldDisplay;
+
+    @OneToMany(mappedBy = "parentCategory", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Category> childCategories = new ArrayList<>();
+
 
     /**
      * The copy constructor for the Category class.
@@ -184,4 +190,5 @@ public class Category implements DataDisplay, ImageDisplay {
             return category.getName();
         }
     }
+
 }

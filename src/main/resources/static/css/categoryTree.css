@@ -1,0 +1,68 @@
+/* Parent list items */
+.categoryTree {
+    display: block; /* Hide children by default */
+    padding-left: 10px;
+    white-space: nowrap; /* Ensure long text does not wrap */
+    background-color: white; /* Optional: give a background color for better visibility */
+    border: 1px solid #ddd; /* Optional: border for better visibility */
+}
+
+.categoryTree ul {
+    list-style-type: none; /* Remove default bullets */
+    padding: 0;
+    margin: 0;
+}
+
+.categoryTree a {
+    text-decoration: none; /* Remove underline */
+    color: black; /* Default text color */
+}
+
+/* Hide nested child lists */
+.categoryTree ul li ul {
+    display: block; /* Hide children by default */
+    padding-left: 10px;
+    white-space: nowrap; /* Ensure long text does not wrap */
+    background-color: white; /* Optional: give a background color for better visibility */
+    border: 1px solid #ddd; /* Optional: border for better visibility */
+    z-index: 1000; /* Ensure the child list appears above other elements */
+}
+
+/* Show the child list on hover */
+.categoryTree ul li:hover > ul {
+    display: block; /* Make the child list visible when hovering */
+}
+
+/* Arrow for parents with children */
+.categoryTree li > a::after {
+    content: " >";
+    padding-left: 5px;
+}
+
+/* Arrow for parents with children */
+.categoryTree li > a .symbol::after {
+    content: " >";
+}
+
+.categoryTree li:hover > a .symbol::after {
+    content: " ▼"; /* Change arrow direction on hover */
+}
+
+.categoryTree li:not(:hover) > div:not(.first){
+    display: none; /* Hide the arrow when not hovering */
+}
+
+.categoryTree li:not(:hover) > div.first{
+    display: block; /* Hide the arrow when not hovering */
+}
+
+/* Remove arrow for items with no children */
+.categoryTree li > a:not(.symbol)::after {
+    content: "";
+}
+
+/* Underline the text on hover */
+.categoryTree a:hover{
+    text-decoration: underline; /* Underline the text on hover */
+}
+
