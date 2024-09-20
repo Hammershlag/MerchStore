@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="20" height="20" viewBox="0 0 200 200" xml:space="preserve">
+    <g xmlns="http://www.w3.org/2000/svg" transform="matrix(1.16 0 0 1.16 80.44 79.28)">
+        <circle style="stroke: rgb(0,0,0); stroke-width: 3; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: none; fill-rule: nonzero; opacity: 1;" vector-effect="non-scaling-stroke" cx="0" cy="0" r="40"/>
+    </g>
+    <g xmlns="http://www.w3.org/2000/svg" transform="matrix(4.87 0 0 4.87 137.7 148.65)">
+        <line style="stroke: rgb(0,0,0); stroke-width: 3; stroke-dasharray: ; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: round; stroke-miterlimit: 4; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;" vector-effect="non-scaling-stroke" x1="-5.078469405748546" y1="-6.018926703109388" x2="5.078469405748546" y2="6.018926703109388"/>
+    </g>
+</svg>

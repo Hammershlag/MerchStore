@@ -6,7 +6,7 @@
     <div class="nav-center">
 
       <a href="/item/all">
-        <img src="/images/icons/shop.png" alt="Shop">
+        <img src="/svg/shopping_bag.svg" alt="Shop">
       </a>
 
       <form action="/item/all" method="get" class="search-form">
@@ -41,7 +41,7 @@
           });
         </script>
         <button type="submit">
-          <img src="/images/icons/search.png" alt="Search">
+          <img src="/svg/search/search.svg" alt="Search">
         </button>
       </form>
     </div>
@@ -52,7 +52,7 @@
       </select>
       <div th:if="${isLoggedIn && user != null}" class="nav-user">
         <a href="/user/cart">
-          <img src="/images/icons/cart.png" alt="Cart">
+          <img src="/svg/shopping_cart.svg" alt="Cart" class="cart-image">
         </a>
         <a href="/profile">
           <div class="profile">
