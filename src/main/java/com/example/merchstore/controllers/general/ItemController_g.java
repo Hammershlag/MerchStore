@@ -1,6 +1,7 @@
 package com.example.merchstore.controllers.general;
 
 import com.example.merchstore.components.models.*;
+import com.example.merchstore.components.models.Currency;
 import com.example.merchstore.repositories.*;
 import com.example.merchstore.services.LatestExchangeRateService;
 import jakarta.servlet.http.Cookie;
@@ -14,15 +15,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * The ItemController_g class handles the web requests related to items in the application.
@@ -94,6 +90,9 @@ public class ItemController_g {
     @Autowired
     private WishlistItemRepository wishlistItemRepository;
 
+    @Autowired
+    private AttributesRepository attributesRepository;
+
     /**
      * The default number of items per page.
      */
@@ -129,13 +128,20 @@ public class ItemController_g {
 
         Pageable pageable = PageRequest.of(page - 1, itemsPerPage, Sort.Direction.fromString(order), sortField);
 
+        List<Category> parentCategories = categoryRepository.findByParentCategoryIsNullAndShouldDisplayTrue();
+        parentCategories.forEach(this::loadCategoryChildren);
+
+        model.addAttribute("parentCategories", parentCategories);
+
         Page<Item> itemPage;
         if (categoryId != null) {
             Category category = categoryRepository.findById(categoryId).orElse(null);
             if (category != null) {
+                List<Category> subcategories = categoryRepository.findAllSubcategories(categoryId);
+                subcategories.add(category); // Include the selected category itself
                 itemPage = (search != null && !search.isEmpty()) ?
-                        itemRepository.findByCategoryAndNameStartingWithIgnoreCase(category, search, pageable) :
-                        itemRepository.findByCategory(category, pageable);
+                        itemRepository.findByCategoryInAndNameStartingWithIgnoreCase(subcategories, search, pageable) :
+                        itemRepository.findByCategoryIn(subcategories, pageable);
             } else {
                 itemPage = Page.empty();
             }
@@ -165,7 +171,7 @@ public class ItemController_g {
 
 
         model.addAttribute("items", items);
-        model.addAttribute("categories", categoryRepository.findAll());
+        model.addAttribute("categories", categoryRepository.findAll().stream().filter(Category::isShouldDisplay).toList());
         model.addAttribute("selectedCategoryId", categoryId);
         model.addAttribute("sortField", sortField);
         model.addAttribute("order", order);
@@ -194,6 +200,8 @@ public class ItemController_g {
             return "redirect:/item/all";
         }
 
+        String categoryHierarchy = item.getCategory().buildCategoryHierarchy(item.getCategory());
+        model.addAttribute("categoryHierarchy", categoryHierarchy);
 
 
         Currency currency = currencyRepository.findById(1L).orElse(null);
@@ -210,6 +218,9 @@ public class ItemController_g {
 
         model.addAttribute("currency", currency);
         model.addAttribute("exchangeRate", exchangeRate);
+
+        List<Attribute> attributes = attributesRepository.findAllByItem(item);
+        model.addAttribute("attributes", attributes);
 
 
         List<Review> reviews = reviewRepository.findAllByItem(item);
@@ -289,4 +300,7 @@ public class ItemController_g {
     }
 
 
+    private void loadCategoryChildren(Category category) {
+        category.getChildCategories().forEach(this::loadCategoryChildren);
+    }
 }

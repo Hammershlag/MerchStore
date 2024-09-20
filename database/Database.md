@@ -225,6 +225,15 @@ docker exec -t merchStoreDB pg_dumpall -c -U ToJestTrudnyLogin > backup_dd_mm_yy
 - **ToJestTrudnyLogin**: The PostgreSQL login username.
 - **backup_dd_mm_yyyy**: The name of the backup file.
 
+### Automatic Database Backup
+
+```bash
+$wslPath = (Get-Location).Path -replace '\\', '/' -replace 'C:', '/mnt/c'
+wsl "$wslPath/backup.sh"
+```
+
+Perform the backup from the terminal in the `\database` directory.
+
 ### Update the Docker Application
 
 To update your Dockerized web store application, follow these steps:

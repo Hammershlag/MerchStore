@@ -19,11 +19,14 @@ CREATE TABLE users (
 
 -- Create categories table
 CREATE TABLE categories (
-                            category_id SERIAL PRIMARY KEY,
-                            name VARCHAR(100) UNIQUE NOT NULL,
-                            description TEXT,
-                            image BYTEA,
-                            main BOOLEAN DEFAULT FALSE NOT NULL
+            category_id SERIAL PRIMARY KEY,
+            name VARCHAR(100) UNIQUE NOT NULL,
+            description TEXT,
+            image BYTEA,
+            main BOOLEAN DEFAULT FALSE NOT NULL,
+            parent_category_id INT,
+            should_display BOOLEAN DEFAULT TRUE NOT NULL,
+            FOREIGN KEY (parent_category_id) REFERENCES categories(category_id)
 );
 
 -- Create items table
@@ -246,4 +249,19 @@ CREATE TABLE wishlist (
                           item_id INT,
                           FOREIGN KEY (user_id) REFERENCES users(user_id),
                           FOREIGN KEY (item_id) REFERENCES items(item_id)
+);
+
+CREATE TABLE attribute_types (
+    attribute_type_id SERIAL PRIMARY KEY,
+    name VARCHAR(50) UNIQUE NOT NULL
+);
+
+CREATE TABLE attributes (
+    attribute_id SERIAL PRIMARY KEY,
+    value VARCHAR(50) NOT NULL,
+    attribute_type_id INT NOT NULL,
+    item_id INT NOT NULL,
+    FOREIGN KEY (attribute_type_id) REFERENCES attribute_types(attribute_type_id),
+    FOREIGN KEY (item_id) REFERENCES items(item_id),
+    UNIQUE (attribute_type_id, item_id)
 );

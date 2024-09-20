@@ -49,6 +49,10 @@
         <p></p>
     </th:block>
     <th:block th:fragment="content">
+        <div class="categoryTree">
+            <div th:replace="~{fragments/categoryTree :: categoryTree(categoryList=${parentCategories}, first=${true})}"></div>
+        </div>
+
         <div>
             <h2>Items</h2>
             <div th:if="${isLoggedIn && user != null}">
@@ -59,7 +63,7 @@
                 <label for="category">Filter by Category:</label>
                 <select id="category" name="category">
                     <option value="">All Categories</option>
-                    <option th:each="category : ${categories}" th:value="${category.categoryId}" th:text="${category.name}" th:selected="${selectedCategoryId == category.categoryId}"></option>
+                    <option th:each="category : ${categories}" th:if="${category.shouldDisplay}" th:value="${category.categoryId}" th:text="${category.name}" th:selected="${selectedCategoryId == category.categoryId}"></option>
                 </select>
                 <label for="searchItems">Search:</label>
                 <input type="text" id="searchItems" name="searchItems" placeholder="Enter item name" th:value="${searchItems}">

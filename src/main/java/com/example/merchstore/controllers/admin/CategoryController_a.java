@@ -52,6 +52,8 @@ public class CategoryController_a {
      */
     @GetMapping("/add/category")
     public String addCategory(Model model) {
+        List<Category> categories = categoryRepository.findAll();
+        model.addAttribute("categories", categories);
         model.addAttribute("category", new Category());
         return "admin/add/addCategory";
     }
@@ -65,10 +67,23 @@ public class CategoryController_a {
      */
     @SneakyThrows
     @PostMapping("/add/category")
-    public String addCategory(Category category, @RequestParam("imageData") MultipartFile image) {
+    public String addCategory(Category category, @RequestParam("imageData") MultipartFile image,
+                              @RequestParam(value = "parentCategoryInput", required = false) String parentCategoryName) {
         if (categoryRepository.findByName(category.getName()) != null) {
             return "redirect:/api/admin/add/category?error=name";
         }
+
+
+        // Fetch parent category by name if provided
+        Category parentCategory = null;
+        if (parentCategoryName != null && !parentCategoryName.equals("No parent category")) {
+            parentCategory = categoryRepository.findByName(parentCategoryName);
+            if (parentCategory == null) {
+                return "redirect:/api/admin/add/category?error=parentNotFound";  // Handle case when parent category doesn't exist
+            }
+        }
+        category.setParentCategory(parentCategory);
+
 
         if (!image.isEmpty()) {
             BufferedImage bufferedImage = ImageIO.read(image.getInputStream());
@@ -107,6 +122,7 @@ public class CategoryController_a {
         model.addAttribute("searchCat", search);
         return "admin/view/viewCategories";
     }
+
 
 
 }

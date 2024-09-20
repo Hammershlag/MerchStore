@@ -1,0 +1,16 @@
+<div th:fragment="categoryTree(categoryList, first)">
+    <!-- @thymesVar id="category" type="com.example.merchstore.components.models.Category" -->
+    <ul>
+        <li th:each="category : ${categoryList}">
+            <div th:if="${first && category.shouldDisplay}" class="first"></div>
+            <a th:href="'/item/all?category=' + ${category.categoryId}" th:if="${category.shouldDisplay}">
+                <span th:text="${category.name}"></span>
+                <span th:if="${category.childCategories != null && !category.childCategories.isEmpty()}" class="symbol"></span>
+            </a>
+            <!-- Child categories, if they exist -->
+            <ul th:if="${category.childCategories != null && !category.childCategories.isEmpty() && category.shouldDisplay}"
+                th:replace="~{::categoryTree(categoryList=${category.childCategories}, first=${false})}">
+            </ul>
+        </li>
+    </ul>
+</div>

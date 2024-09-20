@@ -73,7 +73,7 @@ public class SecurityConfig {
                                 .requestMatchers("/api/login", "/api/register", "/home", "/",
                                         "/api/register/form", "/api/login/form", "/item/**", "/api/image/**",
                                         "/error", "/help/**", "/info/**", "/join/**", "/updateAds").permitAll()
-                                .requestMatchers("/documents/**","/css/**", "/javascript/**", "/images/**", "/api/config", "/cookie/**", "/api/currencies/**").permitAll() //static recourses
+                                .requestMatchers("/documents/**","/css/**", "/javascript/**", "/svg/**", "/images/**", "/api/config", "/cookie/**", "/api/currencies/**").permitAll() //static recourses
                                 .requestMatchers("/api/admin/**").hasAnyRole("ADMIN", "OWNER")
                                 .anyRequest().authenticated()
                 )
