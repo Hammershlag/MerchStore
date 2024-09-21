@@ -9,6 +9,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 /**
  * The CustomUserRepository interface is a Spring Data JPA repository for the User entity.
  * It provides CRUD operations and methods to find, check existence, and update User entities by various properties.

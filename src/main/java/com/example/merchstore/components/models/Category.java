@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Comparator;
 import java.util.List;
 
 import static com.example.merchstore.components.utilities.Defaults.DEFAULT_CATEGORY_IMAGE;
@@ -170,6 +171,11 @@ public class Category implements DataDisplay, ImageDisplay {
         }
     }
 
+    @Override
+    public String resolveImage() {
+        return "";
+    }
+
     /**
      * Get the Base64 representation of the image.
      *
@@ -190,5 +196,7 @@ public class Category implements DataDisplay, ImageDisplay {
             return category.getName();
         }
     }
+
+
 
 }

@@ -26,4 +26,6 @@ public interface ImageDisplay {
      * Set the default image. The implementation of this method should handle the logic of what the default image should be.
      */
     void setDefaultImage();
+
+    String resolveImage();
 }

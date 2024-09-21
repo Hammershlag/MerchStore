@@ -152,6 +152,15 @@ public class User implements DataDisplay, ImageDisplay {
     @Column(name = "birth_date", nullable = false)
     private LocalDate birthDate;
 
+    @Column(name = "oauth_provider")
+    private String oauthProvider;
+
+    @Column(name = "oauth_user_id")
+    private String oauthUserId;
+
+    @Column(name = "oauth_user_picture_url")
+    private String oauthUserPictureUrl;
+
     /**
      * The constructor of the User class.
      *
@@ -177,10 +186,12 @@ public class User implements DataDisplay, ImageDisplay {
         this.updatedAt = updatedAt;
         this.gender = gender;
         this.image = null;
+        oauthUserId = null;
+        oauthProvider = null;
+        oauthUserPictureUrl = null;
         setDefaultImage();
         this.birthDate = birthDate;
     }
-
     /**
      * The copy constructor of the User class.
      *
@@ -210,7 +221,7 @@ public class User implements DataDisplay, ImageDisplay {
      */
     @Override
     public void setDefaultImage() {
-        if (getImage() == null || getImage().length == 0) {
+        if ((getImage() == null || getImage().length == 0) && oauthUserPictureUrl == null) {
             try {
                 switch (getGender()) {
                     case MALE -> image = getImageAsByteArray(DEFAULT_USER_MALE_IMAGE);
@@ -221,6 +232,11 @@ public class User implements DataDisplay, ImageDisplay {
                 throw new RuntimeException(e);
             }
         }
+    }
+
+    @Override
+    public String resolveImage() {
+        return oauthUserPictureUrl == null ? "/api/image/user/" + userId : oauthUserPictureUrl;
     }
 
     /**
@@ -266,4 +282,5 @@ public class User implements DataDisplay, ImageDisplay {
         setDefaultImage();
         return Base64.getEncoder().encodeToString(image);
     }
+
 }

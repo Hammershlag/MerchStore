@@ -230,6 +230,11 @@ public class Item implements DataDisplay, ImageDisplay {
         }
     }
 
+    @Override
+    public String resolveImage() {
+        return "";
+    }
+
     /**
      * Convert the image to a base64 string.
      *

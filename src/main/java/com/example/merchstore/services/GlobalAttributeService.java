@@ -110,8 +110,8 @@ public class GlobalAttributeService {
     public List<Ad> getRandomAds(int count) {
         loadAds();
         return ads.stream()
-                .skip(random.nextInt(ads.size()))
-                .limit(count)
+                .skip(Math.abs(random.nextInt(ads.size())))
+                .limit(Math.abs(count))
                 .toList();
     }
 }

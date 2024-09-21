@@ -205,6 +205,11 @@ public class Ad implements DataDisplay, ImageDisplay {
         }
     }
 
+    @Override
+    public String resolveImage() {
+        return "";
+    }
+
     /**
      * Get the Base64 representation of the image.
      *

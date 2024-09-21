@@ -1,6 +1,9 @@
 package com.example.merchstore.security;
 
+import com.example.merchstore.repositories.CustomUserRepository;
+import com.example.merchstore.services.CustomOAuth2UserService;
 import com.example.merchstore.services.CustomUserDetailsService;
+import com.example.merchstore.services.GlobalAttributeService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,8 +16,18 @@ import org.springframework.security.config.annotation.web.configurers.LogoutConf
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
+import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
+import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
+import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.security.oauth2.core.user.OAuth2UserAuthority;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+
+import java.util.Collections;
+import java.util.Map;
 
 /**
  * The SecurityConfig class is a configuration class for Spring Security.
@@ -46,15 +59,24 @@ public class SecurityConfig {
      */
     private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
 
+    private final CustomUserRepository customUserRepository;
+    private final GlobalAttributeService globalAttributeService;
+
+
     /**
      * The constructor for the SecurityConfig class.
      *
      * @param customUserDetailsService The CustomUserDetailsService that is used to load user-specific data.
      * @param customAuthenticationSuccessHandler The CustomAuthenticationSuccessHandler that is used to handle successful authentication.
      */
-    public SecurityConfig(CustomUserDetailsService customUserDetailsService, CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler) {
+    public SecurityConfig(CustomUserDetailsService customUserDetailsService,
+                          CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler,
+                          CustomUserRepository customUserRepository,
+                          GlobalAttributeService globalAttributeService) {
         this.customUserDetailsService = customUserDetailsService;
         this.customAuthenticationSuccessHandler = customAuthenticationSuccessHandler;
+        this.customUserRepository = customUserRepository;
+        this.globalAttributeService = globalAttributeService;
     }
 
     /**
@@ -85,6 +107,15 @@ public class SecurityConfig {
                                 .permitAll()
                                 .successHandler(customAuthenticationSuccessHandler) // Use the custom success handler
 
+                )
+                .oauth2Login(oauth2Login ->
+                        oauth2Login
+                                .loginPage("/api/login/form")
+                                .defaultSuccessUrl("/home", true)
+                                .userInfoEndpoint(userInfoEndpoint ->
+                                        userInfoEndpoint.userService(oAuth2UserService())
+                                )
+                                .successHandler(customAuthenticationSuccessHandler) // Use the custom success handler
                 )
                 .logout(LogoutConfigurer::permitAll);
         ;
@@ -131,6 +162,11 @@ public class SecurityConfig {
     @Bean
     public UserDetailsService userDetailsService() {
         return customUserDetailsService;
+    }
+
+    // Custom user service for processing the OAuth2 user info
+    private OAuth2UserService<OAuth2UserRequest, OAuth2User> oAuth2UserService() {
+        return new CustomOAuth2UserService(customUserRepository, globalAttributeService);
     }
 
 }

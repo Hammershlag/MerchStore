@@ -86,7 +86,9 @@
                 </thead>
                 <tbody>
                 <tr th:each="user : ${users}">
-                    <td class="image"><img th:src="${'data:image/jpeg;base64,' + user.base64Image()}" alt="User Image"></td>
+                    <td class="image">
+                        <img th:src="${user.resolveImage()}" alt="User Image">
+                    </td>
                     <td th:text="${user.username}">Username</td>
                     <td th:text="${user.email}">Email</td>
                     <td th:text="${user.firstName}">First Name</td>
