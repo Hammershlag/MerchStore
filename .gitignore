@@ -4,7 +4,9 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+
 # Application properties
+/src/main/resources/.env
 /src/main/resources/application.properties
 javaDoc/
 database/backups/
