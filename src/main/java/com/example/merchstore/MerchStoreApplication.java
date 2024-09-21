@@ -38,8 +38,6 @@ public class MerchStoreApplication {
         backup.start();
 
         SpringApplication.run(MerchStoreApplication.class, args);
-
-        backup.stop();
     }
 
 

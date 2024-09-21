@@ -130,6 +130,7 @@ public class ItemController_g {
 
         List<Category> parentCategories = categoryRepository.findByParentCategoryIsNullAndShouldDisplayTrue();
         parentCategories.forEach(this::loadCategoryChildren);
+        sortCategories(parentCategories);
 
         model.addAttribute("parentCategories", parentCategories);
 
@@ -302,5 +303,31 @@ public class ItemController_g {
 
     private void loadCategoryChildren(Category category) {
         category.getChildCategories().forEach(this::loadCategoryChildren);
+    }
+
+    private void sortCategories(List<Category> categories) {
+        if (categories.size() > 0)
+            return;
+        // Sort the current list of categories
+        categories.sort(Comparator.comparingInt(this::getTotalChildCount));
+
+        // Recursively sort child categories for each category
+        for (Category category : categories) {
+            if (category.getChildCategories() != null && !category.getChildCategories().isEmpty()) {
+                sortCategories(category.getChildCategories());
+            }
+        }
+    }
+
+    // Helper method to calculate total number of descendants
+    private int getTotalChildCount(Category category) {
+        int count = 0;
+        if (category.getChildCategories() != null) {
+            count += category.getChildCategories().size(); // Count direct children
+            for (Category child : category.getChildCategories()) {
+                count += getTotalChildCount(child); // Recursively count descendants
+            }
+        }
+        return count;
     }
 }
