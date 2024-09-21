@@ -37,7 +37,7 @@ public class Defaults {
     /**
      * The default image path for user image
      */
-    public static final String DEFAULT_USER_IMAGE = "static/images/avatars/default_avatar_small.jpg";
+    public static final String DEFAULT_USER_IMAGE = "static/images/avatars/male_avatar_small.jpg";
 
     /**
      * The default image path for item image

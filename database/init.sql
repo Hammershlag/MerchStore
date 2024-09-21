@@ -13,7 +13,10 @@ CREATE TABLE users (
                        gender VARCHAR(10) NOT NULL,
                        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
                        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-                       birth_date DATE
+                       birth_date DATE,
+                       oauth_provider VARCHAR(20),
+                       oauth_user_id VARCHAR(100) UNIQUE,
+                       oauth_user_picture_url TEXT
 );
 
 
