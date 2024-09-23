@@ -41,7 +41,7 @@
     </th:block>
     <th:block th:fragment="content">
         <div>
-            <a href="/user/cart/checkout/all">View All existing Orders</a>
+            <a th:href="'/user/cart/checkout/all?lang=' + ${language.code.toString()}">View All existing Orders</a>
             <div th:if="${cartItems.size() == 0}">
                 <p>Your cart is empty.</p>
             </div>
@@ -87,19 +87,19 @@
                         <td th:text="${#numbers.formatDecimal(cartItem.item.price * exchangeRate.exchangeRate * cartItem.quantity, 1, 2)} + ${currency.symbol}"></td>
                         <td>
                             <!-- Update these forms -->
-                            <form th:action="@{/user/cart/increase}" method="post" style="display: inline;">
+                            <form th:action="@{'/user/cart/increase?lang=' + ${language.code.toString()}}" method="post" style="display: inline;">
                                 <input type="hidden" name="itemId" th:value="${cartItem.item.itemId}" />
                                 <input type="hidden" name="sortField" th:value="${sortField}" />
                                 <input type="hidden" name="order" th:value="${order}" />
                                 <button type="submit">+</button>
                             </form>
-                            <form th:action="@{/user/cart/decrease}" method="post" style="display: inline;">
+                            <form th:action="@{'/user/cart/decrease?lang=' + ${language.code.toString()}}" method="post" style="display: inline;">
                                 <input type="hidden" name="itemId" th:value="${cartItem.item.itemId}" />
                                 <input type="hidden" name="sortField" th:value="${sortField}" />
                                 <input type="hidden" name="order" th:value="${order}" />
                                 <button type="submit">-</button>
                             </form>
-                            <form th:action="@{/user/cart/remove}" method="post" style="display: inline;">
+                            <form th:action="@{'/user/cart/remove?lang=' + ${language.code.toString()}}" method="post" style="display: inline;">
                                 <input type="hidden" name="itemId" th:value="${cartItem.item.itemId}" />
                                 <input type="hidden" name="sortField" th:value="${sortField}" />
                                 <input type="hidden" name="order" th:value="${order}" />
@@ -110,7 +110,7 @@
                     </tbody>
                 </table>
                 <p>If you press the checkout button the order will be in currently selected currency and with currently entered code</p>
-                <form th:action="@{/user/cart/checkout}" method="post">
+                <form th:action="@{'/user/cart/checkout?lang=' + ${language.code.toString()}}" method="post">
                     <label for="discountCode">Discount Code:</label>
                     <input type="text" id="discountCode" name="discountCode" placeholder="Enter discount code" />
                     <button type="submit">Checkout</button>

@@ -1,12 +1,11 @@
 package com.example.merchstore.controllers.user;
 
 import com.example.merchstore.Decorators.ItemDecorator;
+import com.example.merchstore.components.enums.Language;
 import com.example.merchstore.components.enums.OrderStatus;
 import com.example.merchstore.components.models.*;
 import com.example.merchstore.repositories.*;
-import com.example.merchstore.services.CheckoutService;
-import com.example.merchstore.services.CustomUserDetailsService;
-import com.example.merchstore.services.LatestExchangeRateService;
+import com.example.merchstore.services.*;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfWriter;
 import jakarta.servlet.http.Cookie;
@@ -121,6 +120,12 @@ public class CheckoutController_u {
     @Autowired
     private LatestExchangeRateService latestExchangeRateService;
 
+    @Autowired
+    private TranslationService translationService;
+
+    @Autowired
+    private GlobalAttributeService globalAttributeService;
+
     /**
      * Handles the GET request for downloading the order details as a PDF file. It retrieves the order and its items, generates the PDF file, and sends it as a response.
      *
@@ -130,9 +135,22 @@ public class CheckoutController_u {
      */
     @SneakyThrows // Handles DocumentException and IOException
     @GetMapping("/file")
-    public void getFile(@RequestParam("orderID") Long orderID, HttpSession session, HttpServletResponse response) {
+    public void getFile(@RequestParam("orderID") Long orderID, HttpSession session, HttpServletResponse response,
+                        @RequestParam(required = false) String lang) {
         User currentUser = (User) session.getAttribute("user");
         Order order = orderRepository.findByOrderId(orderID);
+
+        Language language;
+        if (lang != null) {
+            language = Language.fromCode(lang);
+            if(lang.equals("pl")) {
+                language = (Language) globalAttributeService.getGlobalAttributes().get("language");
+            } else if (!language.getCode().equals(((Language) globalAttributeService.getGlobalAttributes().get("language")).getCode())) {
+                globalAttributeService.getGlobalAttributes().put("language", language);
+            }
+        } else {
+            language = (Language) globalAttributeService.getGlobalAttributes().get("language");
+        }
 
         if (currentUser == null || !currentUser.getUserId().equals(order.getUser().getUserId())) {
             response.sendRedirect("/home?message=wrongUser");
@@ -161,7 +179,7 @@ public class CheckoutController_u {
 
         // Add Order Items
         for (OrderItem item : orderItems) {
-            document.add(new Paragraph("Item: " + item.getItem().getName(), font));
+            document.add(new Paragraph("Item: " + ((Item) translationService.translate(item.getItem(), language)).getName(), font));
             document.add(new Paragraph("Quantity: " + item.getQuantity(), font));
             document.add(new Paragraph("Price: $" + item.getPrice(), font));
             document.add(new Paragraph("\n"));
@@ -170,7 +188,9 @@ public class CheckoutController_u {
         // Check for Discounts
         ItemDiscount itemDiscount = itemDiscountRepository.findItemDiscountByDiscount(order.getDiscount());
         if (itemDiscount != null) {
-            document.add(new Paragraph("Discount Applied: " + itemDiscount.getDiscount().getDescription(), font));
+            Discount discount = itemDiscount.getDiscount();
+            Discount translatedDiscount = (Discount) translationService.translate(discount, language);
+            document.add(new Paragraph("Discount Applied: " + translatedDiscount.getDescription(), font));
             document.add(new Paragraph("Discount Percentage: " + itemDiscount.getDiscount().getDiscountPercentage() + "%", font));
         }
 
@@ -264,7 +284,13 @@ public class CheckoutController_u {
         }
         model.addAttribute("order", order);
         List<OrderItem> orderItems = orderItemRepository.findAllByOrder(order);
-        model.addAttribute("orderItems", orderItems);
+        List<OrderItem> translatedOrderItems = new ArrayList<>();
+        for (OrderItem orderItem : orderItems) {
+            OrderItem translatedOrderItem = new OrderItem(orderItem);
+            translatedOrderItem.setItem((Item) translationService.translate(orderItem.getItem(), Language.ENGLISH));
+            translatedOrderItems.add(translatedOrderItem);
+        }
+        model.addAttribute("orderItems", translatedOrderItems);
         return "user/orderConfirmation";
     }
 

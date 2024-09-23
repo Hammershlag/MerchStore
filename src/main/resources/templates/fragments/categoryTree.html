@@ -3,7 +3,7 @@
     <ul>
         <li th:each="category : ${categoryList}">
             <div th:if="${first && category.shouldDisplay}" class="first"></div>
-            <a th:href="'/item/all?category=' + ${category.categoryId}" th:if="${category.shouldDisplay}">
+            <a th:href="'/item/all?lang=' + ${language.code.toString()} +'&category=' + ${category.categoryId}" th:if="${category.shouldDisplay}">
                 <span th:text="${category.name}"></span>
                 <span th:if="${category.childCategories != null && !category.childCategories.isEmpty()}" class="symbol"></span>
             </a>

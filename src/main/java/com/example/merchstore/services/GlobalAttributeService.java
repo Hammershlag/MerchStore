@@ -1,5 +1,6 @@
 package com.example.merchstore.services;
 
+import com.example.merchstore.components.enums.Language;
 import com.example.merchstore.components.models.Ad;
 import com.example.merchstore.repositories.AdRepository;
 import jakarta.annotation.PostConstruct;
@@ -59,6 +60,7 @@ public class GlobalAttributeService {
      */
     public GlobalAttributeService() {
         globalAttributes.put("isLoggedIn", false);
+        globalAttributes.put("language", Language.ENGLISH);
     }
 
     /**
@@ -87,6 +89,11 @@ public class GlobalAttributeService {
      */
     public void removeAttribute(String key) {
         globalAttributes.remove(key);
+    }
+
+    public void replaceAttribute(String key, Object value) {
+        globalAttributes.remove(key);
+        globalAttributes.put(key, value);
     }
 
     /**

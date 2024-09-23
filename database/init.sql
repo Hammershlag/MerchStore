@@ -29,6 +29,7 @@ CREATE TABLE categories (
             main BOOLEAN DEFAULT FALSE NOT NULL,
             parent_category_id INT,
             should_display BOOLEAN DEFAULT TRUE NOT NULL,
+            language VARCHAR(50) NOT NULL DEFAULT 'POLISH',
             FOREIGN KEY (parent_category_id) REFERENCES categories(category_id)
 );
 
@@ -44,6 +45,7 @@ CREATE TABLE items (
                        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
                        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
                        currency_id INT NOT NULL DEFAULT 1,
+                       language VARCHAR(50) NOT NULL DEFAULT 'POLISH',
                        FOREIGN KEY (category_id) REFERENCES categories(category_id),
                        FOREIGN KEY (currency_id) REFERENCES currencies(id)
 );
@@ -58,7 +60,9 @@ CREATE TABLE discounts (
                            description TEXT,
                            discount_percentage DECIMAL(5, 2) NOT NULL,
                            valid_from DATE NOT NULL,
-                           valid_until DATE NOT NULL
+                           valid_until DATE NOT NULL,
+                           language VARCHAR(50) NOT NULL DEFAULT 'POLISH'
+
 );
 
 -- Create discount_items table
@@ -145,6 +149,7 @@ CREATE TABLE ads (
                      image BYTEA, -- Optional: Image for the ad
                      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
                      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+                     language VARCHAR(50) NOT NULL DEFAULT 'POLISH',
                      FOREIGN KEY (item_id) REFERENCES items(item_id),
                      FOREIGN KEY (user_id) REFERENCES users(user_id) -- Foreign key reference to users table
 );
@@ -256,7 +261,8 @@ CREATE TABLE wishlist (
 
 CREATE TABLE attribute_types (
     attribute_type_id SERIAL PRIMARY KEY,
-    name VARCHAR(50) UNIQUE NOT NULL
+    name VARCHAR(50) UNIQUE NOT NULL,
+    language VARCHAR(50) NOT NULL DEFAULT 'POLISH'
 );
 
 CREATE TABLE attributes (
@@ -264,7 +270,19 @@ CREATE TABLE attributes (
     value VARCHAR(50) NOT NULL,
     attribute_type_id INT NOT NULL,
     item_id INT NOT NULL,
+    language VARCHAR(50) NOT NULL DEFAULT 'POLISH',
     FOREIGN KEY (attribute_type_id) REFERENCES attribute_types(attribute_type_id),
     FOREIGN KEY (item_id) REFERENCES items(item_id),
     UNIQUE (attribute_type_id, item_id)
+);
+
+CREATE TABLE pre_translated_texts (
+                                      id SERIAL PRIMARY KEY,
+                                      entity_id BIGINT NOT NULL,
+                                      class_name VARCHAR(255) NOT NULL,
+                                      field_name VARCHAR(255) NOT NULL,
+                                      language VARCHAR(50) NOT NULL,  -- Assuming Language is stored as a string (Enum)
+                                      text TEXT NOT NULL,
+                                      last_update TIMESTAMP NOT NULL,
+                                      UNIQUE (class_name, field_name, language, entity_id)
 );

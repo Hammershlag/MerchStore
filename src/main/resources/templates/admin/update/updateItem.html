@@ -13,7 +13,7 @@
     </th:block>
     <th:block th:fragment="content">
         <div>
-            <a href="/api/admin/dashboard">Dashboard</a>
+            <a th:href="'/api/admin/dashboard?lang=' + ${language.code.toString()}">Dashboard</a>
             <h2>Update Item</h2>
             <form action="/api/admin/update/item" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="itemId" th:value="${item.itemId}"/>

@@ -1,8 +1,10 @@
 package com.example.merchstore.controllers.admin;
 
+import com.example.merchstore.components.enums.Language;
 import com.example.merchstore.components.models.*;
 import com.example.merchstore.repositories.*;
 import com.example.merchstore.services.LatestExchangeRateService;
+import com.example.merchstore.services.TranslationService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.SneakyThrows;
@@ -21,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.merchstore.components.utilities.ImageProcessor.*;
@@ -81,6 +84,9 @@ public class ItemController_a {
 
     @Autowired
     private AttributesRepository attributesRepository;
+
+    @Autowired
+    private TranslationService translationService;
 
     /**
      * Prepares the model for adding a new item and returns the view name.
@@ -167,7 +173,11 @@ public class ItemController_a {
                             @RequestParam(value = "page", defaultValue = "0") int page,
                             @RequestParam(value = "size", defaultValue = "10") int size,
                             @RequestParam(value = "searchItem", required = false) String search,
-                            Model model) {
+                            @RequestParam(required = false) String lang,Model model) {
+
+        if (lang == null)
+            lang = "pl";
+
         Page<Item> items;
         Pageable pageable = PageRequest.of(page, size);
 
@@ -205,7 +215,15 @@ public class ItemController_a {
         model.addAttribute("currency", currency);
         model.addAttribute("exchangeRate", exchangeRate);
 
-        model.addAttribute("items", items.getContent());
+        Language language = Language.fromCode(lang);
+        List<Item> translatedItems = new ArrayList<>();
+        for (Item item : items) {
+            Item translatedItem = (Item) translationService.translate(item, language);
+            translatedItems.add(translatedItem);
+        }
+
+        model.addAttribute("language", language);
+        model.addAttribute("items", translatedItems);
         model.addAttribute("totalPages", items.getTotalPages());
         model.addAttribute("currentPage", page);
         model.addAttribute("pageSize", size);
@@ -224,7 +242,12 @@ public class ItemController_a {
      * @return The view name.
      */
     @GetMapping("/view/item")
-    public String viewItem(HttpServletRequest request, @RequestParam Long id, Model model) {
+    public String viewItem(HttpServletRequest request, @RequestParam Long id,
+                           @RequestParam(required = false) String lang, Model model) {
+
+        if (lang == null)
+            lang = "pl";
+
         Item item = itemRepository.findById(id).orElse(null);
         if (item == null) {
             return "redirect:/api/admin/view/items";
@@ -247,7 +270,10 @@ public class ItemController_a {
         List<Attribute> attributes = attributesRepository.findAllByItem(item);
         model.addAttribute("attributes", attributes);
 
-        model.addAttribute("item", item);
+        Language language = Language.fromCode(lang);
+        Item translatedItem = (Item) translationService.translate(item, language);
+        model.addAttribute("language", language);
+        model.addAttribute("item", translatedItem);
         return "admin/view/viewItem";
     }
 

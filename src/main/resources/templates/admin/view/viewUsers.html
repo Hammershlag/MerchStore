@@ -52,8 +52,8 @@
     </th:block>
     <th:block th:fragment="content">
         <div>
-            <a href="/">Home</a>
-            <a href="/api/admin/dashboard">Dashboard</a>
+            <a th:href="'/?lang=' + ${language.code.toString()}">Home</a>
+            <a th:href="'/api/admin/dashboard?lang=' + ${language.code.toString()}">Dashboard</a>
             <h2>Users</h2>
             <form action="/api/admin/view/users" method="get">
                 <label for="size">Page Size:</label>

@@ -1,6 +1,9 @@
 package com.example.merchstore.components.models;
 
+import com.example.merchstore.components.enums.Language;
 import com.example.merchstore.components.interfaces.DataDisplay;
+import com.example.merchstore.components.superClasses.Translatable;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,6 +11,9 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.function.BiConsumer;
+import java.util.function.Function;
 
 /**
  * The Discount class represents a discount in the system.
@@ -35,7 +41,7 @@ import java.time.LocalDate;
 @Data @AllArgsConstructor @NoArgsConstructor
 @Entity
 @Table(name = "discounts")
-public class Discount implements DataDisplay {
+public class Discount extends Translatable implements DataDisplay {
 
     /**
      * The ID of the discount.
@@ -74,6 +80,26 @@ public class Discount implements DataDisplay {
      */
     @Column(name = "valid_until", nullable = false)
     private LocalDate validUntil;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "language")
+    private Language language;
+
+    @JsonIgnore
+    @Transient
+    final String className = "Discount";
+
+    @JsonIgnore
+    @Transient
+    final HashMap<String, Function<Translatable, String>> textFieldsGetter = new HashMap<>() {{
+        put("description", (Translatable t) -> ((Discount) t).getDescription());
+    }};
+
+    @JsonIgnore
+    @Transient
+    final HashMap<String, BiConsumer<Translatable, String>> textFieldsSetter = new HashMap<>() {{
+        put("description", (Translatable t, String value) -> ((Discount) t).setDescription(value));
+    }};
 
     /**
      * The copy constructor for the Discount class.
@@ -120,6 +146,29 @@ public class Discount implements DataDisplay {
     public boolean isValid() {
         LocalDate now = LocalDate.now();
         return now.isAfter(validFrom) && now.isBefore(validUntil);
+    }
+
+    @JsonIgnore
+    @Override
+    public Long getTranslatableId() {
+        return discountId;
+    }
+
+    @Override
+    public void setTranslatableId(Long id) {
+        this.discountId = id;
+    }
+
+    @JsonIgnore
+    @Override
+    public Language getTranslatableLanguage() {
+        return language;
+    }
+
+
+    @Override
+    public void setTranslatableLanguage(Language language) {
+        this.language = language;
     }
 }
 

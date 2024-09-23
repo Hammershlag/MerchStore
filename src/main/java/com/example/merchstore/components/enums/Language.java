@@ -1,10 +1,13 @@
-package com.example.merchstore;
+package com.example.merchstore.components.enums;
+
+import lombok.Getter;
 
 /**
  * @author Tomasz Zbroszczyk
  * @version 1.0
  * @since 22.09.2024
  */
+@Getter
 public enum Language {
     AUTO("auto"),
     AFRIKAANS("af"),
@@ -112,14 +115,10 @@ public enum Language {
     YORUBA("yo"),
     ZULU("zu");
 
-    private final String code;
+    public final String code;
 
     Language(String code) {
         this.code = code;
-    }
-
-    public String getCode() {
-        return code;
     }
 
     public static Language fromCode(String code) {

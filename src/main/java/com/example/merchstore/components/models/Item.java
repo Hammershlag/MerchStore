@@ -1,7 +1,9 @@
 package com.example.merchstore.components.models;
 
+import com.example.merchstore.components.enums.Language;
 import com.example.merchstore.components.interfaces.DataDisplay;
 import com.example.merchstore.components.interfaces.ImageDisplay;
+import com.example.merchstore.components.superClasses.Translatable;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
@@ -15,6 +17,9 @@ import java.math.BigDecimal;
 import java.sql.Types;
 import java.time.LocalDateTime;
 import java.util.Base64;
+import java.util.HashMap;
+import java.util.function.BiConsumer;
+import java.util.function.Function;
 
 import static com.example.merchstore.components.utilities.Defaults.DEFAULT_ITEM_IMAGE;
 import static com.example.merchstore.components.utilities.ImageProcessor.getImageAsByteArray;
@@ -50,7 +55,7 @@ import static com.example.merchstore.components.utilities.ImageProcessor.getImag
 @NoArgsConstructor
 @Entity
 @Table(name = "items")
-public class Item implements DataDisplay, ImageDisplay {
+public class Item extends Translatable implements DataDisplay, ImageDisplay {
 
     /**
      * The ID of the item.
@@ -120,6 +125,28 @@ public class Item implements DataDisplay, ImageDisplay {
     @Column(name = "image", columnDefinition = "BYTEA", nullable = true)
     private byte[] image;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "language")
+    private Language language;
+
+    @JsonIgnore
+    @Transient
+    final String className = "Item";
+
+    @JsonIgnore
+    @Transient
+    final HashMap<String, Function<Translatable, String>> textFieldsGetter = new HashMap<>() {{
+        put("name", (Translatable t) -> ((Item) t).getName());
+        put("description", (Translatable t) -> ((Item) t).getDescription());
+    }};
+
+    @JsonIgnore
+    @Transient
+    final HashMap<String, BiConsumer<Translatable, String>> textFieldsSetter = new HashMap<>() {{
+        put("name", (Translatable t, String value) -> ((Item) t).setName(value));
+        put("description", (Translatable t, String value) -> ((Item) t).setDescription(value));
+    }};
+
     /**
      * The constructor for the Item class.
      * @param itemId The ID of the item.
@@ -131,7 +158,7 @@ public class Item implements DataDisplay, ImageDisplay {
      * @param createdAt The date and time when the item was created.
      * @param updatedAt The date and time when the item was last updated.
      */
-    public Item(Long itemId, String name, String description, BigDecimal price, Integer stockQuantity, Category category, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public Item(Long itemId, String name, String description, BigDecimal price, Integer stockQuantity, Category category, LocalDateTime createdAt, LocalDateTime updatedAt, Language language) {
         this.itemId = itemId;
         this.name = name;
         this.description = description;
@@ -142,6 +169,7 @@ public class Item implements DataDisplay, ImageDisplay {
         this.updatedAt = updatedAt;
         this.image = null;
         setDefaultImage();
+        this.language = language;
     }
 
     /**
@@ -154,7 +182,7 @@ public class Item implements DataDisplay, ImageDisplay {
      * @param createdAt The date and time when the item was created.
      * @param updatedAt The date and time when the item was last updated.
      */
-    public Item(String name, String description, BigDecimal price, Integer stockQuantity, Category category, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public Item(String name, String description, BigDecimal price, Integer stockQuantity, Category category, LocalDateTime createdAt, LocalDateTime updatedAt, Language language) {
         this.name = name;
         this.description = description;
         this.price = price;
@@ -164,6 +192,7 @@ public class Item implements DataDisplay, ImageDisplay {
         this.updatedAt = updatedAt;
         this.image = null;
         setDefaultImage();
+        this.language = language;
     }
 
     /**
@@ -181,6 +210,7 @@ public class Item implements DataDisplay, ImageDisplay {
         this.updatedAt = item.getUpdatedAt();
         this.image = item.getImage() != null ? item.getImage().clone() : null;
         setDefaultImage();
+        this.language = item.getLanguage();
     }
 
     /**
@@ -245,4 +275,28 @@ public class Item implements DataDisplay, ImageDisplay {
         setDefaultImage();
         return Base64.getEncoder().encodeToString(image);
     }
+
+    @JsonIgnore
+    @Override
+    public Long getTranslatableId() {
+        return itemId;
+    }
+
+    @Override
+    public void setTranslatableId(Long id) {
+        this.itemId = id;
+    }
+
+    @JsonIgnore
+    @Override
+    public Language getTranslatableLanguage() {
+        return language;
+    }
+
+
+    @Override
+    public void setTranslatableLanguage(Language language) {
+        this.language = language;
+    }
+
 }

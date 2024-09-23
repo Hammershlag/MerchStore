@@ -1,6 +1,18 @@
 <div th:fragment="ad">
     <div id="ads-container" style="display: flex; flex-direction: column; justify-content: center; align-items: center; margin-top: 10%;">
-        <div th:each="ad, iterStat : ${ads}" class="ad-item" th:onclick="|window.location='/item?id=' + ${ad.item.itemId}|"
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                document.querySelectorAll('.item-row').forEach(function(row) {
+                    row.addEventListener('click', function() {
+                        var id = this.getAttribute('data-id');
+                        var lang = this.getAttribute('data-lang');
+                        window.location = '/item?lang=' + lang + '&id=' + id;
+                    });
+                });
+            });
+        </script>
+        <div th:each="ad, iterStat : ${ads}" class="ad-item" th:data-id="${ad.item.itemId}" th:data-lang="${language.code.toString()}"
+             th:onclick="|window.location='/item?id=' + ${ad.item.itemId}|"
              th:style="${iterStat.index == 0} ? 'display: block;' : 'display: none;'" style="width: 100%; text-align: center; margin-bottom: 20px; cursor: pointer;">
             <img th:src="@{'/api/image/ad/' + ${ad.adId}}" alt="Ad Image"
                  style="max-width: 100%; height: auto; margin-bottom: 10px;">

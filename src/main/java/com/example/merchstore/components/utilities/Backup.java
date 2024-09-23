@@ -1,4 +1,4 @@
-package com.example.merchstore;
+package com.example.merchstore.components.utilities;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

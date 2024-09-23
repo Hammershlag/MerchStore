@@ -2,9 +2,11 @@ package com.example.merchstore.components.models;
 
 import com.example.merchstore.components.enums.AdStatus;
 import com.example.merchstore.components.enums.Gender;
+import com.example.merchstore.components.enums.Language;
 import com.example.merchstore.components.enums.Role;
 import com.example.merchstore.components.interfaces.DataDisplay;
 import com.example.merchstore.components.interfaces.ImageDisplay;
+import com.example.merchstore.components.superClasses.Translatable;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
@@ -20,6 +22,9 @@ import java.sql.Types;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Base64;
+import java.util.HashMap;
+import java.util.function.BiConsumer;
+import java.util.function.Function;
 
 import static com.example.merchstore.components.utilities.Defaults.DEFAULT_AD_IMAGE;
 import static com.example.merchstore.components.utilities.ImageProcessor.getImageAsByteArray;
@@ -54,7 +59,7 @@ import static com.example.merchstore.components.utilities.ImageProcessor.getImag
 @AllArgsConstructor
 @Entity
 @Table(name = "ads")
-public class Ad implements DataDisplay, ImageDisplay {
+public class Ad extends Translatable implements DataDisplay, ImageDisplay {
 
     /**
      * The ID of the ad.
@@ -125,6 +130,26 @@ public class Ad implements DataDisplay, ImageDisplay {
      */
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "language")
+    private Language language;
+
+    @JsonIgnore
+    @Transient
+    final String className = "Ad";
+
+    @JsonIgnore
+    @Transient
+    final HashMap<String, Function<Translatable, String>> textFieldsGetter = new HashMap<>() {{
+        put("description", (Translatable t) -> ((Ad) t).getDescription());
+    }};
+
+    @JsonIgnore
+    @Transient
+    final HashMap<String, BiConsumer<Translatable, String>> textFieldsSetter = new HashMap<>() {{
+        put("description", (Translatable t, String value) -> ((Ad) t).setDescription(value));
+    }};
 
     /**
      * The copy constructor of the Ad class.
@@ -232,5 +257,28 @@ public class Ad implements DataDisplay, ImageDisplay {
      */
     public boolean shouldBeDisplayed() {
         return status == AdStatus.ACTIVE && startDate.isBefore(LocalDateTime.now()) && endDate.isAfter(LocalDateTime.now());
+    }
+
+    @JsonIgnore
+    @Override
+    public Long getTranslatableId() {
+        return adId;
+    }
+
+    @Override
+    public void setTranslatableId(Long id) {
+        this.adId = id;
+    }
+
+    @JsonIgnore
+    @Override
+    public Language getTranslatableLanguage() {
+        return language;
+    }
+
+
+    @Override
+    public void setTranslatableLanguage(Language language) {
+        this.language = language;
     }
 }

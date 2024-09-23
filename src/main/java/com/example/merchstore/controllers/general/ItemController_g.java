@@ -1,9 +1,12 @@
 package com.example.merchstore.controllers.general;
 
+import com.example.merchstore.components.enums.Language;
 import com.example.merchstore.components.models.*;
 import com.example.merchstore.components.models.Currency;
 import com.example.merchstore.repositories.*;
+import com.example.merchstore.services.GlobalAttributeService;
 import com.example.merchstore.services.LatestExchangeRateService;
+import com.example.merchstore.services.TranslationService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -93,6 +96,14 @@ public class ItemController_g {
     @Autowired
     private AttributesRepository attributesRepository;
 
+    @Autowired
+    private TranslationService translationService;
+
+    @Autowired
+    private GlobalAttributeService globalAttributeService;
+
+    @Autowired
+    private PreTranslatedTextRepository preTranslatedTextRepository;
     /**
      * The default number of items per page.
      */
@@ -120,19 +131,33 @@ public class ItemController_g {
                             @RequestParam(value = "itemsPerPage", required = false, defaultValue = "" + DEFAULT_ITEMS_PER_PAGE) int itemsPerPage,
                             @RequestParam(value = "search", required = false) String search,
                             @RequestParam(value = "searchItems", required = false) String searchItems,
-                            Model model) {
+                            @RequestParam(required = false) String lang, Model model) {
         if (itemsPerPage < 1) {
             itemsPerPage = DEFAULT_ITEMS_PER_PAGE;
         }
         if (search == null) search = searchItems;
 
+        Language language;
+        if (lang != null) {
+            language = Language.fromCode(lang);
+            globalAttributeService.replaceAttribute("language", language);
+
+        } else {
+            language = (Language) globalAttributeService.getGlobalAttributes().get("language");
+        }
+
         Pageable pageable = PageRequest.of(page - 1, itemsPerPage, Sort.Direction.fromString(order), sortField);
 
         List<Category> parentCategories = categoryRepository.findByParentCategoryIsNullAndShouldDisplayTrue();
         parentCategories.forEach(this::loadCategoryChildren);
-        sortCategories(parentCategories);
+        List<Category> translatedParentCategories = new ArrayList<>();
+        for (Category parentCategory : parentCategories) {
+            Category translatedParentCategory = translateCategory(parentCategory, language);
+            translatedParentCategories.add(translatedParentCategory);
+        }
+        sortCategories(translatedParentCategories);
 
-        model.addAttribute("parentCategories", parentCategories);
+        model.addAttribute("parentCategories", translatedParentCategories);
 
         Page<Item> itemPage;
         if (categoryId != null) {
@@ -169,10 +194,21 @@ public class ItemController_g {
 
         model.addAttribute("currency", currency);
         model.addAttribute("exchangeRate", exchangeRate);
+        List<Item> translatedItems = new ArrayList<>();
+        for (Item item : items) {
+            Item translatedItem = (Item) translationService.translate(item, language);
+            translatedItems.add(translatedItem);
+        }
 
+        List<Category> categories = categoryRepository.findAll().stream().filter(Category::isShouldDisplay).toList();
+        List<Category> translatedCategories = new ArrayList<>();
+        for (Category category : categories) {
+            Category translatedCategory = translateCategory(category, language);
+            translatedCategories.add(translatedCategory);
+        }
 
-        model.addAttribute("items", items);
-        model.addAttribute("categories", categoryRepository.findAll().stream().filter(Category::isShouldDisplay).toList());
+        model.addAttribute("items", translatedItems);
+        model.addAttribute("categories", translatedCategories);
         model.addAttribute("selectedCategoryId", categoryId);
         model.addAttribute("sortField", sortField);
         model.addAttribute("order", order);
@@ -195,13 +231,26 @@ public class ItemController_g {
      * @return The view name for the item page.
      */
     @GetMapping
-    public String viewItem(HttpSession session, HttpServletRequest request, @RequestParam Long id, @RequestParam(required = false) String addedToCart, Model model) {
+    public String viewItem(HttpSession session, HttpServletRequest request, @RequestParam Long id, @RequestParam(required = false) String addedToCart,
+            @RequestParam(required = false) String lang, Model model) {
         Item item = itemRepository.findById(id).orElse(null);
         if (item == null) {
             return "redirect:/item/all";
         }
 
-        String categoryHierarchy = item.getCategory().buildCategoryHierarchy(item.getCategory());
+        Language language;
+        if (lang != null) {
+            language = Language.fromCode(lang);
+            globalAttributeService.replaceAttribute("language", language);
+
+
+        } else {
+            language = (Language) globalAttributeService.getGlobalAttributes().get("language");
+        }
+
+        Category category = item.getCategory();
+        Category translatedCategoryHierarchy = translatedCategoryHierarchy(category, language);
+        String categoryHierarchy = translatedCategoryHierarchy.buildCategoryHierarchy(translatedCategoryHierarchy);
         model.addAttribute("categoryHierarchy", categoryHierarchy);
 
 
@@ -221,13 +270,22 @@ public class ItemController_g {
         model.addAttribute("exchangeRate", exchangeRate);
 
         List<Attribute> attributes = attributesRepository.findAllByItem(item);
-        model.addAttribute("attributes", attributes);
+        List<Attribute> translatedAttributes = new ArrayList<>();
 
+        for (Attribute attribute : attributes) {
+            Attribute translatedAttribute = (Attribute) translationService.translate(attribute, language);
+            translatedAttribute.setAttributeType((AttributeType) translationService.translate(attribute.getAttributeType(), language));
+            translatedAttributes.add(translatedAttribute);
+        }
+
+
+        model.addAttribute("attributes", translatedAttributes);
 
         List<Review> reviews = reviewRepository.findAllByItem(item);
-        model.addAttribute("item", item);
+        Item translatedItem = (Item) translationService.translate(item, language);
+        model.addAttribute("item", translatedItem);
         model.addAttribute("reviews", reviews);
-        model.addAttribute("search", item.getName());
+        model.addAttribute("search", translatedItem.getName());
         if (addedToCart != null) {
             model.addAttribute("addedToCart", addedToCart);
         }
@@ -262,25 +320,52 @@ public class ItemController_g {
         return "general/viewItem";
     }
 
+    //TODO Search working only for items with quantity > 0
     @GetMapping("/search")
-    public String searchItems(HttpServletRequest request, @RequestParam String search, Model model) {
+    public String searchItems(HttpServletRequest request, @RequestParam String search,
+                              @RequestParam(required = false) String lang, Model model) {
         if (search.isEmpty()) {
             return "fragments/itemSearchResults";
         }
-        Set<Item> itemsSet = new LinkedHashSet<>(itemRepository.findTop3ByNameStartingWithIgnoreCaseAndStockQuantityGreaterThan(search, 0));
-        if (itemsSet.size() < 3) {
-            List<Item> itemsContaining = itemRepository.findTop3ByNameContainingIgnoreCaseAndStockQuantityGreaterThan(search, 0);
-            for (Item item : itemsContaining) {
-                if (!itemsSet.contains(item)) {
-                    itemsSet.add(item);
+        Set<Item> itemsSet = new LinkedHashSet<>();
+        Language language;
+        if (lang != null) {
+            language = Language.fromCode(lang);
+        } else {
+            language = (Language) globalAttributeService.getGlobalAttributes().get("language");
+        }
+        if (language.code.equals("pl")) {
+            itemsSet = new LinkedHashSet<>(itemRepository.findTop3ByNameStartingWithIgnoreCaseAndStockQuantityGreaterThan(search, 0));
+            if (itemsSet.size() < 3) {
+                List<Item> itemsContaining = itemRepository.findTop3ByNameContainingIgnoreCaseAndStockQuantityGreaterThan(search, 0);
+                for (Item item : itemsContaining) {
+                    if (!itemsSet.contains(item)) {
+                        itemsSet.add(item);
+                    }
+                    if (itemsSet.size() == 3) {
+                        break;
+                    }
                 }
-                if (itemsSet.size() == 3) {
-                    break;
+            }
+        } else {
+            List<PreTranslatedTexts> preTranslatedTexts = preTranslatedTextRepository.findTop10ByClassNameAndFieldNameAndLanguageAndTextStartingWithIgnoreCase("Item", "name", language, search);
+            for(PreTranslatedTexts preTranslatedText : preTranslatedTexts) {
+                Item item = itemRepository.findById(preTranslatedText.getEntityId()).orElse(null);
+                if(item.getStockQuantity() > 0 && itemsSet.size() < 3) {
+                    itemsSet.add(item);
                 }
             }
         }
+
+
+
         List<Item> items = new ArrayList<>(itemsSet);
-        model.addAttribute("searchItems", items);
+        List<Item> translatedItems = new ArrayList<>();
+        for (Item item : items) {
+            Item translatedItem = (Item) translationService.translate(item, language);
+            translatedItems.add(translatedItem);
+        }
+        model.addAttribute("searchItems", translatedItems);
 
         Currency currency = currencyRepository.findById(1L).orElse(null);
         Cookie[] cookies = request.getCookies();
@@ -330,4 +415,27 @@ public class ItemController_g {
         }
         return count;
     }
+
+    public Category translateCategory(Category category, Language language) {
+        Category translatedCategory = (Category) translationService.translate(category, language);
+        if (category.getChildCategories() != null) {
+            List<Category> translatedChildCategories = new ArrayList<>();
+            for (Category childCategory : category.getChildCategories()) {
+                translatedChildCategories.add(translateCategory(childCategory, language));
+            }
+            translatedCategory.setChildCategories(translatedChildCategories);
+        }
+
+        return translatedCategory;
+    }
+
+    public Category translatedCategoryHierarchy(Category category, Language language) {
+        Category translatedCategory = (Category) translationService.translate(category, language);
+        if (category.getParentCategory() != null) {
+            translatedCategory.setParentCategory(translatedCategoryHierarchy(category.getParentCategory(), language));
+        }
+
+        return translatedCategory;
+    }
+
 }

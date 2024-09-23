@@ -21,7 +21,7 @@
     <th:block th:fragment="content">
         <div>
             <h2>Update User Details</h2>
-            <form th:action="@{/api/update/user}" th:object="${user}" method="post" enctype="multipart/form-data">
+            <form th:action="@{'/api/update/user?lang=' + ${language.code.toString()}}" th:object="${user}" method="post" enctype="multipart/form-data">
                 <div th:if="${errorMessage}" style="color: red;">
                     <p th:text="${errorMessage}"></p>
                 </div>

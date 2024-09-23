@@ -40,7 +40,7 @@
     </th:block>
     <th:block th:fragment="content">
         <div>
-            <a href="/api/admin/dashboard">Dashboard</a>
+            <a th:href="'/api/admin/dashboard?lang=' + ${language.code.toString()}">Dashboard</a>
             <div class="item-container" th:if="${item != null}">
                 <img th:src="@{'/api/image/item/' + ${item.itemId}}" alt="Item Image" class="item-image">
                 <div class="item-details">

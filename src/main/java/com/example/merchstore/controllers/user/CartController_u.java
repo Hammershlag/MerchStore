@@ -1,10 +1,14 @@
 package com.example.merchstore.controllers.user;
 
+import com.example.merchstore.components.enums.Language;
 import com.example.merchstore.components.models.*;
 import com.example.merchstore.repositories.CartItemRepository;
 import com.example.merchstore.repositories.CurrencyRepository;
 import com.example.merchstore.repositories.ItemRepository;
+import com.example.merchstore.repositories.PreTranslatedTextRepository;
+import com.example.merchstore.services.GlobalAttributeService;
 import com.example.merchstore.services.LatestExchangeRateService;
+import com.example.merchstore.services.TranslationService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -14,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -71,6 +76,15 @@ public class CartController_u {
     @Autowired
     private LatestExchangeRateService latestExchangeRateService;
 
+    @Autowired
+    private TranslationService translationService;
+
+    @Autowired
+    private PreTranslatedTextRepository preTranslatedTextRepository;
+
+    @Autowired
+    private GlobalAttributeService globalAttributeService;
+
     /**
      * Handles the GET request for viewing the cart. It retrieves the cart items, sorts them based on the provided parameters, retrieves the currency from the cookies, retrieves the latest exchange rate for the currency, adds all these attributes to the model, and returns the view name for the cart page.
      *
@@ -82,9 +96,35 @@ public class CartController_u {
      */
     @GetMapping()
     public String showCart(HttpServletRequest request, Model model, @RequestParam(value = "sortField", required = false) String sortField,
-                           @RequestParam(value = "order", required = false, defaultValue = "asc") String order) {
+                           @RequestParam(value = "order", required = false, defaultValue = "asc") String order,
+                           @RequestParam(required = false) String lang) {
         User user = (User) httpSession.getAttribute("user");
+
+        Language language;
+        if (lang != null) {
+            language = Language.fromCode(lang);
+            if(lang.equals("pl")) {
+                language = (Language) globalAttributeService.getGlobalAttributes().get("language");
+            } else if (!language.getCode().equals(((Language) globalAttributeService.getGlobalAttributes().get("language")).getCode())) {
+                globalAttributeService.getGlobalAttributes().put("language", language);
+            }
+        } else {
+            language = (Language) globalAttributeService.getGlobalAttributes().get("language");
+        }
+
         List<CartItem> cartItems = cartItemRepository.findAllByUser(user);
+
+        List<CartItem> translatedCartItems = new ArrayList<>();
+
+        for (CartItem cartItem : cartItems) {
+            Item item = cartItem.getItem();
+            Item translatedItem = (Item) translationService.translate(item, language);
+            CartItem translatedCartItem = new CartItem(cartItem.getUser(),translatedItem, cartItem.getQuantity());
+            translatedCartItems.add(translatedCartItem);
+        }
+
+
+
         sortField = sortField != null ? sortField : "name";
 
         boolean isAscending = false;
@@ -94,7 +134,7 @@ public class CartController_u {
 
         String finalSortField = sortField;
         boolean finalIsAscending = isAscending;
-        cartItems.sort((item1, item2) -> {
+        translatedCartItems.sort((item1, item2) -> {
             int result;
             switch (finalSortField) {
                 case "name":
@@ -131,7 +171,7 @@ public class CartController_u {
 
         model.addAttribute("currency", currency);
         model.addAttribute("exchangeRate", exchangeRate);
-        model.addAttribute("cartItems", cartItems);
+        model.addAttribute("cartItems", translatedCartItems);
         model.addAttribute("sortField", sortField);
         model.addAttribute("order", order);
         return "user/cart";

@@ -1,18 +1,34 @@
-package com.example.merchstore;
+package com.example.merchstore.components.utilities;
+
+import com.example.merchstore.components.enums.Language;
+import com.example.merchstore.components.models.LanguageText;
+import com.example.merchstore.components.models.PreTranslatedTexts;
+import com.example.merchstore.repositories.PreTranslatedTextRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Scanner;
+
+import static com.example.merchstore.components.utilities.Defaults.TRANSLATION_OVER_DUE_DAYS;
 
 /**
  * @author Tomasz Zbroszczyk
  * @version 1.0
  * @since 22.09.2024
  */
+
+@Service
 public class Translator {
+
+    @Autowired
+    private PreTranslatedTextRepository preTranslatedTextRepository;
 
     // Translates only one sentence at a time
     private static final String GOOGLE_TRANSLATE_URL = "https://translate.google.com/translate_a/single";
@@ -42,6 +58,79 @@ public class Translator {
         return parseTranslation(response);
     }
 
+    public static LanguageText translate(LanguageText input, Language outputLanguage) throws IOException {
+        if (!shouldTranslate) {
+            return input; // Return original text if translation is not allowed
+        }
+
+        String encodedText = URLEncoder.encode(input.getText(), "UTF-8");
+
+        String urlString = GOOGLE_TRANSLATE_URL + "?client=gtx&sl=" + input.getLanguage().getCode() + "&tl=" + outputLanguage.getCode() +
+                "&dt=t&q=" + encodedText;
+
+        URL url = new URL(urlString);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("GET");
+
+        // Get the response
+        Scanner scanner = new Scanner(conn.getInputStream());
+        String response = scanner.useDelimiter("\\A").next();
+        scanner.close();
+
+        return new LanguageText(outputLanguage, parseTranslation(response));
+    }
+
+    // New method to translate multi-sentence text
+    public static LanguageText translateText(LanguageText input, Language outputLanguage) {
+        // Split text into sentences using punctuation
+        String[] sentences = input.getText().split("(?<=[.!?])\\s+");
+        StringBuilder translatedText = new StringBuilder();
+
+        // Translate each sentence and concatenate results
+        Arrays.stream(sentences).forEach(sentence -> {
+            try {
+                String translatedSentence = translate(input.getLanguage(), outputLanguage, sentence);
+                translatedText.append(translatedSentence).append(" ");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+        return new LanguageText(outputLanguage, translatedText.toString().trim());  // Return the concatenated result
+    }
+
+    public LanguageText translateText(LanguageText input, Language outputLanguage, String className, String fieldName, Long entityId) {
+        // Check pre-translated texts
+        boolean isOverDue = false;
+        PreTranslatedTexts preTranslatedText = preTranslatedTextRepository.findByClassNameAndFieldNameAndLanguageAndEntityId(className, fieldName, outputLanguage, entityId);
+        if (preTranslatedText != null) {
+            isOverDue = Duration.between(preTranslatedText.getLastUpdate(), LocalDateTime.now()).toDays() > TRANSLATION_OVER_DUE_DAYS;
+        }
+        if (preTranslatedText != null && !isOverDue) {
+            return new LanguageText(outputLanguage, preTranslatedText.getText());
+        } else if (isOverDue && preTranslatedText != null) {
+            preTranslatedTextRepository.delete(preTranslatedText);
+        }
+
+        // Split text into sentences using punctuation
+        String[] sentences = input.getText().split("(?<=[.!?])\\s+");
+        StringBuilder translatedText = new StringBuilder();
+
+        // Translate each sentence and concatenate results
+        Arrays.stream(sentences).forEach(sentence -> {
+            try {
+                String translatedSentence = translate(input.getLanguage(), outputLanguage, sentence);
+                translatedText.append(translatedSentence).append(" ");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+        // Save pre-translated text
+        preTranslatedTextRepository.save(new PreTranslatedTexts(null, className, fieldName, outputLanguage, translatedText.toString().trim(), entityId, LocalDateTime.now()));
+        return new LanguageText(outputLanguage, translatedText.toString().trim());  // Return the concatenated result
+    }
+
     // This method extracts the translation from the raw response
     private static String parseTranslation(String response) {
         // Check for errors in response or failure in parsing
@@ -58,7 +147,7 @@ public class Translator {
     // New method to translate multi-sentence text
     public static String translateText(Language from, Language to, String text) {
         // Split text into sentences using punctuation
-        String[] sentences = text.split("(?<=[.!?])\\s*");
+        String[] sentences = text.split("(?<=[.!?])\\s+");
         StringBuilder translatedText = new StringBuilder();
 
         // Translate each sentence and concatenate results
@@ -101,7 +190,7 @@ public class Translator {
         balance += testTranslation("Thank you", "Děkuji", Language.ENGLISH, Language.CZECH) ? 1 : -1;
         balance += testTranslation("Thank you", "Дякую", Language.ENGLISH, Language.UKRAINIAN) ? 1 : -1;
 
-        System.out.println((balance > 0 ? "More tests passed than failed" : "More tests failed than passed") + ". Balance: " + balance + "\n\n");
+        System.out.println((balance > 0 ? "At least 50% of tests passed" : "More than 50% of tests failed") + ". Balance: " + balance + "\n\n");
         if (balance < 0) {
             shouldTranslate = false; // Disable translation if more tests failed
         }
@@ -115,20 +204,12 @@ public class Translator {
                 System.out.printf("Test failed for '%s': expected '%s', got '%s'%n", originalText, expectedTranslation, actualTranslation);
                 return false;
             } else {
-                System.out.printf("Test passed for '%s': expected and got '%s'%n", originalText, actualTranslation);
+                //System.out.printf("Test passed for '%s': expected and got '%s'%n", originalText, actualTranslation);
                 return true;
             }
         } catch (IOException e) {
             System.out.printf("Test failed for '%s': IOException occurred.%n", originalText);
             return false;
         }
-    }
-
-    public static void main(String[] args) {
-        runTests(); // Call the tests
-
-        String text = "Magari yamebadilisha sana maisha ya watu...";
-        String output = translateText(Language.AUTO, Language.ENGLISH, text);
-        System.out.println("Full translated Text: " + output);
     }
 }

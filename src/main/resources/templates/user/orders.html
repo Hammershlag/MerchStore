@@ -65,7 +65,7 @@
                         <td th:text="${order.currency.shortName}">PLN</td>
                         <td th:text="${order.exchangeRate.exchangeRate}">1.00</td>
                         <td>
-                            <a th:href="'/user/cart/checkout?orderID=' + ${order.orderId}">View</a>
+                            <a th:href="'/user/cart/checkout?lang=' + ${language.code.toString()} +'&orderID=' + ${order.orderId}">View</a>
                         </td>
                     </tr>
                 </table>

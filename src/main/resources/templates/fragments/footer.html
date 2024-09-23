@@ -4,35 +4,35 @@
             <div class="footer-column">
                 <h3>Shop</h3>
                 <ul>
-                    <li><a href="/item/all">All Items</a></li>
-                    <li><a href="/user/cart">Cart</a></li>
-                    <li><a href="/user/cart/checkout/all">All your orders</a></li>
+                    <li><a th:href="'/item/all?lang=' + ${language.code.toString()}">All Items</a></li>
+                    <li><a th:href="'/user/cart?lang=' + ${language.code.toString()}">Cart</a></li>
+                    <li><a th:href="'/user/cart/checkout/all?lang=' + ${language.code.toString()}">All your orders</a></li>
                 </ul>
             </div>
             <div class="footer-column">
                 <h3>Information</h3>
                 <ul>
-                    <li><a href="/info/about">About Us</a></li>
-                    <li><a href="/info/careers">Careers</a></li>
-                    <li><a href="/info/sustainability">Sustainability</a></li>
-                    <li><a href="/info/press">Press</a></li>
-                    <li><a href="/info/investors">Investors</a></li>
+                    <li><a th:href="'/info/about?lang=' + ${language.code.toString()}">About Us</a></li>
+                    <li><a th:href="'/info/careers?lang=' + ${language.code.toString()}">Careers</a></li>
+                    <li><a th:href="'/info/sustainability?lang=' + ${language.code.toString()}">Sustainability</a></li>
+                    <li><a th:href="'/info/press?lang=' + ${language.code.toString()}">Press</a></li>
+                    <li><a th:href="'/info/investors?lang=' + ${language.code.toString()}">Investors</a></li>
                 </ul>
             </div>
             <div class="footer-column">
                 <h3>Help</h3>
                 <ul>
-                    <li><a href="/help/customer-service">Customer Service</a></li>
-                    <li><a href="/help/faq">FAQ</a></li>
-                    <li><a href="/help/returns">Returns</a></li>
-                    <li><a href="/help/contact">Contact</a></li>
+                    <li><a th:href="'/help/customer-service?lang=' + ${language.code.toString()}">Customer Service</a></li>
+                    <li><a th:href="'/help/faq?lang=' + ${language.code.toString()}">FAQ</a></li>
+                    <li><a th:href="'/help/returns?lang=' + ${language.code.toString()}">Returns</a></li>
+                    <li><a th:href="'/help/contact?lang=' + ${language.code.toString()}">Contact</a></li>
                 </ul>
             </div>
             <div class="footer-column">
                 <h3>Join Us</h3>
                 <ul>
-                    <li><a href="/join/loyalty">Loyalty Program</a></li>
-                    <li><a href="/join/newsletter">Newsletter</a></li>
+                    <li><a th:href="'/join/loyalty?lang=' + ${language.code.toString()}">Loyalty Program</a></li>
+                    <li><a th:href="'/join/newsletter?lang=' + ${language.code.toString()}">Newsletter</a></li>
                 </ul>
             </div>
         </div>

@@ -13,16 +13,16 @@
     <th:block th:fragment="content">
         <div>
             ADMIN DASHBOARD<br>
-            <a href="/api/logout">Logout</a><br>
-            <a href="/api/admin/add/category">Add Category</a><br>
-            <a href="/api/admin/add/discount">Add Discount</a><br>
-            <a href="/api/admin/add/item">Add Item</a><br>
-            <a href="/api/admin/add/ad">Add Ad</a><br>
-            <a href="/api/admin/view/categories">View Categories</a><br>
-            <a href="/api/admin/view/discounts">View Discounts</a><br>
-            <a href="/api/admin/view/users">View Users</a><br>
-            <a href="/api/admin/view/items">View Items</a><br>
-            <a href="/api/admin/view/ads">View Ads</a><br>
+            <a th:href="'/api/logout?lang=' + ${language.code.toString()}">Logout</a><br>
+            <a th:href="'/api/admin/add/category?lang=' + ${language.code.toString()}">Add Category</a><br>
+            <a th:href="'/api/admin/add/discount?lang=' + ${language.code.toString()}">Add Discount</a><br>
+            <a th:href="'/api/admin/add/item?lang=' + ${language.code.toString()}">Add Item</a><br>
+            <a th:href="'/api/admin/add/ad?lang=' + ${language.code.toString()}">Add Ad</a><br>
+            <a th:href="'/api/admin/view/categories?lang=' + ${language.code.toString()}">View Categories</a><br>
+            <a th:href="'/api/admin/view/discounts?lang=' + ${language.code.toString()}">View Discounts</a><br>
+            <a th:href="'/api/admin/view/users?lang=' + ${language.code.toString()}">View Users</a><br>
+            <a th:href="'/api/admin/view/items?lang=' + ${language.code.toString()}">View Items</a><br>
+            <a th:href="'/api/admin/view/ads?lang=' + ${language.code.toString()}">View Ads</a><br>
         </div>
     </th:block>
     <th:block th:fragment="right_content">

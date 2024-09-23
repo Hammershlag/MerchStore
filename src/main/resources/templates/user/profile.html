@@ -37,7 +37,7 @@
                 <p><strong>Role:</strong> <span th:text="${user.role}"></span></p>
                 <p><strong>Gender:</strong> <span th:text="${user.gender}"></span></p>
             </div>
-            <a href="/api/update/user">Update Profile</a>
+            <a th:href="'/api/update/user?lang=' + ${language.code.toString()}">Update Profile</a>
         </div>
     </th:block>
     <th:block th:fragment="right_content">

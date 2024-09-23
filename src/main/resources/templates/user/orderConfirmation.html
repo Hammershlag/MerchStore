@@ -48,7 +48,7 @@
                             <p>Your order is currently unpaid. Please <a th:href="'/api/pay/order?id=' + ${order.orderId}">click here to pay now</a>.</p>
                         </div>
                     </div>
-                    <a th:href="'/user/cart/checkout/file?orderID=' + ${order.orderId}">Download PDF</a>
+                    <a th:href="'/user/cart/checkout/file?lang=' + ${language.code.toString()} +'&orderID=' + ${order.orderId}">Download PDF</a>
                 </div>
                 <div th:if="${order == null}">
                     <p>We encountered an issue with your order. Please contact support.</p>
