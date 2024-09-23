@@ -1,12 +1,18 @@
 package com.example.merchstore.components.models;
 
+import com.example.merchstore.components.enums.Language;
 import com.example.merchstore.components.interfaces.DataDisplay;
+import com.example.merchstore.components.superClasses.Translatable;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.function.BiConsumer;
+import java.util.function.Function;
 
 /**
  * The Review class represents a review in the system.
@@ -31,11 +37,14 @@ import java.time.LocalDateTime;
  * @version 1.0
  * @since 10.06.2024
  */
+
+//TODO Internationalization
+
 @Data @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "reviews")
-public class Review implements DataDisplay {
+public class Review extends Translatable implements DataDisplay {
 
     /**
      * The ID of the review.
@@ -85,6 +94,26 @@ public class Review implements DataDisplay {
     @Column(name = "star_rating", nullable = false)
     private int starRating;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "language")
+    private Language language;
+
+    @JsonIgnore
+    @Transient
+    final String className = "Review";
+
+    @JsonIgnore
+    @Transient
+    final HashMap<String, Function<Translatable, String>> textFieldsGetter = new HashMap<>() {{
+        put("description", (Translatable t) -> ((Review) t).getDescription());
+    }};
+
+    @JsonIgnore
+    @Transient
+    final HashMap<String, BiConsumer<Translatable, String>> textFieldsSetter = new HashMap<>() {{
+        put("description", (Translatable t, String value) -> ((Review) t).setDescription(value));
+    }};
+
     /**
      * Copy constructor for the Review class.
      * @param other The Review object to copy.
@@ -121,5 +150,28 @@ public class Review implements DataDisplay {
     @Override
     public DataDisplay limitedDisplayData() {
         return null;
+    }
+
+    @JsonIgnore
+    @Override
+    public Long getTranslatableId() {
+        return reviewId;
+    }
+
+    @Override
+    public void setTranslatableId(Long id) {
+        this.reviewId = id;
+    }
+
+    @JsonIgnore
+    @Override
+    public Language getTranslatableLanguage() {
+        return language;
+    }
+
+
+    @Override
+    public void setTranslatableLanguage(Language language) {
+        this.language = language;
     }
 }

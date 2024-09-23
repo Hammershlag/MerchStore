@@ -282,9 +282,16 @@ public class ItemController_g {
         model.addAttribute("attributes", translatedAttributes);
 
         List<Review> reviews = reviewRepository.findAllByItem(item);
+
+        List<Review> translatedReviews = new ArrayList<>();
+        for (Review review : reviews) {
+            Review translatedReview = (Review) translationService.translate(review, language);
+            translatedReviews.add(translatedReview);
+        }
+
         Item translatedItem = (Item) translationService.translate(item, language);
         model.addAttribute("item", translatedItem);
-        model.addAttribute("reviews", reviews);
+        model.addAttribute("reviews", translatedReviews);
         model.addAttribute("search", translatedItem.getName());
         if (addedToCart != null) {
             model.addAttribute("addedToCart", addedToCart);

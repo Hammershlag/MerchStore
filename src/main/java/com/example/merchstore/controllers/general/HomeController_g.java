@@ -162,9 +162,15 @@ public class HomeController_g {
             translatedBestsellers.add(translatedItem);
         }
 
+        List<Category> parentCategories = categoryRepository.findAll().stream().filter(Category::isMain).toList();
+        List<Category> translatedCategories = new ArrayList<>();
+        for (Category category : parentCategories) {
+            Category translatedCategory = (Category) translationService.translate(category, language);
+            translatedCategories.add(translatedCategory);
+        }
 
         model.addAttribute("isLoggedIn", isLoggedIn);
-        model.addAttribute("categories", categoryRepository.findAll().stream().filter(Category::isMain).toList());
+        model.addAttribute("categories", translatedCategories);
         model.addAttribute("bestsellers", translatedBestsellers);
         model.addAttribute("user_history_items", translatedUserHistory);
 

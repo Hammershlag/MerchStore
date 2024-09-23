@@ -130,6 +130,7 @@ CREATE TABLE reviews (
                          FOREIGN KEY (user_id) REFERENCES users(user_id),
                          FOREIGN KEY (item_id) REFERENCES items(item_id),
                          star_rating INT NOT NULL,
+                         language VARCHAR(50) NOT NULL DEFAULT 'POLISH',
                          UNIQUE (user_id, item_id) -- Ensure a user can only review an item once
 
 );
