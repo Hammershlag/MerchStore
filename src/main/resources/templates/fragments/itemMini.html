@@ -1,18 +1,18 @@
 <div th:fragment="itemMini">
     <div class="item-mini-container">
         <div class="item-mini">
-            <a th:href="@{'/item?&lang=' + ${language.code.toString()} + '&id=' + ${item_mini.itemId}}">
+            <a th:href="@{'/item?&lang=' + ${#locale.language} + '&id=' + ${item_mini.itemId}}">
                 <img th:src="@{'/api/image/item/' + ${item_mini.itemId}}" alt="Item Image" class="item-image">
             </a>
             <div class="item-mini-info">
-                <a th:href="@{'/item?&lang=' + ${language.code.toString()} + '&id=' + ${item_mini.itemId}}">
+                <a th:href="@{'/item?&lang=' + ${#locale.language} + '&id=' + ${item_mini.itemId}}">
                     <p class="title" th:text="${item_mini.name}"></p>
                 </a>
                 <h3>Price:</h3>
                 <p class="price" th:text="${#numbers.formatDecimal(item_mini.price * exchangeRate.exchangeRate, 1, 2)} + ${currency.symbol}"></p>
             </div>
             <div class="see-product">
-                <a th:href="@{'/item?&lang=' + ${language.code.toString()} + '&id=' + ${item_mini.itemId}}">See Product</a>
+                <a th:href="@{'/item?&lang=' + ${#locale.language} + '&id=' + ${item_mini.itemId}}">See Product</a>
             </div>
         </div>
     </div>

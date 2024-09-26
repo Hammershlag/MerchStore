@@ -44,7 +44,7 @@
     </th:block>
     <th:block th:fragment="content">
         <div>
-            <a th:href="'/api/admin/dashboard?lang=' + ${language.code.toString()}">Dashboard</a>
+            <a th:href="'/api/admin/dashboard?lang=' + ${#locale.language}">Dashboard</a>
             <h2>Ads</h2>
             <table>
                 <thead>

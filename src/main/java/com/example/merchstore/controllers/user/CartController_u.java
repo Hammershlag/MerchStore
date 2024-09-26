@@ -1,5 +1,6 @@
 package com.example.merchstore.controllers.user;
 
+import com.example.merchstore.LocaleConfig;
 import com.example.merchstore.components.enums.Language;
 import com.example.merchstore.components.models.*;
 import com.example.merchstore.repositories.CartItemRepository;
@@ -85,6 +86,9 @@ public class CartController_u {
     @Autowired
     private GlobalAttributeService globalAttributeService;
 
+    @Autowired
+    private LocaleConfig localeConfig;
+
     /**
      * Handles the GET request for viewing the cart. It retrieves the cart items, sorts them based on the provided parameters, retrieves the currency from the cookies, retrieves the latest exchange rate for the currency, adds all these attributes to the model, and returns the view name for the cart page.
      *
@@ -100,17 +104,8 @@ public class CartController_u {
                            @RequestParam(required = false) String lang) {
         User user = (User) httpSession.getAttribute("user");
 
-        Language language;
-        if (lang != null) {
-            language = Language.fromCode(lang);
-            if(lang.equals("pl")) {
-                language = (Language) globalAttributeService.getGlobalAttributes().get("language");
-            } else if (!language.getCode().equals(((Language) globalAttributeService.getGlobalAttributes().get("language")).getCode())) {
-                globalAttributeService.getGlobalAttributes().put("language", language);
-            }
-        } else {
-            language = (Language) globalAttributeService.getGlobalAttributes().get("language");
-        }
+        Language language = localeConfig.getCurrentLanguage();
+
 
         List<CartItem> cartItems = cartItemRepository.findAllByUser(user);
 

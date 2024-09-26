@@ -1,6 +1,7 @@
 package com.example.merchstore.controllers.user;
 
 import com.example.merchstore.Decorators.ItemDecorator;
+import com.example.merchstore.LocaleConfig;
 import com.example.merchstore.components.enums.Language;
 import com.example.merchstore.components.enums.OrderStatus;
 import com.example.merchstore.components.models.*;
@@ -126,6 +127,9 @@ public class CheckoutController_u {
     @Autowired
     private GlobalAttributeService globalAttributeService;
 
+    @Autowired
+    private LocaleConfig localeConfig;
+
     /**
      * Handles the GET request for downloading the order details as a PDF file. It retrieves the order and its items, generates the PDF file, and sends it as a response.
      *
@@ -140,17 +144,8 @@ public class CheckoutController_u {
         User currentUser = (User) session.getAttribute("user");
         Order order = orderRepository.findByOrderId(orderID);
 
-        Language language;
-        if (lang != null) {
-            language = Language.fromCode(lang);
-            if(lang.equals("pl")) {
-                language = (Language) globalAttributeService.getGlobalAttributes().get("language");
-            } else if (!language.getCode().equals(((Language) globalAttributeService.getGlobalAttributes().get("language")).getCode())) {
-                globalAttributeService.getGlobalAttributes().put("language", language);
-            }
-        } else {
-            language = (Language) globalAttributeService.getGlobalAttributes().get("language");
-        }
+        Language language = localeConfig.getCurrentLanguage();
+
 
         if (currentUser == null || !currentUser.getUserId().equals(order.getUser().getUserId())) {
             response.sendRedirect("/home?message=wrongUser");
@@ -265,10 +260,15 @@ public class CheckoutController_u {
      * @return The view name for the order confirmation page.
      */
     @GetMapping
-    public String showCheckoutPage(HttpSession session, Model model, @RequestParam(value = "orderID", required = false) Long orderID) {
+    public String showCheckoutPage(HttpSession session, Model model, @RequestParam(value = "orderID", required = false) Long orderID,
+                                   @RequestParam(required = false) String lang) {
         if (orderID == null) {
             return "redirect:/user/cart";
         }
+
+        Language language = localeConfig.getCurrentLanguage();
+
+
         User currentUser = (User) session.getAttribute("user");
         Order order = orderRepository.findByOrderId(orderID);
 
@@ -287,7 +287,7 @@ public class CheckoutController_u {
         List<OrderItem> translatedOrderItems = new ArrayList<>();
         for (OrderItem orderItem : orderItems) {
             OrderItem translatedOrderItem = new OrderItem(orderItem);
-            translatedOrderItem.setItem((Item) translationService.translate(orderItem.getItem(), Language.ENGLISH));
+            translatedOrderItem.setItem((Item) translationService.translate(orderItem.getItem(), language));
             translatedOrderItems.add(translatedOrderItem);
         }
         model.addAttribute("orderItems", translatedOrderItems);

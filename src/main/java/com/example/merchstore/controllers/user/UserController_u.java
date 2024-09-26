@@ -1,5 +1,6 @@
 package com.example.merchstore.controllers.user;
 
+import com.example.merchstore.LocaleConfig;
 import com.example.merchstore.components.models.User;
 import com.example.merchstore.repositories.CustomUserRepository;
 import com.example.merchstore.services.CustomUserDetailsService;
@@ -69,6 +70,9 @@ public class UserController_u {
      */
     @Autowired
     private GlobalAttributeService globalAttributeService;
+
+    @Autowired
+    private LocaleConfig localeConfig;
 
     /**
      * Handles the GET request for viewing the user's profile. It returns the view name for the profile page.

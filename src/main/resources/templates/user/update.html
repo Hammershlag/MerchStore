@@ -20,50 +20,50 @@
     </th:block>
     <th:block th:fragment="content">
         <div>
-            <h2>Update User Details</h2>
-            <form th:action="@{'/api/update/user?lang=' + ${language.code.toString()}}" th:object="${user}" method="post" enctype="multipart/form-data">
+            <h2 th:text="#{user.update_profile.title}"></h2>
+            <form th:action="@{'/api/update/user?lang=' + ${#locale.language}}" th:object="${user}" method="post" enctype="multipart/form-data">
                 <div th:if="${errorMessage}" style="color: red;">
                     <p th:text="${errorMessage}"></p>
                 </div>
 
-                <label for="username">Username:</label><br>
+                <label for="username" th:text="#{user.update_profile.username}"></label><br>
                 <input type="text" id="username" name="username" th:field="*{username}" readonly><br>
 
-                <label for="email">Email:</label><br>
+                <label for="email" th:text="#{user.update_profile.email}"></label><br>
                 <input type="email" id="email" name="email" th:field="*{email}" required><br>
 
-                <label for="firstName">First Name:</label><br>
+                <label for="firstName" th:text="#{user.update_profile.first_name}"></label><br>
                 <input type="text" id="firstName" name="firstName" th:field="*{firstName}" readonly><br>
 
-                <label for="lastName">Last Name:</label><br>
+                <label for="lastName" th:text="#{user.update_profile.last_name}"></label><br>
                 <input type="text" id="lastName" name="lastName" th:field="*{lastName}" readonly><br>
 
-                <label for="birthDate">Birth Date:</label><br>
+                <label for="birthDate" th:text="#{user.update_profile.birth_date}"></label><br>
                 <input type="text" id="birthDate" name="birthDate" th:field="*{birthDate}" readonly><br><br>
 
-                <label for="phoneNumber">Phone Number:</label><br>
+                <label for="phoneNumber" th:text="#{user.update_profile.phone_number}"></label><br>
                 <input type="text" id="phoneNumber" name="phoneNumber" th:field="*{phoneNumber}"><br>
 
-                <label for="address">Address:</label><br>
+                <label for="address" th:text="#{user.update_profile.address}"></label><br>
                 <input type="text" id="address" name="address" th:field="*{address}"><br><br>
 
-                <label for="gender">Gender:</label><br>
+                <label for="gender" th:text="#{user.update_profile.gender}"></label><br>
                 <select id="gender" name="gender" th:field="*{gender}" required>
-                    <option value="" selected="selected">Select your gender</option>
-                    <option value="MALE">Male</option>
-                    <option value="FEMALE">Female</option>
+                    <option value="" selected="selected" th:text="#{user.update_profile.gender.default}"></option>
+                    <option value="MALE" th:text="#{user.update_profile.gender.male}"></option>
+                    <option value="FEMALE" th:text="#{user.update_profile.gender.female}"></option>
                 </select><br><br>
 
-                <label for="newImage">Profile Image:</label><br>
+                <label for="newImage" th:text="#{user.update_profile.profile_image}"></label><br>
                 <input type="file" id="newImage" name="newImage"><br><br>
 
-                <label for="currentPassword">Current Password:</label><br>
+                <label for="currentPassword" th:text="#{user.update_profile.current_password}"></label><br>
                 <input type="password" id="currentPassword" name="currentPassword"><br><br>
 
-                <label for="newPassword">New Password:</label><br>
+                <label for="newPassword" th:text="#{user.update_profile.new_password}"></label><br>
                 <input type="password" id="newPassword" name="newPassword"><br><br>
 
-                <input type="submit" value="Update">
+                <input type="submit" value="Update" th:text="#{user.update_profile.update}">
             </form>
         </div>
     </th:block>

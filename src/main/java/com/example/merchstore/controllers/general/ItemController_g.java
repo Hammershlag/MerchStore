@@ -1,5 +1,6 @@
 package com.example.merchstore.controllers.general;
 
+import com.example.merchstore.LocaleConfig;
 import com.example.merchstore.components.enums.Language;
 import com.example.merchstore.components.models.*;
 import com.example.merchstore.components.models.Currency;
@@ -104,6 +105,9 @@ public class ItemController_g {
 
     @Autowired
     private PreTranslatedTextRepository preTranslatedTextRepository;
+
+    @Autowired
+    private LocaleConfig localeConfig;
     /**
      * The default number of items per page.
      */
@@ -137,14 +141,8 @@ public class ItemController_g {
         }
         if (search == null) search = searchItems;
 
-        Language language;
-        if (lang != null) {
-            language = Language.fromCode(lang);
-            globalAttributeService.replaceAttribute("language", language);
+        Language language = localeConfig.getCurrentLanguage();
 
-        } else {
-            language = (Language) globalAttributeService.getGlobalAttributes().get("language");
-        }
 
         Pageable pageable = PageRequest.of(page - 1, itemsPerPage, Sort.Direction.fromString(order), sortField);
 
@@ -238,15 +236,8 @@ public class ItemController_g {
             return "redirect:/item/all";
         }
 
-        Language language;
-        if (lang != null) {
-            language = Language.fromCode(lang);
-            globalAttributeService.replaceAttribute("language", language);
+        Language language = localeConfig.getCurrentLanguage();
 
-
-        } else {
-            language = (Language) globalAttributeService.getGlobalAttributes().get("language");
-        }
 
         Category category = item.getCategory();
         Category translatedCategoryHierarchy = translatedCategoryHierarchy(category, language);
@@ -335,12 +326,8 @@ public class ItemController_g {
             return "fragments/itemSearchResults";
         }
         Set<Item> itemsSet = new LinkedHashSet<>();
-        Language language;
-        if (lang != null) {
-            language = Language.fromCode(lang);
-        } else {
-            language = (Language) globalAttributeService.getGlobalAttributes().get("language");
-        }
+        Language language = localeConfig.getCurrentLanguage();
+
         if (language.code.equals("pl")) {
             itemsSet = new LinkedHashSet<>(itemRepository.findTop3ByNameStartingWithIgnoreCaseAndStockQuantityGreaterThan(search, 0));
             if (itemsSet.size() < 3) {

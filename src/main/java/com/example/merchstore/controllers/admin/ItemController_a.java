@@ -1,5 +1,6 @@
 package com.example.merchstore.controllers.admin;
 
+import com.example.merchstore.LocaleConfig;
 import com.example.merchstore.components.enums.Language;
 import com.example.merchstore.components.models.*;
 import com.example.merchstore.repositories.*;
@@ -91,7 +92,7 @@ public class ItemController_a {
     private TranslationService translationService;
 
     @Autowired
-    private GlobalAttributeService globalAttributeService;
+    private LocaleConfig localeConfig;
 
     /**
      * Prepares the model for adding a new item and returns the view name.
@@ -182,13 +183,8 @@ public class ItemController_a {
                             @RequestParam(value = "searchItem", required = false) String search,
                             @RequestParam(required = false) String lang,Model model) {
 
-        Language language;
-        if (lang != null) {
-            language = Language.fromCode(lang);
-            globalAttributeService.replaceAttribute("language", language);
-        } else {
-            language = (Language) globalAttributeService.getGlobalAttributes().get("language");
-        }
+        Language language = localeConfig.getCurrentLanguage();
+
 
         Page<Item> items;
         Pageable pageable = PageRequest.of(page, size);
@@ -258,8 +254,6 @@ public class ItemController_a {
     public String viewItem(HttpServletRequest request, @RequestParam Long id,
                            @RequestParam(required = false) String lang, Model model) {
 
-        if (lang == null)
-            lang = "pl";
 
         Item item = itemRepository.findById(id).orElse(null);
         if (item == null) {
@@ -283,7 +277,8 @@ public class ItemController_a {
         List<Attribute> attributes = attributesRepository.findAllByItem(item);
         model.addAttribute("attributes", attributes);
 
-        Language language = Language.fromCode(lang);
+        Language language = localeConfig.getCurrentLanguage();
+
         Language originalLanguage = item.getLanguage();
         Item translatedItem = (Item) translationService.translate(item, language);
         model.addAttribute("original_language", originalLanguage);

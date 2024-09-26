@@ -19,10 +19,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
 import static org.springframework.security.web.context.HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY;
@@ -108,7 +105,7 @@ public class LoginController_s {
      * @return The view name.
      */
     @GetMapping("/login/form")
-    public String showLoginForm(Model model) {
+    public String showLoginForm(Model model, @RequestParam(required = false) String lang) {
         model.addAttribute("loginForm", new LoginForm());
         return "auth/login";
     }
@@ -122,7 +119,8 @@ public class LoginController_s {
      * @return The redirect URL.
      */
     @PostMapping("/login")
-    public String login(HttpServletRequest req, HttpServletResponse res, @ModelAttribute LoginForm loginForm) {
+    public String login(HttpServletRequest req, HttpServletResponse res, @ModelAttribute LoginForm loginForm,
+                        @RequestParam(required = false) String lang) {
         if (customUserDetailsService.authenticateUser(loginForm, passwordEncoder)) {
 
             User user = customUserRepository.findByUsername(loginForm.getUsername());
@@ -162,7 +160,7 @@ public class LoginController_s {
      * @return The redirect URL.
      */
     @GetMapping("/logout")
-    public RedirectView logout(HttpSession session) {
+    public RedirectView logout(HttpSession session, @RequestParam(required = false) String lang) {
         globalAttributeService.addAttribute("isLoggedIn", false);
         session.setAttribute("isLoggedIn", false);
         session.invalidate();

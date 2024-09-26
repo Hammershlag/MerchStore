@@ -74,7 +74,7 @@
                 <input type="file" id="imageData" name="imageData" accept="image/jpeg,image/png,image/jpg"><br><br>
 
                 <input type="checkbox" id="termsCheckbox" onclick="toggleSubmitButton()">
-                <label for="termsCheckbox">I have read and agree to the <a th:href="'/documents?lang=' + ${language.code.toString()} +'&name=termsandconditions'" target="_blank">terms and conditions</a></label><br><br>
+                <label for="termsCheckbox">I have read and agree to the <a th:href="'/documents?lang=' + ${#locale.language} +'&name=termsandconditions'" target="_blank">terms and conditions</a></label><br><br>
 
                 <input type="submit" id="submitButton" value="Register" disabled>
             </form>

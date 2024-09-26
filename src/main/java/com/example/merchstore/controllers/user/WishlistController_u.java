@@ -1,5 +1,6 @@
 package com.example.merchstore.controllers.user;
 
+import com.example.merchstore.LocaleConfig;
 import com.example.merchstore.components.enums.Language;
 import com.example.merchstore.components.models.*;
 import com.example.merchstore.repositories.CurrencyRepository;
@@ -45,19 +46,15 @@ public class WishlistController_u {
     @Autowired
     private GlobalAttributeService globalAttributeService;
 
+    @Autowired
+    private LocaleConfig localeConfig;
+
     @GetMapping("/all")
     public String getAllWishlist(HttpServletRequest request, HttpSession session, Model model,
                                  @RequestParam(value = "lang", required = false) String lang) {
 
-        Language language;
-        if (lang != null) {
-            language = Language.fromCode(lang);
-            globalAttributeService.replaceAttribute("language", language);
+        Language language = localeConfig.getCurrentLanguage();
 
-
-        } else {
-            language = (Language) globalAttributeService.getGlobalAttributes().get("language");
-        }
         User user = (User) session.getAttribute("user");
         List<WishlistItem> wishlistItems = wishlistItemRepository.findByUser(user);
         for (WishlistItem wishlistItem : wishlistItems) {

@@ -1,5 +1,6 @@
 package com.example.merchstore.controllers.general;
 
+import com.example.merchstore.LocaleConfig;
 import com.example.merchstore.components.enums.Language;
 import com.example.merchstore.components.models.Ad;
 import com.example.merchstore.repositories.AdRepository;
@@ -41,6 +42,9 @@ public class AdController_g {
     @Autowired
     private TranslationService translationService;
 
+    @Autowired
+    private LocaleConfig localeConfig;
+
     /**
      * Handles the GET request for updating advertisements. It retrieves a list of random advertisements based on the provided maximum number, adds the list to the model, and returns the view name for the advertisement fragment.
      *
@@ -51,17 +55,8 @@ public class AdController_g {
     @GetMapping("/updateAds")
     public String updateAds(Model model, @RequestParam("maxAds") int maxAds, @RequestParam(value = "lang", required = false) String lang) {
         List<Ad> randomAds = globalAttributeService.getRandomAds(maxAds);// Choose how many ads to display
-        Language language;
-        if (lang != null) {
-            language = Language.fromCode(lang);
-            if(lang.equals("pl")) {
-                language = (Language) globalAttributeService.getGlobalAttributes().get("language");
-            } else if (!language.getCode().equals(((Language) globalAttributeService.getGlobalAttributes().get("language")).getCode())) {
-                globalAttributeService.getGlobalAttributes().put("language", language);
-            }
-        } else {
-            language = (Language) globalAttributeService.getGlobalAttributes().get("language");
-        }
+        Language language = localeConfig.getCurrentLanguage();
+
         List<Ad> translatedAds = new ArrayList<>();
         for (Ad ad : randomAds) {
             Ad translatedAd = (Ad) translationService.translate(ad, language);

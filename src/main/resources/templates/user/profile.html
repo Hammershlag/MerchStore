@@ -25,19 +25,18 @@
     <th:block th:fragment="content">
         <div>
             <div class="profile-container">
-                <h1>User Profile</h1>
+                <h1 th:text="#{user.profile.title}"></h1>
                 <img th:src="${user.resolveImage()}" alt="User Image"  class="profile-image">
-                <p><strong>Username:</strong> <span th:text="${user.username}"></span></p>
-                <p><strong>Email:</strong> <span th:text="${user.email}"></span></p>
-                <p><strong>First Name:</strong> <span th:text="${user.firstName}"></span></p>
-                <p><strong>Last Name:</strong> <span th:text="${user.lastName}"></span></p>
-                <p><strong>Birth Date:</strong> <span th:text="${user.birthDate}"></span></p>
-                <p><strong>Phone Number:</strong> <span th:text="${user.phoneNumber}"></span></p>
-                <p><strong>Address:</strong> <span th:text="${user.address}"></span></p>
-                <p><strong>Role:</strong> <span th:text="${user.role}"></span></p>
-                <p><strong>Gender:</strong> <span th:text="${user.gender}"></span></p>
+                <p><strong th:text="#{user.profile.username}"></strong> <span th:text="${user.username}"></span></p>
+                <p><strong th:text="#{user.profile.email}"></strong> <span th:text="${user.email}"></span></p>
+                <p><strong th:text="#{user.profile.first_name}"></strong> <span th:text="${user.firstName}"></span></p>
+                <p><strong th:text="#{user.profile.last_name}"></strong> <span th:text="${user.lastName}"></span></p>
+                <p><strong th:text="#{user.profile.birth_date}"></strong> <span th:text="${user.birthDate}"></span></p>
+                <p><strong th:text="#{user.profile.phone_number}"></strong> <span th:text="${user.phoneNumber}"></span></p>
+                <p><strong th:text="#{user.profile.address}"></strong> <span th:text="${user.address}"></span></p>
+                <p><strong th:text="#{user.profile.gender}"></strong> <span th:text="${user.gender}"></span></p>
             </div>
-            <a th:href="'/api/update/user?lang=' + ${language.code.toString()}">Update Profile</a>
+            <a th:href="'/api/update/user?lang=' + ${#locale.language}">Update Profile</a>
         </div>
     </th:block>
     <th:block th:fragment="right_content">

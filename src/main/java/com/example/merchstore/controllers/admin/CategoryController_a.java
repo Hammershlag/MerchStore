@@ -1,5 +1,6 @@
 package com.example.merchstore.controllers.admin;
 
+import com.example.merchstore.LocaleConfig;
 import com.example.merchstore.components.enums.Language;
 import com.example.merchstore.components.models.Category;
 import com.example.merchstore.repositories.CategoryRepository;
@@ -50,7 +51,7 @@ public class CategoryController_a {
     private CategoryRepository categoryRepository;
 
     @Autowired
-    private GlobalAttributeService globalAttributeService;
+    private LocaleConfig localeConfig;
 
     @Autowired
     private TranslationService translationService;
@@ -128,13 +129,8 @@ public class CategoryController_a {
     public String getAllCategories(@RequestParam(value = "searchCat", required = false) String search, Model model,
                                    @RequestParam(value = "lang", required = false) String lang){
 
-        Language language;
-        if (lang != null) {
-            language = Language.fromCode(lang);
-            globalAttributeService.replaceAttribute("language", language);
-        } else {
-            language = (Language) globalAttributeService.getGlobalAttributes().get("language");
-        }
+        Language language = localeConfig.getCurrentLanguage();
+
         List<Category> categories;
         if (search != null && !search.isEmpty()) {
             categories = categoryRepository.findByNameStartingWithIgnoreCase(search);

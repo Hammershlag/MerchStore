@@ -44,7 +44,7 @@
     </th:block>
     <th:block th:fragment="content">
         <div>
-            <a th:href="'/api/admin/dashboard?lang=' + ${language.code.toString()}">Dashboard</a>
+            <a th:href="'/api/admin/dashboard?lang=' + ${#locale.language}">Dashboard</a>
             <h2>Items</h2>
             <form action="/api/admin/view/items" method="get">
                 <label for="category">Filter by Category:</label>
@@ -104,17 +104,17 @@
                     <td th:text="${item.createdAt}"></td>
                     <td th:text="${item.updatedAt}"></td>
                     <td>
-                        <a th:href="@{/api/admin/update/item(id=${item.itemId}, lang=${language.code.toString()})}">Update</a>
+                        <a th:href="@{/api/admin/update/item(id=${item.itemId}, lang=${#locale.language})}">Update</a>
                     </td>
                 </tr>
                 </tbody>
             </table>
             <div class="pagination">
-                <a th:if="${currentPage > 0}" th:href="@{/api/admin/view/items(page=${currentPage - 1}, size=${pageSize}, category=${selectedCategoryId}, lang=${language.code.toString()})}">Previous</a>
+                <a th:if="${currentPage > 0}" th:href="@{/api/admin/view/items(page=${currentPage - 1}, size=${pageSize}, category=${selectedCategoryId}, lang=${#locale.language})}">Previous</a>
                 <span th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
-                    <a th:class="${i == currentPage} ? 'active'" th:href="@{/api/admin/view/items(page=${i}, size=${pageSize}, category=${selectedCategoryId}, lang=${language.code.toString()})}" th:text="${i + 1}"></a>
+                    <a th:class="${i == currentPage} ? 'active'" th:href="@{/api/admin/view/items(page=${i}, size=${pageSize}, category=${selectedCategoryId}, lang=${#locale.language})}" th:text="${i + 1}"></a>
                 </span>
-                <a th:if="${currentPage < totalPages - 1}" th:href="@{/api/admin/view/items(page=${currentPage + 1}, size=${pageSize}, category=${selectedCategoryId}, lang=${language.code.toString()})}">Next</a>
+                <a th:if="${currentPage < totalPages - 1}" th:href="@{/api/admin/view/items(page=${currentPage + 1}, size=${pageSize}, category=${selectedCategoryId}, lang=${#locale.language})}">Next</a>
             </div>
         </div>
     </th:block>

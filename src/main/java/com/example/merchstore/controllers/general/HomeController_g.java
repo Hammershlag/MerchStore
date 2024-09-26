@@ -1,5 +1,6 @@
 package com.example.merchstore.controllers.general;
 
+import com.example.merchstore.LocaleConfig;
 import com.example.merchstore.components.enums.Language;
 import com.example.merchstore.components.models.*;
 import com.example.merchstore.repositories.CategoryRepository;
@@ -79,7 +80,7 @@ public class HomeController_g {
     private LatestExchangeRateService latestExchangeRateService;
 
     @Autowired
-    private GlobalAttributeService globalAttributeService;
+    private LocaleConfig localeConfig;
 
     @Autowired
     private TranslationService translationService;
@@ -99,15 +100,8 @@ public class HomeController_g {
             isLoggedIn = false;
         }
 
-        Language language;
-        if (lang != null) {
-            language = Language.fromCode(lang);
-            globalAttributeService.replaceAttribute("language", language);
+        Language language = localeConfig.getCurrentLanguage();
 
-
-        } else {
-            language = (Language) globalAttributeService.getGlobalAttributes().get("language");
-        }
 
         Currency currency = currencyRepository.findById(1L).orElse(null);
 
@@ -179,15 +173,7 @@ public class HomeController_g {
 
     @GetMapping("/")
     public String homeRedirect(@RequestParam(required = false) String lang) {
-        Language language;
-        if (lang != null) {
-            language = Language.fromCode(lang);
-            globalAttributeService.replaceAttribute("language", language);
-
-
-        } else {
-            language = (Language) globalAttributeService.getGlobalAttributes().get("language");
-        }
+        Language language = localeConfig.getCurrentLanguage();
 
         return "redirect:/home?lang=" + language.getCode().toString();
     }

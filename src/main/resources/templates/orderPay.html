@@ -12,9 +12,9 @@
     </th:block>
     <th:block th:fragment="content">
         <div>
-            Do something to pay for the order.
-            <form th::action="'/api/pay/order?lang=' + ${language.code.toString()} +'&id=' + ${id} " method="post">
-                <button type="submit">Pay</button>
+            <p th:text="#{order_pay.text}"></p>
+            <form th::action="'/api/pay/order?lang=' + ${#locale.language} +'&id=' + ${id} " method="post">
+                <button type="submit" th:text="#{order_pay.pay}"></button>
             </form>
         </div>
     </th:block>

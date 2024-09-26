@@ -15,7 +15,7 @@
     <th:block th:fragment="content">
         <div>
             <div class="wish-listed-items-panel-container">
-                <p class="wish-listed-items-panel-title">Wishlisted Items</p>
+                <p class="wish-listed-items-panel-title" th:text="#{user.wishlist.title}"></p>
                 <div class="wish-listed-items-panel">
                     <div th:each="wishlistItem : ${wishlistItems}">
                         <div class="wish-listed-item">

@@ -60,7 +60,6 @@ public class GlobalAttributeService {
      */
     public GlobalAttributeService() {
         globalAttributes.put("isLoggedIn", false);
-        globalAttributes.put("language", Language.ENGLISH);
     }
 
     /**

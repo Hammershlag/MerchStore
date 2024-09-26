@@ -1,5 +1,6 @@
 package com.example.merchstore.controllers.functionality;
 
+import com.example.merchstore.LocaleConfig;
 import com.example.merchstore.components.enums.Language;
 import com.example.merchstore.services.GlobalAttributeService;
 import com.example.merchstore.services.TranslationService;
@@ -35,7 +36,7 @@ public class DocumentController_f {
     private TranslationService translationService;
 
     @Autowired
-    private GlobalAttributeService globalAttributeService;
+    private LocaleConfig localeConfig;
 
     /**
      * Handles the GET request for displaying a document. It retrieves the document based on the provided name, reads its content, adds the document name and content to the model, then returns the view name.
@@ -48,15 +49,8 @@ public class DocumentController_f {
     public String displayDocument(@RequestParam("name") String documentName, Model model,
                                   @RequestParam(value = "lang", required = false) String lang) {
 
-        Language language;
-        if (lang != null) {
-            language = Language.fromCode(lang);
-            globalAttributeService.replaceAttribute("language", language);
+        Language language = localeConfig.getCurrentLanguage();
 
-
-        } else {
-            language = (Language) globalAttributeService.getGlobalAttributes().get("language");
-        }
 
         String documentPath = null;
         String name = documentName;

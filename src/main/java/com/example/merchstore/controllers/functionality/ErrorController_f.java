@@ -1,5 +1,6 @@
 package com.example.merchstore.controllers.functionality;
 
+import com.example.merchstore.LocaleConfig;
 import com.example.merchstore.components.enums.Language;
 import com.example.merchstore.services.GlobalAttributeService;
 import com.example.merchstore.services.TranslationService;
@@ -33,7 +34,7 @@ public class ErrorController_f implements ErrorController {
     private TranslationService translationService;
 
     @Autowired
-    private GlobalAttributeService globalAttributeService;
+    private LocaleConfig localeConfig;
 
     /**
      * Handles the GET request for displaying an error page. It retrieves the error status code from the request, sets the status code, error message, and a custom message based on the status code in the model, then returns the view name for the error page.
@@ -46,15 +47,8 @@ public class ErrorController_f implements ErrorController {
     public String handleError(HttpServletRequest request, Model model,
                               @RequestParam(value = "lang", required = false) String lang) {
 
-        Language language;
-        if (lang != null) {
-            language = Language.fromCode(lang);
-            globalAttributeService.replaceAttribute("language", language);
+        Language language = localeConfig.getCurrentLanguage();
 
-
-        } else {
-            language = (Language) globalAttributeService.getGlobalAttributes().get("language");
-        }
         Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
         if (status != null) {
             Integer statusCode = Integer.valueOf(status.toString());

@@ -13,47 +13,47 @@
     <th:block th:fragment="content">
         <div>
             <div class="container">
-                <h1>Order Confirmation</h1>
+                <h1 th:text="#{order_confirmation.title}">Order Confirmation</h1>
                 <div th:if="${order != null}">
-                    <h2>Thank you for your order, <span th:text="${order.user != null ? order.user.username : 'User'}">User Name</span>!</h2>
-                    <p>Your order number is <span th:text="${order.orderId != null ? order.orderId : '123'}">123</span>.</p>
+                    <h2 th:text="#{order_confirmation.thank_you(${order.user != null ? order.user.username : 'User'})}">Thank you for your order, User!</h2>
+                    <p th:text="#{order_confirmation.order_number(${order.orderId != null ? order.orderId : '123'})}">Your order number is 123.</p>
                     <div>
-                        <h3>Order Details:</h3>
+                        <h3 th:text="#{order_confirmation.order_details}">Order Details:</h3>
                         <ul>
                             <li th:each="orderItem : ${orderItems}">
                                 <span th:text="${orderItem.item.name != null ? orderItem.item.name : 'Product Name'}">Product Name</span> -
                                 <span th:text="${orderItem.quantity}">1</span> x
                                 <span th:if="${orderItem.price.equals(orderItem.priceAfterDiscount)}" th:text="${#numbers.formatDecimal(orderItem.priceAfterDiscount * order.exchangeRate.exchangeRate, 1, 2)} + ${order.currency.symbol}">$0.00</span>
-                                <span th:if="${!orderItem.price.equals(orderItem.priceAfterDiscount)}" th:text="' [ ' + ${#numbers.formatDecimal(orderItem.price * order.exchangeRate.exchangeRate, 1, 2)} + ${order.currency.symbol} + ' (Before Discount); ' + ${#numbers.formatDecimal(orderItem.priceAfterDiscount * order.exchangeRate.exchangeRate, 1, 2)} + ${order.currency.symbol} + ' (After Discount) ] '">$0.00</span>
+                                <span th:if="${!orderItem.price.equals(orderItem.priceAfterDiscount)}" th:text="' [ ' + ${#numbers.formatDecimal(orderItem.price * order.exchangeRate.exchangeRate, 1, 2)} + ${order.currency.symbol} + ' (' + #{order_confirmation.discount.before} + '); ' + ${#numbers.formatDecimal(orderItem.priceAfterDiscount * order.exchangeRate.exchangeRate, 1, 2)} + ${order.currency.symbol} + ' (' + #{order_confirmation.discount.after} + ') ] '">$0.00</span>
                                 <a th:href="@{/item(id=${orderItem.item.itemId})}">View Item</a>
                             </li>
                         </ul>
-                        <p>Total before discount: <span  th:text="${#numbers.formatDecimal(order.totalAmount * order.exchangeRate.exchangeRate, 1, 2)} + ${order.currency.symbol}">$0.00</span></p>
-                        <p>Total after discount: <span  th:text="${#numbers.formatDecimal(order.totalAfterDiscount * order.exchangeRate.exchangeRate, 1, 2)} + ${order.currency.symbol}">$0.00</span></p>
-                        <p>Service fee: <span th:text="${#numbers.formatDecimal(order.serviceFee * order.exchangeRate.exchangeRate, 1, 2)} + ${order.currency.symbol}"></span></p>
-                        <p th:if="${order.currency.getId() != 1}" th:text="'A service fee of 10% has been applied to the total amount after all discounts due to currency conversion from PLN to ' + ${order.currency.shortName} + '.'"></p>
-                        <p>Total after discount and service fee <span th:text="${#numbers.formatDecimal((order.totalAfterDiscount + order.serviceFee) * order.exchangeRate.exchangeRate, 1, 2)} + ${order.currency.symbol}"></span></p>
+                        <p th:text="#{order_confirmation.total_before_discount} + ${#numbers.formatDecimal(order.totalAmount * order.exchangeRate.exchangeRate, 1, 2)} + ${order.currency.symbol}">Total before discount: $0.00</p>
+                        <p th:text="#{order_confirmation.total_after_discount} + ${#numbers.formatDecimal(order.totalAfterDiscount * order.exchangeRate.exchangeRate, 1, 2)} + ${order.currency.symbol}">Total after discount: $0.00</p>
+                        <p th:text="#{order_confirmation.service_fee} + ${#numbers.formatDecimal(order.serviceFee * order.exchangeRate.exchangeRate, 1, 2)} + ${order.currency.symbol}">Service fee: $0.00</p>
+                        <p th:if="${order.currency.getId() != 1}" th:text="#{order_confirmation.service_fee_applied(${order.currency.shortName})}">A service fee of 10% has been applied to the total amount after all discounts due to currency conversion from PLN to USD.</p>
+                        <p th:text="#{order_confirmation.total_after_discount_and_fee} + ${#numbers.formatDecimal((order.totalAfterDiscount + order.serviceFee) * order.exchangeRate.exchangeRate, 1, 2)} + ${order.currency.symbol}">Total after discount and service fee: $0.00</p>
                         <div th:if="${!order.currency.shortName.equals('PLN')}">
-                            <p th:text="'Exchange rate PLN -> ' + ${order.currency.shortName} + ' in your order is ' + ${#numbers.formatDecimal(order.exchangeRate.exchangeRate, 1, 2)}"></p>
+                            <p th:text="#{order_confirmation.exchange_rate(${order.currency.shortName}, ${#numbers.formatDecimal(order.exchangeRate.exchangeRate, 1, 2)})}">Exchange rate PLN -> USD in your order is 1.00</p>
                         </div>
                         <div th:if="${order.discount != null && order.discount.discountPercentage != 0}">
-                            <p>Discount: <span th:text="${order.discount.discountPercentage} + '%'">0%</span></p>
-                            <p  th:if="${itemDiscount != null}">Discount for item: <span th:text="${itemDiscount.item.name}">Whole order</span></p>
+                            <p th:text="#{order_confirmation.discount} + ${order.discount.discountPercentage} + '%'">Discount: 0%</p>
+                            <p th:if="${itemDiscount != null}" th:text="#{order_confirmation.discount_for_item} + ${itemDiscount.item.name}">Discount for item: Whole order</p>
                         </div>
-                        <p>Status: <span th:text="${order.status}">Status</span></p>
+                        <p th:text="#{order_confirmation.status} + ${order.status}">Status: Status</p>
                         <div th:if="${order.status.toString() != 'UNPAID'}">
-                            <p>Your order has been paid. Please check your email for further instructions on how to track your order.</p>
+                            <p th:text="#{order_confirmation.paid}">Your order has been paid. Please check your email for further instructions on how to track your order.</p>
                         </div>
                         <div th:if="${order.status.toString() == 'UNPAID'}">
-                            <p>Your order is currently unpaid. Please <a th:href="'/api/pay/order?id=' + ${order.orderId}">click here to pay now</a>.</p>
+                            <p th:text="#{order_confirmation.unpaid}"><a th:href="'/api/pay/order?id=' + ${order.orderId} + '&lang=' + ${#locale.language}">click here to pay now</a>.</p>
                         </div>
                     </div>
-                    <a th:href="'/user/cart/checkout/file?lang=' + ${language.code.toString()} +'&orderID=' + ${order.orderId}">Download PDF</a>
+                    <a th:href="'/user/cart/checkout/file?lang=' + ${#locale.language} +'&orderID=' + ${order.orderId}" th:text="#{order_confirmation.download_pdf}">Download PDF</a>
                 </div>
                 <div th:if="${order == null}">
-                    <p>We encountered an issue with your order. Please contact support.</p>
+                    <p th:text="#{order_confirmation.issue}">We encountered an issue with your order. Please contact support.</p>
                 </div>
-                <a href="/" th:href="@{/}">Return to Home</a>
+                <a th:href="@{'/?lang=' + ${#locale.language}}" th:text="#{order_confirmation.return_home}">Return to Home</a>
             </div>
         </div>
     </th:block>

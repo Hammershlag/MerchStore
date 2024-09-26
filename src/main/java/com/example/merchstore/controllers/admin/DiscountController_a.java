@@ -1,6 +1,7 @@
 package com.example.merchstore.controllers.admin;
 
 import com.example.merchstore.Decorators.ItemDecorator;
+import com.example.merchstore.LocaleConfig;
 import com.example.merchstore.components.enums.Language;
 import com.example.merchstore.components.models.Discount;
 import com.example.merchstore.components.models.Item;
@@ -66,7 +67,7 @@ public class DiscountController_a {
     private ItemDiscountRepository itemDiscountRepository;
 
     @Autowired
-    private GlobalAttributeService globalAttributeService;
+    private LocaleConfig localeConfig;
 
     @Autowired
     private TranslationService translationService;
@@ -134,15 +135,8 @@ public class DiscountController_a {
                                 Model model) {
         List<Discount> discounts;
 
-        Language language;
-        if (lang != null) {
-            language = Language.fromCode(lang);
-            globalAttributeService.replaceAttribute("language", language);
+        Language language = localeConfig.getCurrentLanguage();
 
-
-        } else {
-            language = (Language) globalAttributeService.getGlobalAttributes().get("language");
-        }
 
         if (search != null && !search.isEmpty()) {
             discounts = discountRepository.findByCodeStartingWithIgnoreCase(search);

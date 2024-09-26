@@ -1,5 +1,6 @@
 package com.example.merchstore.controllers.admin;
 
+import com.example.merchstore.LocaleConfig;
 import com.example.merchstore.components.enums.Language;
 import com.example.merchstore.components.models.Ad;
 import com.example.merchstore.components.models.Item;
@@ -72,7 +73,7 @@ public class AdController_a {
     private TranslationService translationService;
 
     @Autowired
-    private GlobalAttributeService globalAttributeService;
+    private LocaleConfig localeConfig;
 
     /**
      * Prepares the model for adding a new ad and returns the view name.
@@ -143,15 +144,7 @@ public class AdController_a {
         Pageable pageable = PageRequest.of(page, size);
         Page<Ad> ads = adRepository.findAll(pageable);
 
-        Language language;
-        if (lang != null) {
-            language = Language.fromCode(lang);
-            globalAttributeService.replaceAttribute("language", language);
-
-
-        } else {
-            language = (Language) globalAttributeService.getGlobalAttributes().get("language");
-        }
+        Language language = localeConfig.getCurrentLanguage();
 
         HashMap<Long, Language> originalLanguages = new HashMap<>();
         List<Ad> translatedAds = new ArrayList<>();
