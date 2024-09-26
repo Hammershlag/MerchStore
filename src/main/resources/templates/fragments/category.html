@@ -1,6 +1,6 @@
 <div th:fragment="category">
     <div class="category-container">
-        <a th:href="@{'/item/all?category=' + ${category.categoryId}}">
+        <a th:href="@{'/item/all?lang=' + ${#locale.language} + '&category=' + ${category.categoryId}}">
             <div class="category-background"></div>
             <img th:src="@{'/api/image/category/' + ${category.categoryId}}" alt="Category Image">
 

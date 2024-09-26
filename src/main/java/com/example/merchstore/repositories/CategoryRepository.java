@@ -44,10 +44,10 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
     List<Category> findByNameStartingWithIgnoreCase(String name);
 
     @Query(value = "WITH RECURSIVE subcategories AS (" +
-            "SELECT c.category_id, c.name, c.description, c.image, c.main, c.parent_category_id, c.should_display " +
+            "SELECT c.category_id, c.name, c.description, c.image, c.main, c.parent_category_id, c.should_display, c.language " +
             "FROM categories c WHERE c.category_id = :categoryId " +
             "UNION ALL " +
-            "SELECT c2.category_id, c2.name, c2.description, c2.image, c2.main, c2.parent_category_id, c2.should_display " +
+            "SELECT c2.category_id, c2.name, c2.description, c2.image, c2.main, c2.parent_category_id, c2.should_display, c2.language " +
             "FROM categories c2 " +
             "INNER JOIN subcategories s ON c2.parent_category_id = s.category_id" +
             ") " +

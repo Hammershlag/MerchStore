@@ -56,7 +56,8 @@ public class RegisterController_s {
      * @return The view name.
      */
     @GetMapping("/form")
-    public String registrationForm(@RequestParam(value = "error", required = false) String error, Model model) {
+    public String registrationForm(@RequestParam(value = "error", required = false) String error, Model model,
+                                   @RequestParam(required = false) String lang) {
         model.addAttribute("user", new User());
         if (error != null) {
             switch (error) {
@@ -89,7 +90,7 @@ public class RegisterController_s {
      */
     @PostMapping
     @ResponseBody
-    public RedirectView registerUser(@ModelAttribute User user, @RequestParam("imageData") MultipartFile image, Model model) {
+    public RedirectView registerUser(@ModelAttribute User user, @RequestParam("imageData") MultipartFile image, Model model, @RequestParam(required = false) String lang) {
         try {
             if (customUserDetailsService.existsByUsername(user.getUsername())) {
                 return new RedirectView("/api/register/form?error=username");

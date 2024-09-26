@@ -1,10 +1,14 @@
 package com.example.merchstore.controllers.user;
 
+import com.example.merchstore.LocaleConfig;
+import com.example.merchstore.components.enums.Language;
 import com.example.merchstore.components.models.*;
 import com.example.merchstore.repositories.CurrencyRepository;
 import com.example.merchstore.repositories.ItemRepository;
 import com.example.merchstore.repositories.WishlistItemRepository;
+import com.example.merchstore.services.GlobalAttributeService;
 import com.example.merchstore.services.LatestExchangeRateService;
+import com.example.merchstore.services.TranslationService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -36,10 +40,26 @@ public class WishlistController_u {
     @Autowired
     private LatestExchangeRateService latestExchangeRateService;
 
+    @Autowired
+    private TranslationService translationService;
+
+    @Autowired
+    private GlobalAttributeService globalAttributeService;
+
+    @Autowired
+    private LocaleConfig localeConfig;
+
     @GetMapping("/all")
-    public String getAllWishlist(HttpServletRequest request, HttpSession session, Model model) {
+    public String getAllWishlist(HttpServletRequest request, HttpSession session, Model model,
+                                 @RequestParam(value = "lang", required = false) String lang) {
+
+        Language language = localeConfig.getCurrentLanguage();
+
         User user = (User) session.getAttribute("user");
         List<WishlistItem> wishlistItems = wishlistItemRepository.findByUser(user);
+        for (WishlistItem wishlistItem : wishlistItems) {
+            wishlistItem.setItem((Item)translationService.translate(wishlistItem.getItem(), language));
+        }
         model.addAttribute("wishlistItems", wishlistItems);
 
         Currency currency = currencyRepository.findById(1L).orElse(null);

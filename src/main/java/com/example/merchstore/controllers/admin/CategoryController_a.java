@@ -1,7 +1,11 @@
 package com.example.merchstore.controllers.admin;
 
+import com.example.merchstore.LocaleConfig;
+import com.example.merchstore.components.enums.Language;
 import com.example.merchstore.components.models.Category;
 import com.example.merchstore.repositories.CategoryRepository;
+import com.example.merchstore.services.GlobalAttributeService;
+import com.example.merchstore.services.TranslationService;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,6 +18,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import static com.example.merchstore.components.utilities.ImageProcessor.*;
@@ -44,6 +50,12 @@ public class CategoryController_a {
     @Autowired
     private CategoryRepository categoryRepository;
 
+    @Autowired
+    private LocaleConfig localeConfig;
+
+    @Autowired
+    private TranslationService translationService;
+
     /**
      * Prepares the model for adding a new category and returns the view name.
      *
@@ -68,7 +80,8 @@ public class CategoryController_a {
     @SneakyThrows
     @PostMapping("/add/category")
     public String addCategory(Category category, @RequestParam("imageData") MultipartFile image,
-                              @RequestParam(value = "parentCategoryInput", required = false) String parentCategoryName) {
+                              @RequestParam(value = "parentCategoryInput", required = false) String parentCategoryName,
+                              @RequestParam("language_iso") String languageIso) {
         if (categoryRepository.findByName(category.getName()) != null) {
             return "redirect:/api/admin/add/category?error=name";
         }
@@ -83,6 +96,8 @@ public class CategoryController_a {
             }
         }
         category.setParentCategory(parentCategory);
+
+        category.setLanguage(Language.fromCode(languageIso));
 
 
         if (!image.isEmpty()) {
@@ -111,14 +126,26 @@ public class CategoryController_a {
      * @return The view name.
      */
     @GetMapping("/view/categories")
-    public String getAllCategories(@RequestParam(value = "searchCat", required = false) String search, Model model) {
+    public String getAllCategories(@RequestParam(value = "searchCat", required = false) String search, Model model,
+                                   @RequestParam(value = "lang", required = false) String lang){
+
+        Language language = localeConfig.getCurrentLanguage();
+
         List<Category> categories;
         if (search != null && !search.isEmpty()) {
             categories = categoryRepository.findByNameStartingWithIgnoreCase(search);
         } else {
             categories = categoryRepository.findAll();
         }
-        model.addAttribute("categories", categories);
+        HashMap<Long, Language> originalLanguages = new HashMap<>();
+        List<Category> translatedCategories = new ArrayList<>();
+        for (Category category : categories) {
+            originalLanguages.put(category.getCategoryId(), category.getLanguage());
+            translatedCategories.add((Category)translationService.translate(category, language));
+        }
+
+        model.addAttribute("original_languages", originalLanguages);
+        model.addAttribute("categories", translatedCategories);
         model.addAttribute("searchCat", search);
         return "admin/view/viewCategories";
     }

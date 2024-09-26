@@ -13,9 +13,9 @@
     </th:block>
     <th:block th:fragment="content">
         <div>
-            <a href="/api/logout">Logout</a><br>
-            <a href="/api/admin/dashboard">Admin Dashboard</a><br>
-            <a href="/api/owner/add/user/form">Add User</a><br>
+            <a th:href="'/api/logout?lang=' + ${#locale.language}">Logout</a><br>
+            <a th:href="'/api/admin/dashboard?lang=' + ${#locale.language}">Admin Dashboard</a><br>
+            <a th:href="'/api/owner/add/user/form?lang=' + ${#locale.language}">Add User</a><br>
         </div>
     </th:block>
     <th:block th:fragment="right_content">

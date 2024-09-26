@@ -41,40 +41,40 @@
     </th:block>
     <th:block th:fragment="content">
         <div>
-            <a href="/user/cart/checkout/all">View All existing Orders</a>
+            <a th:href="'/user/cart/checkout/all?lang=' + ${#locale.language}" th:text="#{cart.view_all_orders}">View All existing Orders</a>
             <div th:if="${cartItems.size() == 0}">
-                <p>Your cart is empty.</p>
+                <p th:text="#{cart.empty}">Your cart is empty.</p>
             </div>
             <div th:if="${cartItems.size() > 0}">
-                <h2>Cart</h2>
+                <h2 th:text="#{cart.title}">Cart</h2>
                 <div>
-                    <label for="sort">Sort by: </label>
+                    <label for="sort" th:text="#{cart.sort_by}">Sort by: </label>
                     <select id="sort" onchange="updateSorting()">
-                        <option value="" th:selected="${sortField == null}">Select</option>
-                        <option value="name" th:selected="${sortField == 'name'}">Name</option>
-                        <option value="price" th:selected="${sortField == 'price'}">Price</option>
-                        <option value="quantity" th:selected="${sortField == 'quantity'}">Quantity</option>
-                        <option value="totalPrice" th:selected="${sortField == 'totalPrice'}">Total Price</option>
+                        <option value="" th:selected="${sortField == null}" th:text="#{cart.sort_select}">Select</option>
+                        <option value="name" th:selected="${sortField == 'name'}" th:text="#{cart.sort_name}">Name</option>
+                        <option value="price" th:selected="${sortField == 'price'}" th:text="#{cart.sort_price}">Price</option>
+                        <option value="quantity" th:selected="${sortField == 'quantity'}" th:text="#{cart.sort_quantity}">Quantity</option>
+                        <option value="totalPrice" th:selected="${sortField == 'totalPrice'}" th:text="#{cart.sort_total_price}">Total Price</option>
                     </select>
                 </div>
                 <div>
-                    <label for="order">Order by: </label>
+                    <label for="order" th:text="#{cart.order_by}">Order by: </label>
                     <select id="order" onchange="updateSorting()">
-                        <option value="" th:selected="${order == null}">Select</option>
-                        <option value="asc" th:selected="${order == 'asc'}">Ascending</option>
-                        <option value="desc" th:selected="${order == 'desc'}">Descending</option>
+                        <option value="" th:selected="${order == null}" th:text="#{cart.sort_select}">Select</option>
+                        <option value="asc" th:selected="${order == 'asc'}" th:text="#{cart.order_asc}">Ascending</option>
+                        <option value="desc" th:selected="${order == 'desc'}" th:text="#{cart.order_desc}">Descending</option>
                     </select>
                 </div>
                 <table>
                     <thead>
                     <tr>
-                        <th>Image</th>
-                        <th>Name</th>
-                        <th>Description</th>
-                        <th>Price</th>
-                        <th>Quantity</th>
-                        <th>Total Price</th>
-                        <th>Actions</th>
+                        <th th:text="#{cart.image}">Image</th>
+                        <th th:text="#{cart.name}">Name</th>
+                        <th th:text="#{cart.description}">Description</th>
+                        <th th:text="#{cart.price}">Price</th>
+                        <th th:text="#{cart.quantity}">Quantity</th>
+                        <th th:text="#{cart.total_price}">Total Price</th>
+                        <th th:text="#{cart.actions}">Actions</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -86,34 +86,33 @@
                         <td th:text="${cartItem.quantity}"></td>
                         <td th:text="${#numbers.formatDecimal(cartItem.item.price * exchangeRate.exchangeRate * cartItem.quantity, 1, 2)} + ${currency.symbol}"></td>
                         <td>
-                            <!-- Update these forms -->
-                            <form th:action="@{/user/cart/increase}" method="post" style="display: inline;">
+                            <form th:action="@{'/user/cart/increase?lang=' + ${#locale.language}}" method="post" style="display: inline;">
                                 <input type="hidden" name="itemId" th:value="${cartItem.item.itemId}" />
                                 <input type="hidden" name="sortField" th:value="${sortField}" />
                                 <input type="hidden" name="order" th:value="${order}" />
-                                <button type="submit">+</button>
+                                <button type="submit" th:text="#{cart.increase}">+</button>
                             </form>
-                            <form th:action="@{/user/cart/decrease}" method="post" style="display: inline;">
+                            <form th:action="@{'/user/cart/decrease?lang=' + ${#locale.language}}" method="post" style="display: inline;">
                                 <input type="hidden" name="itemId" th:value="${cartItem.item.itemId}" />
                                 <input type="hidden" name="sortField" th:value="${sortField}" />
                                 <input type="hidden" name="order" th:value="${order}" />
-                                <button type="submit">-</button>
+                                <button type="submit" th:text="#{cart.decrease}">-</button>
                             </form>
-                            <form th:action="@{/user/cart/remove}" method="post" style="display: inline;">
+                            <form th:action="@{'/user/cart/remove?lang=' + ${#locale.language}}" method="post" style="display: inline;">
                                 <input type="hidden" name="itemId" th:value="${cartItem.item.itemId}" />
                                 <input type="hidden" name="sortField" th:value="${sortField}" />
                                 <input type="hidden" name="order" th:value="${order}" />
-                                <button type="submit" class="remove">Remove</button>
+                                <button type="submit" class="remove" th:text="#{cart.remove}">Remove</button>
                             </form>
                         </td>
                     </tr>
                     </tbody>
                 </table>
-                <p>If you press the checkout button the order will be in currently selected currency and with currently entered code</p>
-                <form th:action="@{/user/cart/checkout}" method="post">
-                    <label for="discountCode">Discount Code:</label>
-                    <input type="text" id="discountCode" name="discountCode" placeholder="Enter discount code" />
-                    <button type="submit">Checkout</button>
+                <p th:text="#{cart.checkout_info}">If you press the checkout button the order will be in currently selected currency and with currently entered code</p>
+                <form th:action="@{'/user/cart/checkout?lang=' + ${#locale.language}}" method="post">
+                    <label for="discountCode" th:text="#{cart.discount_code}">Discount Code:</label>
+                    <input type="text" id="discountCode" name="discountCode" th:placeholder="#{cart.discount_code.placeholder}" />
+                    <button type="submit" th:text="#{cart.checkout}">Checkout</button>
                 </form>
             </div>
         </div>

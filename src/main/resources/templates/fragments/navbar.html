@@ -1,27 +1,34 @@
 <div th:fragment="navbar">
   <nav>
     <div class="nav-left">
-      <a href="/" class="app-name" th:text="#{app.name}">Name of App</a>
+      <a th:href="'/?lang=' + ${#locale.language}" class="app-name" th:text="#{app.name}">Name of App</a>
     </div>
     <div class="nav-center">
 
-      <a href="/item/all">
+      <a th:href="'/item/all?lang=' + ${#locale.language}">
         <img src="/svg/shopping_bag.svg" alt="Shop">
       </a>
 
-      <form action="/item/all" method="get" class="search-form">
+      <form th:action="'/item/all?lang=' + ${#locale.language}" method="get" class="search-form">
         <input type="text" id="search" name="search" placeholder="Search" th:value="${search}">
         <script>
           window.addEventListener('load', function() {
             var searchBox = document.getElementById('search');
             var searchResultsContainer = document.getElementById('searchResultsContainer');
 
+            function getURLParameter(name) {
+              return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null;
+            }
+
+            // Get the lang parameter, default to "pl" if not present
+            var lang = getURLParameter('lang') || 'pl';
+
             searchBox.addEventListener('input', function() {
               let searchText = this.value;
               if (searchText.trim() === '') {
                 searchResultsContainer.innerHTML = '';
               } else {
-                fetch(`/item/search?search=${searchText}`)
+                fetch(`/item/search?lang=${lang}&search=${searchText}`)
                         .then(response => response.text())
                         .then(html => {
                           searchResultsContainer.innerHTML = html;
@@ -50,23 +57,35 @@
       <select id="currencySelect">
         <!-- Options will be populated by JavaScript -->
       </select>
+      <select id="languageSelect" onchange="changeLanguage()">
+        <option value="pl" th:selected="${#locale.language == 'pl'}">Polish</option>
+        <option value="en" th:selected="${#locale.language == 'en'}">English</option>
+      </select>
       <div th:if="${isLoggedIn && user != null}" class="nav-user">
-        <a href="/user/cart">
+        <a th:href="'/user/cart?lang=' + ${#locale.language}">
           <img src="/svg/shopping_cart.svg" alt="Cart" class="cart-image">
         </a>
-        <a href="/profile">
+        <a th:href="'/profile?lang=' + ${#locale.language}">
           <div class="profile">
             <img th:src="${user.resolveImage()}" alt="User Image"  class="profile-image">
             <span th:text="${user.username}"></span>
           </div>
         </a>
-        <a href="/api/logout">Logout</a>
+        <a th:href="'/api/logout?lang=' + ${#locale.language}">Logout</a>
       </div>
       <div th:if="${!isLoggedIn || user == null}" class="nav-user">
-        <a href="/api/login/form">Login</a>
+        <a th:href="'/api/login/form?lang=' + ${#locale.language}">Login</a>
       </div>
     </div>
-
+    <script>
+      function changeLanguage() {
+        var selectedLang = document.getElementById('languageSelect').value;
+        var currentUrl = window.location.href;
+        var newUrl = new URL(currentUrl);
+        newUrl.searchParams.set('lang', selectedLang);
+        window.location.href = newUrl.toString();
+      }
+    </script>
   </nav>
   <div id="searchResultsContainer"></div>
 </div>

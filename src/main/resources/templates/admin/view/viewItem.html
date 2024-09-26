@@ -40,7 +40,7 @@
     </th:block>
     <th:block th:fragment="content">
         <div>
-            <a href="/api/admin/dashboard">Dashboard</a>
+            <a th:href="'/api/admin/dashboard?lang=' + ${#locale.language}">Dashboard</a>
             <div class="item-container" th:if="${item != null}">
                 <img th:src="@{'/api/image/item/' + ${item.itemId}}" alt="Item Image" class="item-image">
                 <div class="item-details">
@@ -55,6 +55,7 @@
                     <p class="price" th:text="${#numbers.formatDecimal(item.price * exchangeRate.exchangeRate, 1, 2)} + ${currency.symbol}">Item Price</p>
                     <p>Stock Quantity: <span th:text="${item.stockQuantity}">0</span></p>
                     <p>Category: <span th:text="${item.category.name}">Category Name</span></p>
+                    <p th:text="'Language: ' + ${original_language.code}"></p>
                     <p>Created At: <span th:text="${item.createdAt}">Created At</span></p>
                     <p>Updated At: <span th:text="${item.updatedAt}">Updated At</span></p>
                 </div>

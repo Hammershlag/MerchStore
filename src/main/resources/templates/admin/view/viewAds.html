@@ -44,7 +44,7 @@
     </th:block>
     <th:block th:fragment="content">
         <div>
-            <a href="/api/admin/dashboard">Dashboard</a>
+            <a th:href="'/api/admin/dashboard?lang=' + ${#locale.language}">Dashboard</a>
             <h2>Ads</h2>
             <table>
                 <thead>
@@ -53,6 +53,7 @@
                     <th>Item Name</th>
                     <th>Description</th>
                     <th>Status</th>
+                    <th>Language</th>
                     <th>Start Date</th>
                     <th>End Date</th>
                     <th>Created By</th>
@@ -69,6 +70,7 @@
                     <td th:text="${ad.item.name}"></td>
                     <td th:text="${ad.description}"></td>
                     <td th:text="${ad.status}"></td>
+                    <td th:text="${original_languages.get(ad.adId).code}"></td>
                     <td th:text="${ad.startDate}"></td>
                     <td th:text="${ad.endDate}"></td>
                     <td th:text="${ad.user.username}"></td>

@@ -1,9 +1,14 @@
 package com.example.merchstore.controllers.admin;
 
+import com.example.merchstore.LocaleConfig;
+import com.example.merchstore.components.enums.Language;
 import com.example.merchstore.components.models.Ad;
+import com.example.merchstore.components.models.Item;
 import com.example.merchstore.components.models.User;
 import com.example.merchstore.repositories.AdRepository;
 import com.example.merchstore.repositories.ItemRepository;
+import com.example.merchstore.services.GlobalAttributeService;
+import com.example.merchstore.services.TranslationService;
 import jakarta.servlet.http.HttpSession;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +24,9 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import static com.example.merchstore.components.utilities.ImageProcessor.*;
 
@@ -61,6 +69,12 @@ public class AdController_a {
     @Autowired
     private HttpSession httpSession;
 
+    @Autowired
+    private TranslationService translationService;
+
+    @Autowired
+    private LocaleConfig localeConfig;
+
     /**
      * Prepares the model for adding a new ad and returns the view name.
      *
@@ -85,10 +99,11 @@ public class AdController_a {
      */
     @SneakyThrows
     @PostMapping("/add/ad")
-    public String addAd(Ad ad, @RequestParam("imageData") MultipartFile imageData) {
+    public String addAd(Ad ad, @RequestParam("imageData") MultipartFile imageData,
+                        @RequestParam("language_iso") String languageIso,
+                        @RequestParam("lang") String lang) {
 
         User currentUser = (User) httpSession.getAttribute("user");
-
         ad.setUser(currentUser);
 
         if (!imageData.isEmpty()) {
@@ -105,7 +120,7 @@ public class AdController_a {
             ad.setImage(new byte[0]);
         }
 
-
+        ad.setLanguage(Language.fromCode(languageIso));
         ad.setCreatedAt(LocalDateTime.now());
         ad.setUpdatedAt(LocalDateTime.now());
         adRepository.save(ad);
@@ -124,11 +139,24 @@ public class AdController_a {
     @GetMapping("/view/ads")
     public String viewAds(@RequestParam(value = "page", defaultValue = "0") int page,
                           @RequestParam(value = "size", defaultValue = "10") int size,
-                          Model model) {
+                          Model model,
+                          @RequestParam("lang") String lang) {
         Pageable pageable = PageRequest.of(page, size);
         Page<Ad> ads = adRepository.findAll(pageable);
 
-        model.addAttribute("ads", ads.getContent());
+        Language language = localeConfig.getCurrentLanguage();
+
+        HashMap<Long, Language> originalLanguages = new HashMap<>();
+        List<Ad> translatedAds = new ArrayList<>();
+        for (Ad ad : ads.getContent()) {
+            originalLanguages.put(ad.getAdId(), ad.getLanguage());
+            Ad translatedAd = (Ad) translationService.translate(ad, language);
+            translatedAd.setItem((Item) translationService.translate(ad.getItem(), language));
+            translatedAds.add(translatedAd);
+        }
+
+        model.addAttribute("original_languages", originalLanguages);
+        model.addAttribute("ads", translatedAds);
         model.addAttribute("totalPages", ads.getTotalPages());
         model.addAttribute("currentPage", page);
         model.addAttribute("pageSize", size);

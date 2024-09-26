@@ -13,16 +13,16 @@
     <th:block th:fragment="content">
         <div>
             ADMIN DASHBOARD<br>
-            <a href="/api/logout">Logout</a><br>
-            <a href="/api/admin/add/category">Add Category</a><br>
-            <a href="/api/admin/add/discount">Add Discount</a><br>
-            <a href="/api/admin/add/item">Add Item</a><br>
-            <a href="/api/admin/add/ad">Add Ad</a><br>
-            <a href="/api/admin/view/categories">View Categories</a><br>
-            <a href="/api/admin/view/discounts">View Discounts</a><br>
-            <a href="/api/admin/view/users">View Users</a><br>
-            <a href="/api/admin/view/items">View Items</a><br>
-            <a href="/api/admin/view/ads">View Ads</a><br>
+            <a th:href="'/api/logout?lang=' + ${#locale.language}">Logout</a><br>
+            <a th:href="'/api/admin/add/category?lang=' + ${#locale.language}">Add Category</a><br>
+            <a th:href="'/api/admin/add/discount?lang=' + ${#locale.language}">Add Discount</a><br>
+            <a th:href="'/api/admin/add/item?lang=' + ${#locale.language}">Add Item</a><br>
+            <a th:href="'/api/admin/add/ad?lang=' + ${#locale.language}">Add Ad</a><br>
+            <a th:href="'/api/admin/view/categories?lang=' + ${#locale.language}">View Categories</a><br>
+            <a th:href="'/api/admin/view/discounts?lang=' + ${#locale.language}">View Discounts</a><br>
+            <a th:href="'/api/admin/view/users?lang=' + ${#locale.language}">View Users</a><br>
+            <a th:href="'/api/admin/view/items?lang=' + ${#locale.language}">View Items</a><br>
+            <a th:href="'/api/admin/view/ads?lang=' + ${#locale.language}">View Ads</a><br>
         </div>
     </th:block>
     <th:block th:fragment="right_content">

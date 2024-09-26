@@ -2,6 +2,8 @@ let loadAdsInterval = 0;
 let adCycleCounter = 0;
 let maxAds = 0;
 
+let urlParams = new URLSearchParams(window.location.search);
+let lang = urlParams.get('lang') || 'pl';
 
 $.get("/api/config?key=ads.refresh.interval", function(refreshInterval) {
     loadAds(); // Initial load
@@ -18,7 +20,7 @@ $.get("/api/config?key=ads.load.max", function(maxAdsValue) {
 
 
 function loadAds() {
-    $("#ads-container").load(`/updateAds?maxAds=${maxAds}`, function() {
+    $("#ads-container").load(`/updateAds?lang=${lang}&maxAds=${maxAds}`, function() {
         // After loading new ads, re-query the ad elements and reset the ad cycle counter
         ads = document.querySelectorAll('.ad-item');
         adCycleCounter = 0;

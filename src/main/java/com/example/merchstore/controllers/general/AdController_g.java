@@ -1,14 +1,19 @@
 package com.example.merchstore.controllers.general;
 
+import com.example.merchstore.LocaleConfig;
+import com.example.merchstore.components.enums.Language;
 import com.example.merchstore.components.models.Ad;
 import com.example.merchstore.repositories.AdRepository;
 import com.example.merchstore.services.GlobalAttributeService;
+import com.example.merchstore.services.TranslationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -34,6 +39,12 @@ public class AdController_g {
     @Autowired
     private GlobalAttributeService globalAttributeService;
 
+    @Autowired
+    private TranslationService translationService;
+
+    @Autowired
+    private LocaleConfig localeConfig;
+
     /**
      * Handles the GET request for updating advertisements. It retrieves a list of random advertisements based on the provided maximum number, adds the list to the model, and returns the view name for the advertisement fragment.
      *
@@ -42,9 +53,16 @@ public class AdController_g {
      * @return The view name for the advertisement fragment.
      */
     @GetMapping("/updateAds")
-    public String updateAds(Model model, @RequestParam("maxAds") int maxAds) {
-        List<Ad> randomAds = globalAttributeService.getRandomAds(maxAds); // Choose how many ads to display
-        model.addAttribute("ads", randomAds);
+    public String updateAds(Model model, @RequestParam("maxAds") int maxAds, @RequestParam(value = "lang", required = false) String lang) {
+        List<Ad> randomAds = globalAttributeService.getRandomAds(maxAds);// Choose how many ads to display
+        Language language = localeConfig.getCurrentLanguage();
+
+        List<Ad> translatedAds = new ArrayList<>();
+        for (Ad ad : randomAds) {
+            Ad translatedAd = (Ad) translationService.translate(ad, language);
+            translatedAds.add(translatedAd);
+        }
+        model.addAttribute("ads", translatedAds);
         return "fragments/ad :: ad";
     }
 

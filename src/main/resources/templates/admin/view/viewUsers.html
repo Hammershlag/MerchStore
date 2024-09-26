@@ -52,8 +52,8 @@
     </th:block>
     <th:block th:fragment="content">
         <div>
-            <a href="/">Home</a>
-            <a href="/api/admin/dashboard">Dashboard</a>
+            <a th:href="'/?lang=' + ${#locale.language}">Home</a>
+            <a th:href="'/api/admin/dashboard?lang=' + ${#locale.language}">Dashboard</a>
             <h2>Users</h2>
             <form action="/api/admin/view/users" method="get">
                 <label for="size">Page Size:</label>
@@ -104,11 +104,11 @@
                 </tbody>
             </table>
             <div class="pagination">
-                <a th:if="${currentPage > 0}" th:href="@{/api/admin/view/users(page=${currentPage - 1}, size=${pageSize})}">Previous</a>
+                <a th:if="${currentPage > 0}" th:href="@{/api/admin/view/users(page=${currentPage - 1}, size=${pageSize}, lang=${#locale.language})}">Previous</a>
                 <span th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
-                    <a th:class="${i == currentPage} ? 'active'" th:href="@{/api/admin/view/users(page=${i}, size=${pageSize})}" th:text="${i + 1}"></a>
+                    <a th:class="${i == currentPage} ? 'active'" th:href="@{/api/admin/view/users(page=${i}, size=${pageSize}, lang=${#locale.language})}" th:text="${i + 1}"></a>
                 </span>
-                <a th:if="${currentPage < totalPages - 1}" th:href="@{/api/admin/view/users(page=${currentPage + 1}, size=${pageSize})}">Next</a>
+                <a th:if="${currentPage < totalPages - 1}" th:href="@{/api/admin/view/users(page=${currentPage + 1}, size=${pageSize}, lang=${#locale.language})}">Next</a>
             </div>
         </div>
     </th:block>

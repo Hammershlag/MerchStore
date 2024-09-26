@@ -1,7 +1,9 @@
 package com.example.merchstore.components.models;
 
+import com.example.merchstore.components.enums.Language;
 import com.example.merchstore.components.interfaces.DataDisplay;
 import com.example.merchstore.components.interfaces.ImageDisplay;
+import com.example.merchstore.components.superClasses.Translatable;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
@@ -12,10 +14,9 @@ import org.hibernate.annotations.JdbcTypeCode;
 
 import java.io.IOException;
 import java.sql.Types;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
+import java.util.function.BiConsumer;
+import java.util.function.Function;
 
 import static com.example.merchstore.components.utilities.Defaults.DEFAULT_CATEGORY_IMAGE;
 import static com.example.merchstore.components.utilities.Defaults.DEFAULT_ITEM_IMAGE;
@@ -46,7 +47,7 @@ import static com.example.merchstore.components.utilities.ImageProcessor.getImag
 @Data @AllArgsConstructor @NoArgsConstructor
 @Entity
 @Table(name = "categories")
-public class Category implements DataDisplay, ImageDisplay {
+public class Category extends Translatable implements DataDisplay, ImageDisplay {
 
     /**
      * The ID of the category.
@@ -91,6 +92,28 @@ public class Category implements DataDisplay, ImageDisplay {
 
     @OneToMany(mappedBy = "parentCategory", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Category> childCategories = new ArrayList<>();
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "language")
+    private Language language;
+
+    @JsonIgnore
+    @Transient
+    final String className = "Category";
+
+    @JsonIgnore
+    @Transient
+    final HashMap<String, Function<Translatable, String>> textFieldsGetter = new HashMap<>() {{
+        put("description", (Translatable t) -> ((Category) t).getDescription());
+        put("name", (Translatable t) -> ((Category) t).getName());
+    }};
+
+    @JsonIgnore
+    @Transient
+    final HashMap<String, BiConsumer<Translatable, String>> textFieldsSetter = new HashMap<>() {{
+        put("description", (Translatable t, String value) -> ((Category) t).setDescription(value));
+        put("name", (Translatable t, String value) -> ((Category) t).setName(value));
+    }};
 
 
     /**
@@ -197,6 +220,27 @@ public class Category implements DataDisplay, ImageDisplay {
         }
     }
 
+    @JsonIgnore
+    @Override
+    public Long getTranslatableId() {
+        return categoryId;
+    }
 
+    @Override
+    public void setTranslatableId(Long id) {
+        this.categoryId = id;
+    }
+
+    @JsonIgnore
+    @Override
+    public Language getTranslatableLanguage() {
+        return language;
+    }
+
+
+    @Override
+    public void setTranslatableLanguage(Language language) {
+        this.language = language;
+    }
 
 }

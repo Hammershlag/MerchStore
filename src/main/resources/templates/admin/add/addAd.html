@@ -12,9 +12,9 @@
     </th:block>
     <th:block th:fragment="content">
         <div>
-            <a href="/api/admin/dashboard">Dashboard</a>
+            <a th:href="'/api/admin/dashboard?lang=' + ${#locale.language}">Dashboard</a>
             <h2>Add Ad</h2>
-            <form action="/api/admin/add/ad" method="post" enctype="multipart/form-data">
+            <form th:action="'/api/admin/add/ad" method="post" enctype="multipart/form-data">
                 <label for="item">Item:</label><br>
                 <select id="item" name="item" required>
                     <option value="">Select Item</option>
@@ -35,6 +35,10 @@
                     <option value="ACTIVE">Active</option>
                     <option value="INACTIVE">Inactive</option>
                 </select><br>
+
+                <label for="language_iso">Language (ISO code):</label><br>
+                <input type="text" id="language_iso" name="language_iso" required><br>
+
 
                 <label for="imageData">Image:</label><br>
                 <input type="file" id="imageData" name="imageData"><br>

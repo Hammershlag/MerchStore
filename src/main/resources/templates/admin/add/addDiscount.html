@@ -56,7 +56,7 @@
     </th:block>
     <th:block th:fragment="content">
         <div>
-            <a href="/api/admin/dashboard">Dashboard</a>
+            <a th:href="'/api/admin/dashboard?lang=' + ${#locale.language}">Dashboard</a>
             <h2>Add Discount</h2>
             <form action="/api/admin/add/discount" method="post">
                 <label for="code">Code (letters and numbers only):</label><br>
@@ -76,6 +76,9 @@
 
                 <label for="itemId">Item ID:</label><br>
                 <input type="number" id="itemId" name="itemId" required><br><br>
+
+                <label for="language_iso">Language (ISO code):</label><br>
+                <input type="text" id="language_iso" name="language_iso" required><br>
 
                 <input type="submit" value="Submit">
             </form>

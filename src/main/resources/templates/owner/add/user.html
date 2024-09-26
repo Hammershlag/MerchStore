@@ -22,7 +22,7 @@
     <th:block th:fragment="content">
         <div>
             <h2>Add User</h2>
-            <form th:action="@{/api/owner/add/user}" th:object="${newUser}" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+            <form th:action="@{'/api/owner/add/user?lang=' + ${#locale.language}}" th:object="${newUser}" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
                 <div th:if="${errorMessage}" style="color: red;">
                     <p th:text="${errorMessage}"></p>
                 </div>
@@ -67,7 +67,7 @@
                 <input type="file" id="imageData" name="imageData" accept="image/jpeg,image/png,image/jpg"><br><br>
 
                 <input type="checkbox" id="termsCheckbox" onclick="toggleSubmitButton()">
-                <label for="termsCheckbox">I have read and agree to the <a href="/documents?name=termsandconditions" target="_blank">terms and conditions</a></label><br><br>
+                <label for="termsCheckbox">I have read and agree to the <a th:href="'/documents?lang=' + ${#locale.language} + '&name=termsandconditions" target="_blank">terms and conditions</a></label><br><br>
 
                 <input type="submit" id="submitButton" value="Add User" disabled>
             </form>
