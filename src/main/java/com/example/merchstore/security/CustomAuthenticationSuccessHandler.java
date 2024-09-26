@@ -1,5 +1,6 @@
 package com.example.merchstore.security;
 
+import com.example.merchstore.LocaleConfig;
 import com.example.merchstore.components.enums.Role;
 import com.example.merchstore.components.models.User;
 import jakarta.servlet.ServletException;
@@ -39,6 +40,9 @@ public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthent
     @Autowired
     private HttpSession httpSession;
 
+    @Autowired
+    private LocaleConfig localeConfig;
+
     /**
      * The HttpSessionRequestCache object that stores the saved requests.
      */
@@ -75,9 +79,9 @@ public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthent
         } else {
             User user = (User) httpSession.getAttribute("user");
             if (user.getRole() == Role.ADMIN || user.getRole() == Role.OWNER) {
-                return "/api/admin/dashboard";
+                return "/api/admin/dashboard?lang=" + localeConfig.getCurrentLanguage().code;
             }
-            return "/home";
+            return "/home?lang=" + localeConfig.getCurrentLanguage().code;
         }
     }
 }
