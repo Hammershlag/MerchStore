@@ -1,12 +1,17 @@
 package com.example.merchstore.controllers.admin;
 
 import com.example.merchstore.Decorators.ItemDecorator;
+import com.example.merchstore.components.enums.Language;
 import com.example.merchstore.components.models.Discount;
 import com.example.merchstore.components.models.Item;
 import com.example.merchstore.components.models.ItemDiscount;
+import com.example.merchstore.components.models.PreTranslatedTexts;
 import com.example.merchstore.repositories.DiscountRepository;
 import com.example.merchstore.repositories.ItemDiscountRepository;
 import com.example.merchstore.repositories.ItemRepository;
+import com.example.merchstore.repositories.PreTranslatedTextRepository;
+import com.example.merchstore.services.GlobalAttributeService;
+import com.example.merchstore.services.TranslationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -59,6 +65,15 @@ public class DiscountController_a {
     @Autowired
     private ItemDiscountRepository itemDiscountRepository;
 
+    @Autowired
+    private GlobalAttributeService globalAttributeService;
+
+    @Autowired
+    private TranslationService translationService;
+
+    @Autowired
+    private PreTranslatedTextRepository preTranslatedTextRepository;
+
     /**
      * Prepares the model for adding a new discount and returns the view name.
      *
@@ -79,7 +94,8 @@ public class DiscountController_a {
      * @return The redirect URL.
      */
     @PostMapping("/add/discount")
-    public String addDiscount(Discount discount, @RequestParam(value = "itemId", required = false) Long itemId) {
+    public String addDiscount(Discount discount, @RequestParam(value = "itemId", required = false) Long itemId,
+                              @RequestParam("language_iso") String languageIso) {
         if (discountRepository.findByCode(discount.getCode()) != null) {
             return "redirect:/api/admin/add/discount?error=code";
         }
@@ -89,6 +105,7 @@ public class DiscountController_a {
         if (discount.getValidUntil().isBefore(discount.getValidFrom())) {
             return "redirect:/api/admin/add/discount?error=validUntil";
         }
+        discount.setLanguage(Language.fromCode(languageIso));
         discountRepository.save(discount);
 
         Item item = itemRepository.findById(itemId).orElse(null);
@@ -113,8 +130,20 @@ public class DiscountController_a {
     @GetMapping("/view/discounts")
     public String viewDiscounts(@RequestParam(value = "valid", required = false) Boolean valid,
                                 @RequestParam(value = "searchDis", required = false) String search,
+                                @RequestParam(value = "lang", required = false) String lang,
                                 Model model) {
         List<Discount> discounts;
+
+        Language language;
+        if (lang != null) {
+            language = Language.fromCode(lang);
+            globalAttributeService.replaceAttribute("language", language);
+
+
+        } else {
+            language = (Language) globalAttributeService.getGlobalAttributes().get("language");
+        }
+
         if (search != null && !search.isEmpty()) {
             discounts = discountRepository.findByCodeStartingWithIgnoreCase(search);
         } else if (Boolean.TRUE.equals(valid)) {
@@ -122,25 +151,34 @@ public class DiscountController_a {
         } else {
             discounts = discountRepository.findAll();
         }
+        HashMap<Long, Language> originalLanguages = new HashMap<>();
+
+        List<Discount> translatedDiscounts = new ArrayList<>();
+        for (Discount discount : discounts) {
+            originalLanguages.put(discount.getDiscountId(), discount.getLanguage());
+            translatedDiscounts.add((Discount)translationService.translate(discount, language));
+        }
 
         List<ItemDiscount> itemDiscounts = itemDiscountRepository.findAll();
         Map<Discount, Item> discountItemMap = new HashMap<>();
 
-        for (Discount discount : discounts) {
+        for (Discount discount : translatedDiscounts) {
             ItemDiscount itemDiscount = itemDiscounts.stream()
                     .filter(id -> id.getDiscount().getDiscountId().equals(discount.getDiscountId()))
                     .findFirst()
                     .orElse(null);
 
             if (itemDiscount != null) {
-                discountItemMap.put(discount, itemDiscount.getItem());
+                discountItemMap.put(discount, (Item) translationService.translate(itemDiscount.getItem(), language));
             } else {
                 discountItemMap.put(discount, ItemDecorator.create());
             }
         }
 
-        model.addAttribute("discounts", discounts);
+        model.addAttribute("original_languages", originalLanguages);
+        model.addAttribute("discounts", translatedDiscounts);
         model.addAttribute("discountItemMap", discountItemMap);
+        //TODO Search only working in original language
         model.addAttribute("searchDis", search);
         return "admin/view/viewDiscounts";
     }

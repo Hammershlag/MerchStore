@@ -70,6 +70,27 @@ public class TranslationService {
         }
     }
 
+    public String translateDocument(String text, Language outputLanguage, String documentName, Long documentId, Language inputLanguage) {
+        if (text.length() > 255)
+        {
+            StringBuilder sb = new StringBuilder();
+            String[] words = text.split("(?<=[.!?])\\s+");
+            for (int i = 0; i < words.length; i++) {
+                String word = words[i];
+                if (word.length() > 255) {
+                    String[] subWords = word.split("\\s+");
+                    for (String subWord : subWords) {
+                        sb.append(translator.translateText(new LanguageText(inputLanguage, subWord), outputLanguage, "Document", documentName + "_" + i, documentId).getText());
+                    }
+                    continue;
+                }
+                sb.append(translator.translateText(new LanguageText(inputLanguage, word), outputLanguage, "Document", documentName + "_" + i, documentId).getText());
+            }
+            return sb.toString();
+        }
+        return translator.translateText(new LanguageText(inputLanguage, text), outputLanguage, "Document", documentName, documentId).getText();
+    }
+
     private void copyNonTranslatableFields(Translatable source, Translatable target) {
         try {
             Field[] fields = source.getClass().getDeclaredFields();

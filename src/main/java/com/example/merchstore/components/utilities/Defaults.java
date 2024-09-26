@@ -2,6 +2,8 @@ package com.example.merchstore.components.utilities;
 
 import org.springframework.stereotype.Component;
 
+import java.util.Locale;
+
 /**
  * The Defaults class provides default values for various entities in the system.
  *
@@ -61,4 +63,6 @@ public class Defaults {
     public static final int BACKUP_INTERVAL = (((BACKUP_INTERVAL_DAYS *24) + BACKUP_INTERVAL_HOURS * 60 + BACKUP_INTERVAL_MINUTES) * 60 + BACKUP_INTERVAL_SECONDS) * 1000;
 
     public static final int TRANSLATION_OVER_DUE_DAYS = 7;
+    public static final String TRANSLATION_DEFAULT_LANGUAGE = "en";
+    public static final Locale TRANSLATION_DEFAULT_LOCALE = new Locale(TRANSLATION_DEFAULT_LANGUAGE);
 }

@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 /**
- * The ReviewController class handles the web requests related to the user's reviews in the application.
+ * The ReviewController_u class handles the web requests related to the user's reviews in the application.
  *
  * It has one method:
  * <ul>
@@ -32,7 +32,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/review")
-public class ReviewController {
+public class ReviewController_u {
 
     /**
      * The ItemRepository that this controller uses to perform CRUD operations on items.

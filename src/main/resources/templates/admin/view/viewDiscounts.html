@@ -63,6 +63,7 @@
                 <tr>
                     <th>Code</th>
                     <th>Description</th>
+                    <th>Language</th>
                     <th>Discount Percentage</th>
                     <th>Valid From</th>
                     <th>Valid Until</th>
@@ -74,6 +75,7 @@
                 <tr th:each="mapItem : ${discountItemMap}">
                     <td th:text="${mapItem.key.code}">Code</td>
                     <td th:text="${mapItem.key.description}">Description</td>
+                    <td th:text="${original_languages.get(mapItem.key.discountId).code}"></td>
                     <td th:text="${mapItem.key.discountPercentage}">Percentage</td>
                     <td th:text="${mapItem.key.validFrom}">From</td>
                     <td th:text="${mapItem.key.validUntil}">Until</td>

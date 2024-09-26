@@ -3,6 +3,7 @@ package com.example.merchstore.controllers.admin;
 import com.example.merchstore.components.enums.Language;
 import com.example.merchstore.components.models.*;
 import com.example.merchstore.repositories.*;
+import com.example.merchstore.services.GlobalAttributeService;
 import com.example.merchstore.services.LatestExchangeRateService;
 import com.example.merchstore.services.TranslationService;
 import jakarta.servlet.http.Cookie;
@@ -24,6 +25,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import static com.example.merchstore.components.utilities.ImageProcessor.*;
@@ -88,6 +90,9 @@ public class ItemController_a {
     @Autowired
     private TranslationService translationService;
 
+    @Autowired
+    private GlobalAttributeService globalAttributeService;
+
     /**
      * Prepares the model for adding a new item and returns the view name.
      *
@@ -116,7 +121,8 @@ public class ItemController_a {
     public String addItem(Item item,
                           @RequestParam("imageData") MultipartFile image,
                           @RequestParam("attributeType[]") String[] attributeTypes,
-                          @RequestParam("attributeValue[]") String[] attributeValues) {
+                          @RequestParam("attributeValue[]") String[] attributeValues,
+                          @RequestParam("language_iso") String languageIso) {
         if (!image.isEmpty()) {
             BufferedImage bufferedImage = ImageIO.read(image.getInputStream());
 
@@ -133,6 +139,7 @@ public class ItemController_a {
         item.setCreatedAt(LocalDateTime.now());
         item.setCurrency(currencyRepository.findById(1L).orElse(null));
         item.setUpdatedAt(LocalDateTime.now());
+        item.setLanguage(Language.fromCode(languageIso));
 
         item = itemRepository.save(item);
 
@@ -175,8 +182,13 @@ public class ItemController_a {
                             @RequestParam(value = "searchItem", required = false) String search,
                             @RequestParam(required = false) String lang,Model model) {
 
-        if (lang == null)
-            lang = "pl";
+        Language language;
+        if (lang != null) {
+            language = Language.fromCode(lang);
+            globalAttributeService.replaceAttribute("language", language);
+        } else {
+            language = (Language) globalAttributeService.getGlobalAttributes().get("language");
+        }
 
         Page<Item> items;
         Pageable pageable = PageRequest.of(page, size);
@@ -214,15 +226,16 @@ public class ItemController_a {
 
         model.addAttribute("currency", currency);
         model.addAttribute("exchangeRate", exchangeRate);
-
-        Language language = Language.fromCode(lang);
+        HashMap<Long, Language> originalLanguages = new HashMap<>();
         List<Item> translatedItems = new ArrayList<>();
         for (Item item : items) {
+            originalLanguages.put(item.getItemId(), item.getLanguage());
             Item translatedItem = (Item) translationService.translate(item, language);
             translatedItems.add(translatedItem);
         }
 
         model.addAttribute("language", language);
+        model.addAttribute("original_languages", originalLanguages);
         model.addAttribute("items", translatedItems);
         model.addAttribute("totalPages", items.getTotalPages());
         model.addAttribute("currentPage", page);
@@ -271,7 +284,9 @@ public class ItemController_a {
         model.addAttribute("attributes", attributes);
 
         Language language = Language.fromCode(lang);
+        Language originalLanguage = item.getLanguage();
         Item translatedItem = (Item) translationService.translate(item, language);
+        model.addAttribute("original_language", originalLanguage);
         model.addAttribute("language", language);
         model.addAttribute("item", translatedItem);
         return "admin/view/viewItem";

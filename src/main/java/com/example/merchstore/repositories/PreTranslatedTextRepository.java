@@ -16,4 +16,5 @@ public interface PreTranslatedTextRepository extends JpaRepository<PreTranslated
     PreTranslatedTexts findByClassNameAndFieldNameAndLanguageAndEntityId(String className, String fieldName, Language language, Long entityId);
 
     List<PreTranslatedTexts> findTop10ByClassNameAndFieldNameAndLanguageAndTextStartingWithIgnoreCase(String className, String fieldName, Language language, String text);
+    List<PreTranslatedTexts> findAllByClassNameAndFieldNameAndLanguageAndTextStartingWithIgnoreCase(String className, String fieldName, Language language, String text);
 }

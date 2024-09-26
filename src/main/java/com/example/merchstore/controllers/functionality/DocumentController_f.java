@@ -1,5 +1,9 @@
 package com.example.merchstore.controllers.functionality;
 
+import com.example.merchstore.components.enums.Language;
+import com.example.merchstore.services.GlobalAttributeService;
+import com.example.merchstore.services.TranslationService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,6 +31,12 @@ import java.nio.file.Paths;
 @RequestMapping("/documents")
 public class DocumentController_f {
 
+    @Autowired
+    private TranslationService translationService;
+
+    @Autowired
+    private GlobalAttributeService globalAttributeService;
+
     /**
      * Handles the GET request for displaying a document. It retrieves the document based on the provided name, reads its content, adds the document name and content to the model, then returns the view name.
      *
@@ -35,7 +45,19 @@ public class DocumentController_f {
      * @return The view name.
      */
     @GetMapping
-    public String displayDocument(@RequestParam("name") String documentName, Model model) {
+    public String displayDocument(@RequestParam("name") String documentName, Model model,
+                                  @RequestParam(value = "lang", required = false) String lang) {
+
+        Language language;
+        if (lang != null) {
+            language = Language.fromCode(lang);
+            globalAttributeService.replaceAttribute("language", language);
+
+
+        } else {
+            language = (Language) globalAttributeService.getGlobalAttributes().get("language");
+        }
+
         String documentPath = null;
         String name = documentName;
         switch (documentName) {
@@ -47,10 +69,11 @@ public class DocumentController_f {
                 return "error/404";
         }
 
+        //TODO Long texts do not work
         try {
             String content = new String(Files.readAllBytes(Paths.get(documentPath)));
-            model.addAttribute("documentName", name);
-            model.addAttribute("documentContent", content);
+            model.addAttribute("documentName", translationService.translateDocument(name, language, name, 1L, Language.ENGLISH));
+            model.addAttribute("documentContent", translationService.translateDocument(content, language, name, 2L, Language.ENGLISH));
         } catch (IOException e) {
             e.printStackTrace();
             return "error/404";

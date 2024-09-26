@@ -29,6 +29,7 @@
                 <select id="categoryId" name="categoryId" required>
                     <option th:each="category : ${categories}" th:value="${category.categoryId}" th:text="${category.name}" th:selected="${item.category.categoryId == category.categoryId}"></option>
                 </select>
+                <p th:text="'Language: ' + ${item.language.code}"></p>
                 <label for="imageData">Image:</label>
                 <input type="file" id="imageData" name="imageData"/>
                 <button type="submit">Update Item</button>
