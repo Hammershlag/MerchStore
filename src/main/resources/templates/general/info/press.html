@@ -17,43 +17,43 @@ Date: 13.06.2024
     </th:block>
     <th:block th:fragment="content">
         <div>
-            <h2>Press</h2>
+            <h2 th:text="#{general.info.press.title}">Press</h2>
 
             <div class="press-releases">
-                <h3>Recent Press Releases</h3>
+                <h3 th:text="#{general.info.press.recentPressReleasesTitle}">Recent Press Releases</h3>
                 <ul>
                     <li>
-                        <strong>Date:</strong> June 1, 2024<br>
-                        <strong>Title:</strong> [Your Company] Launches New Sustainability Initiative<br>
-                        <strong>Summary:</strong> [Your Company] announces a new initiative aimed at reducing plastic waste by 50% within the next year. The initiative includes partnerships with local recycling facilities and educational outreach programs.
-                        <a href="#">Read More</a>
+                        <strong th:text="#{general.info.press.dateLabel}">Date:</strong> <span th:text="'June 1, 2024'">June 1, 2024</span><br>
+                        <strong th:text="#{general.info.press.titleLabel}">Title:</strong> <span th:text="#{general.info.press.pressRelease1Title}">MerchStore Launches New Sustainability Initiative</span><br>
+                        <strong th:text="#{general.info.press.summaryLabel}">Summary:</strong> <span th:text="#{general.info.press.pressRelease1Summary}">MerchStore announces a new initiative aimed at reducing plastic waste by 50% within the next year. The initiative includes partnerships with local recycling facilities and educational outreach programs.</span>
+                        <a href="#" th:text="#{general.info.press.readMore}">Read More</a>
                     </li>
                     <li>
-                        <strong>Date:</strong> May 15, 2024<br>
-                        <strong>Title:</strong> [Your Company] Receives Industry Recognition for Innovation in Technology<br>
-                        <strong>Summary:</strong> [Your Company] is honored with the Innovation Award for its groundbreaking advancements in AI technology, revolutionizing customer service experiences worldwide.
-                        <a href="#">Read More</a>
+                        <strong th:text="#{general.info.press.dateLabel}">Date:</strong> <span th:text="'May 15, 2024'">May 15, 2024</span><br>
+                        <strong th:text="#{general.info.press.titleLabel}">Title:</strong> <span th:text="#{general.info.press.pressRelease2Title}">MerchStore Receives Industry Recognition for Innovation in Technology</span><br>
+                        <strong th:text="#{general.info.press.summaryLabel}">Summary:</strong> <span th:text="#{general.info.press.pressRelease2Summary}">MerchStore is honored with the Innovation Award for its groundbreaking advancements in AI technology, revolutionizing customer service experiences worldwide.</span>
+                        <a href="#" th:text="#{general.info.press.readMore}">Read More</a>
                     </li>
                     <!-- Add more press releases here as needed -->
                 </ul>
             </div>
 
             <div class="media-coverage">
-                <h3>Media Coverage</h3>
+                <h3 th:text="#{general.info.press.mediaCoverageTitle}">Media Coverage</h3>
                 <ul>
                     <li>
-                        <strong>Date:</strong> April 25, 2024<br>
-                        <strong>Publication:</strong> TechToday<br>
-                        <strong>Title:</strong> How [Your Company] is Leading the Way in Sustainable Practices<br>
-                        <strong>Summary:</strong> TechToday features [Your Company]'s efforts in sustainability, highlighting its innovative solutions and commitment to environmental stewardship.
-                        <a href="#">Read More</a>
+                        <strong th:text="#{general.info.press.dateLabel}">Date:</strong> <span th:text="'April 25, 2024'">April 25, 2024</span><br>
+                        <strong th:text="#{general.info.press.publicationLabel}">Publication:</strong> <span th:text="#{general.info.press.mediaCoverage1Publication}">TechToday</span><br>
+                        <strong th:text="#{general.info.press.titleLabel}">Title:</strong> <span th:text="#{general.info.press.mediaCoverage1Title}">How MerchStore is Leading the Way in Sustainable Practices</span><br>
+                        <strong th:text="#{general.info.press.summaryLabel}">Summary:</strong> <span th:text="#{general.info.press.mediaCoverage1Summary}">TechToday features MerchStore's efforts in sustainability, highlighting its innovative solutions and commitment to environmental stewardship.</span>
+                        <a href="#" th:text="#{general.info.press.readMore}">Read More</a>
                     </li>
                     <li>
-                        <strong>Date:</strong> March 10, 2024<br>
-                        <strong>Publication:</strong> Business Insights<br>
-                        <strong>Title:</strong> Interview with CEO of [Your Company] on Future Growth Strategies<br>
-                        <strong>Summary:</strong> Business Insights interviews [Your Company]'s CEO, discussing strategic initiatives and future plans for expansion.
-                        <a href="#">Read More</a>
+                        <strong th:text="#{general.info.press.dateLabel}">Date:</strong> <span th:text="'March 10, 2024'">March 10, 2024</span><br>
+                        <strong th:text="#{general.info.press.publicationLabel}">Publication:</strong> <span th:text="#{general.info.press.mediaCoverage2Publication}">Business Insights</span><br>
+                        <strong th:text="#{general.info.press.titleLabel}">Title:</strong> <span th:text="#{general.info.press.mediaCoverage2Title}">Interview with CEO of MerchStore on Future Growth Strategies</span><br>
+                        <strong th:text="#{general.info.press.summaryLabel}">Summary:</strong> <span th:text="#{general.info.press.mediaCoverage2Summary}">Business Insights interviews MerchStore's CEO, discussing strategic initiatives and future plans for expansion.</span>
+                        <a href="#" th:text="#{general.info.press.readMore}">Read More</a>
                     </li>
                     <!-- Add more media coverage articles here as needed -->
                 </ul>

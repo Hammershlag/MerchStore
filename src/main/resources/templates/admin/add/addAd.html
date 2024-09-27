@@ -12,38 +12,37 @@
     </th:block>
     <th:block th:fragment="content">
         <div>
-            <a th:href="'/api/admin/dashboard?lang=' + ${#locale.language}">Dashboard</a>
-            <h2>Add Ad</h2>
-            <form th:action="'/api/admin/add/ad" method="post" enctype="multipart/form-data">
-                <label for="item">Item:</label><br>
+            <a th:href="'/api/admin/dashboard?lang=' + ${#locale.language}" th:text="#{admin.add.ad.dashboard}">Dashboard</a>
+            <h2 th:text="#{admin.add.ad.title}">Add Ad</h2>
+            <form th:action="'/api/admin/add/ad'" method="post" enctype="multipart/form-data">
+                <label for="item" th:text="#{admin.add.ad.item}">Item:</label><br>
                 <select id="item" name="item" required>
-                    <option value="">Select Item</option>
+                    <option value="" th:text="#{admin.add.ad.selectItem}">Select Item</option>
                     <option th:each="item : ${items}" th:value="${item.itemId}" th:text="${item.name}"></option>
                 </select><br>
 
-                <label for="description">Description:</label><br>
+                <label for="description" th:text="#{admin.add.ad.description}">Description:</label><br>
                 <textarea id="description" name="description" required></textarea><br>
 
-                <label for="startDate">Start Date:</label><br>
+                <label for="startDate" th:text="#{admin.add.ad.startDate}">Start Date:</label><br>
                 <input type="datetime-local" id="startDate" name="startDate" required><br>
 
-                <label for="endDate">End Date:</label><br>
+                <label for="endDate" th:text="#{admin.add.ad.endDate}">End Date:</label><br>
                 <input type="datetime-local" id="endDate" name="endDate" required><br>
 
-                <label for="status">Status:</label><br>
+                <label for="status" th:text="#{admin.add.ad.status}">Status:</label><br>
                 <select id="status" name="status" required>
-                    <option value="ACTIVE">Active</option>
-                    <option value="INACTIVE">Inactive</option>
+                    <option value="ACTIVE" th:text="#{admin.add.ad.active}">Active</option>
+                    <option value="INACTIVE" th:text="#{admin.add.ad.inactive}">Inactive</option>
                 </select><br>
 
-                <label for="language_iso">Language (ISO code):</label><br>
+                <label for="language_iso" th:text="#{admin.add.ad.languageIso}">Language (ISO code):</label><br>
                 <input type="text" id="language_iso" name="language_iso" required><br>
 
-
-                <label for="imageData">Image:</label><br>
+                <label for="imageData" th:text="#{admin.add.ad.image}">Image:</label><br>
                 <input type="file" id="imageData" name="imageData"><br>
 
-                <input type="submit" value="Add Ad">
+                <input type="submit" value="Add Ad" th:text="#{admin.add.ad.submitButton}">
             </form>
         </div>
     </th:block>

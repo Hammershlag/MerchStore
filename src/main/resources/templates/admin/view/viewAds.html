@@ -44,21 +44,21 @@
     </th:block>
     <th:block th:fragment="content">
         <div>
-            <a th:href="'/api/admin/dashboard?lang=' + ${#locale.language}">Dashboard</a>
-            <h2>Ads</h2>
+            <a th:href="'/api/admin/dashboard?lang=' + ${#locale.language}" th:text="#{admin.view.ads.dashboard}">Dashboard</a>
+            <h2 th:text="#{admin.view.ads.title}">Ads</h2>
             <table>
                 <thead>
                 <tr>
-                    <th>Image</th>
-                    <th>Item Name</th>
-                    <th>Description</th>
-                    <th>Status</th>
-                    <th>Language</th>
-                    <th>Start Date</th>
-                    <th>End Date</th>
-                    <th>Created By</th>
-                    <th>Created At</th>
-                    <th>Updated At</th>
+                    <th th:text="#{admin.view.ads.image}">Image</th>
+                    <th th:text="#{admin.view.ads.itemName}">Item Name</th>
+                    <th th:text="#{admin.view.ads.description}">Description</th>
+                    <th th:text="#{admin.view.ads.status}">Status</th>
+                    <th th:text="#{admin.view.ads.language}">Language</th>
+                    <th th:text="#{admin.view.ads.startDate}">Start Date</th>
+                    <th th:text="#{admin.view.ads.endDate}">End Date</th>
+                    <th th:text="#{admin.view.ads.createdBy}">Created By</th>
+                    <th th:text="#{admin.view.ads.createdAt}">Created At</th>
+                    <th th:text="#{admin.view.ads.updatedAt}">Updated At</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -80,11 +80,11 @@
                 </tbody>
             </table>
             <div class="pagination">
-                <a th:if="${currentPage > 0}" th:href="@{/api/admin/view/ads(page=${currentPage - 1}, size=${pageSize})}">Previous</a>
+                <a th:if="${currentPage > 0}" th:href="@{/api/admin/view/ads(page=${currentPage - 1}, size=${pageSize})}" th:text="#{admin.view.ads.previous}">Previous</a>
                 <span th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
-                    <a th:class="${i == currentPage} ? 'active'" th:href="@{/api/admin/view/ads(page=${i}, size=${pageSize})}" th:text="${i + 1}"></a>
-                </span>
-                <a th:if="${currentPage < totalPages - 1}" th:href="@{/api/admin/view/ads(page=${currentPage + 1}, size=${pageSize})}">Next</a>
+                <a th:class="${i == currentPage} ? 'active'" th:href="@{/api/admin/view/ads(page=${i}, size=${pageSize})}" th:text="${i + 1}"></a>
+            </span>
+                <a th:if="${currentPage < totalPages - 1}" th:href="@{/api/admin/view/ads(page=${currentPage + 1}, size=${pageSize})}" th:text="#{admin.view.ads.next}">Next</a>
             </div>
         </div>
     </th:block>

@@ -167,8 +167,8 @@
                             <img th:src="${isWishListed} ? '/svg/star/star-yellow.svg' : '/svg/star/star-transparent.svg'" class="star-svg">
                         </label>
                         <!-- Add to Wishlist and Remove from Wishlist sections -->
-                        <div id="addToWishlist" th:style="${isWishListed} == true ? 'display:none;' : 'display:block;'" style="margin-left: 10px;">Add to Wishlist</div>
-                        <div id="removeFromWishlist" th:style="${isWishListed} == true ? 'display:block;' : 'display:none;'" style="margin-left: 10px;">Remove from Wishlist</div>
+                        <div id="addToWishlist" th:style="${isWishListed} == true ? 'display:none;' : 'display:block;'" style="margin-left: 10px;" th:text="#{general.view.item.addToWishlist}">Add to Wishlist</div>
+                        <div id="removeFromWishlist" th:style="${isWishListed} == true ? 'display:block;' : 'display:none;'" style="margin-left: 10px;" th:text="#{general.view.item.removeFromWishlist}">Remove from Wishlist</div>
                     </div>
 
                     <p th:text="${item.description}">Item Description</p>
@@ -180,42 +180,42 @@
                     </div>
                     <p class="price" th:text="${#numbers.formatDecimal(item.price * exchangeRate.exchangeRate, 1, 2)} + ${currency.symbol}">Item Price</p>
                     <p th:if="${item.stockQuantity > 0}">Stock Quantity: <span th:text="${item.stockQuantity}">0</span></p>
-                    <p>Category: <span th:text="${categoryHierarchy}">Category Hierarchy</span></p>
+                    <p th:text="#{general.view.item.category}">Category: <span th:text="${categoryHierarchy}">Category Hierarchy</span></p>
                 </div>
                 <div th:if="${item.stockQuantity > 0}">
                     <form th:action="@{/user/cart/add}" method="post">
                         <input type="hidden" name="itemId" th:value="${item.itemId}" />
-                        <label for="quantity">Quantity:</label>
+                        <label for="quantity" th:text="#{general.view.item.quantity}">Quantity:</label>
                         <input type="number" id="quantity" name="quantity" value="1" min="1" />
-                        <button type="submit">Add to cart</button>
+                        <button type="submit" th:text="#{general.view.item.addToCart}">Add to cart</button>
                     </form>
                 </div>
-                <p th:if="${item.stockQuantity == 0}" class="out-of-stock">Currently out of stock. Wait for new supply.</p>
-                <p th:if="${item.stockQuantity < 0}" class="out-of-stock">This item will no longer be supplied again.</p>
+                <p th:if="${item.stockQuantity == 0}" class="out-of-stock" th:text="#{general.view.item.outOfStock}">Currently out of stock. Wait for new supply.</p>
+                <p th:if="${item.stockQuantity < 0}" class="out-of-stock" th:text="#{general.view.item.noLongerSupplied}">This item will no longer be supplied again.</p>
 
                 <!-- Reviews Section -->
                 <div class="reviews">
-                    <h3>Reviews</h3>
+                    <h3 th:text="#{general.view.item.reviews}">Reviews</h3>
                     <div th:if="${reviews != null && !reviews.isEmpty()}">
-                        <p>Average Rating: <span th:text="${averageRating}">0.0</span></p>
-                        <p>Total Reviews: <span th:text="${reviews.size()}">0</span></p>
+                        <p th:text="#{general.view.item.averageRating}">Average Rating: <span th:text="${averageRating}">0.0</span></p>
+                        <p th:text="#{general.view.item.totalReviews}">Total Reviews: <span th:text="${reviews.size()}">0</span></p>
                     </div>
 
                     <div th:if="${reviews != null && !reviews.isEmpty()}">
                         <div th:each="review : ${reviews}">
                             <div class="review">
-                                <p><strong th:text="${review.user.username}">Username</strong> - added at: <span th:text="${review.createdAt}">Date</span></p>
+                                <p><strong th:text="${review.user.username}">Username</strong> - <span th:text="#{general.view.item.addedAt}">added at:</span> <span th:text="${review.createdAt}">Date</span></p>
                                 <p th:text="${review.description}">Review Description</p>
-                                <p>Rating: <span th:text="${review.starRating}">Rating</span></p>
+                                <p th:text="#{general.view.item.rating}">Rating: <span th:text="${review.starRating}">Rating</span></p>
                             </div>
                         </div>
                     </div>
                     <div th:if="${reviews == null || reviews.isEmpty()}">
-                        <p>No reviews yet.</p>
+                        <p th:text="#{general.view.item.noReviews}">No reviews yet.</p>
                     </div>
                     <!-- Check if the user has already reviewed the item -->
                     <div th:if="${submitted}">
-                        <p>You have already submitted a review for this item.</p>
+                        <p th:text="#{general.view.item.alreadySubmitted}">You have already submitted a review for this item.</p>
                     </div>
 
                     <!-- Add Review Form -->
@@ -223,10 +223,10 @@
                         <form th:action="@{/review/addReview}" method="post">
                             <input type="hidden" name="itemId" th:value="${item.itemId}" />
 
-                            <label for="reviewDescription">Add a review:</label>
+                            <label for="reviewDescription" th:text="#{general.view.item.addReview}">Add a review:</label>
                             <textarea id="reviewDescription" name="description" rows="4" cols="50" required></textarea>
 
-                            <label for="rating">Rating:</label>
+                            <label for="rating" th:text="#{general.view.item.rating}">Rating:</label>
                             <div id="rating">
                                 <label><input type="radio" name="star_rating" value="1" required> 1</label>
                                 <label><input type="radio" name="star_rating" value="2"> 2</label>
@@ -235,14 +235,14 @@
                                 <label><input type="radio" name="star_rating" value="5"> 5</label>
                             </div>
 
-                            <button type="submit">Submit</button>
+                            <button type="submit" th:text="#{general.view.item.submit}">Submit</button>
                         </form>
                     </div>
 
                 </div>
             </div>
             <div th:if="${item == null}">
-                <p>Item not found.</p>
+                <p th:text="#{general.view.item.notFound}">Item not found.</p>
             </div>
         </div>
     </th:block>

@@ -33,50 +33,50 @@
     </th:block>
     <th:block th:fragment="content">
         <div>
-            <h2>User Registration</h2>
+            <h2 th:text="#{auth.register.title}">User Registration</h2>
             <form th:action="@{/api/register}" th:object="${user}" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
                 <div th:if="${errorMessage}" style="color: red;">
                     <p th:text="${errorMessage}"></p>
                 </div>
-                <label for="username">Username:</label><br>
+                <label for="username" th:text="#{auth.register.usernameLabel}">Username:</label><br>
                 <input type="text" id="username" name="username" th:field="*{username}" required><br>
 
-                <label for="password">Password:</label><br>
+                <label for="password" th:text="#{auth.register.passwordLabel}">Password:</label><br>
                 <input type="password" id="password" name="password" th:field="*{password}" oninput="checkPasswordStrength()" required>
                 <div id="password-strength"></div><br>
 
-                <label for="email">Email:</label><br>
+                <label for="email" th:text="#{auth.register.emailLabel}">Email:</label><br>
                 <input type="email" id="email" name="email" th:field="*{email}" required><br>
 
-                <label for="firstName">First Name:</label><br>
+                <label for="firstName" th:text="#{auth.register.firstNameLabel}">First Name:</label><br>
                 <input type="text" id="firstName" name="firstName" th:field="*{firstName}" oninput="validateName(this)" required><br>
 
-                <label for="lastName">Last Name:</label><br>
+                <label for="lastName" th:text="#{auth.register.lastNameLabel}">Last Name:</label><br>
                 <input type="text" id="lastName" name="lastName" th:field="*{lastName}" oninput="validateSurname(this)" required><br>
 
-                <label for="birthDate">Birth Date:</label><br>
+                <label for="birthDate" th:text="#{auth.register.birthDateLabel}">Birth Date:</label><br>
                 <input type="date" id="birthDate" name="birthDate" th:field="*{birthDate}" required><br><br>
 
-                <label for="phoneNumber">Phone Number:</label><br>
+                <label for="phoneNumber" th:text="#{auth.register.phoneNumberLabel}">Phone Number:</label><br>
                 <input type="text" id="phoneNumber" name="phoneNumber" th:field="*{phoneNumber}"><br>
 
-                <label for="address">Address:</label><br>
+                <label for="address" th:text="#{auth.register.addressLabel}">Address:</label><br>
                 <input type="text" id="address" name="address" th:field="*{address}"><br><br>
 
-                <label for="gender">Gender:</label><br>
+                <label for="gender" th:text="#{auth.register.genderLabel}">Gender:</label><br>
                 <select id="gender" name="gender" th:field="*{gender}" required>
-                    <option value="" selected="selected">Select your gender</option>
-                    <option value="MALE">Male</option>
-                    <option value="FEMALE">Female</option>
+                    <option value="" selected="selected" th:text="#{auth.register.genderSelect}">Select your gender</option>
+                    <option value="MALE" th:text="#{auth.register.genderMale}">Male</option>
+                    <option value="FEMALE" th:text="#{auth.register.genderFemale}">Female</option>
                 </select><br><br>
 
-                <label for="imageData">Profile Image:</label><br>
+                <label for="imageData" th:text="#{auth.register.imageDataLabel}">Profile Image:</label><br>
                 <input type="file" id="imageData" name="imageData" accept="image/jpeg,image/png,image/jpg"><br><br>
 
                 <input type="checkbox" id="termsCheckbox" onclick="toggleSubmitButton()">
-                <label for="termsCheckbox">I have read and agree to the <a th:href="'/documents?lang=' + ${#locale.language} +'&name=termsandconditions'" target="_blank">terms and conditions</a></label><br><br>
+                <label for="termsCheckbox" th:text="#{auth.register.termsCheckbox}">I have read and agree to the <a th:href="'/documents?lang=' + ${#locale.language} +'&name=termsandconditions'" target="_blank">terms and conditions</a></label><br><br>
 
-                <input type="submit" id="submitButton" value="Register" disabled>
+                <input type="submit" id="submitButton" th:value="#{auth.register.submitButton}" disabled>
             </form>
         </div>
     </th:block>

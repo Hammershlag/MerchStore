@@ -1,6 +1,6 @@
 <div th:fragment="bestsellersPanel">
     <div class="bestseller-panel-container">
-        <p class="bestseller-panel-title">Bestsellers</p>
+        <p class="bestseller-panel-title" th:text="#{fragments.best_sellers.title}">Bestsellers</p>
         <div class="bestseller-panel">
             <div th:each="bestseller : ${bestsellers}">
                 <div  th:replace="~{fragments/bestseller :: bestseller}"></div>

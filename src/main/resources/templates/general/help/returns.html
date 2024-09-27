@@ -17,8 +17,65 @@ Date: 13.06.2024
     </th:block>
     <th:block th:fragment="content">
         <div>
-            <h2>Returns</h2>
-            <p>Our policy lasts 30 days. If 30 days have gone by since your purchase, unfortunately we can’t offer you a refund or exchange.</p>
+            <h2 th:text="#{general.help.returns.title}">Returns</h2>
+
+            <h3 th:text="#{general.help.returns.returnPolicyOverviewTitle}">Return Policy Overview</h3>
+            <p th:text="#{general.help.returns.returnPolicyOverviewDescription}">
+                At MerchStore, we strive to ensure our customers are satisfied with their purchases. If you're not completely happy with your order,
+                we offer a 30-day return policy from the date of purchase. Unfortunately, if 30 days have passed since your purchase,
+                we won’t be able to offer a refund or exchange. Please ensure the items you're returning meet the criteria outlined below.
+            </p>
+
+            <h3 th:text="#{general.help.returns.conditionsForReturnsTitle}">Conditions for Returns</h3>
+            <ul>
+                <li th:text="#{general.help.returns.condition1}">Items must be unused, unworn, and in the same condition in which you received them.</li>
+                <li th:text="#{general.help.returns.condition2}">Items must be returned in their original packaging, including any tags, labels, or accessories.</li>
+                <li th:text="#{general.help.returns.condition3}">Certain products like perishable goods, custom or personalized items, and intimate apparel are not eligible for returns.</li>
+                <li th:text="#{general.help.returns.condition4}">Proof of purchase is required for all returns.</li>
+            </ul>
+
+            <h3 th:text="#{general.help.returns.howToInitiateReturnTitle}">How to Initiate a Return</h3>
+            <p th:text="#{general.help.returns.howToInitiateReturnDescription}">
+                To start the return process, please contact our customer service team at returns@merchstore.com.
+                Provide your order number, the item(s) you wish to return, and the reason for the return. Our team will respond within 48 hours
+                with instructions on how to proceed.
+            </p>
+
+            <h3 th:text="#{general.help.returns.refundProcessTitle}">Refund Process</h3>
+            <p th:text="#{general.help.returns.refundProcessDescription}">
+                Once your returned item is received and inspected, we will notify you via email. If the return is approved,
+                your refund will be processed within 5-7 business days, and the credit will automatically be applied to your original method of payment.
+                Please note that depending on your bank or credit card company, it may take some time before the refund appears on your account.
+            </p>
+
+            <h3 th:text="#{general.help.returns.exchangesTitle}">Exchanges</h3>
+            <p th:text="#{general.help.returns.exchangesDescription}">
+                If you need to exchange an item for a different size or color, follow the same process as above by contacting our customer service team.
+                Exchanges are subject to product availability, and if the replacement item is out of stock, we will issue a full refund instead.
+            </p>
+
+            <h3 th:text="#{general.help.returns.shippingCostsForReturnsTitle}">Shipping Costs for Returns</h3>
+            <p th:text="#{general.help.returns.shippingCostsForReturnsDescription}">
+                Customers are responsible for covering the cost of return shipping unless the item was received damaged or incorrect.
+                We recommend using a trackable shipping service or purchasing shipping insurance, as we cannot guarantee receipt of your returned item.
+            </p>
+
+            <h3 th:text="#{general.help.returns.nonReturnableItemsTitle}">Non-Returnable Items</h3>
+            <p th:text="#{general.help.returns.nonReturnableItemsDescription}">
+                Please note that certain products are not eligible for returns, including:
+            </p>
+            <ul>
+                <li th:text="#{general.help.returns.nonReturnableItem1}">Gift cards</li>
+                <li th:text="#{general.help.returns.nonReturnableItem2}">Downloadable software products</li>
+                <li th:text="#{general.help.returns.nonReturnableItem3}">Health and personal care items</li>
+                <li th:text="#{general.help.returns.nonReturnableItem4}">Perishable goods like food, flowers, and magazines</li>
+                <li th:text="#{general.help.returns.nonReturnableItem5}">Custom or personalized orders</li>
+            </ul>
+
+            <p th:text="#{general.help.returns.finalNote}">
+                We appreciate your understanding and cooperation with our returns policy.
+                For further questions or concerns, don't hesitate to reach out to us at support@merchstore.com.
+            </p>
         </div>
     </th:block>
     <th:block th:fragment="right_content">

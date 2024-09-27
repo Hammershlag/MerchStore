@@ -17,8 +17,27 @@ Date: 13.06.2024
     </th:block>
     <th:block th:fragment="content">
         <div>
-            <h2>About Us</h2>
-            <p>Our company was founded in 2010 by a group of friends who wanted to create a platform where people could buy and sell items online. Since then, we have grown into a global marketplace with millions of users worldwide. Our mission is to connect people through commerce and make the world more sustainable by promoting the circular economy.</p>
+            <h2 th:text="#{general.info.about_us.title}">About Us</h2>
+            <p th:text="#{general.info.about_us.paragraph1}">
+                Welcome to MerchStore, your go-to destination for quality merchandise and unique products.
+                Founded in 2010, MerchStore started as a passion project by a group of friends who shared a vision to revolutionize the online shopping experience.
+                We wanted to create a place where people could not only find the latest trends in apparel, accessories, and gadgets but also discover rare and personalized items that reflect their individuality.
+            </p>
+            <p th:text="#{general.info.about_us.paragraph2}">
+                Over the years, we have grown into a global marketplace, serving thousands of customers worldwide.
+                At MerchStore, we believe that shopping should be fun, convenient, and inspiring.
+                That's why we curate a wide range of products from trusted suppliers and independent creators, ensuring quality and affordability.
+            </p>
+            <p th:text="#{general.info.about_us.paragraph3}">
+                Our mission is to connect people through commerce and build a community where customers can find everything they need in one place.
+                From trendy clothing to everyday essentials and one-of-a-kind items, our diverse selection is designed to meet the needs of all shoppers.
+                We are committed to promoting sustainability by encouraging thoughtful consumption and supporting eco-friendly practices among our vendors.
+            </p>
+            <p th:text="#{general.info.about_us.paragraph4}">
+                As we continue to grow, customer satisfaction remains at the heart of what we do.
+                We strive to provide a seamless shopping experience, from browsing to checkout, and our dedicated customer support team is always here to assist you with any inquiries or issues.
+                Thank you for choosing MerchStore, and we look forward to serving you as we continue to expand and innovate.
+            </p>
         </div>
     </th:block>
     <th:block th:fragment="right_content">
