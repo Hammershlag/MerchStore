@@ -1,6 +1,6 @@
 <div th:fragment="recentlyViewedPanel">
     <div class="recently-viewed-panel-container">
-        <p class="recently-viewed-panel-title">Recently Viewed Products</p>
+        <p class="recently-viewed-panel-title" th:text="#{fragments.recently_viewed_panel.title}">Recently Viewed Products</p>
         <div class="recently-viewed-slider">
             <button id="prevButtonRecentlyViewed" class="scroll-button" disabled><</button>
             <div class="recently-viewed-panel">
@@ -10,6 +10,6 @@
             </div>
             <button id="nextButtonRecentlyViewed" class="scroll-button">></button>
         </div>
-        <a th:href="'/&lang=' + ${#locale.language}" class="deleteHistory" id="deleteHistory">Delete history</a>
+        <a th:href="'/&lang=' + ${#locale.language}" class="deleteHistory" id="deleteHistory" th:text="#{fragments.recently_viewed_panel.delete_history}">Delete history</a>
     </div>
 </div>

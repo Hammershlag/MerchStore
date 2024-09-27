@@ -12,10 +12,10 @@
     </th:block>
     <th:block th:fragment="content">
         <div>
-            <h1>Error Details</h1>
+            <h1 th:text="#{error.title}">Error Details</h1>
             <div>
-                <p>Status Code: <span th:text="${statusCode}"></span></p>
-                <p>Error Message: <span th:text="${errorMessage}"></span></p>
+                <p><span th:text="#{error.status_code}">Status Code: </span><span th:text="${statusCode}"></span></p>
+                <p><span th:text="#{error.message}">Error Message: </span><span th:text="${errorMessage}"></span></p>
                 <p><span th:text="${customMessage}"></span></p>
             </div>
         </div>

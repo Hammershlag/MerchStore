@@ -10,20 +10,20 @@
       </a>
 
       <form th:action="'/item/all?lang=' + ${#locale.language}" method="get" class="search-form">
-        <input type="text" id="search" name="search" placeholder="Search" th:value="${search}">
+        <input type="text" id="search" name="search" th:placeholder="#{fragments.navbar.search}" th:value="${search}">
         <script>
           window.addEventListener('load', function() {
             var searchBox = document.getElementById('search');
             var searchResultsContainer = document.getElementById('searchResultsContainer');
 
             function getURLParameter(name) {
-              return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null;
+              return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [, ""])[1].replace(/\+/g, '%20')) || null;
             }
 
             // Get the lang parameter, default to "pl" if not present
             var lang = getURLParameter('lang') || 'pl';
 
-            searchBox.addEventListener('input', function() {
+            searchBox.addEventListener('input', function () {
               let searchText = this.value;
               if (searchText.trim() === '') {
                 searchResultsContainer.innerHTML = '';
@@ -36,12 +36,12 @@
               }
             });
 
-            searchBox.addEventListener('focus', function() {
+            searchBox.addEventListener('focus', function () {
               searchResultsContainer.style.display = 'block';
             });
 
-            searchBox.addEventListener('blur', function() {
-              setTimeout(function() {
+            searchBox.addEventListener('blur', function () {
+              setTimeout(function () {
                 searchResultsContainer.style.display = 'none';
               }, 300);
             });
@@ -53,13 +53,13 @@
       </form>
     </div>
     <div class="nav-right">
-      <p id="exchangeRate" style="color: black">PLN -> <span></span></p>
+      <p id="exchangeRate" style="color: black" th:utext="#{fragments.navbar.exchangeRate}">PLN -> <span></span></p>
       <select id="currencySelect">
         <!-- Options will be populated by JavaScript -->
       </select>
       <select id="languageSelect" onchange="changeLanguage()">
-        <option value="pl" th:selected="${#locale.language == 'pl'}">Polish</option>
-        <option value="en" th:selected="${#locale.language == 'en'}">English</option>
+        <option value="pl" th:selected="${#locale.language == 'pl'}" th:text="#{fragments.navbar.languagePolish}">Polish</option>
+        <option value="en" th:selected="${#locale.language == 'en'}" th:text="#{fragments.navbar.languageEnglish}">English</option>
       </select>
       <div th:if="${isLoggedIn && user != null}" class="nav-user">
         <a th:href="'/user/cart?lang=' + ${#locale.language}">
@@ -67,14 +67,14 @@
         </a>
         <a th:href="'/profile?lang=' + ${#locale.language}">
           <div class="profile">
-            <img th:src="${user.resolveImage()}" alt="User Image"  class="profile-image">
+            <img th:src="${user.resolveImage()}" alt="User Image" class="profile-image">
             <span th:text="${user.username}"></span>
           </div>
         </a>
-        <a th:href="'/api/logout?lang=' + ${#locale.language}">Logout</a>
+        <a th:href="'/api/logout?lang=' + ${#locale.language}" th:text="#{fragments.navbar.logout}">Logout</a>
       </div>
       <div th:if="${!isLoggedIn || user == null}" class="nav-user">
-        <a th:href="'/api/login/form?lang=' + ${#locale.language}">Login</a>
+        <a th:href="'/api/login/form?lang=' + ${#locale.language}" th:text="#{fragments.navbar.login}">Login</a>
       </div>
     </div>
     <script>
