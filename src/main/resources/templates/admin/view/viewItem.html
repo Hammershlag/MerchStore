@@ -38,33 +38,33 @@
     <th:block th:fragment="left_content">
         <p></p>
     </th:block>
-    <th:block th:fragment="content">
-        <div>
-            <a th:href="'/api/admin/dashboard?lang=' + ${#locale.language}">Dashboard</a>
-            <div class="item-container" th:if="${item != null}">
-                <img th:src="@{'/api/image/item/' + ${item.itemId}}" alt="Item Image" class="item-image">
-                <div class="item-details">
-                    <h2 th:text="${item.name}">Item Name</h2>
-                    <p th:text="${item.description}">Item Description</p>
-                    <div th:each="attribute : ${attributes}" th:if="${attributes.size() > 0 && attributes != null}">
-                        <div class="attributePair" style="border: black solid 1px; display: inline-block; padding-left: 10px; padding-right: 10px">
-                            <p th:text="${attribute.attributeType.name}">Attribute Key</p>
-                            <p th:text="${attribute.value}">Attribute Value</p>
-                        </div>
+    <<th:block th:fragment="content">
+    <div>
+        <a th:href="'/api/admin/dashboard?lang=' + ${#locale.language}" th:text="#{admin.view.item.dashboard}">Dashboard</a>
+        <div class="item-container" th:if="${item != null}">
+            <img th:src="@{'/api/image/item/' + ${item.itemId}}" alt="Item Image" class="item-image">
+            <div class="item-details">
+                <h2 th:text="${item.name}">Item Name</h2>
+                <p th:text="${item.description}">Item Description</p>
+                <div th:each="attribute : ${attributes}" th:if="${attributes.size() > 0 && attributes != null}">
+                    <div class="attributePair" style="border: black solid 1px; display: inline-block; padding-left: 10px; padding-right: 10px">
+                        <p th:text="${attribute.attributeType.name}">Attribute Key</p>
+                        <p th:text="${attribute.value}">Attribute Value</p>
                     </div>
-                    <p class="price" th:text="${#numbers.formatDecimal(item.price * exchangeRate.exchangeRate, 1, 2)} + ${currency.symbol}">Item Price</p>
-                    <p>Stock Quantity: <span th:text="${item.stockQuantity}">0</span></p>
-                    <p>Category: <span th:text="${item.category.name}">Category Name</span></p>
-                    <p th:text="'Language: ' + ${original_language.code}"></p>
-                    <p>Created At: <span th:text="${item.createdAt}">Created At</span></p>
-                    <p>Updated At: <span th:text="${item.updatedAt}">Updated At</span></p>
                 </div>
-            </div>
-            <div th:if="${item == null}">
-                <p>Item not found.</p>
+                <p class="price" th:text="${#numbers.formatDecimal(item.price * exchangeRate.exchangeRate, 1, 2)} + ${currency.symbol}">Item Price</p>
+                <p th:text="#{admin.view.item.stockQuantity} + ${item.stockQuantity}">Stock Quantity: </p>
+                <p th:text="#{admin.view.item.category} + ${item.category.name}">Category: </p>
+                <p th:text="#{admin.view.item.language} + ' ' + ${original_language.code}">Language: </p>
+                <p th:text="#{admin.view.item.createdAt} + ${item.createdAt}">Created At: </p>
+                <p th:text="#{admin.view.item.updatedAt} + ${item.updatedAt}">Updated At: </p>
             </div>
         </div>
-    </th:block>
+        <div th:if="${item == null}">
+            <p th:text="#{admin.view.item.notFound}">Item not found.</p>
+        </div>
+    </div>
+</th:block>
     <th:block th:fragment="right_content">
         <p></p>
     </th:block>

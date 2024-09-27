@@ -43,41 +43,41 @@
   </th:block>
   <th:block th:fragment="content">
     <div>
-      <a th:href="'/api/admin/dashboard?lang=' + ${#locale.language}">Dashboard</a>
-      <h2>Add Item</h2>
+      <a th:href="'/api/admin/dashboard?lang=' + ${#locale.language}" th:text="#{admin.add.item.dashboard}">Dashboard</a>
+      <h2 th:text="#{admin.add.item.title}">Add Item</h2>
       <form action="/api/admin/add/item" method="post" enctype="multipart/form-data">
-        <label for="name">Name:</label><br>
+        <label for="name" th:text="#{admin.add.item.name}">Name:</label><br>
         <input type="text" id="name" name="name" required><br>
 
-        <label for="description">Description:</label><br>
+        <label for="description" th:text="#{admin.add.item.description}">Description:</label><br>
         <textarea id="description" name="description" required></textarea><br>
 
-        <label for="price">Price:</label><br>
+        <label for="price" th:text="#{admin.add.item.price}">Price:</label><br>
         <input type="number" step="0.01" id="price" name="price" required><br>
 
-        <label for="stockQuantity">Stock Quantity:</label><br>
+        <label for="stockQuantity" th:text="#{admin.add.item.stockQuantity}">Stock Quantity:</label><br>
         <input type="number" id="stockQuantity" name="stockQuantity" min="0" required><br>
 
-        <label for="category">Category:</label><br>
+        <label for="category" th:text="#{admin.add.item.category}">Category:</label><br>
         <select id="category" name="category" required>
-          <option value="">Select Category</option>
+          <option value="" th:text="#{admin.add.item.selectCategory}">Select Category</option>
           <option th:each="category : ${categories}" th:value="${category.categoryId}" th:text="${category.name + ' - ' + category.description}"></option>
         </select><br>
 
         <div id="attributesContainer">
           <div class="attributePair">
-            <label for="attributeType">Attribute Type:</label><br>
+            <label for="attributeType" th:text="#{admin.add.item.attributeType}">Attribute Type:</label><br>
             <input list="attributeTypes" id="attributeType" name="attributeType[]" required>
             <datalist id="attributeTypes">
               <option th:each="attributeType : ${attributeTypes}" th:value="${attributeType.name}" th:text="${attributeType.name}"></option>
             </datalist><br>
 
-            <label for="attributeValue">Attribute Value:</label><br>
+            <label for="attributeValue" th:text="#{admin.add.item.attributeValue}">Attribute Value:</label><br>
             <input type="text" id="attributeValue" name="attributeValue[]" required><br>
           </div>
         </div>
 
-        <button type="button" id="addMore" style="display: none;">Add More</button> <br>
+        <button type="button" id="addMore" style="display: none;" th:text="#{admin.add.item.addMore}">Add More</button> <br>
         <script>
           document.addEventListener('DOMContentLoaded', function() {
             var attributeTypeInput = document.getElementById('attributeType');
@@ -105,13 +105,13 @@
           });
         </script>
 
-        <label for="language_iso">Language (ISO code):</label><br>
+        <label for="language_iso" th:text="#{admin.add.item.languageIso}">Language (ISO code):</label><br>
         <input type="text" id="language_iso" name="language_iso" required><br>
 
-        <label for="imageData">Image:</label><br>
+        <label for="imageData" th:text="#{admin.add.item.image}">Image:</label><br>
         <input type="file" id="imageData" name="imageData"><br>
 
-        <input type="submit" value="Add Item">
+        <input type="submit" value="Add Item" th:text="#{admin.add.item.submitButton}">
       </form>
     </div>
   </th:block>

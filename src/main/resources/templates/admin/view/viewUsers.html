@@ -52,36 +52,36 @@
     </th:block>
     <th:block th:fragment="content">
         <div>
-            <a th:href="'/?lang=' + ${#locale.language}">Home</a>
-            <a th:href="'/api/admin/dashboard?lang=' + ${#locale.language}">Dashboard</a>
-            <h2>Users</h2>
+            <a th:href="'/?lang=' + ${#locale.language}" th:text="#{admin.view.users.home}">Home</a>
+            <a th:href="'/api/admin/dashboard?lang=' + ${#locale.language}" th:text="#{admin.view.users.dashboard}">Dashboard</a>
+            <h2 th:text="#{admin.view.users.title}">Users</h2>
             <form action="/api/admin/view/users" method="get">
-                <label for="size">Page Size:</label>
+                <label for="size" th:text="#{admin.view.users.pageSize}">Page Size:</label>
                 <select id="size" name="size" onchange="this.form.submit()">
                     <option th:value="5" th:text="5" th:selected="${pageSize == 5}"></option>
                     <option th:value="10" th:text="10" th:selected="${pageSize == 10}"></option>
                     <option th:value="20" th:text="20" th:selected="${pageSize == 20}"></option>
                     <option th:value="50" th:text="50" th:selected="${pageSize == 50}"></option>
                 </select>
-                <label for="searchUser">Search:</label>
-                <input type="text" id="searchUser" name="searchUser" placeholder="Enter item name" th:value="${searchUser}">
-                <button type="submit">Search</button>
+                <label for="searchUser" th:text="#{admin.view.users.searchLabel}">Search:</label>
+                <input type="text" id="searchUser" name="searchUser" th:placeholder="#{admin.view.users.search}" th:value="${searchUser}">
+                <button type="submit" th:text="#{admin.view.users.searchButton}">Search</button>
             </form>
             <table>
                 <thead>
                 <tr>
-                    <th class="image">Image</th>
-                    <th>Username</th>
-                    <th>Email</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Birth Date</th>
-                    <th>Phone Number</th>
-                    <th>Address</th>
-                    <th>Role</th>
-                    <th>Gender</th>
-                    <th>Created At</th>
-                    <th>Updated At</th>
+                    <th class="image" th:text="#{admin.view.users.image}">Image</th>
+                    <th th:text="#{admin.view.users.username}">Username</th>
+                    <th th:text="#{admin.view.users.email}">Email</th>
+                    <th th:text="#{admin.view.users.firstName}">First Name</th>
+                    <th th:text="#{admin.view.users.lastName}">Last Name</th>
+                    <th th:text="#{admin.view.users.birthDate}">Birth Date</th>
+                    <th th:text="#{admin.view.users.phoneNumber}">Phone Number</th>
+                    <th th:text="#{admin.view.users.address}">Address</th>
+                    <th th:text="#{admin.view.users.role}">Role</th>
+                    <th th:text="#{admin.view.users.gender}">Gender</th>
+                    <th th:text="#{admin.view.users.createdAt}">Created At</th>
+                    <th th:text="#{admin.view.users.updatedAt}">Updated At</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -104,11 +104,11 @@
                 </tbody>
             </table>
             <div class="pagination">
-                <a th:if="${currentPage > 0}" th:href="@{/api/admin/view/users(page=${currentPage - 1}, size=${pageSize}, lang=${#locale.language})}">Previous</a>
+                <a th:if="${currentPage > 0}" th:href="@{/api/admin/view/users(page=${currentPage - 1}, size=${pageSize}, lang=${#locale.language})}" th:text="#{admin.view.users.previous}">Previous</a>
                 <span th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
-                    <a th:class="${i == currentPage} ? 'active'" th:href="@{/api/admin/view/users(page=${i}, size=${pageSize}, lang=${#locale.language})}" th:text="${i + 1}"></a>
-                </span>
-                <a th:if="${currentPage < totalPages - 1}" th:href="@{/api/admin/view/users(page=${currentPage + 1}, size=${pageSize}, lang=${#locale.language})}">Next</a>
+                <a th:class="${i == currentPage} ? 'active'" th:href="@{/api/admin/view/users(page=${i}, size=${pageSize}, lang=${#locale.language})}" th:text="${i + 1}"></a>
+            </span>
+                <a th:if="${currentPage < totalPages - 1}" th:href="@{/api/admin/view/users(page=${currentPage + 1}, size=${pageSize}, lang=${#locale.language})}" th:text="#{admin.view.users.next}">Next</a>
             </div>
         </div>
     </th:block>

@@ -13,30 +13,29 @@
     </th:block>
     <th:block th:fragment="content">
         <div>
-            <a th:href="'/api/admin/dashboard?lang=' + ${#locale.language}">Dashboard</a>
-            <h2>Update Item</h2>
+            <a th:href="'/api/admin/dashboard?lang=' + ${#locale.language}" th:text="#{admin.update.item.dashboard}">Dashboard</a>
+            <h2 th:text="#{admin.update.item.title}">Update Item</h2>
             <form action="/api/admin/update/item" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="itemId" th:value="${item.itemId}"/>
-                <label for="name">Name:</label>
-                <input type="text" id="name" name="name" th:value="${item.name}" required/>
-                <label for="description">Description:</label>
-                <textarea id="description" name="description" required th:text="${item.description}"></textarea>
-                <label for="price">Price:</label>
-                <input type="number" id="price" name="price" th:value="${item.price}" step="0.01" required/>
-                <label for="stockQuantity">Stock Quantity:</label>
-                <input type="number" id="stockQuantity" name="stockQuantity" th:value="${item.stockQuantity}" required/>
-                <label for="categoryId">Category:</label>
-                <select id="categoryId" name="categoryId" required>
+                <label for="name" th:text="#{admin.update.item.name}">Name:</label><br/>
+                <input type="text" id="name" name="name" th:value="${item.name}" required/><br/>
+                <label for="description" th:text="#{admin.update.item.description}">Description:</label><br/>
+                <textarea id="description" name="description" required th:text="${item.description}"></textarea><br/>
+                <label for="price" th:text="#{admin.update.item.price}">Price:</label><br/>
+                <input type="number" id="price" name="price" th:value="${item.price}" step="0.01" required/><br/>
+                <label for="stockQuantity" th:text="#{admin.update.item.stockQuantity}">Stock Quantity:</label><br/>
+                <input type="number" id="stockQuantity" name="stockQuantity" th:value="${item.stockQuantity}" required/><br/>
+                <label for="categoryId" th:text="#{admin.update.item.category}">Category:</label><br/>
+                <select id="categoryId" name="categoryId" required><br/>
                     <option th:each="category : ${categories}" th:value="${category.categoryId}" th:text="${category.name}" th:selected="${item.category.categoryId == category.categoryId}"></option>
                 </select>
-                <p th:text="'Language: ' + ${item.language.code}"></p>
-                <label for="imageData">Image:</label>
-                <input type="file" id="imageData" name="imageData"/>
-                <button type="submit">Update Item</button>
+                <p th:text="#{admin.update.item.language} + ' ' + ${item.language.code}"></p>
+                <label for="imageData" th:text="#{admin.update.item.image}">Image:</label><br/>
+                <input type="file" id="imageData" name="imageData"/><br/>
+                <button type="submit" th:text="#{admin.update.item.updateButton}">Update Item</button>
             </form>
         </div>
-    </th:block>
-    <th:block th:fragment="right_content">
+    </th:block>    <th:block th:fragment="right_content">
         <p></p>
     </th:block>
 </div>
