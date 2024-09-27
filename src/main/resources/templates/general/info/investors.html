@@ -17,39 +17,39 @@ Date: 13.06.2024
     </th:block>
     <th:block th:fragment="content">
         <div>
-            <h2>Investors</h2>
+            <h2 th:text="#{general.info.investors.title}">Investors</h2>
 
-            <p>Welcome to our Investors page! Here you'll find information about our financial performance, shareholder information, and more.</p>
+            <p th:text="#{general.info.investors.description}">Welcome to our Investors page! Here you'll find information about our financial performance, shareholder information, and more.</p>
 
             <div class="financial-performance">
-                <h3>Financial Performance</h3>
-                <p>Here are some key financial highlights:</p>
+                <h3 th:text="#{general.info.investors.financialPerformanceTitle}">Financial Performance</h3>
+                <p th:text="#{general.info.investors.financialPerformanceDescription}">Here are some key financial highlights:</p>
                 <ul>
-                    <li><strong>Revenue:</strong> $X million (Year)</li>
-                    <li><strong>Net Income:</strong> $Y million (Year)</li>
-                    <li><strong>Earnings per Share (EPS):</strong> $Z (Year)</li>
+                    <li><strong th:text="#{general.info.investors.revenueLabel}">Revenue:</strong> <span th:text="'$X million (Year)'">$X million (Year)</span></li>
+                    <li><strong th:text="#{general.info.investors.netIncomeLabel}">Net Income:</strong> <span th:text="'$Y million (Year)'">$Y million (Year)</span></li>
+                    <li><strong th:text="#{general.info.investors.epsLabel}">Earnings per Share (EPS):</strong> <span th:text="'$Z (Year)'">$Z (Year)</span></li>
                     <!-- Add more financial metrics as needed -->
                 </ul>
             </div>
 
             <div class="shareholder-information">
-                <h3>Shareholder Information</h3>
-                <p>Information for our shareholders:</p>
+                <h3 th:text="#{general.info.investors.shareholderInformationTitle}">Shareholder Information</h3>
+                <p th:text="#{general.info.investors.shareholderInformationDescription}">Information for our shareholders:</p>
                 <ul>
-                    <li><strong>Annual General Meeting:</strong> Date and location of the upcoming AGM.</li>
-                    <li><strong>Dividends:</strong> Details on dividend payments and history.</li>
-                    <li><strong>Stock Performance:</strong> Current stock price and performance trends.</li>
+                    <li><strong th:text="#{general.info.investors.agmLabel}">Annual General Meeting:</strong> <span th:text="'Date and location of the upcoming AGM.'">Date and location of the upcoming AGM.</span></li>
+                    <li><strong th:text="#{general.info.investors.dividendsLabel}">Dividends:</strong> <span th:text="'Details on dividend payments and history.'">Details on dividend payments and history.</span></li>
+                    <li><strong th:text="#{general.info.investors.stockPerformanceLabel}">Stock Performance:</strong> <span th:text="'Current stock price and performance trends.'">Current stock price and performance trends.</span></li>
                     <!-- Add more shareholder-related information as needed -->
                 </ul>
             </div>
 
             <div class="investor-resources">
-                <h3>Investor Resources</h3>
-                <p>Additional resources for investors:</p>
+                <h3 th:text="#{general.info.investors.investorResourcesTitle}">Investor Resources</h3>
+                <p th:text="#{general.info.investors.investorResourcesDescription}">Additional resources for investors:</p>
                 <ul>
-                    <li><a href="#">Investor Relations Contacts</a>: Contact information for our Investor Relations team.</li>
-                    <li><a href="#">Financial Reports</a>: Access to our latest annual and quarterly reports.</li>
-                    <li><a href="#">Corporate Governance</a>: Overview of our corporate governance practices.</li>
+                    <li><a href="#" th:text="#{general.info.investors.investorRelationsContacts}">Investor Relations Contacts</a>: <span th:text="#{general.info.investors.investorRelationsContactsDescription}">Contact information for our Investor Relations team.</span></li>
+                    <li><a href="#" th:text="#{general.info.investors.financialReports}">Financial Reports</a>: <span th:text="#{general.info.investors.financialReportsDescription}">Access to our latest annual and quarterly reports.</span></li>
+                    <li><a href="#" th:text="#{general.info.investors.corporateGovernance}">Corporate Governance</a>: <span th:text="#{general.info.investors.corporateGovernanceDescription}">Overview of our corporate governance practices.</span></li>
                     <!-- Add more resources and links as needed -->
                 </ul>
             </div>

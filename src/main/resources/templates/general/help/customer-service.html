@@ -17,8 +17,48 @@ Date: 13.06.2024
     </th:block>
     <th:block th:fragment="content">
         <div>
-            <h2>Customer Service</h2>
-            <p>Our customer service is available 24/7. You can contact us by phone, email, or chat. We are here to help you with any questions or concerns you may have.</p>
+            <h2 th:text="#{general.help.customer_service.title}">Customer Service</h2>
+
+            <h3 th:text="#{general.help.customer_service.availabilityTitle}">Availability</h3>
+            <p th:text="#{general.help.customer_service.availabilityDescription}">
+                Our customer service team is dedicated to providing assistance 24/7. Whether it's early in the morning or late at night,
+                we're here to address your concerns, answer your questions, and offer support whenever you need it.
+            </p>
+
+            <h3 th:text="#{general.help.customer_service.contactTitle}">How to Contact Us</h3>
+            <ul>
+                <li><strong th:text="#{general.help.customer_service.phoneLabel}">Phone:</strong> <span th:text="#{general.help.customer_service.phoneDescription}">You can reach us by phone at 555-555-5555. Our phone lines are open at all times to assist you.</span></li>
+                <li><strong th:text="#{general.help.customer_service.emailLabel}">Email:</strong> <span th:text="#{general.help.customer_service.emailDescription}">Send us an email at support@merchstore.com, and we aim to respond within 24 hours.</span></li>
+                <li><strong th:text="#{general.help.customer_service.liveChatLabel}">Live Chat:</strong> <span th:text="#{general.help.customer_service.liveChatDescription}">For quick answers and real-time support, use our live chat feature available on our website. Simply click the chat icon, and one of our representatives will be happy to assist you.</span></li>
+            </ul>
+
+            <h3 th:text="#{general.help.customer_service.orderInquiriesTitle}">Order Inquiries and Support</h3>
+            <p th:text="#{general.help.customer_service.orderInquiriesDescription}">
+                If you have questions regarding your order, tracking information, or shipping status, our customer service team can provide updates
+                and help you with any issues that arise. Please have your order number ready when contacting us to ensure faster service.
+            </p>
+
+            <h3 th:text="#{general.help.customer_service.technicalSupportTitle}">Technical Support</h3>
+            <p th:text="#{general.help.customer_service.technicalSupportDescription}">
+                Experiencing technical difficulties on our website? Our team can assist with troubleshooting issues such as account problems, payment errors,
+                or any other technical concerns. We will guide you step-by-step to resolve the issue quickly.
+            </p>
+
+            <h3 th:text="#{general.help.customer_service.productInfoTitle}">Product Information and Recommendations</h3>
+            <p th:text="#{general.help.customer_service.productInfoDescription}">
+                Not sure about a product? Our customer service team is knowledgeable about our full range of items and can help you choose the perfect
+                product based on your preferences, size, or needs. Feel free to ask for recommendations or further details about any product.
+            </p>
+
+            <h3 th:text="#{general.help.customer_service.feedbackTitle}">Feedback and Complaints</h3>
+            <p th:text="#{general.help.customer_service.feedbackDescription}">
+                We value your feedback and are constantly looking for ways to improve our service. If you have any suggestions, complaints, or
+                concerns, don’t hesitate to reach out. We take all feedback seriously and will work to resolve any issues to your satisfaction.
+            </p>
+
+            <p th:text="#{general.help.customer_service.thankYouNote}">
+                Thank you for choosing MerchStore. We are here to make your shopping experience as smooth and enjoyable as possible.
+            </p>
         </div>
     </th:block>
     <th:block th:fragment="right_content">

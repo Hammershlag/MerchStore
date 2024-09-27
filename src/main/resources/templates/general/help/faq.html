@@ -17,16 +17,47 @@ Date: 12.06.2024
     </th:block>
     <th:block th:fragment="content">
         <div>
-            <h1>FAQ</h1>
+            <h1 th:text="#{general.help.faq.title}"></h1>
             <ul>
-                <li>What is the return policy?
-                    <br>Our return policy is 30 days. If 30 days have gone by since your purchase, unfortunately we can’t offer you a refund or exchange.
+                <li>
+                    <strong th:text="#{general.help.faq.returnPolicyQuestion}"></strong>
+                    <br th:text="#{general.help.faq.returnPolicyAnswer}">
                 </li>
-                <li>How can I track my order?
-                    <br>Once your order has been shipped, you will receive an email with a tracking number. You can use this number to track your order.
+                <li>
+                    <strong th:text="#{general.help.faq.trackOrderQuestion}"></strong>
+                    <br th:text="#{general.help.faq.trackOrderAnswer}">
                 </li>
-                <li>How can I contact customer service?
-                    <br>You can contact customer service by phone at 555-555-5555 or by email at
+                <li>
+                    <strong th:text="#{general.help.faq.contactCustomerServiceQuestion}"></strong>
+                    <br th:text="#{general.help.faq.contactCustomerServiceAnswer}">
+                </li>
+                <li>
+                    <strong th:text="#{general.help.faq.paymentMethodsQuestion}"></strong>
+                    <br th:text="#{general.help.faq.paymentMethodsAnswer}">
+                </li>
+                <li>
+                    <strong th:text="#{general.help.faq.changeOrCancelOrderQuestion}"></strong>
+                    <br th:text="#{general.help.faq.changeOrCancelOrderAnswer}">
+                </li>
+                <li>
+                    <strong th:text="#{general.help.faq.shippingTimeQuestion}"></strong>
+                    <br th:text="#{general.help.faq.shippingTimeAnswer}">
+                </li>
+                <li>
+                    <strong th:text="#{general.help.faq.internationalShippingQuestion}"></strong>
+                    <br th:text="#{general.help.faq.internationalShippingAnswer}">
+                </li>
+                <li>
+                    <strong th:text="#{general.help.faq.damagedOrIncorrectOrderQuestion}"></strong>
+                    <br th:text="#{general.help.faq.damagedOrIncorrectOrderAnswer}">
+                </li>
+                <li>
+                    <strong th:text="#{general.help.faq.giftCardsQuestion}"></strong>
+                    <br th:text="#{general.help.faq.giftCardsAnswer}">
+                </li>
+                <li>
+                    <strong th:text="#{general.help.faq.promotionsAndNewProductsQuestion}"></strong>
+                    <br th:text="#{general.help.faq.promotionsAndNewProductsAnswer}">
                 </li>
             </ul>
         </div>

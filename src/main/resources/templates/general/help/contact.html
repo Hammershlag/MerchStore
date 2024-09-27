@@ -17,8 +17,37 @@ Date: 12.06.2024
     </th:block>
     <th:block th:fragment="content">
         <div>
-            <h1>Contact</h1>
-            <p>For any questions or concerns, please contact us at 555-555-5555 or by email at <a th:href="'mailto:' + #{company.email}" th:text="#{company.email}">Email</a></p>
+            <h1 th:text="#{general.help.contact.title}">Contact Us</h1>
+            <p th:utext="#{general.help.contact.intro}">
+                If you have any questions, concerns, or need further assistance, feel free to reach out to us. Our dedicated customer service team is here to assist you and ensure that your experience with MerchStore is smooth and enjoyable.
+            </p>
+
+            <h2 th:text="#{general.help.contact.phoneSupportTitle}">Phone Support</h2>
+            <p th:utext="#{general.help.contact.phoneSupportDescription}"></p>
+
+            <h2 th:text="#{general.help.contact.emailSupportTitle}">Email Support</h2>
+            <p th:utext="#{general.help.contact.emailSupportDescription}"></p>
+
+            <h2 th:text="#{general.help.contact.liveChatTitle}">Live Chat</h2>
+            <p th:utext="#{general.help.contact.liveChatDescription}"></p>
+
+            <h2 th:text="#{general.help.contact.socialMediaTitle}">Social Media</h2>
+            <p th:utext="#{general.help.contact.socialMediaDescription}"></p>
+
+            <h2 th:text="#{general.help.contact.mailingAddressTitle}">Mailing Address</h2>
+            <p th:utext="#{general.help.contact.mailingAddressDescription}"></p>
+            <p th:utext="#{general.help.contact.mailingAddress}"></p>
+            <p th:text="#{general.help.contact.emailAddress}"></p><a th:href="'mailto:' + #{company.email}" th:text="#{company.email}">#{company.email}</a>
+
+            <h2 th:text="#{general.help.contact.businessHoursTitle}">Business Hours</h2>
+            <p th:utext="#{general.help.contact.businessHoursDescription}"></p>
+            <ul>
+                <li th:text="#{general.help.contact.businessHoursWeekdays}">Monday to Friday: 9:00 AM - 6:00 PM</li>
+                <li th:text="#{general.help.contact.businessHoursSaturday}">Saturday: 10:00 AM - 4:00 PM</li>
+                <li th:text="#{general.help.contact.businessHoursSunday}">Sunday: Closed</li>
+            </ul>
+
+            <p th:utext="#{general.help.contact.closingNote}"></p>
         </div>
     </th:block>
     <th:block th:fragment="right_content">

@@ -21,55 +21,55 @@
     </th:block>
     <th:block th:fragment="content">
         <div>
-            <h2>Add User</h2>
+            <h2 th:text="#{owner.add.user.title}">Add User</h2>
             <form th:action="@{'/api/owner/add/user?lang=' + ${#locale.language}}" th:object="${newUser}" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
                 <div th:if="${errorMessage}" style="color: red;">
                     <p th:text="${errorMessage}"></p>
                 </div>
-                <label for="username">Username:</label><br>
+                <label for="username" th:text="#{owner.add.user.username}">Username:</label><br>
                 <input type="text" id="username" name="username" th:field="*{username}" required><br>
 
-                <label for="password">Password:</label><br>
+                <label for="password" th:text="#{owner.add.user.password}">Password:</label><br>
                 <input type="password" id="password" name="password" th:field="*{password}" oninput="checkPasswordStrength()" required>
                 <div id="password-strength"></div><br>
 
-                <label for="email">Email:</label><br>
+                <label for="email" th:text="#{owner.add.user.email}">Email:</label><br>
                 <input type="email" id="email" name="email" th:field="*{email}" required><br>
 
-                <label for="firstName">First Name:</label><br>
+                <label for="firstName" th:text="#{owner.add.user.firstName}">First Name:</label><br>
                 <input type="text" id="firstName" name="firstName" th:field="*{firstName}" oninput="validateName(this)" required><br>
 
-                <label for="lastName">Last Name:</label><br>
+                <label for="lastName" th:text="#{owner.add.user.lastName}">Last Name:</label><br>
                 <input type="text" id="lastName" name="lastName" th:field="*{lastName}" oninput="validateSurname(this)" required><br>
 
-                <label for="birthDate">Birth Date:</label><br>
+                <label for="birthDate" th:text="#{owner.add.user.birthDate}">Birth Date:</label><br>
                 <input type="date" id="birthDate" name="birthDate" th:field="*{birthDate}" required><br><br>
 
-                <label for="phoneNumber">Phone Number:</label><br>
+                <label for="phoneNumber" th:text="#{owner.add.user.phoneNumber}">Phone Number:</label><br>
                 <input type="text" id="phoneNumber" name="phoneNumber" th:field="*{phoneNumber}"><br>
 
-                <label for="address">Address:</label><br>
+                <label for="address" th:text="#{owner.add.user.address}">Address:</label><br>
                 <input type="text" id="address" name="address" th:field="*{address}"><br><br>
 
-                <label for="gender">Gender:</label><br>
+                <label for="gender" th:text="#{owner.add.user.gender}">Gender:</label><br>
                 <select id="gender" name="gender" th:field="*{gender}" required>
-                    <option value="" selected="selected">Select your gender</option>
-                    <option value="MALE">Male</option>
-                    <option value="FEMALE">Female</option>
+                    <option value="" selected="selected" th:text="#{owner.add.user.selectGender}">Select your gender</option>
+                    <option value="MALE" th:text="#{owner.add.user.male}">Male</option>
+                    <option value="FEMALE" th:text="#{owner.add.user.female}">Female</option>
                 </select><br><br>
 
-                <label for="designatedRole">Role:</label><br>
+                <label for="designatedRole" th:text="#{owner.add.user.role}">Role:</label><br>
                 <select id="designatedRole" name="designatedRole" required>
                     <option th:each="role : ${roles}" th:value="${role}" th:text="${role}"></option>
                 </select><br><br>
 
-                <label for="imageData">Profile Image:</label><br>
+                <label for="imageData" th:text="#{owner.add.user.profileImage}">Profile Image:</label><br>
                 <input type="file" id="imageData" name="imageData" accept="image/jpeg,image/png,image/jpg"><br><br>
 
                 <input type="checkbox" id="termsCheckbox" onclick="toggleSubmitButton()">
-                <label for="termsCheckbox">I have read and agree to the <a th:href="'/documents?lang=' + ${#locale.language} + '&name=termsandconditions" target="_blank">terms and conditions</a></label><br><br>
+                <label for="termsCheckbox" th:text="#{owner.add.user.terms}">I have read and agree to the <a th:href="'/documents?lang=' + ${#locale.language} + '&name=termsandconditions" target="_blank">terms and conditions</a></label><br><br>
 
-                <input type="submit" id="submitButton" value="Add User" disabled>
+                <input type="submit" id="submitButton" th:value="#{owner.add.user.submit}" disabled>
             </form>
         </div>
     </th:block>
