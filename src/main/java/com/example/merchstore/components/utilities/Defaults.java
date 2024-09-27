@@ -2,6 +2,8 @@ package com.example.merchstore.components.utilities;
 
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -64,5 +66,12 @@ public class Defaults {
 
     public static final int TRANSLATION_OVER_DUE_DAYS = 7;
     public static final String TRANSLATION_DEFAULT_LANGUAGE = "en";
-    public static final Locale TRANSLATION_DEFAULT_LOCALE = new Locale(TRANSLATION_DEFAULT_LANGUAGE);
+
+    public static final Locale DEFAULT_LOCALE = new Locale("pl", "PL");
+    public static final Locale FALLBACK_LOCALE = new Locale("en", "US");
+    public static final List<Locale> ALLOWED_LOCALES = Arrays.asList(
+            new Locale("pl", "PL"),
+            new Locale("en", "US"),
+            new Locale("de", "DE")
+    );
 }
