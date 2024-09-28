@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title th:text="#{app.name}">Name of App</title>
+    <title th:text="#{app.name} + ' - ' + #{home.pageTitle}"></title>
     <th:block th:replace="~{fragments/header :: headerfiles}"></th:block>
     <style>
         .centered-content {

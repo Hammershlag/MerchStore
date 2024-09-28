@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <th:block th:replace="~{fragments/header :: headerfiles}"></th:block>
-    <title>Owner Dashboard</title>
+    <title th:text="#{app.name} + ' - ' + #{owner.dashboard.pageTitle}"></title>
 </head>
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>

@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <th:block th:replace="~{fragments/header :: headerfiles}"></th:block>
-    <title th:text="${statusCode} + ' ' + ${errorMessage}">Error Page</title>
+    <title th:text="#{app.name} + ' - ' + #{error.pageTitle} + ' ' + ${statusCode}"></title>
 </head>
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>

@@ -2,9 +2,8 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Wishlist</title>
+    <title th:text="#{app.name} + ' - ' + #{user.wishlist.pageTitle}"></title>
     <th:block th:replace="~{fragments/header :: headerfiles}"></th:block>
-
 </head>
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>

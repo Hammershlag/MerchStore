@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <th:block th:replace="~{fragments/header :: headerfiles}"></th:block>
-    <title>Item Details</title>
+    <title th:text="#{app.name} + ' - ' + #{admin.view.item.pageTitle}"></title>
     <style>
         .item-container {
             max-width: 800px;

@@ -3,7 +3,7 @@
 <head>
     <th:block th:replace="~{fragments/header :: headerfiles}"></th:block>
 
-    <title>Add Discount</title>
+    <title th:text="#{app.name} + ' - ' + #{admin.add.discount.pageTitle}"></title>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const today = new Date().toISOString().split('T')[0];

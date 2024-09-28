@@ -6,7 +6,7 @@ Date: 12.06.2024
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <th:block th:replace="~{fragments/header :: headerfiles}"></th:block>
-    <title>Contact</title>
+    <title th:text="#{app.name} + ' - ' + #{general.help.contact.pageTitle}"></title>
 </head>
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>

@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <th:block th:replace="~{fragments/header :: headerfiles}"></th:block>
-  <title>Add Item</title>
+  <title th:text="#{app.name} + ' - ' + #{admin.add.item.pageTitle}"></title>
   <script>
     document.addEventListener("DOMContentLoaded", function() {
       const priceInput = document.getElementById('price');

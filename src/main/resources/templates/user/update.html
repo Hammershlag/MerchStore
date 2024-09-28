@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <th:block th:replace="~{fragments/header :: headerfiles}"></th:block>
-    <title>Update User Details</title>
+    <title th:text="#{app.name} + ' - ' + #{user.update_profile.pageTitle}"></title>
     <style>
         .valid-input {
             border: 2px solid green;

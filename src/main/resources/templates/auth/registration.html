@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <th:block th:replace="~{fragments/header :: headerfiles}"></th:block>
-    <title>Registration Form</title>
+    <title th:text="#{app.name} + ' - ' + #{auth.register.pageTitle}"></title>
     <style>
         .weak-password {
             border: 2px solid red;

@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <th:block th:replace="~{fragments/header :: headerfiles}"></th:block>
-    <title>View Discounts</title>
+    <title th:text="#{app.name} + ' - ' + #{admin.view.discounts.pageTitle}"></title>
     <style>
         table {
             width: 100%;

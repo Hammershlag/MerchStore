@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <th:block th:replace="~{fragments/header :: headerfiles}"></th:block>
-    <title>Add User</title>
+    <title th:text="#{app.name} + ' - ' + #{owner.add.user.pageTitle}"></title>
     <style>
         .weak-password { border: 2px solid red; }
         .medium-password { border: 2px solid yellow; }

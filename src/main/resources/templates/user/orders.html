@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <th:block th:replace="~{fragments/header :: headerfiles}"></th:block>
-    <title>Orders</title>
+    <title th:text="#{app.name} + ' - ' + #{orders.pageTitle}"></title>
     <style>
         body {
             font-family: Arial, sans-serif;
