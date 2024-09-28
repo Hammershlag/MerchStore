@@ -36,7 +36,7 @@
                 <p><strong th:text="#{user.profile.address}"></strong> <span th:text="${user.address}"></span></p>
                 <p><strong th:text="#{user.profile.gender}"></strong> <span th:text="${user.gender}"></span></p>
             </div>
-            <a th:href="'/api/update/user?lang=' + ${#locale.language}">Update Profile</a>
+            <a th:href="'/api/update/user?lang=' + ${#locale.language}" th:text="#{user.profile.update}">Update Profile</a>
         </div>
     </th:block>
     <th:block th:fragment="right_content">
